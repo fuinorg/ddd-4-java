@@ -1,4 +1,7 @@
 ddd-4-java
 ==========
 
-Base classes for Domain Driven Design (DDD) with Java
+Domain Driven Design for Java
+-----------------------------
+
+Basic structure for DDD with Java

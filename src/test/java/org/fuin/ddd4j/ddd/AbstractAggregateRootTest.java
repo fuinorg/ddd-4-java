@@ -108,7 +108,8 @@ public class AbstractAggregateRootTest {
 
 		// VERIFY
 		assertThat(a.getUncommittedChanges()).containsExactly(event);
-		assertThat(a.getVersion()).isEqualTo(1);
+		assertThat(a.getVersion()).isEqualTo(0);
+		assertThat(a.getNextVersion()).isEqualTo(1);
 
 	}
 
@@ -131,7 +132,8 @@ public class AbstractAggregateRootTest {
 
 		// VERIFY
 		assertThat(a.getUncommittedChanges()).containsExactly(event);
-		assertThat(a.getVersion()).isEqualTo(1);
+		assertThat(a.getVersion()).isEqualTo(0);
+		assertThat(a.getNextVersion()).isEqualTo(1);
 		assertThat(b.getLastEvent()).isSameAs(event);
 
 	}
@@ -150,8 +152,8 @@ public class AbstractAggregateRootTest {
 		a.apply(event);
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(1);
-		assertThat(a.getNextVersion()).isEqualTo(2);
+		assertThat(a.getVersion()).isEqualTo(0);
+		assertThat(a.getNextVersion()).isEqualTo(1);
 
 	}
 
@@ -218,7 +220,8 @@ public class AbstractAggregateRootTest {
 		a.doIt();
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(1);
+		assertThat(a.getVersion()).isEqualTo(0);
+		assertThat(a.getNextVersion()).isEqualTo(1);
 		assertThat(a.getUncommittedChanges()).hasSize(1);
 		final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
 		assertThat(ev).isSameAs(a.getLastEvent());
@@ -242,8 +245,9 @@ public class AbstractAggregateRootTest {
 		b.doIt();
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(1);
+		assertThat(a.getVersion()).isEqualTo(0);
 		assertThat(a.getUncommittedChanges()).hasSize(1);
+		assertThat(a.getNextVersion()).isEqualTo(1);
 		final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
 		assertThat(ev).isSameAs(b.getLastEvent());
 
@@ -271,8 +275,9 @@ public class AbstractAggregateRootTest {
 		c.doIt();
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(1);
+		assertThat(a.getVersion()).isEqualTo(0);
 		assertThat(a.getUncommittedChanges()).hasSize(1);
+		assertThat(a.getNextVersion()).isEqualTo(1);
 		final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
 		assertThat(ev).isSameAs(c.getLastEvent());
 
@@ -302,8 +307,9 @@ public class AbstractAggregateRootTest {
 		c.doIt();
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(3);
+		assertThat(a.getVersion()).isEqualTo(0);
 		assertThat(a.getUncommittedChanges()).hasSize(3);
+		assertThat(a.getNextVersion()).isEqualTo(3);
 		final DomainEvent<?> evA = a.getUncommittedChanges().get(0);
 		assertThat(evA).isSameAs(a.getLastEvent());
 		final DomainEvent<?> evB = a.getUncommittedChanges().get(1);

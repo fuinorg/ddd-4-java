@@ -55,7 +55,7 @@ public final class DateTimeConverter extends
 			// exception...
 			dateTimeFormatter.parseDateTime(value);
 			return true;
-		} catch (RuntimeException ex) {
+		} catch (final RuntimeException ex) {
 			return false;
 		}
 	}

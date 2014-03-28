@@ -4,12 +4,17 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.fuin</groupId>
+	<parent>
+		<groupId>org.fuin</groupId>
+		<artifactId>pom-osgi</artifactId>
+		<version>1.0.0</version>
+	</parent>
+
 	<artifactId>ddd-4-java</artifactId>
 	<version>0.1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Domain Driven Design for Java</name>
-	<description>Basic structure for DDD with Java</description>
+	<description>Base classes for Domain Driven Design (DDD) with Java</description>
 
 	<scm>
 		<url>https://github.com/fuinorg/ddd-4-java/</url>
@@ -21,10 +26,6 @@
 		<system>GitHub Issues</system>
 		<url>https://github.com/fuinorg/ddd-4-java/issues</url>
 	</issueManagement>
-
-	<properties>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-	</properties>
 
 	<dependencies>
 
@@ -66,12 +67,6 @@
 			<version>2.3</version>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.cache</groupId>
-			<artifactId>cache-api</artifactId>
-			<version>1.0.0-RC1</version>
-		</dependency>
-
 		<!-- Test -->
 
 		<dependency>
@@ -106,13 +101,6 @@
 			<groupId>org.fuin</groupId>
 			<artifactId>units4j</artifactId>
 			<version>0.4.0-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>3.2</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -208,31 +196,6 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.jsr107.ri</groupId>
-			<artifactId>cache-ri-impl</artifactId>
-			<version>1.0.0-RC1</version>
-			<scope>test</scope>
-		</dependency>
-
 	</dependencies>
-
-	<build>
-
-		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-
-		</plugins>
-
-	</build>
 
 </project>

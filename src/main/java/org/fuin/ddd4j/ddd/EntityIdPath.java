@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2013 Future Invent Informationsmanagement GmbH. All rights
+ * reserved. <http://www.fuin.org/>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 3 of the License, or (at your option) any
+ * later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.fuin.ddd4j.ddd;
 
 import java.io.Serializable;
@@ -23,7 +40,7 @@ public final class EntityIdPath implements ValueObject, Serializable {
 	/** Divides the entity identifiers in the path. */
 	public static final String PATH_SEPARATOR = "/";
 
-	private List<EntityId> entityIds;
+	private final List<EntityId> entityIds;
 
 	/**
 	 * Constructor with ID array.
@@ -31,7 +48,7 @@ public final class EntityIdPath implements ValueObject, Serializable {
 	 * @param entityIds
 	 *            Entity identifier in correct order (from outer to inner).
 	 */
-	public EntityIdPath(EntityId... entityIds) {
+	public EntityIdPath(final EntityId... entityIds) {
 		super();
 		Contract.requireArgNotNull("entityIds", entityIds);
 		if (entityIds.length == 0) {
@@ -45,8 +62,8 @@ public final class EntityIdPath implements ValueObject, Serializable {
 	/**
 	 * Constructor with ID list.
 	 * 
-	 * @param entityIds
-	 *            Entity identifier in correct order (from outer to inner).
+	 * @param ids
+	 *            Entity identifiers in correct order (from outer to inner).
 	 */
 	public EntityIdPath(final List<EntityId> ids) {
 		Contract.requireArgNotNull("ids", ids);
@@ -83,6 +100,8 @@ public final class EntityIdPath implements ValueObject, Serializable {
 	 * Returns the last entity identifier in the path.
 	 * 
 	 * @return Last entity identifier in the path.
+	 * 
+	 * @param <T> Type of the entity identifier that is returned.
 	 */
 	@SuppressWarnings("unchecked")
 	public final <T extends EntityId> T last() {

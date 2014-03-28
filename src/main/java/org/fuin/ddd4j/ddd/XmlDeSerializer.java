@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2013 Future Invent Informationsmanagement GmbH. All rights
+ * reserved. <http://www.fuin.org/>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 3 of the License, or (at your option) any
+ * later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.fuin.ddd4j.ddd;
 
 import java.io.ByteArrayInputStream;
@@ -59,27 +76,27 @@ public class XmlDeSerializer implements Serializer, Deserializer {
 	}
 
 	@Override
-	public String getType() {
+	public final String getType() {
 		return type;
 	}
 
 	@Override
-	public int getVersion() {
+	public final int getVersion() {
 		return version;
 	}
 
 	@Override
-	public String getMimeType() {
+	public final String getMimeType() {
 		return mimeType;
 	}
 
 	@Override
-	public Charset getEncoding() {
+	public final Charset getEncoding() {
 		return charset;
 	}
 
 	@Override
-	public byte[] marshal(final Object obj) {
+	public final byte[] marshal(final Object obj) {
 		try {
 			final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
 			marshaller.marshal(obj, bos);
@@ -91,7 +108,7 @@ public class XmlDeSerializer implements Serializer, Deserializer {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T unmarshal(byte[] data) {
+	public final <T> T unmarshal(final byte[] data) {
 		try {
 			final ByteArrayInputStream bais = new ByteArrayInputStream(data);
 			return (T) unmarshaller.unmarshal(bais);

@@ -1,3 +1,20 @@
+/**
+ * Copyright (C) 2013 Future Invent Informationsmanagement GmbH. All rights
+ * reserved. <http://www.fuin.org/>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 3 of the License, or (at your option) any
+ * later version.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library. If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.fuin.ddd4j.ddd;
 
 import java.lang.annotation.Annotation;
@@ -11,7 +28,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import org.fuin.ddd4j.example.Agreement;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -25,7 +41,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 
 	private int version = 0;
 
-	private List<DomainEvent<?>> uncommitedChanges;
+	private final List<DomainEvent<?>> uncommitedChanges;
 
 	/**
 	 * Default constructor.
@@ -39,7 +55,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + getId().hashCode();
+		result = (prime * result) + getId().hashCode();
 		return result;
 	}
 
@@ -54,7 +70,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final Agreement other = (Agreement) obj;
+		final AbstractAggregateRoot<?> other = (AbstractAggregateRoot<?>) obj;
 		if (!getId().equals(other.getId())) {
 			return false;
 		}
@@ -67,7 +83,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	}
 
 	@Override
-	public boolean hasUncommitedChanges() {
+	public final boolean hasUncommitedChanges() {
 		return uncommitedChanges.size() > 0;
 	}
 
@@ -119,6 +135,8 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	 * Tries to find recursive an annotated method on this object or one of it's
 	 * child entities to apply the given event to.
 	 * 
+	 * @param aggregateRoot
+	 *            Aggregate root with the event handler method.
 	 * @param event
 	 *            Event to apply.
 	 * 
@@ -129,7 +147,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 
 		final EntityIdPath path = event.getEntityIdPath();
 		final Iterator<EntityId> idIt = path.iterator();
-		EntityId entityId = idIt.next();
+		final EntityId entityId = idIt.next();
 		if (!(entityId instanceof AggregateRootId)) {
 			throw new IllegalStateException(
 					"The first ID in the entity identifier path was not an "
@@ -158,6 +176,17 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 		return callAnnotatedEventHandlerMethod(entity, event);
 	}
 
+	/**
+	 * Invokes a method that has an entity identifier as only argument.
+	 * 
+	 * @param method Method to call.
+	 * @param entity Object that contains the method.
+	 * @param id Identifier used as single argument.
+	 * 
+	 * @return The entity that has the given ID.
+	 * 
+	 * @param <T> Type of the entity that corresponds with the ID.
+	 */
 	@SuppressWarnings("unchecked")
 	static <T extends Entity<?>> T invoke(final Method method,
 			final Entity<?> entity, final EntityId id) {
@@ -166,12 +195,23 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 				method.setAccessible(true);
 			}
 			return (T) method.invoke(entity, id);
-		} catch (final IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException ex) {
-			throw new RuntimeException("Error calling method on '"
-					+ entity.getClass().getSimpleName() + "' with argument '"
-					+ id.getClass().getSimpleName() + "': " + method, ex);
+		} catch (final IllegalAccessException ex) {
+			throw new RuntimeException(createInvokeErrMsg(entity, id, method),
+					ex);
+		} catch (final IllegalArgumentException ex) {
+			throw new RuntimeException(createInvokeErrMsg(entity, id, method),
+					ex);
+		} catch (final InvocationTargetException ex) {
+			throw new RuntimeException(createInvokeErrMsg(entity, id, method),
+					ex);
 		}
+	}
+
+	private static String createInvokeErrMsg(final Entity<?> entity,
+			final EntityId id, final Method method) {
+		return "Error calling method on '" + entity.getClass().getSimpleName()
+				+ "' with argument '" + id.getClass().getSimpleName() + "': "
+				+ method;
 	}
 
 	/**
@@ -180,7 +220,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	 * 
 	 * @return Events that can be safely ignored.
 	 */
-	protected List<Class<? extends DomainEvent<?>>> getIgnoredEvents() {
+	protected final List<Class<? extends DomainEvent<?>>> getIgnoredEvents() {
 		return Collections.emptyList();
 	}
 
@@ -210,7 +250,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	 * @param event
 	 *            Event to dispatch to the appropriate event handler method.
 	 */
-	void applyNewChildEvent(@NotNull AbstractEntity<?> entity,
+	final void applyNewChildEvent(@NotNull final AbstractEntity<?> entity,
 			@NotNull final DomainEvent<?> event) {
 
 		if (callAnnotatedEventHandlerMethod(entity, event)) {
@@ -254,12 +294,18 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 			}
 			method.invoke(entity, event);
 			return true;
-		} catch (final IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException ex) {
-			throw new RuntimeException("Error 'apply("
-					+ event.getClass().getSimpleName() + ")'", ex);
+		} catch (final IllegalAccessException ex) {
+			throw new RuntimeException(createApplyEventErrMsg(event), ex);
+		} catch (final IllegalArgumentException ex) {
+			throw new RuntimeException(createApplyEventErrMsg(event), ex);
+		} catch (final InvocationTargetException ex) {
+			throw new RuntimeException(createApplyEventErrMsg(event), ex);
 		}
 
+	}
+
+	private static String createApplyEventErrMsg(final DomainEvent<?> event) {
+		return "Error 'apply(" + event.getClass().getSimpleName() + ")'";
 	}
 
 	/**

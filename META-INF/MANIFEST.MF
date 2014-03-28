@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-Description: Base classes for Domain Driven Design (DDD) with Jav
+ a
+Bundle-DocURL: http://www.fuin.org/
+Bundle-License: http://www.fsf.org/licensing/licenses/lgpl.html
+Bundle-ManifestVersion: 2
+Bundle-Name: Domain Driven Design for Java
+Bundle-SymbolicName: org.fuin.ddd-4-java
+Bundle-Vendor: Future Invent Informationsmanagement GmbH, Hamburg (Germa
+ ny)
+Bundle-Version: 0.1.0.SNAPSHOT
+Export-Package: org.fuin.ddd4j.ddd;uses:="cucumber.api,cucumber.runtime,
+ javax.enterprise.context,javax.persistence,javax.validation.constraints
+ ,javax.xml.bind.annotation.adapters,org.fuin.objects4j.common,org.fuin.
+ objects4j.vo,org.joda.time";version="0.1.0.SNAPSHOT",org.fuin.ddd4j.eve
+ ntstore.intf;uses:="javax.validation.constraints,org.fuin.objects4j.com
+ mon,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin.ddd4j.even
+ tstore;version="0.1.0.SNAPSHOT"
+Import-Package: cucumber.api,cucumber.runtime,javax.enterprise.context,j
+ avax.inject,javax.persistence,javax.validation.constraints;version="[1.
+ 1,2)",javax.xml.bind,javax.xml.bind.annotation,javax.xml.bind.annotatio
+ n.adapters,org.fuin.objects4j.common;version="[0.4,1)",org.fuin.objects
+ 4j.vo;version="[0.4,1)",org.joda.time;version="[2.3,3)",org.joda.time.f
+ ormat;version="[2.3,3)"
+Include-Resource: META-INF/beans.xml=src/main/resources/META-INF/beans.x
+ ml

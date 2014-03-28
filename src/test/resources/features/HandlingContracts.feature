@@ -25,4 +25,3 @@ Feature: Handling contracts
 	Then it should fail with a "VendorNotFoundException" 
 	
 	 	
-	

@@ -22,12 +22,4 @@ package org.fuin.ddd4j.ddd;
  */
 public interface AggregateRootId extends EntityId {
 
-	/**
-	 * Returns the aggregate identifier as string.
-	 * 
-	 * @return Aggregate identifier.
-	 */
-	@Override
-	public String asString();
-
 }

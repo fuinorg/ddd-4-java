@@ -19,10 +19,13 @@ package org.fuin.ddd4j.test;
 
 import org.fuin.ddd4j.ddd.EntityId;
 import org.fuin.ddd4j.ddd.EntityType;
+import org.fuin.ddd4j.ddd.StringBasedEntityType;
 
 //CHECKSTYLE:OFF
 public class CId implements EntityId {
 
+	public static final EntityType TYPE = new StringBasedEntityType("C");
+	
 	private final long id;
 
 	public CId(final long id) {
@@ -31,12 +34,7 @@ public class CId implements EntityId {
 
 	@Override
 	public EntityType getType() {
-		return new EntityType() {
-			@Override
-			public String asString() {
-				return "C";
-			}
-		};
+		return TYPE;
 	}
 
 	@Override

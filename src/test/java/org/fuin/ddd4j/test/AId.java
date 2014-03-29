@@ -19,10 +19,13 @@ package org.fuin.ddd4j.test;
 
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
+import org.fuin.ddd4j.ddd.StringBasedEntityType;
 
 //CHECKSTYLE:OFF
 public class AId implements AggregateRootId {
 
+	public static final EntityType TYPE = new StringBasedEntityType("A");
+	
 	private final long id;
 
 	public AId(final long id) {
@@ -31,12 +34,7 @@ public class AId implements AggregateRootId {
 
 	@Override
 	public EntityType getType() {
-		return new EntityType() {
-			@Override
-			public String asString() {
-				return "A";
-			}
-		};
+		return TYPE;
 	}
 
 	@Override

@@ -36,12 +36,11 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
+		final ARoot a = new ARoot(aid);
 
 		final BId bid = new BId(2);
-		final BEntity b = new BEntity(a, bid);
 
-		a.add(b);
+		a.addB(bid);
 
 		final Method method = AbstractAggregateRoot
 				.findDeclaredAnnotatedMethod(a, ChildEntityLocator.class,
@@ -51,7 +50,7 @@ public class AbstractAggregateRootTest {
 		Entity<?> found = AbstractAggregateRoot.invoke(method, a, bid);
 
 		// VERIFY
-		assertThat(found).isSameAs(b);
+		assertThat(found.getId()).isSameAs(bid);
 
 	}
 
@@ -60,8 +59,8 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		final AEvent event = new AEvent(aid);
+		final ARoot a = new ARoot();
+		final ACreatedEvent event = new ACreatedEvent(aid);
 
 		// TEST
 		AbstractAggregateRoot.callAnnotatedEventHandlerMethod(a, event);
@@ -76,22 +75,20 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-
+		final ARoot a = new ARoot(aid);
 		final BId bid = new BId(2);
-		final BEntity b = new BEntity(a, bid);
+		a.addB(bid);
+		a.markChangesAsCommitted();
+		final CId cid = new CId(3);
 
-		a.add(b);
-
-		final BEvent event = new BEvent(aid, bid);
+		final CAddedEvent event = new CAddedEvent(aid, bid, cid);
 
 		// TEST
 		AbstractAggregateRoot
 				.callAnnotatedEventHandlerMethodOnAggregateRootOrChild(a, event);
 
 		// VERIFY
-		assertThat(a.getLastEvent()).isNull();
-		assertThat(b.getLastEvent()).isSameAs(event);
+		assertThat(a.getFirstChild().getLastEvent()).isSameAs(event);
 
 	}
 
@@ -100,8 +97,8 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		final AEvent event = new AEvent(aid);
+		final ARoot a = new ARoot();
+		final ACreatedEvent event = new ACreatedEvent(aid);
 
 		// TEST
 		a.apply(event);
@@ -118,23 +115,22 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-
+		final ARoot a = new ARoot(aid);
 		final BId bid = new BId(2);
-		final BEntity b = new BEntity(a, bid);
+		a.addB(bid);
+		final CId cid = new CId(3);
+		a.markChangesAsCommitted();
 
-		a.add(b);
-
-		final BEvent event = new BEvent(aid, bid);
+		final CAddedEvent event = new CAddedEvent(aid, bid, cid);
 
 		// TEST
-		a.applyNewChildEvent(b, event);
+		a.applyNewChildEvent(a.getFirstChild(), event);
 
 		// VERIFY
 		assertThat(a.getUncommittedChanges()).containsExactly(event);
-		assertThat(a.getVersion()).isEqualTo(0);
-		assertThat(a.getNextVersion()).isEqualTo(1);
-		assertThat(b.getLastEvent()).isSameAs(event);
+		assertThat(a.getVersion()).isEqualTo(2);
+		assertThat(a.getNextVersion()).isEqualTo(3);
+		assertThat(a.getFirstChild().getLastEvent()).isSameAs(event);
 
 	}
 
@@ -143,10 +139,10 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
+		final ARoot a = new ARoot();
 		assertThat(a.getVersion()).isEqualTo(0);
 		assertThat(a.getNextVersion()).isEqualTo(0);
-		final AEvent event = new AEvent(aid);
+		final ACreatedEvent event = new ACreatedEvent(aid);
 
 		// TEST
 		a.apply(event);
@@ -162,9 +158,9 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
+		final ARoot a = new ARoot();
 		assertThat(a.hasUncommitedChanges()).isFalse();
-		final AEvent event = new AEvent(aid);
+		final ACreatedEvent event = new ACreatedEvent(aid);
 		a.apply(event);
 
 		// TEST & VERIFY
@@ -177,8 +173,8 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		final AEvent event = new AEvent(aid);
+		final ARoot a = new ARoot();
+		final ACreatedEvent event = new ACreatedEvent(aid);
 		a.apply(event);
 		assertThat(a.hasUncommitedChanges()).isTrue();
 
@@ -195,8 +191,8 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		final AEvent event = new AEvent(aid);
+		final ARoot a = new ARoot();
+		final ACreatedEvent event = new ACreatedEvent(aid);
 		assertThat(a.getVersion()).isEqualTo(0);
 
 		// TEST
@@ -213,11 +209,9 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		assertThat(a.getVersion()).isEqualTo(0);
 
 		// TEST
-		a.doIt();
+		final ARoot a = new ARoot(aid);
 
 		// VERIFY
 		assertThat(a.getVersion()).isEqualTo(0);
@@ -233,23 +227,22 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
+		final ARoot a = new ARoot(aid);
 		assertThat(a.getVersion()).isEqualTo(0);
-
 		final BId bid = new BId(2);
-		final BEntity b = new BEntity(a, bid);
-
-		a.add(b);
+		a.addB(bid);
+		a.markChangesAsCommitted();
+		final CId cid = new CId(3);
 
 		// TEST
-		b.doIt();
+		a.addC(bid, cid);
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(0);
+		assertThat(a.getVersion()).isEqualTo(2);
 		assertThat(a.getUncommittedChanges()).hasSize(1);
-		assertThat(a.getNextVersion()).isEqualTo(1);
+		assertThat(a.getNextVersion()).isEqualTo(3);
 		final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
-		assertThat(ev).isSameAs(b.getLastEvent());
+		assertThat(ev).isSameAs(a.getFirstChild().getLastEvent());
 
 	}
 
@@ -258,26 +251,22 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		assertThat(a.getVersion()).isEqualTo(0);
-
+		final ARoot a = new ARoot(aid);		
 		final BId bid = new BId(2);
-		final BEntity b = new BEntity(a, bid);
-
-		a.add(b);
-
+		a.addB(bid);
 		final CId cid = new CId(3);
-		final CEntity c = new CEntity(a, bid, cid);
+		a.addC(bid, cid);
+		a.markChangesAsCommitted();
 
-		b.add(c);
-
+		final CEntity c = a.getFirstChild().getFirstChild();
+		
 		// TEST
 		c.doIt();
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(0);
+		assertThat(a.getVersion()).isEqualTo(3);
 		assertThat(a.getUncommittedChanges()).hasSize(1);
-		assertThat(a.getNextVersion()).isEqualTo(1);
+		assertThat(a.getNextVersion()).isEqualTo(4);
 		final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
 		assertThat(ev).isSameAs(c.getLastEvent());
 
@@ -288,50 +277,44 @@ public class AbstractAggregateRootTest {
 
 		// PREPARE
 		final AId aid = new AId(1);
-		final AEntity a = new AEntity(aid);
-		assertThat(a.getVersion()).isEqualTo(0);
-
+		final ARoot a = new ARoot(aid);
 		final BId bid = new BId(2);
-		final BEntity b = new BEntity(a, bid);
-
-		a.add(b);
-
-		final CId cid = new CId(3);
-		final CEntity c = new CEntity(a, bid, cid);
-
-		b.add(c);
+		a.addB(bid);
+		a.markChangesAsCommitted();
 
 		// TEST
-		a.doIt();
-		b.doIt();
-		c.doIt();
+		final CId cid = new CId(3);
+		a.addC(bid, cid);
+		a.doItC(bid, cid);
 
 		// VERIFY
-		assertThat(a.getVersion()).isEqualTo(0);
-		assertThat(a.getUncommittedChanges()).hasSize(3);
-		assertThat(a.getNextVersion()).isEqualTo(3);
-		final DomainEvent<?> evA = a.getUncommittedChanges().get(0);
-		assertThat(evA).isSameAs(a.getLastEvent());
-		final DomainEvent<?> evB = a.getUncommittedChanges().get(1);
-		assertThat(evB).isSameAs(b.getLastEvent());
-		final DomainEvent<?> evC = a.getUncommittedChanges().get(2);
-		assertThat(evC).isSameAs(c.getLastEvent());
+		assertThat(a.getVersion()).isEqualTo(2);
+		assertThat(a.getUncommittedChanges()).hasSize(2);
+		assertThat(a.getNextVersion()).isEqualTo(4);
+		final DomainEvent<?> evB = a.getUncommittedChanges().get(0);
+		assertThat(evB).isSameAs(a.getFirstChild().getLastEvent());
+		final DomainEvent<?> evC = a.getUncommittedChanges().get(1);
+		assertThat(evC).isSameAs(a.getFirstChild().getFirstChild().getLastEvent());
 
 	}
 
 	// ----------------- TEST CLASSES -----------------
 
-	private static class AEntity extends AbstractAggregateRoot<AId> {
+	private static class ARoot extends AbstractAggregateRoot<AId> {
 
 		private AId id;
 
 		private List<BEntity> childs;
 
-		private AEvent lastEvent;
+		private AbstractDomainEvent<?> lastEvent;
 
-		public AEntity(AId id) {
-			this.id = id;
-			this.childs = new ArrayList<BEntity>();
+		public ARoot() {
+			super();
+		}
+		
+		public ARoot(AId id) {
+			super();
+			apply(new ACreatedEvent(id));
 		}
 
 		@Override
@@ -341,12 +324,7 @@ public class AbstractAggregateRootTest {
 
 		@Override
 		public EntityType getType() {
-			return new EntityType() {
-				@Override
-				public String asString() {
-					return "A";
-				}
-			};
+			return AId.TYPE;
 		}
 
 		@ChildEntityLocator
@@ -359,38 +337,56 @@ public class AbstractAggregateRootTest {
 			return null;
 		}
 
-		public void add(BEntity b) {
-			childs.add(b);
+		public void addB(BId bid) {
+			apply(new BAddedEvent(id, bid));
 		}
 
-		public void doIt() {
-			apply(new AEvent(id));
+		public void addC(BId bid, CId cid) {
+			final BEntity found = find(bid);
+			found.add(cid);
 		}
-
+		
+		public void doItC(BId bid, CId cid) {
+			final BEntity found = find(bid);
+			found.doIt(cid);
+		}
+		
 		@EventHandler
-		public void handle(AEvent event) {
+		public void handle(ACreatedEvent event) {
+			this.id = event.getId();
+			this.childs = new ArrayList<BEntity>();
+			lastEvent = event;
+		}
+		
+		@EventHandler
+		public void handle(BAddedEvent event) {
+			childs.add(new BEntity(this, event.getBId()));
 			lastEvent = event;
 		}
 
-		public AEvent getLastEvent() {
+		public AbstractDomainEvent<?> getLastEvent() {
 			return lastEvent;
 		}
 
+		private BEntity getFirstChild() {
+			return childs.get(0);
+		}
+		
 	}
 
 	private static class BEntity extends AbstractEntity<BId> {
 
-		private AId parentId;
+		private ARoot root;
 
 		private BId id;
 
 		private List<CEntity> childs;
 
-		private BEvent lastEvent;
+		private AbstractDomainEvent<?> lastEvent;
 
-		public BEntity(AEntity parent, BId id) {
-			super(parent);
-			this.parentId = parent.getId();
+		public BEntity(ARoot root, BId id) {
+			super(root);
+			this.root = root;
 			this.id = id;
 			this.childs = new ArrayList<CEntity>();
 		}
@@ -402,12 +398,7 @@ public class AbstractAggregateRootTest {
 
 		@Override
 		public EntityType getType() {
-			return new EntityType() {
-				@Override
-				public String asString() {
-					return "B";
-				}
-			};
+			return BId.TYPE;
 		}
 
 		@ChildEntityLocator
@@ -420,28 +411,34 @@ public class AbstractAggregateRootTest {
 			return null;
 		}
 
-		public void add(CEntity c) {
-			childs.add(c);
+		public void add(CId cid) {
+			apply(new CAddedEvent(root.getId(), id, cid));
 		}
 
-		public void doIt() {
-			apply(new BEvent(parentId, id));
+		public void doIt(CId cid) {
+			final CEntity found = find(cid);
+			found.doIt();
 		}
-
+		
 		@EventHandler
-		public void handle(BEvent event) {
+		public void handle(CAddedEvent event) {
+			childs.add(new CEntity(root, id, event.getCId()));
 			lastEvent = event;
 		}
 
-		public BEvent getLastEvent() {
+		public AbstractDomainEvent<?> getLastEvent() {
 			return lastEvent;
 		}
 
+		private CEntity getFirstChild() {
+			return childs.get(0);
+		}
+		
 	}
 
 	private static class CEntity extends AbstractEntity<CId> {
 
-		private AId parentParentId;
+		private ARoot root;
 
 		private BId parentId;
 
@@ -449,9 +446,9 @@ public class AbstractAggregateRootTest {
 
 		private CEvent lastEvent;
 
-		public CEntity(AEntity aggregateRoot, BId parentId, CId id) {
-			super(aggregateRoot);
-			this.parentParentId = aggregateRoot.getId();
+		public CEntity(ARoot root, BId parentId, CId id) {
+			super(root);
+			this.root = root;
 			this.parentId = parentId;
 			this.id = id;
 		}
@@ -463,16 +460,11 @@ public class AbstractAggregateRootTest {
 
 		@Override
 		public EntityType getType() {
-			return new EntityType() {
-				@Override
-				public String asString() {
-					return "C";
-				}
-			};
+			return CId.TYPE;
 		}
 
 		public void doIt() {
-			apply(new CEvent(parentParentId, parentId, id));
+			apply(new CEvent(root.getId(), parentId, id));
 		}
 
 		@EventHandler
@@ -486,31 +478,64 @@ public class AbstractAggregateRootTest {
 
 	}
 
-	private static class AEvent extends AbstractDomainEvent<AId> {
+	private static class ACreatedEvent extends AbstractDomainEvent<AId> {
 
 		private static final long serialVersionUID = 1L;
 
-		private static final EventType EVENT_TYPE = new EventType("AEvent");
+		private static final EventType EVENT_TYPE = new EventType("ACreatedEvent");
+		
+		private AId id;
+		
+		public ACreatedEvent(AId id) {
+			super(new EntityIdPath(id));
+		}
+		
+		public AId getId() {
+			return id;
+		}
+		
+		@Override
+		public EventType getEventType() {
+			return EVENT_TYPE;
+		}
+		
+	}
+	
+	private static class BAddedEvent extends AbstractDomainEvent<AId> {
 
-		public AEvent(AId aid) {
+		private static final long serialVersionUID = 1L;
+
+		private static final EventType EVENT_TYPE = new EventType("BAddedEvent");
+
+		private BId bid;
+		
+		public BAddedEvent(AId aid, BId bid) {
 			super(new EntityIdPath(aid));
+			this.bid = bid;
 		}
 
 		@Override
 		public EventType getEventType() {
 			return EVENT_TYPE;
+		}
+		
+		public BId getBId() {
+			return bid;
 		}
 
 	}
 
-	private static class BEvent extends AbstractDomainEvent<BId> {
+	private static class CAddedEvent extends AbstractDomainEvent<BId> {
 
 		private static final long serialVersionUID = 1L;
 
-		private static final EventType EVENT_TYPE = new EventType("BEvent");
+		private static final EventType EVENT_TYPE = new EventType("CAddedEvent");
 
-		public BEvent(AId aid, BId bid) {
+		private CId cid;
+		
+		public CAddedEvent(AId aid, BId bid, CId cid) {
 			super(new EntityIdPath(aid, bid));
+			this.cid = cid;
 		}
 
 		@Override
@@ -518,6 +543,10 @@ public class AbstractAggregateRootTest {
 			return EVENT_TYPE;
 		}
 
+		public CId getCId() {
+			return cid;
+		}
+		
 	}
 
 	private static class CEvent extends AbstractDomainEvent<CId> {

@@ -127,9 +127,6 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
 	 *            Identifier of the aggregate to delete.
 	 * @param expectedVersion
 	 *            Expected (current) version of the aggregate.
-	 * @param metaData
-	 *            Additional information that are not directly available in the
-	 *            event.
 	 * 
 	 * @throws AggregateVersionConflictException
 	 *             The expected version didn't match the actual version.

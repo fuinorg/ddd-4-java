@@ -53,6 +53,7 @@ public abstract class AbstractEvent implements Event {
 		return timestamp;
 	}
 
+	// CHECKSTYLE:OFF Generated code
 	@Override
 	public final int hashCode() {
 		final int prime = 31;
@@ -83,5 +84,6 @@ public abstract class AbstractEvent implements Event {
 		}
 		return true;
 	}
+	// CHECKSTYLE:ON
 
 }

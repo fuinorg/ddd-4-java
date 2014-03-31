@@ -28,7 +28,11 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 
-public class XmlDeSerializer implements Serializer, Deserializer {
+/**
+ * Serializes and deserializes a class of a given type that only has one version
+ * and is always "application/xml" + "utf-8" encoded.
+ */
+public final class XmlDeSerializer implements Serializer, Deserializer {
 
 	private final String type;
 
@@ -42,6 +46,14 @@ public class XmlDeSerializer implements Serializer, Deserializer {
 
 	private final Unmarshaller unmarshaller;
 
+	/**
+	 * Constructor with type and JAXB context classes.
+	 * 
+	 * @param type
+	 *            Type that can be serialized/deserialized.
+	 * @param classesToBeBound
+	 *            Classes to use for the JAXB context.
+	 */
 	public XmlDeSerializer(final String type,
 			final Class<?>... classesToBeBound) {
 		super();

@@ -29,6 +29,9 @@ import javax.persistence.Converter;
 import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
+/**
+ * JAXB and JPA converter for an entity identifier path. 
+ */
 @ThreadSafe
 @ApplicationScoped
 @Converter(autoApply = true)
@@ -127,6 +130,9 @@ public final class EntityIdPathConverter extends
 		return list;
 	}
 
+	/**
+	 * Maps type and identifer as pair.
+	 */
 	private static final class Entry {
 
 		private String type;

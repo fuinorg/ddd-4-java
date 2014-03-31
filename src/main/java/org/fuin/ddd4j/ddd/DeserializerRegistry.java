@@ -21,6 +21,9 @@ import java.nio.charset.Charset;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * Locates a deserializer for a given type, version and encoding combination.
+ */
 public interface DeserializerRegistry {
 
 	/**

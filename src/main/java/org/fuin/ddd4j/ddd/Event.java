@@ -22,6 +22,9 @@ import java.util.Date;
 
 import org.fuin.objects4j.common.NeverNull;
 
+/**
+ * Something that happened in the system. 
+ */
 public interface Event extends Serializable {
 
 	/**

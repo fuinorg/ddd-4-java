@@ -28,8 +28,8 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
  * Entity type based on a string with a maximum length of 255 characters.
  */
 @Immutable
-public final class StringBasedEntityType extends
-		AbstractStringValueObject<StringBasedEntityType> implements EntityType {
+public final class StringBasedEntityType extends AbstractStringValueObject
+		implements EntityType {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -50,13 +50,13 @@ public final class StringBasedEntityType extends
 		this.str = str;
 	}
 
-	/**
-	 * Returns the type name as string.
-	 * 
-	 * @return Unique type name.
-	 */
 	@Override
 	public final String asString() {
+		return str;
+	}
+
+	@Override
+	public final String asBaseType() {
 		return str;
 	}
 

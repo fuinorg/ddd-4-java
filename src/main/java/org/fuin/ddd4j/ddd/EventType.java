@@ -28,7 +28,7 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
  * Identifies an event type within an aggregate type.
  */
 @Immutable
-public class EventType extends AbstractStringValueObject<EventType> {
+public class EventType extends AbstractStringValueObject {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -49,18 +49,14 @@ public class EventType extends AbstractStringValueObject<EventType> {
 		this.str = str;
 	}
 
-	/**
-	 * Returns the type name as string.
-	 * 
-	 * @return Unique type name.
-	 */
-	public final String asString() {
+	@Override
+	public final String asBaseType() {
 		return str;
 	}
 
 	@Override
 	public final String toString() {
-		return str;
+		return asBaseType();
 	}
 
 }

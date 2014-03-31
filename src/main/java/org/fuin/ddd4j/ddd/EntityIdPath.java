@@ -26,14 +26,14 @@ import java.util.List;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.vo.ValueObject;
+import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
 /**
  * An ordered list of entity identifiers. An aggregate root will be the first
  * entry if it's contained in the list.
  */
 @XmlJavaTypeAdapter(EntityIdPathConverter.class)
-public final class EntityIdPath implements ValueObject, Serializable {
+public final class EntityIdPath implements ValueObjectWithBaseType<String>, Serializable {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -124,4 +124,15 @@ public final class EntityIdPath implements ValueObject, Serializable {
 		return sb.toString();
 	}
 
+	@Override
+	public final String asBaseType() {
+		return asString();
+	}
+
+	@Override
+	public final Class<String> getBaseType() {
+		return String.class;
+	}
+	
+	
 }

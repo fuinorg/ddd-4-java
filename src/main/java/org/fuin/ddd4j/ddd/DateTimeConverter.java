@@ -19,9 +19,9 @@ package org.fuin.ddd4j.ddd;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.AttributeConverter;
+import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.fuin.objects4j.common.ThreadSafe;
-import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -31,46 +31,41 @@ import org.joda.time.format.DateTimeFormatter;
  */
 @ThreadSafe
 @ApplicationScoped
-public final class DateTimeConverter extends
-		AbstractValueObjectConverter<String, DateTime> implements
-		AttributeConverter<DateTime, String> {
+public final class DateTimeConverter extends XmlAdapter<String, DateTime>
+		implements AttributeConverter<DateTime, String> {
 
 	private final DateTimeFormatter dateTimeFormatter = DateTimeFormat
 			.forPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZZ");
 
-	@Override
-	public Class<String> getBaseTypeClass() {
-		return String.class;
-	}
-
-	@Override
-	public final Class<DateTime> getValueObjectClass() {
-		return DateTime.class;
-	}
-
-	@Override
-	public final boolean isValid(final String value) {
-		try {
-			// TODO Should be replaced by something without throwing
-			// exception...
-			dateTimeFormatter.parseDateTime(value);
-			return true;
-		} catch (final RuntimeException ex) {
-			return false;
-		}
-	}
-
-	@Override
-	public final DateTime toVO(final String value) {
+	private DateTime toVO(final String value) {
 		return dateTimeFormatter.parseDateTime(value);
 	}
 
-	@Override
-	public final String fromVO(final DateTime value) {
+	private String fromVO(final DateTime value) {
 		if (value == null) {
 			return null;
 		}
-		return value.toString();
+		return dateTimeFormatter.print(value);
+	}
+
+	@Override
+	public final String marshal(final DateTime value) throws Exception {
+		return fromVO(value);
+	}
+
+	@Override
+	public final DateTime unmarshal(final String value) throws Exception {
+		return toVO(value);
+	}
+
+	@Override
+	public final String convertToDatabaseColumn(final DateTime value) {
+		return fromVO(value);
+	}
+
+	@Override
+	public final DateTime convertToEntityAttribute(final String value) {
+		return toVO(value);
 	}
 
 }

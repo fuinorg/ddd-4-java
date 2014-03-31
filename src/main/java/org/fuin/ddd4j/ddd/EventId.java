@@ -22,11 +22,13 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.fuin.objects4j.vo.ValueObjectWithBaseType;
+
 /**
  * Universal unique event identifier.
  */
 @XmlJavaTypeAdapter(EventIdConverter.class)
-public class EventId extends AbstractUUIDVO implements TechnicalId {
+public class EventId extends AbstractUUIDVO implements ValueObjectWithBaseType<String>, TechnicalId {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -47,4 +49,14 @@ public class EventId extends AbstractUUIDVO implements TechnicalId {
 		super(uuid);
 	}
 
+	@Override
+	public final String asBaseType() {
+		return asString();
+	}
+
+	@Override
+	public final Class<String> getBaseType() {
+		return String.class;
+	}
+	
 }

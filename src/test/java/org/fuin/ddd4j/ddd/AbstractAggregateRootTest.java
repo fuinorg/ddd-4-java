@@ -374,7 +374,7 @@ public class AbstractAggregateRootTest {
 		
 	}
 
-	private static class BEntity extends AbstractEntity<BId> {
+	private static class BEntity extends AbstractEntity<AId, BId> {
 
 		private ARoot root;
 
@@ -436,7 +436,7 @@ public class AbstractAggregateRootTest {
 		
 	}
 
-	private static class CEntity extends AbstractEntity<CId> {
+	private static class CEntity extends AbstractEntity<AId, CId> {
 
 		private ARoot root;
 

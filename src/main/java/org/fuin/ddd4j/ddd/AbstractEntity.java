@@ -24,15 +24,19 @@ import org.fuin.objects4j.common.Contract;
 /**
  * Base class for entities.
  * 
+ * @param <ROOT>
+ *            Type of the aggregate root.
  * @param <ROOT_ID>
  *            Type of the aggregate identifier.
  * @param <ID>
  *            Type of the entity identifier.
  */
-public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ID extends EntityId>
+// CHECKSTYLE:OFF:LineLength
+public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId>
 		implements Entity<ID> {
+	// CHECKSTYLE:ON:LineLength
 
-	private final AbstractAggregateRoot<ROOT_ID> root;
+	private final ROOT root;
 
 	/**
 	 * Constructor with root aggregate.
@@ -40,7 +44,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ID extends
 	 * @param root
 	 *            Root aggregate.
 	 */
-	public AbstractEntity(@NotNull final AbstractAggregateRoot<ROOT_ID> root) {
+	public AbstractEntity(@NotNull final ROOT root) {
 		super();
 		Contract.requireArgNotNull("root", root);
 		this.root = root;
@@ -76,11 +80,20 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ID extends
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final AbstractEntity<?, ?> other = (AbstractEntity<?, ?>) obj;
+		final AbstractEntity<?, ?, ?> other = (AbstractEntity<?, ?, ?>) obj;
 		if (!getId().equals(other.getId())) {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Returns the aggregate root the entity belongs to.
+	 * 
+	 * @return Aggregate root this is a child of.
+	 */
+	protected final ROOT getRoot() {
+		return root;
 	}
 
 	/**

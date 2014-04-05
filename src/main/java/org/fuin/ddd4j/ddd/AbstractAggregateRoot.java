@@ -250,7 +250,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	 * @param event
 	 *            Event to dispatch to the appropriate event handler method.
 	 */
-	final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?> entity,
+	final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity,
 			@NotNull final DomainEvent<?> event) {
 
 		if (callAnnotatedEventHandlerMethod(entity, event)) {

@@ -24,6 +24,8 @@ import org.fuin.ddd4j.ddd.StringBasedEntityType;
 //CHECKSTYLE:OFF
 public class CId implements EntityId {
 
+	private static final long serialVersionUID = 1L;
+
 	public static final EntityType TYPE = new StringBasedEntityType("C");
 	
 	private final long id;

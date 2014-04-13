@@ -24,6 +24,8 @@ import org.fuin.ddd4j.ddd.StringBasedEntityType;
 //CHECKSTYLE:OFF
 public class AId implements AggregateRootId {
 
+	private static final long serialVersionUID = 1L;
+
 	public static final EntityType TYPE = new StringBasedEntityType("A");
 	
 	private final long id;

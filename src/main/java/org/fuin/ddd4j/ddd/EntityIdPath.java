@@ -109,6 +109,31 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
 	}
 
 	/**
+	 * Returns the path without the first entry.
+	 * 
+	 * @return Rest or NULL if the path has only one element.
+	 */
+	public final EntityIdPath rest() {
+		if (entityIds.size() == 1) {
+			return null;
+		}
+		final List<EntityId> list = new ArrayList<EntityId>();
+		for (int i = 1; i < entityIds.size(); i++) {
+			list.add(entityIds.get(i));
+		}
+		return new EntityIdPath(list);
+	}
+
+	/**
+	 * Returns the number of elements in the path.
+	 * 
+	 * @return Number of identifiers contained in the path.
+	 */
+	public final int size() {
+		return entityIds.size();
+	}
+	
+	/**
 	 * Returns the path as string.
 	 * 
 	 * @return Path.

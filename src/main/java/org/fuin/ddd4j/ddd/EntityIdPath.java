@@ -91,9 +91,12 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
 	 * Returns the first entity identifier in the path.
 	 * 
 	 * @return First entity identifier in the path.
+	 * 
+	 * @param <T> Type of the entity identifier that is returned.
 	 */
-	public final EntityId first() {
-		return entityIds.get(0);
+	@SuppressWarnings("unchecked")
+	public final <T extends EntityId> T first() {
+		return (T) entityIds.get(0);
 	}
 
 	/**

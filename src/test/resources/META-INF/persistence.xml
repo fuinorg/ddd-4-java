@@ -9,7 +9,10 @@
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<!-- class>a.b.C</class-->
+		<class>org.fuin.ddd4j.eventstore.jpa.EventEntry</class>
+		<class>org.fuin.ddd4j.eventstore.jpa.Stream</class>
+		<class>org.fuin.ddd4j.eventstore.jpa.VendorStream</class>
+		<class>org.fuin.ddd4j.eventstore.jpa.VendorEvent</class>
 
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

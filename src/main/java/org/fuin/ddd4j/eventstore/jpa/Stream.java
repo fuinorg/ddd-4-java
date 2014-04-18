@@ -19,6 +19,7 @@ package org.fuin.ddd4j.eventstore.jpa;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.NotNull;
 
 /**
  * Base class for all concrete streams.
@@ -72,6 +73,6 @@ public abstract class Stream {
 	 * 
 	 * @return JPA entity.
 	 */
-	public abstract StreamEvent createEvent(final EventEntry eventEntry);
+	public abstract StreamEvent createEvent(@NotNull final EventEntry eventEntry);
 
 }

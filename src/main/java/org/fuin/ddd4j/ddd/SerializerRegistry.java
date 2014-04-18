@@ -17,37 +17,22 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.io.Serializable;
-import java.util.Date;
-
-import org.fuin.objects4j.common.NeverNull;
+import javax.validation.constraints.NotNull;
 
 /**
- * Something that happened in the system.
+ * Locates a serializer for a given type.
  */
-public interface Event extends Serializable {
+public interface SerializerRegistry {
 
 	/**
-	 * Returns the identifier of the event.
+	 * Tries to find a deserializer for the given type.
 	 * 
-	 * @return Unique identifier event.
-	 */
-	@NeverNull
-	public EventId getEventId();
-
-	/**
-	 * Returns the type of the event (What happened).
+	 * @param type
+	 *            Unique identifier for the type of data.
 	 * 
-	 * @return A text unique for all events of an aggregate.
+	 * @return Serializer instance or NULL if no serializer was found for the
+	 *         type.
 	 */
-	@NeverNull
-	public EventType getEventType();
-
-	/**
-	 * Date, time and time zone the event was created.
-	 * 
-	 * @return Event creation date and time.
-	 */
-	public Date getTimestamp();
+	public Serializer getSerializer(@NotNull String type);
 
 }

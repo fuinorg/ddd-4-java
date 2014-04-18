@@ -44,7 +44,8 @@ public interface StreamId extends Serializable {
 	 * 
 	 * @return Value of the single parameter.
 	 * 
-	 * @param <T> Type of the returned value.
+	 * @param <T>
+	 *            Type of the returned value.
 	 */
 	public <T> T getSingleParamValue();
 

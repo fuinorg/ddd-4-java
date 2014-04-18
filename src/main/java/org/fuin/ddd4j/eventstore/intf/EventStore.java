@@ -179,4 +179,4 @@ public interface EventStore extends Closeable {
 			throws StreamNotFoundException, StreamDeletedException;
 
 }
-//CHECKSTYLE:ON:RedundantThrows
+// CHECKSTYLE:ON:RedundantThrows

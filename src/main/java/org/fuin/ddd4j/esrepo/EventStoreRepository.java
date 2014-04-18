@@ -37,6 +37,7 @@ import org.fuin.ddd4j.ddd.Event;
 import org.fuin.ddd4j.ddd.MetaData;
 import org.fuin.ddd4j.ddd.Repository;
 import org.fuin.ddd4j.ddd.Serializer;
+import org.fuin.ddd4j.ddd.SerializerRegistry;
 import org.fuin.ddd4j.eventstore.intf.Data;
 import org.fuin.ddd4j.eventstore.intf.EventData;
 import org.fuin.ddd4j.eventstore.intf.EventStore;
@@ -60,30 +61,34 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
 	private final EventStore eventStore;
 
-	private final Serializer serializer;
+	private final SerializerRegistry serRegistry;
 
-	private final DeserializerRegistry registry;
+	private final DeserializerRegistry desRegistry;
 
 	private final AggregateCache<AGGREGATE> noCache;
 
 	/**
 	 * Constructor with all data.
 	 * 
-	 * @param eventStore Event store.
-	 * @param serializer Serializer to use.
-	 * @param registry Registry used to locate deserializers.
+	 * @param eventStore
+	 *            Event store.
+	 * @param serRegistry
+	 *            Registry used to locate serializers.
+	 * @param desRegistry
+	 *            Registry used to locate deserializers.
 	 */
 	protected EventStoreRepository(@NotNull final EventStore eventStore,
-			@NotNull final Serializer serializer, @NotNull final DeserializerRegistry registry) {
+			@NotNull final SerializerRegistry serRegistry,
+			@NotNull final DeserializerRegistry desRegistry) {
 		super();
-		
+
 		Contract.requireArgNotNull("eventStore", eventStore);
-		Contract.requireArgNotNull("serializer", serializer);
-		Contract.requireArgNotNull("registry", registry);
-		
+		Contract.requireArgNotNull("serRegistry", serRegistry);
+		Contract.requireArgNotNull("desRegistry", desRegistry);
+
 		this.eventStore = eventStore;
-		this.serializer = serializer;
-		this.registry = registry;
+		this.serRegistry = serRegistry;
+		this.desRegistry = desRegistry;
 		noCache = new AggregateNoCache<AGGREGATE>();
 	}
 
@@ -348,18 +353,26 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 		final List<EventData> eventDataList = new ArrayList<EventData>(
 				events.size());
 		for (final Event event : events) {
-			final Data ed = serialize(event);
+			final Data ed = serialize(event.getEventType().asBaseType(), event);
 			eventDataList.add(new EventData(event.getEventId().asString(),
 					event.getTimestamp(), ed, md));
 		}
 		return eventDataList;
 	}
+	
+	private Data serialize(final MetaData meta) {
+		if (meta == null) {
+			return null;
+		}
+		return serialize(meta.getType(), meta);
+	}
 
-	private Data serialize(final Object data) {
+	private Data serialize(final String type, final Object data) {
 		if (data == null) {
 			return null;
 		}
-		final Serializer serializer = getSerializer();
+		final Serializer serializer = getSerializerRegistry().getSerializer(
+				type);
 		return new Data(serializer.getType(), serializer.getVersion(),
 				serializer.getMimeType(), serializer.getEncoding(),
 				serializer.marshal(data));
@@ -450,13 +463,13 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 	}
 
 	/**
-	 * Returns the serializer to use.
+	 * Returns a registry of serializers.
 	 * 
-	 * @return Serializer.
+	 * @return Registry with known serializers.
 	 */
 	@NeverNull
-	protected final Serializer getSerializer() {
-		return serializer;
+	protected final SerializerRegistry getSerializerRegistry() {
+		return serRegistry;
 	}
 
 	/**
@@ -466,7 +479,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 	 */
 	@NeverNull
 	protected final DeserializerRegistry getDeserializerRegistry() {
-		return registry;
+		return desRegistry;
 	}
 
 	/**

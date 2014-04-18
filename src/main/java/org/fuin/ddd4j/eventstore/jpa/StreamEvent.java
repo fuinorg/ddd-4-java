@@ -42,7 +42,6 @@ public abstract class StreamEvent {
 	@Column(name = "EVENT_NO", nullable = false)
 	private int eventNumber;
 
-	
 	/**
 	 * Protected default constructor only required for JPA.
 	 */
@@ -58,11 +57,12 @@ public abstract class StreamEvent {
 	 * @param eventEntry
 	 *            Event entry with the actual event data.
 	 */
-	public StreamEvent(final int eventNumber, @NotNull final EventEntry eventEntry) {
+	public StreamEvent(final int eventNumber,
+			@NotNull final EventEntry eventEntry) {
 		super();
-		
+
 		Contract.requireArgNotNull("eventEntry", eventEntry);
-		
+
 		this.eventEntry = eventEntry;
 		this.eventNumber = eventNumber;
 	}
@@ -85,5 +85,5 @@ public abstract class StreamEvent {
 	public final int getEventNumber() {
 		return eventNumber;
 	}
-	
+
 }

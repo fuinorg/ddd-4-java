@@ -38,7 +38,8 @@ public interface DeserializerRegistry {
 	 * @param encoding
 	 *            Encoding.
 	 * 
-	 * @return Deserializer instance configured with the arguments.
+	 * @return Deserializer instance configured with the arguments or NULL if no
+	 *         deserializer was found for the type.
 	 */
 	public Deserializer getDeserializer(@NotNull String type, int version,
 			@NotNull String mimeType, @NotNull Charset encoding);

@@ -30,7 +30,8 @@ import org.fuin.objects4j.vo.KeyValue;
 /**
  * Unique name of an aggregate stream.
  * 
- * @param <ID> Type of the aggregate root identifier.
+ * @param <ID>
+ *            Type of the aggregate root identifier.
  */
 @Immutable
 public final class AggregateStreamId<ID extends AggregateRootId> implements

@@ -19,7 +19,7 @@ package org.fuin.ddd4j.esrepo;
 
 import org.fuin.ddd4j.ddd.DeserializerRegistry;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.Serializer;
+import org.fuin.ddd4j.ddd.SerializerRegistry;
 import org.fuin.ddd4j.eventstore.intf.EventStore;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
@@ -27,18 +27,23 @@ import org.fuin.ddd4j.test.VendorId;
 /**
  * Implements a repository that is capable of storing vendors.
  */
-public final class VendorRepository extends EventStoreRepository<VendorId, Vendor> {
+public final class VendorRepository extends
+		EventStoreRepository<VendorId, Vendor> {
 
 	/**
 	 * Constructor with event store to use as storage.
 	 * 
-	 * @param eventStore Event store.
-	 * @param serializer Serializer to use.
-	 * @param registry Registry used to locate deserializers.
+	 * @param eventStore
+	 *            Event store.
+	 * @param serRegistry
+	 *            Registry used to locate serializers.
+	 * @param desRegistry
+	 *            Registry used to locate deserializers.
 	 */
 	public VendorRepository(final EventStore eventStore,
-			final Serializer serializer, final DeserializerRegistry registry) {
-		super(eventStore, serializer, registry);
+			final SerializerRegistry serRegistry,
+			final DeserializerRegistry desRegistry) {
+		super(eventStore, serRegistry, desRegistry);
 	}
 
 	@Override

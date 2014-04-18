@@ -67,7 +67,8 @@ public abstract class Stream {
 	/**
 	 * Creates a container that stores the given event entry.
 	 * 
-	 * @param eventEntry Event entry to convert into a JPA variaant.
+	 * @param eventEntry
+	 *            Event entry to convert into a JPA variaant.
 	 * 
 	 * @return JPA entity.
 	 */

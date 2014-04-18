@@ -21,44 +21,105 @@ import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Contains all known deserializer. 
- */
-public final class SimpleDeserializerRegistry implements DeserializerRegistry {
+import javax.validation.constraints.NotNull;
 
-	private final Map<Key, Deserializer> map;
+import org.fuin.objects4j.common.Contract;
+
+/**
+ * Contains all known deserializer.
+ */
+public final class SimpleDeserializerRegistry implements DeserializerRegistry,
+		SerializerRegistry {
+
+	private final Map<String, Serializer> serMap;
+
+	private final Map<Key, Deserializer> desMap;
 
 	/**
 	 * Default constructor.
 	 */
 	public SimpleDeserializerRegistry() {
 		super();
-		map = new HashMap<Key, Deserializer>();
+		serMap = new HashMap<String, Serializer>();
+		desMap = new HashMap<Key, Deserializer>();
 	}
 
 	/**
 	 * Adds a new deserializer to the registry.
 	 * 
-	 * @param type Type of the data.
-	 * @param version Version of the data.
-	 * @param mimeType Mime type.
-	 * @param encoding Encoding-
-	 * @param deserializer Deserializer.
+	 * @param type
+	 *            Type of the data.
+	 * @param version
+	 *            Version of the data.
+	 * @param mimeType
+	 *            Mime type.
+	 * @param encoding
+	 *            Encoding-
+	 * @param deserializer
+	 *            Deserializer.
 	 */
-	public final void add(final String type, final int version,
-			final String mimeType, final Charset encoding,
-			final Deserializer deserializer) {
+	public final void addDeserializer(@NotNull final String type,
+			final int version, @NotNull final String mimeType,
+			@NotNull final Charset encoding,
+			@NotNull final Deserializer deserializer) {
+
+		Contract.requireArgNotNull("type", type);
+		Contract.requireArgNotNull("mimeType", mimeType);
+		Contract.requireArgNotNull("encoding", encoding);
+		Contract.requireArgNotNull("deserializer", deserializer);
 
 		final Key key = new Key(type, version, mimeType, encoding);
-		map.put(key, deserializer);
+		desMap.put(key, deserializer);
 
+	}
+
+	/**
+	 * Adds a new serializer to the registry.
+	 * 
+	 * @param type
+	 *            Type of the data.
+	 * @param serializer
+	 *            Serializer.
+	 */
+	public final void addSerializer(@NotNull final String type,
+			@NotNull final Serializer serializer) {
+
+		Contract.requireArgNotNull("type", type);
+		Contract.requireArgNotNull("serializer", serializer);
+
+		serMap.put(type, serializer);
+
+	}
+
+	/**
+	 * Convenience method to add an combined XML serializer/deserializer.
+	 * 
+	 * @param vcds
+	 *            Deserializer to add.
+	 */
+	public final void add(@NotNull final XmlDeSerializer vcds) {
+		Contract.requireArgNotNull("vcds", vcds);
+		this.addSerializer(vcds.getType(), vcds);
+		this.addDeserializer(vcds.getType(), vcds.getVersion(),
+				vcds.getMimeType(), vcds.getEncoding(), vcds);
+	}
+
+	@Override
+	public Serializer getSerializer(final String type) {
+		Contract.requireArgNotNull("type", type);
+		return serMap.get(type);
 	}
 
 	@Override
 	public final Deserializer getDeserializer(final String type,
 			final int version, final String mimeType, final Charset encoding) {
+
+		Contract.requireArgNotNull("type", type);
+		Contract.requireArgNotNull("mimeType", mimeType);
+		Contract.requireArgNotNull("encoding", encoding);
+
 		final Key key = new Key(type, version, mimeType, encoding);
-		return map.get(key);
+		return desMap.get(key);
 	}
 
 	/**

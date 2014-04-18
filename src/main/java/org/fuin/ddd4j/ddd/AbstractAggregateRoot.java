@@ -179,13 +179,17 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	/**
 	 * Invokes a method that has an entity identifier as only argument.
 	 * 
-	 * @param method Method to call.
-	 * @param entity Object that contains the method.
-	 * @param id Identifier used as single argument.
+	 * @param method
+	 *            Method to call.
+	 * @param entity
+	 *            Object that contains the method.
+	 * @param id
+	 *            Identifier used as single argument.
 	 * 
 	 * @return The entity that has the given ID.
 	 * 
-	 * @param <T> Type of the entity that corresponds with the ID.
+	 * @param <T>
+	 *            Type of the entity that corresponds with the ID.
 	 */
 	@SuppressWarnings("unchecked")
 	static <T extends Entity<?>> T invoke(final Method method,
@@ -250,7 +254,8 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 	 * @param event
 	 *            Event to dispatch to the appropriate event handler method.
 	 */
-	final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity,
+	final void applyNewChildEvent(
+			@NotNull final AbstractEntity<?, ?, ?> entity,
 			@NotNull final DomainEvent<?> event) {
 
 		if (callAnnotatedEventHandlerMethod(entity, event)) {

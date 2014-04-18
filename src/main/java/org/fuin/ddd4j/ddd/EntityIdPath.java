@@ -33,7 +33,8 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  * entry if it's contained in the list.
  */
 @XmlJavaTypeAdapter(EntityIdPathConverter.class)
-public final class EntityIdPath implements ValueObjectWithBaseType<String>, Serializable {
+public final class EntityIdPath implements ValueObjectWithBaseType<String>,
+		Serializable {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -92,7 +93,8 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
 	 * 
 	 * @return First entity identifier in the path.
 	 * 
-	 * @param <T> Type of the entity identifier that is returned.
+	 * @param <T>
+	 *            Type of the entity identifier that is returned.
 	 */
 	@SuppressWarnings("unchecked")
 	public final <T extends EntityId> T first() {
@@ -104,7 +106,8 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
 	 * 
 	 * @return Last entity identifier in the path.
 	 * 
-	 * @param <T> Type of the entity identifier that is returned.
+	 * @param <T>
+	 *            Type of the entity identifier that is returned.
 	 */
 	@SuppressWarnings("unchecked")
 	public final <T extends EntityId> T last() {
@@ -135,7 +138,7 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
 	public final int size() {
 		return entityIds.size();
 	}
-	
+
 	/**
 	 * Returns the path as string.
 	 * 
@@ -161,6 +164,5 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
 	public final Class<String> getBaseType() {
 		return String.class;
 	}
-	
-	
+
 }

@@ -28,7 +28,8 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  * Universal unique event identifier.
  */
 @XmlJavaTypeAdapter(EventIdConverter.class)
-public class EventId extends AbstractUUIDVO implements ValueObjectWithBaseType<String>, TechnicalId {
+public class EventId extends AbstractUUIDVO implements
+		ValueObjectWithBaseType<String>, TechnicalId {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -58,5 +59,5 @@ public class EventId extends AbstractUUIDVO implements ValueObjectWithBaseType<S
 	public final Class<String> getBaseType() {
 		return String.class;
 	}
-	
+
 }

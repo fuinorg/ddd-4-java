@@ -28,7 +28,7 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 import org.fuin.objects4j.vo.UUIDStrValidator;
 
 /**
- * JAXB and JPA converter for an entity identifier. 
+ * JAXB and JPA converter for an entity identifier.
  */
 @ThreadSafe
 @ApplicationScoped

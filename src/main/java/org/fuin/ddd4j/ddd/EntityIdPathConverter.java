@@ -30,7 +30,7 @@ import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
- * JAXB and JPA converter for an entity identifier path. 
+ * JAXB and JPA converter for an entity identifier path.
  */
 @ThreadSafe
 @ApplicationScoped

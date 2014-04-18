@@ -49,13 +49,11 @@ public class EventStoreRespositoryTest extends JPATest {
 								.getSingleParamValue();
 						return new VendorStream(vendorId);
 					}
-				});
-		final XmlDeSerializer vcds = new XmlDeSerializer(
-				VendorCreatedEvent.TYPE.asBaseType(), VendorCreatedEvent.class);
+				});		
 		final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
-		registry.add(vcds.getType(), vcds.getVersion(), vcds.getMimeType(),
-				vcds.getEncoding(), vcds);
-		final VendorRepository repo = new VendorRepository(eventStore, vcds,
+		registry.add(new XmlDeSerializer(
+				VendorCreatedEvent.TYPE.asBaseType(), VendorCreatedEvent.class));
+		final VendorRepository repo = new VendorRepository(eventStore, registry,
 				registry);
 
 		final VendorId vendorId = new VendorId();

@@ -147,7 +147,7 @@ public class EventEntry {
 	 * Returns the meta data of the event (Optional).
 	 * 
 	 * @return The event's meta data or NULL.
-	 */	
+	 */
 	public final Data getMeta() {
 		return meta;
 	}

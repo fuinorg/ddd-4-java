@@ -30,7 +30,8 @@ public interface Deserializer {
 	 * 
 	 * @return Deserialized object.
 	 * 
-	 * @param <T> Type the data is converted into.
+	 * @param <T>
+	 *            Type the data is converted into.
 	 */
 	public <T> T unmarshal(byte[] data);
 

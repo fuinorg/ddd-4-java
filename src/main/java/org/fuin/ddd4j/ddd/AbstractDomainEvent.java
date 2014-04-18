@@ -22,7 +22,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 /**
  * Base class for domain events.
  * 
- * @param <ID> Type of the entity identifier.
+ * @param <ID>
+ *            Type of the entity identifier.
  */
 public abstract class AbstractDomainEvent<ID extends EntityId> extends
 		AbstractEvent implements DomainEvent<ID> {

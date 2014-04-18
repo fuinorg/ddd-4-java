@@ -28,7 +28,8 @@ import org.fuin.objects4j.common.NeverNull;
  * that guarantees the consistency of changes being made within the group by
  * forbidding external objects from holding direct references to its members.
  * 
- * @param <ID> Type of the aggregate root identifier.
+ * @param <ID>
+ *            Type of the aggregate root identifier.
  */
 public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
 

@@ -27,7 +27,7 @@ public class CId implements EntityId {
 	private static final long serialVersionUID = 1L;
 
 	public static final EntityType TYPE = new StringBasedEntityType("C");
-	
+
 	private final long id;
 
 	public CId(final long id) {
@@ -55,4 +55,4 @@ public class CId implements EntityId {
 	}
 
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

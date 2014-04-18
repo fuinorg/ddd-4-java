@@ -38,8 +38,8 @@ public class ARoot extends AbstractAggregateRoot<AId> {
 	public ARoot() {
 		super();
 	}
-	
-	public ARoot(AId id) {
+
+	public ARoot(final AId id) {
 		super();
 		apply(new ACreatedEvent(id));
 	}
@@ -55,8 +55,8 @@ public class ARoot extends AbstractAggregateRoot<AId> {
 	}
 
 	@ChildEntityLocator
-	private BEntity find(BId bid) {
-		for (BEntity child : childs) {
+	private BEntity find(final BId bid) {
+		for (final BEntity child : childs) {
 			if (child.getId().equals(bid)) {
 				return child;
 			}
@@ -64,29 +64,29 @@ public class ARoot extends AbstractAggregateRoot<AId> {
 		return null;
 	}
 
-	public void addB(BId bid) {
+	public void addB(final BId bid) {
 		apply(new BAddedEvent(id, bid));
 	}
 
-	public void addC(BId bid, CId cid) {
+	public void addC(final BId bid, final CId cid) {
 		final BEntity found = find(bid);
 		found.add(cid);
 	}
-	
-	public void doItC(BId bid, CId cid) {
+
+	public void doItC(final BId bid, final CId cid) {
 		final BEntity found = find(bid);
 		found.doIt(cid);
 	}
-	
+
 	@EventHandler
-	public void handle(ACreatedEvent event) {
+	public void handle(final ACreatedEvent event) {
 		this.id = event.getId();
 		this.childs = new ArrayList<BEntity>();
 		lastEvent = event;
 	}
-	
+
 	@EventHandler
-	public void handle(BAddedEvent event) {
+	public void handle(final BAddedEvent event) {
 		childs.add(new BEntity(this, event.getBId()));
 		lastEvent = event;
 	}
@@ -98,6 +98,6 @@ public class ARoot extends AbstractAggregateRoot<AId> {
 	public BEntity getFirstChild() {
 		return childs.get(0);
 	}
-	
+
 }
 // CHECKSTYLE:OFF

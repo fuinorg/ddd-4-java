@@ -27,21 +27,21 @@ public class ACreatedEvent extends AbstractDomainEvent<AId> {
 	private static final long serialVersionUID = 1L;
 
 	private static final EventType EVENT_TYPE = new EventType("ACreatedEvent");
-	
+
 	private AId id;
-	
-	public ACreatedEvent(AId id) {
+
+	public ACreatedEvent(final AId id) {
 		super(new EntityIdPath(id));
 	}
-	
+
 	public AId getId() {
 		return id;
 	}
-	
+
 	@Override
 	public EventType getEventType() {
 		return EVENT_TYPE;
 	}
-	
+
 }
 // CHECKSTYLE:ON

@@ -28,9 +28,9 @@ public class BAddedEvent extends AbstractDomainEvent<AId> {
 
 	private static final EventType EVENT_TYPE = new EventType("BAddedEvent");
 
-	private BId bid;
-	
-	public BAddedEvent(AId aid, BId bid) {
+	private final BId bid;
+
+	public BAddedEvent(final AId aid, final BId bid) {
 		super(new EntityIdPath(aid));
 		this.bid = bid;
 	}
@@ -39,7 +39,7 @@ public class BAddedEvent extends AbstractDomainEvent<AId> {
 	public EventType getEventType() {
 		return EVENT_TYPE;
 	}
-	
+
 	public BId getBId() {
 		return bid;
 	}

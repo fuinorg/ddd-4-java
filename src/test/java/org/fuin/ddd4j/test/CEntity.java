@@ -24,15 +24,15 @@ import org.fuin.ddd4j.ddd.EventHandler;
 // CHECKSTYLE:OFF
 public class CEntity extends AbstractEntity<AId, ARoot, CId> {
 
-	private ARoot root;
+	private final ARoot root;
 
-	private BId parentId;
+	private final BId parentId;
 
-	private CId id;
+	private final CId id;
 
 	private CEvent lastEvent;
 
-	public CEntity(ARoot root, BId parentId, CId id) {
+	public CEntity(final ARoot root, final BId parentId, final CId id) {
 		super(root);
 		this.root = root;
 		this.parentId = parentId;
@@ -54,7 +54,7 @@ public class CEntity extends AbstractEntity<AId, ARoot, CId> {
 	}
 
 	@EventHandler
-	public void handle(CEvent event) {
+	public void handle(final CEvent event) {
 		lastEvent = event;
 	}
 

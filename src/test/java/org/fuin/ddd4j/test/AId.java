@@ -27,7 +27,7 @@ public class AId implements AggregateRootId {
 	private static final long serialVersionUID = 1L;
 
 	public static final EntityType TYPE = new StringBasedEntityType("A");
-	
+
 	private final long id;
 
 	public AId(final long id) {
@@ -55,4 +55,4 @@ public class AId implements AggregateRootId {
 	}
 
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

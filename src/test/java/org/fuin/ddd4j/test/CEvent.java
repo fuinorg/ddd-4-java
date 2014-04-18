@@ -28,7 +28,7 @@ public class CEvent extends AbstractDomainEvent<CId> {
 
 	private static final EventType EVENT_TYPE = new EventType("CEvent");
 
-	public CEvent(AId aid, BId bid, CId cid) {
+	public CEvent(final AId aid, final BId bid, final CId cid) {
 		super(new EntityIdPath(aid, bid, cid));
 	}
 

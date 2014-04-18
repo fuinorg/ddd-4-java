@@ -28,9 +28,9 @@ public class CAddedEvent extends AbstractDomainEvent<BId> {
 
 	private static final EventType EVENT_TYPE = new EventType("CAddedEvent");
 
-	private CId cid;
-	
-	public CAddedEvent(AId aid, BId bid, CId cid) {
+	private final CId cid;
+
+	public CAddedEvent(final AId aid, final BId bid, final CId cid) {
 		super(new EntityIdPath(aid, bid));
 		this.cid = cid;
 	}
@@ -43,6 +43,6 @@ public class CAddedEvent extends AbstractDomainEvent<BId> {
 	public CId getCId() {
 		return cid;
 	}
-	
+
 }
 // CHECKSTYLE:ON

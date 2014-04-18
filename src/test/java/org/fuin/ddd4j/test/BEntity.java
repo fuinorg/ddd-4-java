@@ -29,15 +29,15 @@ import org.fuin.ddd4j.ddd.EventHandler;
 // CHECKSTYLE:OFF
 public class BEntity extends AbstractEntity<AId, ARoot, BId> {
 
-	private ARoot root;
+	private final ARoot root;
 
-	private BId id;
+	private final BId id;
 
-	private List<CEntity> childs;
+	private final List<CEntity> childs;
 
 	private AbstractDomainEvent<?> lastEvent;
 
-	public BEntity(ARoot root, BId id) {
+	public BEntity(final ARoot root, final BId id) {
 		super(root);
 		this.root = root;
 		this.id = id;
@@ -55,8 +55,8 @@ public class BEntity extends AbstractEntity<AId, ARoot, BId> {
 	}
 
 	@ChildEntityLocator
-	private CEntity find(CId bid) {
-		for (CEntity child : childs) {
+	private CEntity find(final CId bid) {
+		for (final CEntity child : childs) {
 			if (child.getId().equals(bid)) {
 				return child;
 			}
@@ -64,17 +64,17 @@ public class BEntity extends AbstractEntity<AId, ARoot, BId> {
 		return null;
 	}
 
-	public void add(CId cid) {
+	public void add(final CId cid) {
 		apply(new CAddedEvent(root.getId(), id, cid));
 	}
 
-	public void doIt(CId cid) {
+	public void doIt(final CId cid) {
 		final CEntity found = find(cid);
 		found.doIt();
 	}
-	
+
 	@EventHandler
-	public void handle(CAddedEvent event) {
+	public void handle(final CAddedEvent event) {
 		childs.add(new CEntity(root, id, event.getCId()));
 		lastEvent = event;
 	}
@@ -86,6 +86,6 @@ public class BEntity extends AbstractEntity<AId, ARoot, BId> {
 	public CEntity getFirstChild() {
 		return childs.get(0);
 	}
-	
+
 }
 // CHECKSTYLE:ON

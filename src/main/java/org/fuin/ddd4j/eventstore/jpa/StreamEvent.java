@@ -17,10 +17,14 @@
  */
 package org.fuin.ddd4j.eventstore.jpa;
 
+import javax.persistence.Column;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
+
+import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NeverNull;
 
 /**
  * An event in a specific event stream. Connects the stream with the event
@@ -34,6 +38,11 @@ public abstract class StreamEvent {
 	@JoinColumn(name = "EVENTS_ID", unique = true, nullable = false, updatable = false)
 	private EventEntry eventEntry;
 
+	@NotNull
+	@Column(name = "EVENT_NO", nullable = false)
+	private int eventNumber;
+
+	
 	/**
 	 * Protected default constructor only required for JPA.
 	 */
@@ -44,12 +53,18 @@ public abstract class StreamEvent {
 	/**
 	 * Constructs a stream event.
 	 * 
+	 * @param eventNumber
+	 *            Number of the event.
 	 * @param eventEntry
 	 *            Event entry with the actual event data.
 	 */
-	public StreamEvent(final EventEntry eventEntry) {
+	public StreamEvent(final int eventNumber, @NotNull final EventEntry eventEntry) {
 		super();
+		
+		Contract.requireArgNotNull("eventEntry", eventEntry);
+		
 		this.eventEntry = eventEntry;
+		this.eventNumber = eventNumber;
 	}
 
 	/**
@@ -57,8 +72,18 @@ public abstract class StreamEvent {
 	 * 
 	 * @return Event entry.
 	 */
+	@NeverNull
 	public final EventEntry getEventEntry() {
 		return eventEntry;
 	}
 
+	/**
+	 * Returns the number of the event.
+	 * 
+	 * @return Event number.
+	 */
+	public final int getEventNumber() {
+		return eventNumber;
+	}
+	
 }

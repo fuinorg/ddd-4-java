@@ -33,21 +33,17 @@ import org.fuin.ddd4j.test.VendorIdConverter;
  */
 @Table(name = "VENDOR_EVENTS", indexes = { @Index(columnList = "VENDOR_ID,EVENT_NO") })
 @Entity
-public final class VendorEvent extends StreamEvent {
+public class VendorEvent extends StreamEvent {
 
 	@Id
 	@NotNull
-	@Column(name = "ID", length = 200, nullable = false, columnDefinition = "VARCHAR(100)")
+	@Column(name = "ID", length = 100, nullable = false, columnDefinition = "VARCHAR(100)")
 	private String id;
 
 	@NotNull
 	@Convert(converter = VendorIdConverter.class)
 	@Column(name = "VENDOR_ID", length = 100, nullable = false)
-	private VendorId vendorId;
-
-	@NotNull
-	@Column(name = "EVENT_NO", nullable = false)
-	private int eventNumber;
+	private VendorId aggregateId;
 
 	/**
 	 * Protected default constructor only required for JPA.
@@ -59,34 +55,24 @@ public final class VendorEvent extends StreamEvent {
 	/**
 	 * Constructor with all data.
 	 * 
-	 * @param vendorId Unique identifer of the vendor.
+	 * @param aggregateId Unique identifer of the aggregate.
 	 * @param eventNumber Number of the event.
 	 * @param eventEntry Event data.
 	 */
-	public VendorEvent(final VendorId vendorId, final int eventNumber,
+	public VendorEvent(final VendorId aggregateId, final int eventNumber,
 			final EventEntry eventEntry) {
-		super(eventEntry);
-		this.id = vendorId.asString() + "#" + eventNumber;
-		this.vendorId = vendorId;
-		this.eventNumber = eventNumber;
+		super(eventNumber, eventEntry);
+		this.id = aggregateId.asString() + "#" + eventNumber;
+		this.aggregateId = aggregateId;
 	}
 
 	/**
-	 * Returns the unique identifer of the vendor.
+	 * Returns the unique identifer of the aggregate.
 	 * 
-	 * @return Vendor ID.
+	 * @return Aggregate ID.
 	 */
-	public final VendorId getVendorId() {
-		return vendorId;
-	}
-
-	/**
-	 * Returns the number of the event.
-	 * 
-	 * @return Event number.
-	 */
-	public final int getEventNumber() {
-		return eventNumber;
+	public final VendorId getAggregateId() {
+		return aggregateId;
 	}
 
 }

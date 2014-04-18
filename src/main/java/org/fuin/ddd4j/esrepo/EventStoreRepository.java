@@ -20,6 +20,8 @@ package org.fuin.ddd4j.esrepo;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+
 import org.fuin.ddd4j.ddd.AggregateCache;
 import org.fuin.ddd4j.ddd.AggregateDeletedException;
 import org.fuin.ddd4j.ddd.AggregateNoCache;
@@ -56,13 +58,32 @@ import org.fuin.objects4j.common.NeverNull;
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
 		implements Repository<ID, AGGREGATE> {
 
+	private final EventStore eventStore;
+
+	private final Serializer serializer;
+
+	private final DeserializerRegistry registry;
+
 	private final AggregateCache<AGGREGATE> noCache;
 
 	/**
-	 * Default constructor.
+	 * Constructor with all data.
+	 * 
+	 * @param eventStore Event store.
+	 * @param serializer Serializer to use.
+	 * @param registry Registry used to locate deserializers.
 	 */
-	protected EventStoreRepository() {
+	protected EventStoreRepository(@NotNull final EventStore eventStore,
+			@NotNull final Serializer serializer, @NotNull final DeserializerRegistry registry) {
 		super();
+		
+		Contract.requireArgNotNull("eventStore", eventStore);
+		Contract.requireArgNotNull("serializer", serializer);
+		Contract.requireArgNotNull("registry", registry);
+		
+		this.eventStore = eventStore;
+		this.serializer = serializer;
+		this.registry = registry;
 		noCache = new AggregateNoCache<AGGREGATE>();
 	}
 
@@ -424,7 +445,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 	 * @return Event store implementation.
 	 */
 	@NeverNull
-	protected abstract EventStore getEventStore();
+	protected final EventStore getEventStore() {
+		return eventStore;
+	}
 
 	/**
 	 * Returns the serializer to use.
@@ -432,7 +455,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 	 * @return Serializer.
 	 */
 	@NeverNull
-	protected abstract Serializer getSerializer();
+	protected final Serializer getSerializer() {
+		return serializer;
+	}
 
 	/**
 	 * Returns a registry of deserializers.
@@ -440,7 +465,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 	 * @return Registry with known deserializers.
 	 */
 	@NeverNull
-	protected abstract DeserializerRegistry getDeserializerRegistry();
+	protected final DeserializerRegistry getDeserializerRegistry() {
+		return registry;
+	}
 
 	/**
 	 * Returns the parameter name for the unique identifier.

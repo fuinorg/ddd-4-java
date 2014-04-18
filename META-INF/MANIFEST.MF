@@ -12,13 +12,14 @@ Bundle-Version: 0.1.0.SNAPSHOT
 Export-Package: org.fuin.ddd4j.ddd;uses:="javax.enterprise.context,javax
  .persistence,javax.validation.constraints,javax.xml.bind.annotation.ada
  pters,org.fuin.objects4j.common,org.fuin.objects4j.vo,org.joda.time";ve
- rsion="0.1.0.SNAPSHOT",org.fuin.ddd4j.esrepo;uses:="org.fuin.ddd4j.ddd,
- org.fuin.ddd4j.eventstore.intf,org.fuin.objects4j.common,org.fuin.objec
- ts4j.vo";version="0.1.0.SNAPSHOT",org.fuin.ddd4j.eventstore.intf;uses:=
- "javax.validation.constraints,org.fuin.objects4j.common,org.fuin.object
- s4j.vo";version="0.1.0.SNAPSHOT",org.fuin.ddd4j.eventstore.jpa;uses:="j
- avax.persistence,javax.validation.constraints,org.fuin.ddd4j.eventstore
- .intf,org.fuin.objects4j.common";version="0.1.0.SNAPSHOT"
+ rsion="0.1.0.SNAPSHOT",org.fuin.ddd4j.esrepo;uses:="javax.validation.co
+ nstraints,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore.intf,org.fuin.ob
+ jects4j.common,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin
+ .ddd4j.eventstore.intf;uses:="javax.validation.constraints,org.fuin.obj
+ ects4j.common,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin.
+ ddd4j.eventstore.jpa;uses:="javax.persistence,javax.validation.constrai
+ nts,org.fuin.ddd4j.eventstore.intf,org.fuin.objects4j.common";version="
+ 0.1.0.SNAPSHOT"
 Import-Package: javax.enterprise.context,javax.inject,javax.persistence,
  javax.validation.constraints;version="[1.1,2)",javax.xml.bind,javax.xml
  .bind.annotation,javax.xml.bind.annotation.adapters,org.fuin.objects4j.

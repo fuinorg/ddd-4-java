@@ -29,12 +29,6 @@ import org.fuin.ddd4j.test.VendorId;
  */
 public final class VendorRepository extends EventStoreRepository<VendorId, Vendor> {
 
-	private final EventStore eventStore;
-
-	private final Serializer serializer;
-
-	private final DeserializerRegistry registry;
-
 	/**
 	 * Constructor with event store to use as storage.
 	 * 
@@ -44,10 +38,7 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
 	 */
 	public VendorRepository(final EventStore eventStore,
 			final Serializer serializer, final DeserializerRegistry registry) {
-		super();
-		this.eventStore = eventStore;
-		this.serializer = serializer;
-		this.registry = registry;
+		super(eventStore, serializer, registry);
 	}
 
 	@Override
@@ -63,21 +54,6 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
 	@Override
 	public final Vendor create() {
 		return new Vendor();
-	}
-
-	@Override
-	protected final EventStore getEventStore() {
-		return eventStore;
-	}
-
-	@Override
-	protected final Serializer getSerializer() {
-		return serializer;
-	}
-
-	@Override
-	protected final DeserializerRegistry getDeserializerRegistry() {
-		return registry;
 	}
 
 	@Override

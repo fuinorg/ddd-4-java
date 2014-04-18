@@ -41,7 +41,7 @@ import org.fuin.objects4j.vo.KeyValue;
 /**
  * JPA Implementation of the event store.
  */
-public class JpaEventStore implements EventStore {
+public final class JpaEventStore implements EventStore {
 
 	private EntityManager em;
 

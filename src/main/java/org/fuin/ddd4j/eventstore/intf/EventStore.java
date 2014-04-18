@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 /**
  * Stores events.
  */
+// CHECKSTYLE:OFF:RedundantThrows
 public interface EventStore extends Closeable {
 
 	/**
@@ -178,3 +179,4 @@ public interface EventStore extends Closeable {
 			throws StreamNotFoundException, StreamDeletedException;
 
 }
+//CHECKSTYLE:ON:RedundantThrows

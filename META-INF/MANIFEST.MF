@@ -19,7 +19,7 @@ Export-Package: org.fuin.ddd4j.ddd;uses:="javax.enterprise.context,javax
  ects4j.common,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin.
  ddd4j.eventstore.jpa;uses:="javax.persistence,javax.validation.constrai
  nts,org.fuin.ddd4j.eventstore.intf,org.fuin.objects4j.common";version="
- 0.1.0.SNAPSHOT"
+ 0.1.0.SNAPSHOT",org.fuin.ddd4j.eventstore;version="0.1.0.SNAPSHOT"
 Import-Package: javax.enterprise.context,javax.inject,javax.persistence,
  javax.validation.constraints;version="[1.1,2)",javax.xml.bind,javax.xml
  .bind.annotation,javax.xml.bind.annotation.adapters,org.fuin.objects4j.

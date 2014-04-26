@@ -19,7 +19,6 @@ package org.fuin.ddd4j.esrepo;
 
 import static org.fest.assertions.Assertions.assertThat;
 
-import org.fuin.ddd4j.common.JPATest;
 import org.fuin.ddd4j.ddd.SimpleDeserializerRegistry;
 import org.fuin.ddd4j.ddd.XmlDeSerializer;
 import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
@@ -32,10 +31,11 @@ import org.fuin.ddd4j.test.VendorCreatedEvent;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.ddd4j.test.VendorKey;
 import org.fuin.ddd4j.test.VendorName;
+import org.fuin.units4j.AbstractPersistenceTest;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF
-public class EventStoreRespositoryTest extends JPATest {
+public class EventStoreRespositoryTest extends AbstractPersistenceTest {
 
 	@Test
 	public void testCreateAggregate() throws Exception {

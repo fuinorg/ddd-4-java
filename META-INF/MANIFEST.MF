@@ -9,17 +9,17 @@ Bundle-SymbolicName: org.fuin.ddd-4-java
 Bundle-Vendor: Future Invent Informationsmanagement GmbH, Hamburg (Germa
  ny)
 Bundle-Version: 0.1.0.SNAPSHOT
-Export-Package: org.fuin.ddd4j.ddd;uses:="javax.enterprise.context,javax
- .persistence,javax.validation.constraints,javax.xml.bind.annotation.ada
- pters,org.fuin.objects4j.common,org.fuin.objects4j.vo,org.joda.time";ve
- rsion="0.1.0.SNAPSHOT",org.fuin.ddd4j.esrepo;uses:="javax.validation.co
- nstraints,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore.intf,org.fuin.ob
- jects4j.common,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin
- .ddd4j.eventstore.intf;uses:="javax.validation.constraints,org.fuin.obj
- ects4j.common,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin.
- ddd4j.eventstore.jpa;uses:="javax.persistence,javax.validation.constrai
- nts,org.fuin.ddd4j.eventstore.intf,org.fuin.objects4j.common";version="
- 0.1.0.SNAPSHOT"
+Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
+ vax.validation.constraints,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore
+ .intf,org.fuin.objects4j.common,org.fuin.objects4j.vo",org.fuin.ddd4j.d
+ dd;version="0.1.0.SNAPSHOT";uses:="javax.enterprise.context,javax.persi
+ stence,javax.validation.constraints,javax.xml.bind.annotation.adapters,
+ org.fuin.objects4j.common,org.fuin.objects4j.vo,org.joda.time",org.fuin
+ .ddd4j.eventstore.jpa;version="0.1.0.SNAPSHOT";uses:="javax.persistence
+ ,javax.validation.constraints,org.fuin.ddd4j.eventstore.intf,org.fuin.o
+ bjects4j.common",org.fuin.ddd4j.eventstore;version="0.1.0.SNAPSHOT",org
+ .fuin.ddd4j.eventstore.intf;version="0.1.0.SNAPSHOT";uses:="javax.valid
+ ation.constraints,org.fuin.objects4j.common,org.fuin.objects4j.vo"
 Import-Package: javax.enterprise.context,javax.inject,javax.persistence,
  javax.validation.constraints;version="[1.1,2)",javax.xml.bind,javax.xml
  .bind.annotation,javax.xml.bind.annotation.adapters,org.fuin.objects4j.

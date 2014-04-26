@@ -24,7 +24,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.UUID;
 
-import org.fuin.ddd4j.common.JPATest;
 import org.fuin.ddd4j.esrepo.AggregateStreamId;
 import org.fuin.ddd4j.eventstore.intf.Data;
 import org.fuin.ddd4j.eventstore.intf.EventData;
@@ -34,10 +33,11 @@ import org.fuin.ddd4j.eventstore.intf.StreamId;
 import org.fuin.ddd4j.eventstore.intf.StreamNotFoundException;
 import org.fuin.ddd4j.eventstore.intf.StreamVersionConflictException;
 import org.fuin.ddd4j.test.VendorId;
+import org.fuin.units4j.AbstractPersistenceTest;
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
-public final class JpaEventStoreTest extends JPATest {
+public final class JpaEventStoreTest extends AbstractPersistenceTest {
 
 	@Test
 	public void testAppendSingleSuccess() throws SQLException,

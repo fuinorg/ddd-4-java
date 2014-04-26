@@ -33,7 +33,7 @@ import org.fuin.ddd4j.test.VendorIdConverter;
  */
 @Table(name = "VENDOR_STREAMS", indexes = { @Index(columnList = "VENDOR_ID") })
 @Entity
-public final class VendorStream extends Stream {
+public class VendorStream extends Stream {
 
 	@Id
 	@NotNull

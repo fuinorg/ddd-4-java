@@ -23,12 +23,12 @@ import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.UUID;
 
-import org.fuin.ddd4j.common.JPATest;
 import org.fuin.ddd4j.eventstore.intf.Data;
+import org.fuin.units4j.AbstractPersistenceTest;
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
-public final class EventEntryTest extends JPATest {
+public final class EventEntryTest extends AbstractPersistenceTest {
 
 	@Test
 	public void testPersist() {

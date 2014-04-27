@@ -13,17 +13,18 @@ Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
  vax.validation.constraints,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore
  .intf,org.fuin.objects4j.common,org.fuin.objects4j.vo",org.fuin.ddd4j.d
  dd;version="0.1.0.SNAPSHOT";uses:="javax.enterprise.context,javax.persi
- stence,javax.validation.constraints,javax.xml.bind.annotation.adapters,
- org.fuin.objects4j.common,org.fuin.objects4j.vo,org.joda.time",org.fuin
- .ddd4j.eventstore.jpa;version="0.1.0.SNAPSHOT";uses:="javax.persistence
- ,javax.validation.constraints,org.fuin.ddd4j.eventstore.intf,org.fuin.o
- bjects4j.common",org.fuin.ddd4j.eventstore;version="0.1.0.SNAPSHOT",org
- .fuin.ddd4j.eventstore.intf;version="0.1.0.SNAPSHOT";uses:="javax.valid
- ation.constraints,org.fuin.objects4j.common,org.fuin.objects4j.vo"
+ stence,javax.validation.constraints,javax.xml.bind.annotation,javax.xml
+ .bind.annotation.adapters,org.fuin.objects4j.common,org.fuin.objects4j.
+ vo,org.joda.time",org.fuin.ddd4j.eventstore.jpa;version="0.1.0.SNAPSHOT
+ ";uses:="javax.persistence,javax.validation.constraints,org.fuin.ddd4j.
+ eventstore.intf,org.fuin.objects4j.common,org.joda.time",org.fuin.ddd4j
+ .eventstore;version="0.1.0.SNAPSHOT",org.fuin.ddd4j.eventstore.intf;ver
+ sion="0.1.0.SNAPSHOT";uses:="javax.validation.constraints,org.fuin.obje
+ cts4j.common,org.fuin.objects4j.vo,org.joda.time"
 Import-Package: javax.enterprise.context,javax.inject,javax.persistence,
  javax.validation.constraints;version="[1.1,2)",javax.xml.bind,javax.xml
  .bind.annotation,javax.xml.bind.annotation.adapters,org.fuin.objects4j.
  common;version="[0.5,1)",org.fuin.objects4j.vo;version="[0.5,1)",org.jo
- da.time;version="[2.3,3)",org.joda.time.format;version="[2.3,3)"
+ da.time;version="[2.3,3)"
 Include-Resource: META-INF/beans.xml=src/main/resources/META-INF/beans.x
  ml

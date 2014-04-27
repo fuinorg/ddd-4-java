@@ -18,9 +18,9 @@
 package org.fuin.ddd4j.ddd;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import org.fuin.objects4j.common.NeverNull;
+import org.joda.time.DateTime;
 
 /**
  * Something that happened in the system.
@@ -48,6 +48,6 @@ public interface Event extends Serializable {
 	 * 
 	 * @return Event creation date and time.
 	 */
-	public Date getTimestamp();
+	public DateTime getTimestamp();
 
 }

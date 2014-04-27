@@ -17,8 +17,6 @@
  */
 package org.fuin.ddd4j.eventstore.jpa;
 
-import java.util.Date;
-
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
@@ -32,6 +30,7 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.eventstore.intf.Data;
 import org.fuin.objects4j.common.NeverNull;
+import org.joda.time.DateTime;
 
 /**
  * Stores an event and it's meta data.
@@ -49,9 +48,8 @@ public class EventEntry {
 	private String id;
 
 	/** Date, time and zone the event was created. */
-	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "TIMESTAMP", nullable = false)
-	private Date timestamp;
+	private DateTime timestamp;
 
 	@Embedded
 	@NotNull
@@ -85,8 +83,8 @@ public class EventEntry {
 	 * @param data
 	 *            Data of the event.
 	 */
-	public EventEntry(@NotNull final String id, @NotNull final Date timestamp,
-			@NotNull final Data data) {
+	public EventEntry(@NotNull final String id,
+			@NotNull final DateTime timestamp, @NotNull final Data data) {
 		this(id, timestamp, data, null);
 	}
 
@@ -104,8 +102,9 @@ public class EventEntry {
 	 * @param meta
 	 *            Meta data (Optional).
 	 */
-	public EventEntry(@NotNull final String id, @NotNull final Date timestamp,
-			@NotNull final Data data, final Data meta) {
+	public EventEntry(@NotNull final String id,
+			@NotNull final DateTime timestamp, @NotNull final Data data,
+			final Data meta) {
 		super();
 		this.id = id;
 		this.timestamp = timestamp;
@@ -129,7 +128,7 @@ public class EventEntry {
 	 * @return Date, time and zone of event's creation.
 	 */
 	@NeverNull
-	public final Date getTimestamp() {
+	public final DateTime getTimestamp() {
 		return timestamp;
 	}
 

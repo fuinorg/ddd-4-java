@@ -20,11 +20,11 @@ package org.fuin.ddd4j.eventstore.jpa;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.nio.charset.Charset;
-import java.util.Date;
 import java.util.UUID;
 
 import org.fuin.ddd4j.eventstore.intf.Data;
 import org.fuin.units4j.AbstractPersistenceTest;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
@@ -72,7 +72,7 @@ public final class EventEntryTest extends AbstractPersistenceTest {
 			final int version, final String xml) {
 		final Charset encoding = Charset.forName("utf-8");
 		final EventEntry eventEntry = new EventEntry(uuid.toString(),
-				new Date(), new Data(type, version, "application/xml",
+				new DateTime(), new Data(type, version, "application/xml",
 						encoding, xml.getBytes(encoding)));
 		return eventEntry;
 	}

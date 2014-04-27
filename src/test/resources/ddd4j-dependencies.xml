@@ -16,6 +16,7 @@
       <dependsOn package="javax.enterprise"/>
       <dependsOn package="javax.xml"/>
       <dependsOn package="org.fuin.objects4j"/>
+      <dependsOn package="org.joda.time"/>
   </alwaysAllowed>
   
   <!-- It's forbidden for all classes to use this (in production code) -->

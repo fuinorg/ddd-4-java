@@ -17,13 +17,12 @@
  */
 package org.fuin.ddd4j.eventstore.intf;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.common.NeverNull;
+import org.joda.time.DateTime;
 
 /**
  * Event.
@@ -33,7 +32,7 @@ public final class EventData {
 
 	private final String eventId;
 
-	private final Date timestamp;
+	private final DateTime timestamp;
 
 	private final Data eventData;
 
@@ -53,7 +52,7 @@ public final class EventData {
 	 *            Meta data.
 	 */
 	public EventData(@NotNull final String eventId,
-			@NotNull final Date timestamp, final Data eventData,
+			@NotNull final DateTime timestamp, final Data eventData,
 			final Data metaData) {
 		super();
 
@@ -83,7 +82,7 @@ public final class EventData {
 	 * @return Timestamp.
 	 */
 	@NeverNull
-	public final Date getTimestamp() {
+	public final DateTime getTimestamp() {
 		return timestamp;
 	}
 

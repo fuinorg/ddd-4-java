@@ -21,7 +21,6 @@ import static org.fest.assertions.Assertions.assertThat;
 
 import java.nio.charset.Charset;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.UUID;
 
 import org.fuin.ddd4j.esrepo.AggregateStreamId;
@@ -34,6 +33,7 @@ import org.fuin.ddd4j.eventstore.intf.StreamNotFoundException;
 import org.fuin.ddd4j.eventstore.intf.StreamVersionConflictException;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.units4j.AbstractPersistenceTest;
+import org.joda.time.DateTime;
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
@@ -62,7 +62,7 @@ public final class JpaEventStoreTest extends AbstractPersistenceTest {
 			final AggregateStreamId<VendorId> streamId = new AggregateStreamId<VendorId>(
 					VendorId.ENTITY_TYPE, "vendorId", vendorId);
 			final String eventId = UUID.randomUUID().toString();
-			final Date timestamp = new Date();
+			final DateTime timestamp = new DateTime();
 			final Charset charset = Charset.forName("utf-8");
 			final Data data = new Data("VendorCreatedEvent", 1,
 					"application/xml", charset, xml.getBytes(charset));

@@ -20,6 +20,7 @@ package org.fuin.ddd4j.eventstore.intf;
 import java.nio.charset.Charset;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +33,8 @@ import org.fuin.objects4j.vo.ValueObject;
  * Represents a block of data in a serialized form.
  */
 @Immutable
-public final class Data implements ValueObject {
+@Embeddable
+public class Data implements ValueObject {
 
 	/** Unique type of the data. */
 	@NotNull

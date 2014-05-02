@@ -26,6 +26,9 @@ import org.joda.time.format.DateTimeFormatter;
 import cucumber.api.Transformer;
 import cucumber.runtime.ParameterInfo;
 
+/**
+ * Transforms a Joda date/time for cucumber. 
+ */
 public final class JodaTransformer extends Transformer<DateTime> {
 
 	private ParameterInfo parameterInfo;

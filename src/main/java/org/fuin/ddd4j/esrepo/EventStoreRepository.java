@@ -359,7 +359,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 		}
 		return eventDataList;
 	}
-	
+
 	private Data serialize(final MetaData meta) {
 		if (meta == null) {
 			return null;
@@ -373,6 +373,10 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 		}
 		final Serializer serializer = getSerializerRegistry().getSerializer(
 				type);
+		if (serializer == null) {
+			throw new IllegalStateException("Couldn't get a serializer for: "
+					+ type);
+		}
 		return new Data(serializer.getType(), serializer.getVersion(),
 				serializer.getMimeType(), serializer.getEncoding(),
 				serializer.marshal(data));
@@ -382,6 +386,11 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 		final Deserializer deserializer = getDeserializerRegistry()
 				.getDeserializer(data.getType(), data.getVersion(),
 						data.getMimeType(), data.getEncoding());
+		if (deserializer == null) {
+			throw new IllegalStateException("Couldn't get a deserializer for: "
+					+ data.getType() + " / " + data.getVersion() + " / "
+					+ data.getMimeType() + " / " + data.getEncoding());
+		}
 		return deserializer.unmarshal(data.getRaw());
 
 	}

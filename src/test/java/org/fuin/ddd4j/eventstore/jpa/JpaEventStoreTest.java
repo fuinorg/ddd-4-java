@@ -28,7 +28,6 @@ import org.fuin.ddd4j.eventstore.intf.Data;
 import org.fuin.ddd4j.eventstore.intf.EventData;
 import org.fuin.ddd4j.eventstore.intf.StreamDeletedException;
 import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
-import org.fuin.ddd4j.eventstore.intf.StreamId;
 import org.fuin.ddd4j.eventstore.intf.StreamNotFoundException;
 import org.fuin.ddd4j.eventstore.intf.StreamVersionConflictException;
 import org.fuin.ddd4j.test.VendorId;
@@ -45,15 +44,7 @@ public final class JpaEventStoreTest extends AbstractPersistenceTest {
 			StreamVersionConflictException {
 
 		// PREPARE
-		final JpaEventStore testee = new JpaEventStore(getEm(),
-				new JpaEventStore.StreamFactory() {
-					@Override
-					public Stream create(final StreamId streamId) {
-						final VendorId vendorId = streamId
-								.getSingleParamValue();
-						return new VendorStream(vendorId);
-					}
-				});
+		final JpaEventStore testee = new JpaEventStore(getEm());
 		testee.open();
 		try {
 			final VendorId vendorId = new VendorId();

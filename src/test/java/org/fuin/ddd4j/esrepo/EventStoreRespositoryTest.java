@@ -22,10 +22,7 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.fuin.ddd4j.ddd.SimpleDeserializerRegistry;
 import org.fuin.ddd4j.ddd.XmlDeSerializer;
 import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
-import org.fuin.ddd4j.eventstore.intf.StreamId;
 import org.fuin.ddd4j.eventstore.jpa.JpaEventStore;
-import org.fuin.ddd4j.eventstore.jpa.Stream;
-import org.fuin.ddd4j.eventstore.jpa.VendorStream;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorCreatedEvent;
 import org.fuin.ddd4j.test.VendorId;
@@ -41,15 +38,7 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
 	public void testCreateAggregate() throws Exception {
 
 		// PREPARE
-		final JpaEventStore eventStore = new JpaEventStore(getEm(),
-				new JpaEventStore.StreamFactory() {
-					@Override
-					public Stream create(final StreamId streamId) {
-						final VendorId vendorId = streamId
-								.getSingleParamValue();
-						return new VendorStream(vendorId);
-					}
-				});		
+		final JpaEventStore eventStore = new JpaEventStore(getEm());		
 		final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
 		registry.add(new XmlDeSerializer(
 				VendorCreatedEvent.TYPE.asBaseType(), VendorCreatedEvent.class));

@@ -18,29 +18,39 @@
 package org.fuin.ddd4j.eventstore.jpa;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
 
 /**
- * An event in a specific event stream. Connects the stream with the event
- * entries.
+ * Connects the stream with the event entries.
  */
-@MappedSuperclass
-public abstract class StreamEvent {
+@Table(name = "STREAM_EVENTS")
+@Entity
+@IdClass(StreamEventId.class)
+public class StreamEvent {
+
+	@Id
+	@NotNull
+	@Column(name = "STREAM_NAME", nullable = false, updatable = false, length = 250)
+	private String streamName;
+
+	@Id
+	@NotNull
+	@Column(name = "EVENT_NUMBER", nullable = false, updatable = false)
+	private Integer eventNumber;
 
 	@NotNull
 	@ManyToOne(optional = false)
-	@JoinColumn(name = "EVENTS_ID", unique = true, nullable = false, updatable = false)
+	@JoinColumn(name = "EVENTS_ID", nullable = false, updatable = false)
 	private EventEntry eventEntry;
-
-	@NotNull
-	@Column(name = "EVENT_NO", nullable = false)
-	private int eventNumber;
 
 	/**
 	 * Protected default constructor only required for JPA.
@@ -52,18 +62,24 @@ public abstract class StreamEvent {
 	/**
 	 * Constructs a stream event.
 	 * 
+	 * @param streamName
+	 *            Stream the event belongs to.
 	 * @param eventNumber
-	 *            Number of the event.
+	 *            Number of the event in the stream.
 	 * @param eventEntry
 	 *            Event entry with the actual event data.
 	 */
-	public StreamEvent(final int eventNumber,
+	public StreamEvent(@NotNull final String streamName,
+			@NotNull final Integer eventNumber,
 			@NotNull final EventEntry eventEntry) {
 		super();
 
+		Contract.requireArgNotNull("streamName", streamName);
+		Contract.requireArgNotNull("eventNumber", eventNumber);
 		Contract.requireArgNotNull("eventEntry", eventEntry);
 
 		this.eventEntry = eventEntry;
+		this.streamName = streamName;
 		this.eventNumber = eventNumber;
 	}
 
@@ -78,11 +94,22 @@ public abstract class StreamEvent {
 	}
 
 	/**
+	 * Returns the stream the event belongs to.
+	 * 
+	 * @return Stream name.
+	 */
+	@NeverNull
+	public final String getStreamName() {
+		return streamName;
+	}
+
+	/**
 	 * Returns the number of the event.
 	 * 
 	 * @return Event number.
 	 */
-	public final int getEventNumber() {
+	@NeverNull
+	public final Integer getEventNumber() {
 		return eventNumber;
 	}
 

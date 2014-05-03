@@ -18,21 +18,45 @@
 package org.fuin.ddd4j.eventstore.jpa;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 /**
  * Base class for all concrete streams.
  */
-@MappedSuperclass
-public abstract class Stream {
+@Table(name = "STREAMS")
+@Entity
+public class Stream {
 
+	@Id
+	@Column(name = "NAME", nullable = false, updatable = false, length = 255)
+	private String name;
+	
 	@Column(name = "DELETED", nullable = false)
 	private boolean deleted = false;
 
 	@Column(name = "VERSION", nullable = false)
 	private int version = 0;
 
+	/**
+	 * Protected default constructor for JPA.
+	 */
+	protected Stream() {
+		super();
+	}
+	
+	/**
+	 * Constructor with name.
+	 * 
+	 * @param name Unique stream name.
+	 */
+	public Stream(@NotNull final String name) {
+		super();
+		this.name = name;
+	}
+	
 	/**
 	 * Returns the information if the stream was deleted.
 	 * 
@@ -73,6 +97,9 @@ public abstract class Stream {
 	 * 
 	 * @return JPA entity.
 	 */
-	public abstract StreamEvent createEvent(@NotNull final EventEntry eventEntry);
+	public final StreamEvent createEvent(@NotNull final EventEntry eventEntry) {
+		incVersion();
+		return new StreamEvent(name, version, eventEntry);
+	}
 
 }

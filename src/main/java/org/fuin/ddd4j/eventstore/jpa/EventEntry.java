@@ -20,6 +20,7 @@ package org.fuin.ddd4j.eventstore.jpa;
 import javax.persistence.AttributeOverride;
 import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -27,6 +28,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.eventstore.intf.Data;
+import org.fuin.objects4j.common.DateTimeAdapter;
 import org.fuin.objects4j.common.NeverNull;
 import org.joda.time.DateTime;
 
@@ -46,6 +48,7 @@ public class EventEntry {
 	private String id;
 
 	/** Date, time and zone the event was created. */
+	@Convert(converter = DateTimeAdapter.class)
 	@Column(name = "TIMESTAMP", nullable = false)
 	private DateTime timestamp;
 

@@ -50,7 +50,7 @@ public final class JpaEventStoreTest extends AbstractPersistenceTest {
 			final VendorId vendorId = new VendorId();
 			final String xml = "<vendor-created-event id=\"" + vendorId
 					+ "\"/>";
-			final AggregateStreamId<VendorId> streamId = new AggregateStreamId<VendorId>(
+			final AggregateStreamId streamId = new AggregateStreamId(
 					VendorId.ENTITY_TYPE, "vendorId", vendorId);
 			final String eventId = UUID.randomUUID().toString();
 			final DateTime timestamp = new DateTime();

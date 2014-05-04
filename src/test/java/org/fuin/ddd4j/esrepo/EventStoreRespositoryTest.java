@@ -58,7 +58,7 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
 
 		// VERIFY
 		beginTransaction();
-		final AggregateStreamId<VendorId> streamId = new AggregateStreamId<VendorId>(
+		final AggregateStreamId streamId = new AggregateStreamId(
 				VendorId.ENTITY_TYPE, "vendorId", vendorId);
 		final StreamEventsSlice slice = eventStore.readStreamEventsForward(
 				streamId, 1, 1);

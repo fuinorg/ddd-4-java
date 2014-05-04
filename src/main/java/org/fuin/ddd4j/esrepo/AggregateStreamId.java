@@ -34,8 +34,7 @@ import org.fuin.objects4j.vo.KeyValue;
  *            Type of the aggregate root identifier.
  */
 @Immutable
-public final class AggregateStreamId<ID extends AggregateRootId> implements
-		StreamId {
+public final class AggregateStreamId implements	StreamId {
 
 	private static final long serialVersionUID = 1000L;
 
@@ -43,7 +42,7 @@ public final class AggregateStreamId<ID extends AggregateRootId> implements
 
 	private String paramName;
 
-	private ID paramValue;
+	private AggregateRootId paramValue;
 
 	private transient List<KeyValue> params;
 
@@ -58,7 +57,7 @@ public final class AggregateStreamId<ID extends AggregateRootId> implements
 	 *            Aggregate id.
 	 */
 	public AggregateStreamId(final EntityType type, final String paramName,
-			final ID paramValue) {
+			final AggregateRootId paramValue) {
 		super();
 		this.type = type;
 		this.paramName = paramName;
@@ -68,12 +67,6 @@ public final class AggregateStreamId<ID extends AggregateRootId> implements
 	@Override
 	public final String getName() {
 		return type.asString();
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public final ID getSingleParamValue() {
-		return paramValue;
 	}
 
 	@Override

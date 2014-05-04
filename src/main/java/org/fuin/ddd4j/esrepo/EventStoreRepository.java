@@ -154,7 +154,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
 		requireNoUncommittedChanges(aggregate);
 
-		final AggregateStreamId<ID> streamId = new AggregateStreamId<ID>(
+		final AggregateStreamId streamId = new AggregateStreamId(
 				getAggregateType(), getIdParamName(), id);
 		final int readPageSize = getReadPageSize();
 
@@ -215,7 +215,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
 		Contract.requireArgNotNull("aggregate", aggregate);
 
-		final AggregateStreamId<ID> streamId = new AggregateStreamId<ID>(
+		final AggregateStreamId streamId = new AggregateStreamId(
 				getAggregateType(), getIdParamName(), aggregate.getId());
 
 		final List<DomainEvent<?>> events = aggregate.getUncommittedChanges();
@@ -275,7 +275,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 		Contract.requireArgNotNull("aggregateId", aggregateId);
 
 		try {
-			final AggregateStreamId<ID> streamId = new AggregateStreamId<ID>(
+			final AggregateStreamId streamId = new AggregateStreamId(
 					getAggregateType(), getIdParamName(), aggregateId);
 			getEventStore().deleteStream(streamId, expectedVersion);
 		} catch (final StreamVersionConflictException ex) {
@@ -306,7 +306,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 			throws AggregateNotFoundException, AggregateDeletedException {
 
 		final List<DomainEvent<?>> list = new ArrayList<DomainEvent<?>>();
-		final AggregateStreamId<ID> streamId = new AggregateStreamId<ID>(
+		final AggregateStreamId streamId = new AggregateStreamId(
 				getAggregateType(), getIdParamName(), aggregateId);
 		final int readPageSize = getReadPageSize();
 

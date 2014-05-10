@@ -50,8 +50,9 @@ public final class JpaEventStoreTest extends AbstractPersistenceTest {
 		new JpaEventStore.StreamFactory() {
 		    @Override
 		    public Stream create(final StreamId streamId) {
-			final VendorId vendorId = streamId.getSingleParamValue();
-			return new VendorStream(vendorId);
+			final String vendorId = streamId
+				.getSingleParamValue();
+			return new VendorStream(VendorId.valueOf(vendorId));
 		    }
 		});
 	testee.open();

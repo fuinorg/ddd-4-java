@@ -32,8 +32,7 @@ public class VendorEventId implements Serializable {
 
     private static final long serialVersionUID = 1000L;
 
-    @Convert(converter = VendorIdConverter.class)
-    private VendorId vendorId;
+    private String vendorId;
 
     private Integer eventNumber;
 
@@ -58,7 +57,7 @@ public class VendorEventId implements Serializable {
 	super();
 	Contract.requireArgNotNull("vendorId", vendorId);
 	Contract.requireArgNotNull("nueventNumbermber", eventNumber);
-	this.vendorId = vendorId;
+	this.vendorId = vendorId.asString();
 	this.eventNumber = eventNumber;
     }
 
@@ -68,7 +67,7 @@ public class VendorEventId implements Serializable {
      * @return Unique vendor identifier.
      */
     @NeverNull
-    public VendorId getVendorId() {
+    public String getVendorId() {
 	return vendorId;
     }
 

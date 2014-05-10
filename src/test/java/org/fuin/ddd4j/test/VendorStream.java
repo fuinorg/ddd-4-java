@@ -18,7 +18,6 @@
 package org.fuin.ddd4j.test;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -38,9 +37,10 @@ public class VendorStream extends Stream {
 
     @Id
     @NotNull
-    @Convert(converter = VendorIdConverter.class)
-    @Column(name = "VENDOR_ID", nullable = false, updatable = false, length = 250)
-    private VendorId vendorId;
+    @Column(name = "VENDOR_ID", nullable = false, updatable = false, length = 36)
+    private String vendorId;
+
+    private transient VendorId id;
 
     /**
      * Protected default constructor for JPA.
@@ -58,7 +58,8 @@ public class VendorStream extends Stream {
     public VendorStream(@NotNull final VendorId vendorId) {
 	super(false);
 	Contract.requireArgNotNull("vendorId", vendorId);
-	this.vendorId = vendorId;
+	this.vendorId = vendorId.asString();
+	this.id = vendorId;
     }
 
     /**
@@ -66,8 +67,20 @@ public class VendorStream extends Stream {
      * 
      * @return Vendor identifier.
      */
-    public final VendorId getVendorId() {
+    public final String getVendorId() {
 	return vendorId;
+    }
+
+    /**
+     * Returns the vendor identifier.
+     * 
+     * @return Name converted into a vendor ID.
+     */
+    public final VendorId getId() {
+	if (id == null) {
+	    id = VendorId.valueOf(vendorId);
+	}
+	return id;
     }
 
     /**
@@ -80,12 +93,12 @@ public class VendorStream extends Stream {
      */
     public final StreamEvent createEvent(@NotNull final EventEntry eventEntry) {
 	incVersion();
-	return new VendorEvent(vendorId, getVersion(), eventEntry);
+	return new VendorEvent(getId(), getVersion(), eventEntry);
     }
 
     @Override
     public final String toString() {
-	return vendorId.asString();
+	return vendorId;
     }
 
 }

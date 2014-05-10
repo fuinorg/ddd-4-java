@@ -69,14 +69,14 @@ public final class AggregateStreamId implements StreamId {
     @SuppressWarnings("unchecked")
     @Override
     public final <T> T getSingleParamValue() {
-	return (T) paramValue;
+	return (T) paramValue.asString();
     }
 
     @Override
     public final List<KeyValue> getParameters() {
 	if (params == null) {
 	    final List<KeyValue> list = new ArrayList<KeyValue>();
-	    list.add(new KeyValue(paramName, paramValue));
+	    list.add(new KeyValue(paramName, paramValue.asString()));
 	    params = Collections.unmodifiableList(list);
 	}
 	return params;

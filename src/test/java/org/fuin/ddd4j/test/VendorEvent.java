@@ -40,15 +40,16 @@ public class VendorEvent extends StreamEvent {
 
     @Id
     @NotNull
-    @Convert(converter = VendorIdConverter.class)
-    @Column(name = "VENDOR_ID", nullable = false, updatable = false, length = 250)
-    private VendorId vendorId;
+    @Column(name = "VENDOR_ID", nullable = false, updatable = false, length = 36)
+    private String vendorId;
 
     @Id
     @NotNull
     @Column(name = "EVENT_NUMBER", nullable = false, updatable = false)
     private Integer eventNumber;
 
+    private transient VendorId id;
+    
     /**
      * Protected default constructor only required for JPA.
      */
@@ -71,8 +72,9 @@ public class VendorEvent extends StreamEvent {
 	super(eventEntry);
 	Contract.requireArgNotNull("vendorId", vendorId);
 	Contract.requireArgNotNull("version", version);
-	this.vendorId = vendorId;
+	this.vendorId = vendorId.asString();
 	this.eventNumber = version;
+	this.id = vendorId;
     }
 
     /**
@@ -80,9 +82,22 @@ public class VendorEvent extends StreamEvent {
      * 
      * @return Vendor identifier.
      */
-    public final VendorId getVendorId() {
+    public final String getVendorId() {
 	return vendorId;
     }
+    
+    /**
+     * Returns the vendor identifier.
+     * 
+     * @return Name converted into a vendor ID.
+     */
+    public final VendorId getId() {
+	if (id == null) {
+	    id = VendorId.valueOf(vendorId);
+	}
+	return id;
+    }
+    
 
     /**
      * Returns the number of the stream.

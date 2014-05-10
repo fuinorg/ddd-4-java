@@ -45,9 +45,9 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
 		new JpaEventStore.StreamFactory() {
 		    @Override
 		    public Stream create(final StreamId streamId) {
-			final VendorId vendorId = streamId
+			final String vendorId = streamId
 				.getSingleParamValue();
-			return new VendorStream(vendorId);
+			return new VendorStream(VendorId.valueOf(vendorId));
 		    }
 		});
 	final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();

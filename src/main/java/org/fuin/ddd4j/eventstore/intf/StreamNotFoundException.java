@@ -27,30 +27,30 @@ import org.fuin.objects4j.common.NeverNull;
  */
 public class StreamNotFoundException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final StreamId streamId;
+    private final StreamId streamId;
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param streamId
-	 *            Unique name of the stream.
-	 */
-	public StreamNotFoundException(@NotNull final StreamId streamId) {
-		super("Stream '" + streamId + "' does not exist");
-		Contract.requireArgNotNull("streamId", streamId);
-		this.streamId = streamId;
-	}
+    /**
+     * Constructor with all data.
+     * 
+     * @param streamId
+     *            Unique name of the stream.
+     */
+    public StreamNotFoundException(@NotNull final StreamId streamId) {
+	super("Stream '" + streamId + "' does not exist");
+	Contract.requireArgNotNull("streamId", streamId);
+	this.streamId = streamId;
+    }
 
-	/**
-	 * Returns the unique identifier of the stream.
-	 * 
-	 * @return Stream that was not found.
-	 */
-	@NeverNull
-	public final StreamId getStreamId() {
-		return streamId;
-	}
+    /**
+     * Returns the unique identifier of the stream.
+     * 
+     * @return Stream that was not found.
+     */
+    @NeverNull
+    public final StreamId getStreamId() {
+	return streamId;
+    }
 
 }

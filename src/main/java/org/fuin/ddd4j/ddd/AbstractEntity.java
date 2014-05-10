@@ -33,76 +33,76 @@ import org.fuin.objects4j.common.Contract;
  */
 // CHECKSTYLE:OFF:LineLength
 public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId>
-		implements Entity<ID> {
-	// CHECKSTYLE:ON:LineLength
+	implements Entity<ID> {
+    // CHECKSTYLE:ON:LineLength
 
-	private final ROOT root;
+    private final ROOT root;
 
-	/**
-	 * Constructor with root aggregate.
-	 * 
-	 * @param root
-	 *            Root aggregate.
-	 */
-	public AbstractEntity(@NotNull final ROOT root) {
-		super();
-		Contract.requireArgNotNull("root", root);
-		this.root = root;
+    /**
+     * Constructor with root aggregate.
+     * 
+     * @param root
+     *            Root aggregate.
+     */
+    public AbstractEntity(@NotNull final ROOT root) {
+	super();
+	Contract.requireArgNotNull("root", root);
+	this.root = root;
+    }
+
+    /**
+     * Applies the given new event. CAUTION: Don't use this method for applying
+     * historic events!
+     * 
+     * @param event
+     *            Event to dispatch to the appropriate event handler method.
+     */
+    protected final void apply(@NotNull final DomainEvent<?> event) {
+	root.applyNewChildEvent(this, event);
+    }
+
+    @Override
+    public final int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = (prime * result) + getId().hashCode();
+	return result;
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+	if (this == obj) {
+	    return true;
 	}
-
-	/**
-	 * Applies the given new event. CAUTION: Don't use this method for applying
-	 * historic events!
-	 * 
-	 * @param event
-	 *            Event to dispatch to the appropriate event handler method.
-	 */
-	protected final void apply(@NotNull final DomainEvent<?> event) {
-		root.applyNewChildEvent(this, event);
+	if (obj == null) {
+	    return false;
 	}
-
-	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (prime * result) + getId().hashCode();
-		return result;
+	if (getClass() != obj.getClass()) {
+	    return false;
 	}
-
-	@Override
-	public final boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final AbstractEntity<?, ?, ?> other = (AbstractEntity<?, ?, ?>) obj;
-		if (!getId().equals(other.getId())) {
-			return false;
-		}
-		return true;
+	final AbstractEntity<?, ?, ?> other = (AbstractEntity<?, ?, ?>) obj;
+	if (!getId().equals(other.getId())) {
+	    return false;
 	}
+	return true;
+    }
 
-	/**
-	 * Returns the aggregate root the entity belongs to.
-	 * 
-	 * @return Aggregate root this is a child of.
-	 */
-	protected final ROOT getRoot() {
-		return root;
-	}
+    /**
+     * Returns the aggregate root the entity belongs to.
+     * 
+     * @return Aggregate root this is a child of.
+     */
+    protected final ROOT getRoot() {
+	return root;
+    }
 
-	/**
-	 * Returns the identifier of the aggregate root the entity belongs to.
-	 * 
-	 * @return Unique aggregate root identifier.
-	 */
-	protected final ROOT_ID getRootId() {
-		return root.getId();
-	}
+    /**
+     * Returns the identifier of the aggregate root the entity belongs to.
+     * 
+     * @return Unique aggregate root identifier.
+     */
+    protected final ROOT_ID getRootId() {
+	return root.getId();
+    }
 
 }

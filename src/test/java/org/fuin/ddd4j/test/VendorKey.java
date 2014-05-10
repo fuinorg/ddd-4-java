@@ -37,64 +37,64 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
 @Immutable
 @XmlJavaTypeAdapter(VendorKeyConverter.class)
 public final class VendorKey extends AbstractStringValueObject implements
-		BusinessKey {
+	BusinessKey {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	@NotNull
-	@VendorKeyStr
-	private final String key;
+    @NotNull
+    @VendorKeyStr
+    private final String key;
 
-	/**
-	 * Constructor with string.
-	 * 
-	 * @param key
-	 *            Key.
-	 */
-	public VendorKey(@NotNull @VendorKeyStr final String key) {
-		super();
-		Contract.requireArgNotEmpty("key", key);
-		VendorKeyStrValidator.requireArgValid("key", key);
-		this.key = key;
+    /**
+     * Constructor with string.
+     * 
+     * @param key
+     *            Key.
+     */
+    public VendorKey(@NotNull @VendorKeyStr final String key) {
+	super();
+	Contract.requireArgNotEmpty("key", key);
+	VendorKeyStrValidator.requireArgValid("key", key);
+	this.key = key;
+    }
+
+    @Override
+    public final String asBaseType() {
+	return key;
+    }
+
+    @Override
+    public final String toString() {
+	return key;
+    }
+
+    /**
+     * Returns the information if a given string is a valid key.
+     * 
+     * @param value
+     *            Value to check. A <code>null</code> value returns
+     *            <code>true</code>.
+     * 
+     * @return TRUE if it's a valid key, else FALSE.
+     */
+    public static boolean isValid(final String value) {
+	return VendorKeyStrValidator.isValid(value);
+    }
+
+    /**
+     * Parses a key.
+     * 
+     * @param value
+     *            Value to convert. A <code>null</code> value returns
+     *            <code>null</code>.
+     * 
+     * @return Converted value.
+     */
+    public static VendorKey valueOf(final String value) {
+	if (value == null) {
+	    return null;
 	}
-
-	@Override
-	public final String asBaseType() {
-		return key;
-	}
-
-	@Override
-	public final String toString() {
-		return key;
-	}
-
-	/**
-	 * Returns the information if a given string is a valid key.
-	 * 
-	 * @param value
-	 *            Value to check. A <code>null</code> value returns
-	 *            <code>true</code>.
-	 * 
-	 * @return TRUE if it's a valid key, else FALSE.
-	 */
-	public static boolean isValid(final String value) {
-		return VendorKeyStrValidator.isValid(value);
-	}
-
-	/**
-	 * Parses a key.
-	 * 
-	 * @param value
-	 *            Value to convert. A <code>null</code> value returns
-	 *            <code>null</code>.
-	 * 
-	 * @return Converted value.
-	 */
-	public static VendorKey valueOf(final String value) {
-		if (value == null) {
-			return null;
-		}
-		return new VendorKey(value);
-	}
+	return new VendorKey(value);
+    }
 
 }

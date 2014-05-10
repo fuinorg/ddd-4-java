@@ -31,64 +31,64 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 @Immutable
 @XmlJavaTypeAdapter(VendorNameConverter.class)
 public final class VendorName extends AbstractStringValueObject implements
-		ValueObjectWithBaseType<String> {
+	ValueObjectWithBaseType<String> {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	@VendorNameStr
-	@NotNull
-	private final String name;
+    @VendorNameStr
+    @NotNull
+    private final String name;
 
-	/**
-	 * Constructor with string.
-	 * 
-	 * @param name
-	 *            Name.
-	 */
-	public VendorName(@NotNull @VendorNameStr final String name) {
-		super();
-		Contract.requireArgNotNull("name", name);
-		VendorNameStrValidator.requireArgValid("name", name);
-		this.name = name;
+    /**
+     * Constructor with string.
+     * 
+     * @param name
+     *            Name.
+     */
+    public VendorName(@NotNull @VendorNameStr final String name) {
+	super();
+	Contract.requireArgNotNull("name", name);
+	VendorNameStrValidator.requireArgValid("name", name);
+	this.name = name;
+    }
+
+    @Override
+    public final String asBaseType() {
+	return name;
+    }
+
+    @Override
+    public final String toString() {
+	return name;
+    }
+
+    /**
+     * Returns the information if a given string is a valid name.
+     * 
+     * @param value
+     *            Value to check. A <code>null</code> value returns
+     *            <code>true</code>.
+     * 
+     * @return TRUE if it's a valid key, else FALSE.
+     */
+    public static boolean isValid(final String value) {
+	return VendorNameStrValidator.isValid(value);
+    }
+
+    /**
+     * Parses a name.
+     * 
+     * @param value
+     *            Value to convert. A <code>null</code> value returns
+     *            <code>null</code>.
+     * 
+     * @return Converted value.
+     */
+    public static VendorName valueOf(final String value) {
+	if (value == null) {
+	    return null;
 	}
-
-	@Override
-	public final String asBaseType() {
-		return name;
-	}
-
-	@Override
-	public final String toString() {
-		return name;
-	}
-
-	/**
-	 * Returns the information if a given string is a valid name.
-	 * 
-	 * @param value
-	 *            Value to check. A <code>null</code> value returns
-	 *            <code>true</code>.
-	 * 
-	 * @return TRUE if it's a valid key, else FALSE.
-	 */
-	public static boolean isValid(final String value) {
-		return VendorNameStrValidator.isValid(value);
-	}
-
-	/**
-	 * Parses a name.
-	 * 
-	 * @param value
-	 *            Value to convert. A <code>null</code> value returns
-	 *            <code>null</code>.
-	 * 
-	 * @return Converted value.
-	 */
-	public static VendorName valueOf(final String value) {
-		if (value == null) {
-			return null;
-		}
-		return new VendorName(value);
-	}
+	return new VendorName(value);
+    }
 
 }

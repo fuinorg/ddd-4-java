@@ -18,88 +18,95 @@
 package org.fuin.ddd4j.eventstore.jpa;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotNull;
 
 /**
  * Base class for all concrete streams.
  */
-@Table(name = "STREAMS")
-@Entity
-public class Stream {
+@MappedSuperclass
+public abstract class Stream {
 
-	@Id
-	@Column(name = "NAME", nullable = false, updatable = false, length = 255)
-	private String name;
-	
-	@Column(name = "DELETED", nullable = false)
-	private boolean deleted = false;
+    @Column(name = "DELETED", nullable = false)
+    private boolean deleted = false;
 
-	@Column(name = "VERSION", nullable = false)
-	private int version = 0;
+    @Column(name = "PROJECTION", nullable = false)
+    private boolean projection = false;
 
-	/**
-	 * Protected default constructor for JPA.
-	 */
-	protected Stream() {
-		super();
-	}
-	
-	/**
-	 * Constructor with name.
-	 * 
-	 * @param name Unique stream name.
-	 */
-	public Stream(@NotNull final String name) {
-		super();
-		this.name = name;
-	}
-	
-	/**
-	 * Returns the information if the stream was deleted.
-	 * 
-	 * @return TRUE if the stream was deleted.
-	 */
-	public final boolean isDeleted() {
-		return deleted;
-	}
+    @Column(name = "VERSION", nullable = false)
+    private int version = 0;
 
-	/**
-	 * Marks the stream as deleted.
-	 */
-	public final void delete() {
-		this.deleted = true;
-	}
+    /**
+     * Protected default constructor for JPA.
+     */
+    protected Stream() {
+	super();
+    }
 
-	/**
-	 * Returns the current version of the stream.
-	 * 
-	 * @return Version.
-	 */
-	public final int getVersion() {
-		return version;
-	}
+    /**
+     * Constructor with projection.
+     * 
+     * @param projection
+     *            TRUE if this is a projection (read only) else FALSE (may be
+     *            written to).
+     */
+    public Stream(final boolean projection) {
+	super();
+	this.projection = projection;
+    }
 
-	/**
-	 * Increments the version of the stream by one.
-	 */
-	protected final void incVersion() {
-		this.version++;
-	}
+    /**
+     * Returns the information if the stream was deleted.
+     * 
+     * @return TRUE if the stream was deleted.
+     */
+    public final boolean isDeleted() {
+	return deleted;
+    }
 
-	/**
-	 * Creates a container that stores the given event entry.
-	 * 
-	 * @param eventEntry
-	 *            Event entry to convert into a JPA variaant.
-	 * 
-	 * @return JPA entity.
-	 */
-	public final StreamEvent createEvent(@NotNull final EventEntry eventEntry) {
-		incVersion();
-		return new StreamEvent(name, version, eventEntry);
-	}
+    /**
+     * Returns the information if this is a projection.
+     * 
+     * @return TRUE if this is a projection (read only) else FALSE (may be
+     *         written to)
+     */
+    public final boolean isProjection() {
+	return projection;
+    }
 
+    /**
+     * Marks the stream as deleted.
+     */
+    public final void delete() {
+	this.deleted = true;
+    }
+
+    /**
+     * Returns the current version of the stream.
+     * 
+     * @return Version.
+     */
+    public final int getVersion() {
+	return version;
+    }
+
+    /**
+     * Increments the version of the stream by one.
+     * 
+     * @return New version.
+     */
+    public final int incVersion() {
+	return this.version++;
+    }
+
+    /**
+     * Creates a container that stores the given event entry.
+     * 
+     * @param eventEntry
+     *            Event entry to convert into a JPA variaant.
+     * 
+     * @return JPA entity.
+     */
+    public abstract StreamEvent createEvent(@NotNull EventEntry eventEntry);
+    
 }

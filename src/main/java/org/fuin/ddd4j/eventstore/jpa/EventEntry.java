@@ -39,117 +39,117 @@ import org.joda.time.DateTime;
 @Entity
 public class EventEntry {
 
-	/**
-	 * Unique identifier of the event. Generated on the client and used to
-	 * achieve idempotence when trying to append the same event multiple times.
-	 */
-	@Id
-	@Column(name = "ID", length = 100, nullable = false, columnDefinition = "VARCHAR(100)")
-	private String id;
+    /**
+     * Unique identifier of the event. Generated on the client and used to
+     * achieve idempotence when trying to append the same event multiple times.
+     */
+    @Id
+    @Column(name = "ID", length = 100, nullable = false, columnDefinition = "VARCHAR(100)")
+    private String id;
 
-	/** Date, time and zone the event was created. */
-	@Convert(converter = DateTimeAdapter.class)
-	@Column(name = "TIMESTAMP", nullable = false)
-	private DateTime timestamp;
+    /** Date, time and zone the event was created. */
+    @Convert(converter = DateTimeAdapter.class)
+    @Column(name = "TIMESTAMP", nullable = false)
+    private DateTime timestamp;
 
-	@Embedded
-	@NotNull
-	private Data data;
+    @Embedded
+    @NotNull
+    private Data data;
 
-	@Embedded
-	@AttributeOverrides({
-			@AttributeOverride(name = "type", column = @Column(name = "META_TYPE")),
-			@AttributeOverride(name = "version", column = @Column(name = "META_VERSION")),
-			@AttributeOverride(name = "mimeType", column = @Column(name = "META_MIME_TYPE")),
-			@AttributeOverride(name = "encoding", column = @Column(name = "META_ENCODING")),
-			@AttributeOverride(name = "raw", column = @Column(name = "META_RAW")) })
-	private Data meta;
+    @Embedded
+    @AttributeOverrides({
+	    @AttributeOverride(name = "type", column = @Column(name = "META_TYPE")),
+	    @AttributeOverride(name = "version", column = @Column(name = "META_VERSION")),
+	    @AttributeOverride(name = "mimeType", column = @Column(name = "META_MIME_TYPE")),
+	    @AttributeOverride(name = "encoding", column = @Column(name = "META_ENCODING")),
+	    @AttributeOverride(name = "raw", column = @Column(name = "META_RAW")) })
+    private Data meta;
 
-	/**
-	 * Protected default constructor only required for JPA.
-	 */
-	protected EventEntry() {
-		super();
-	}
+    /**
+     * Protected default constructor only required for JPA.
+     */
+    protected EventEntry() {
+	super();
+    }
 
-	/**
-	 * Constructor without meta data.
-	 * 
-	 * @param id
-	 *            Unique identifier of the event. Generated on the client and
-	 *            used to achieve idempotence when trying to append the same
-	 *            event multiple times.
-	 * @param timestamp
-	 *            Date, time and zone the event was created.
-	 * @param data
-	 *            Data of the event.
-	 */
-	public EventEntry(@NotNull final String id,
-			@NotNull final DateTime timestamp, @NotNull final Data data) {
-		this(id, timestamp, data, null);
-	}
+    /**
+     * Constructor without meta data.
+     * 
+     * @param id
+     *            Unique identifier of the event. Generated on the client and
+     *            used to achieve idempotence when trying to append the same
+     *            event multiple times.
+     * @param timestamp
+     *            Date, time and zone the event was created.
+     * @param data
+     *            Data of the event.
+     */
+    public EventEntry(@NotNull final String id,
+	    @NotNull final DateTime timestamp, @NotNull final Data data) {
+	this(id, timestamp, data, null);
+    }
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param id
-	 *            Unique identifier of the event. Generated on the client and
-	 *            used to achieve idempotence when trying to append the same
-	 *            event multiple times.
-	 * @param timestamp
-	 *            Date, time and zone the event was created.
-	 * @param data
-	 *            Data of the event.
-	 * @param meta
-	 *            Meta data (Optional).
-	 */
-	public EventEntry(@NotNull final String id,
-			@NotNull final DateTime timestamp, @NotNull final Data data,
-			final Data meta) {
-		super();
-		this.id = id;
-		this.timestamp = timestamp;
-		this.data = data;
-		this.meta = meta;
-	}
+    /**
+     * Constructor with all data.
+     * 
+     * @param id
+     *            Unique identifier of the event. Generated on the client and
+     *            used to achieve idempotence when trying to append the same
+     *            event multiple times.
+     * @param timestamp
+     *            Date, time and zone the event was created.
+     * @param data
+     *            Data of the event.
+     * @param meta
+     *            Meta data (Optional).
+     */
+    public EventEntry(@NotNull final String id,
+	    @NotNull final DateTime timestamp, @NotNull final Data data,
+	    final Data meta) {
+	super();
+	this.id = id;
+	this.timestamp = timestamp;
+	this.data = data;
+	this.meta = meta;
+    }
 
-	/**
-	 * Returns the unique identifier of the entry.
-	 * 
-	 * @return Unique entry ID.
-	 */
-	@NeverNull
-	public final String getId() {
-		return id;
-	}
+    /**
+     * Returns the unique identifier of the entry.
+     * 
+     * @return Unique entry ID.
+     */
+    @NeverNull
+    public final String getId() {
+	return id;
+    }
 
-	/**
-	 * Returns the time when the event was created.
-	 * 
-	 * @return Date, time and zone of event's creation.
-	 */
-	@NeverNull
-	public final DateTime getTimestamp() {
-		return timestamp;
-	}
+    /**
+     * Returns the time when the event was created.
+     * 
+     * @return Date, time and zone of event's creation.
+     */
+    @NeverNull
+    public final DateTime getTimestamp() {
+	return timestamp;
+    }
 
-	/**
-	 * Returns the data of the event.
-	 * 
-	 * @return The event.
-	 */
-	@NeverNull
-	public final Data getData() {
-		return data;
-	}
+    /**
+     * Returns the data of the event.
+     * 
+     * @return The event.
+     */
+    @NeverNull
+    public final Data getData() {
+	return data;
+    }
 
-	/**
-	 * Returns the meta data of the event (Optional).
-	 * 
-	 * @return The event's meta data or NULL.
-	 */
-	public final Data getMeta() {
-		return meta;
-	}
+    /**
+     * Returns the meta data of the event (Optional).
+     * 
+     * @return The event's meta data or NULL.
+     */
+    public final Data getMeta() {
+	return meta;
+    }
 
 }

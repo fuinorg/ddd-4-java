@@ -29,63 +29,63 @@ import org.fuin.ddd4j.ddd.EventHandler;
 // CHECKSTYLE:OFF
 public class BEntity extends AbstractEntity<AId, ARoot, BId> {
 
-	private final ARoot root;
+    private final ARoot root;
 
-	private final BId id;
+    private final BId id;
 
-	private final List<CEntity> childs;
+    private final List<CEntity> childs;
 
-	private AbstractDomainEvent<?> lastEvent;
+    private AbstractDomainEvent<?> lastEvent;
 
-	public BEntity(final ARoot root, final BId id) {
-		super(root);
-		this.root = root;
-		this.id = id;
-		this.childs = new ArrayList<CEntity>();
+    public BEntity(final ARoot root, final BId id) {
+	super(root);
+	this.root = root;
+	this.id = id;
+	this.childs = new ArrayList<CEntity>();
+    }
+
+    @Override
+    public BId getId() {
+	return id;
+    }
+
+    @Override
+    public EntityType getType() {
+	return BId.TYPE;
+    }
+
+    @ChildEntityLocator
+    private CEntity find(final CId bid) {
+	for (final CEntity child : childs) {
+	    if (child.getId().equals(bid)) {
+		return child;
+	    }
 	}
+	return null;
+    }
 
-	@Override
-	public BId getId() {
-		return id;
-	}
+    public void add(final CId cid) {
+	apply(new CAddedEvent(root.getId(), id, cid));
+    }
 
-	@Override
-	public EntityType getType() {
-		return BId.TYPE;
-	}
+    public void doIt(final CId cid) {
+	final CEntity found = find(cid);
+	found.doIt();
+    }
 
-	@ChildEntityLocator
-	private CEntity find(final CId bid) {
-		for (final CEntity child : childs) {
-			if (child.getId().equals(bid)) {
-				return child;
-			}
-		}
-		return null;
-	}
+    @EventHandler
+    public void handle(final CAddedEvent event) {
+	childs.add(new CEntity(root, id, event.getCId()));
+	lastEvent = event;
+    }
 
-	public void add(final CId cid) {
-		apply(new CAddedEvent(root.getId(), id, cid));
-	}
+    public AbstractDomainEvent<?> getLastEvent() {
+	return lastEvent;
+    }
 
-	public void doIt(final CId cid) {
-		final CEntity found = find(cid);
-		found.doIt();
-	}
-
-	@EventHandler
-	public void handle(final CAddedEvent event) {
-		childs.add(new CEntity(root, id, event.getCId()));
-		lastEvent = event;
-	}
-
-	public AbstractDomainEvent<?> getLastEvent() {
-		return lastEvent;
-	}
-
-	public CEntity getFirstChild() {
-		return childs.get(0);
-	}
+    public CEntity getFirstChild() {
+	return childs.get(0);
+    }
 
 }
 // CHECKSTYLE:ON

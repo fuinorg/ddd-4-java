@@ -26,18 +26,18 @@ package org.fuin.ddd4j.ddd;
  */
 public interface Entity<ID extends EntityId> {
 
-	/**
-	 * Returns the unique type.
-	 * 
-	 * @return Type of the entity that is unique in the context.
-	 */
-	public EntityType getType();
+    /**
+     * Returns the unique type.
+     * 
+     * @return Type of the entity that is unique in the context.
+     */
+    public EntityType getType();
 
-	/**
-	 * Returns the unique entity identifier.
-	 * 
-	 * @return Identifier.
-	 */
-	public ID getId();
+    /**
+     * Returns the unique entity identifier.
+     * 
+     * @return Identifier.
+     */
+    public ID getId();
 
 }

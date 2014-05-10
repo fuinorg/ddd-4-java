@@ -24,25 +24,25 @@ import org.fuin.ddd4j.ddd.EventType;
 // CHECKSTYLE:OFF
 public class BAddedEvent extends AbstractDomainEvent<AId> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final EventType EVENT_TYPE = new EventType("BAddedEvent");
+    private static final EventType EVENT_TYPE = new EventType("BAddedEvent");
 
-	private final BId bid;
+    private final BId bid;
 
-	public BAddedEvent(final AId aid, final BId bid) {
-		super(new EntityIdPath(aid));
-		this.bid = bid;
-	}
+    public BAddedEvent(final AId aid, final BId bid) {
+	super(new EntityIdPath(aid));
+	this.bid = bid;
+    }
 
-	@Override
-	public EventType getEventType() {
-		return EVENT_TYPE;
-	}
+    @Override
+    public EventType getEventType() {
+	return EVENT_TYPE;
+    }
 
-	public BId getBId() {
-		return bid;
-	}
+    public BId getBId() {
+	return bid;
+    }
 
 }
 // CHECKSTYLE:ON

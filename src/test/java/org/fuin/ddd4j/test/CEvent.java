@@ -24,18 +24,18 @@ import org.fuin.ddd4j.ddd.EventType;
 // CHECKSTYLE:OFF
 public class CEvent extends AbstractDomainEvent<CId> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final EventType EVENT_TYPE = new EventType("CEvent");
+    private static final EventType EVENT_TYPE = new EventType("CEvent");
 
-	public CEvent(final AId aid, final BId bid, final CId cid) {
-		super(new EntityIdPath(aid, bid, cid));
-	}
+    public CEvent(final AId aid, final BId bid, final CId cid) {
+	super(new EntityIdPath(aid, bid, cid));
+    }
 
-	@Override
-	public EventType getEventType() {
-		return EVENT_TYPE;
-	}
+    @Override
+    public EventType getEventType() {
+	return EVENT_TYPE;
+    }
 
 }
 // CHECKSTYLE:ON

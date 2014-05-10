@@ -26,64 +26,64 @@ import org.joda.time.DateTime;
  */
 public abstract class AbstractEvent implements Event {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	@XmlAttribute(name = "event-id")
-	private final EventId eventId;
+    @XmlAttribute(name = "event-id")
+    private final EventId eventId;
 
-	@XmlAttribute(name = "event-timestamp")
-	private final DateTime timestamp;
+    @XmlAttribute(name = "event-timestamp")
+    private final DateTime timestamp;
 
-	/**
-	 * Default constructor.
-	 */
-	public AbstractEvent() {
-		super();
-		this.eventId = new EventId();
-		this.timestamp = new DateTime();
+    /**
+     * Default constructor.
+     */
+    public AbstractEvent() {
+	super();
+	this.eventId = new EventId();
+	this.timestamp = new DateTime();
+    }
+
+    @Override
+    public final EventId getEventId() {
+	return eventId;
+    }
+
+    @Override
+    public final DateTime getTimestamp() {
+	return timestamp;
+    }
+
+    // CHECKSTYLE:OFF Generated code
+    @Override
+    public final int hashCode() {
+	final int prime = 31;
+	int result = 1;
+	result = (prime * result)
+		+ ((eventId == null) ? 0 : eventId.hashCode());
+	return result;
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+	if (this == obj) {
+	    return true;
 	}
-
-	@Override
-	public final EventId getEventId() {
-		return eventId;
+	if (obj == null) {
+	    return false;
 	}
-
-	@Override
-	public final DateTime getTimestamp() {
-		return timestamp;
+	if (getClass() != obj.getClass()) {
+	    return false;
 	}
-
-	// CHECKSTYLE:OFF Generated code
-	@Override
-	public final int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = (prime * result)
-				+ ((eventId == null) ? 0 : eventId.hashCode());
-		return result;
+	final AbstractEvent other = (AbstractEvent) obj;
+	if (eventId == null) {
+	    if (other.eventId != null) {
+		return false;
+	    }
+	} else if (!eventId.equals(other.eventId)) {
+	    return false;
 	}
-
-	@Override
-	public final boolean equals(final Object obj) {
-		if (this == obj) {
-			return true;
-		}
-		if (obj == null) {
-			return false;
-		}
-		if (getClass() != obj.getClass()) {
-			return false;
-		}
-		final AbstractEvent other = (AbstractEvent) obj;
-		if (eventId == null) {
-			if (other.eventId != null) {
-				return false;
-			}
-		} else if (!eventId.equals(other.eventId)) {
-			return false;
-		}
-		return true;
-	}
-	// CHECKSTYLE:ON
+	return true;
+    }
+    // CHECKSTYLE:ON
 
 }

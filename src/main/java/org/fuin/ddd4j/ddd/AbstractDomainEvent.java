@@ -26,40 +26,40 @@ import javax.xml.bind.annotation.XmlAttribute;
  *            Type of the entity identifier.
  */
 public abstract class AbstractDomainEvent<ID extends EntityId> extends
-		AbstractEvent implements DomainEvent<ID> {
+	AbstractEvent implements DomainEvent<ID> {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	@XmlAttribute(name = "entity-id-path")
-	private EntityIdPath entityIdPath;
+    @XmlAttribute(name = "entity-id-path")
+    private EntityIdPath entityIdPath;
 
-	/**
-	 * Protected default constructor for deserialization.
-	 */
-	protected AbstractDomainEvent() {
-		super();
-	}
+    /**
+     * Protected default constructor for deserialization.
+     */
+    protected AbstractDomainEvent() {
+	super();
+    }
 
-	/**
-	 * Constructor with entity identifier path.
-	 * 
-	 * @param entityIdPath
-	 *            Identifier path from aggregate root to the entity that emitted
-	 *            the event.
-	 */
-	public AbstractDomainEvent(final EntityIdPath entityIdPath) {
-		super();
-		this.entityIdPath = entityIdPath;
-	}
+    /**
+     * Constructor with entity identifier path.
+     * 
+     * @param entityIdPath
+     *            Identifier path from aggregate root to the entity that emitted
+     *            the event.
+     */
+    public AbstractDomainEvent(final EntityIdPath entityIdPath) {
+	super();
+	this.entityIdPath = entityIdPath;
+    }
 
-	@Override
-	public final EntityIdPath getEntityIdPath() {
-		return entityIdPath;
-	}
+    @Override
+    public final EntityIdPath getEntityIdPath() {
+	return entityIdPath;
+    }
 
-	@Override
-	public final ID getEntityId() {
-		return entityIdPath.last();
-	}
+    @Override
+    public final ID getEntityId() {
+	return entityIdPath.last();
+    }
 
 }

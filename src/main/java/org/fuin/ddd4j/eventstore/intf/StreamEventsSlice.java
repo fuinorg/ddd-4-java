@@ -30,79 +30,79 @@ import org.fuin.objects4j.common.NeverNull;
 @Immutable
 public final class StreamEventsSlice {
 
-	private final int fromEventNumber;
+    private final int fromEventNumber;
 
-	private final int nextEventNumber;
+    private final int nextEventNumber;
 
-	private final boolean endOfStream;
+    private final boolean endOfStream;
 
-	private final List<EventData> events;
+    private final List<EventData> events;
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param fromEventNumber
-	 *            The starting point (represented as a sequence number) of the
-	 *            read.
-	 * @param events
-	 *            The events read. The list is internally copied to avoid
-	 *            external dependencies.
-	 * @param nextEventNumber
-	 *            The next event number that can be read.
-	 * @param endOfStream
-	 *            Determines whether or not this is the end of the stream.
-	 */
-	public StreamEventsSlice(final int fromEventNumber,
-			final List<EventData> events, final int nextEventNumber,
-			final boolean endOfStream) {
+    /**
+     * Constructor with all data.
+     * 
+     * @param fromEventNumber
+     *            The starting point (represented as a sequence number) of the
+     *            read.
+     * @param events
+     *            The events read. The list is internally copied to avoid
+     *            external dependencies.
+     * @param nextEventNumber
+     *            The next event number that can be read.
+     * @param endOfStream
+     *            Determines whether or not this is the end of the stream.
+     */
+    public StreamEventsSlice(final int fromEventNumber,
+	    final List<EventData> events, final int nextEventNumber,
+	    final boolean endOfStream) {
 
-		this.fromEventNumber = fromEventNumber;
-		if (events == null || events.size() == 0) {
-			this.events = new ArrayList<EventData>();
-		} else {
-			this.events = new ArrayList<EventData>(events);
-		}
-		this.nextEventNumber = nextEventNumber;
-		this.endOfStream = endOfStream;
+	this.fromEventNumber = fromEventNumber;
+	if (events == null || events.size() == 0) {
+	    this.events = new ArrayList<EventData>();
+	} else {
+	    this.events = new ArrayList<EventData>(events);
 	}
+	this.nextEventNumber = nextEventNumber;
+	this.endOfStream = endOfStream;
+    }
 
-	/**
-	 * Returns the starting point (represented as a sequence number) of the read
-	 * operation.
-	 * 
-	 * @return Event number.
-	 */
-	public int getFromEventNumber() {
-		return fromEventNumber;
-	}
+    /**
+     * Returns the starting point (represented as a sequence number) of the read
+     * operation.
+     * 
+     * @return Event number.
+     */
+    public int getFromEventNumber() {
+	return fromEventNumber;
+    }
 
-	/**
-	 * Returns the events read.
-	 * 
-	 * @return Unmodifiable list of events.
-	 */
-	@NeverNull
-	public List<EventData> getEvents() {
-		return Collections.unmodifiableList(events);
-	}
+    /**
+     * Returns the events read.
+     * 
+     * @return Unmodifiable list of events.
+     */
+    @NeverNull
+    public List<EventData> getEvents() {
+	return Collections.unmodifiableList(events);
+    }
 
-	/**
-	 * Returns the next event number that can be read.
-	 * 
-	 * @return Next event number.
-	 */
-	public int getNextEventNumber() {
-		return nextEventNumber;
-	}
+    /**
+     * Returns the next event number that can be read.
+     * 
+     * @return Next event number.
+     */
+    public int getNextEventNumber() {
+	return nextEventNumber;
+    }
 
-	/**
-	 * Returns a boolean representing whether or not this is the end of the
-	 * stream.
-	 * 
-	 * @return TRUE if this is the end of the stream, else FALSE.
-	 */
-	public boolean isEndOfStream() {
-		return endOfStream;
-	}
+    /**
+     * Returns a boolean representing whether or not this is the end of the
+     * stream.
+     * 
+     * @return TRUE if this is the end of the stream, else FALSE.
+     */
+    public boolean isEndOfStream() {
+	return endOfStream;
+    }
 
 }

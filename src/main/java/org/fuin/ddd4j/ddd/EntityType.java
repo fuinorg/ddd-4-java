@@ -24,11 +24,11 @@ package org.fuin.ddd4j.ddd;
  */
 public interface EntityType {
 
-	/**
-	 * Returns the entity type name as string.
-	 * 
-	 * @return Unique entity type name.
-	 */
-	public String asString();
+    /**
+     * Returns the entity type name as string.
+     * 
+     * @return Unique entity type name.
+     */
+    public String asString();
 
 }

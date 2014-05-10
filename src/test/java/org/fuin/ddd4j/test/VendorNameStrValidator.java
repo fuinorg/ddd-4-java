@@ -27,57 +27,57 @@ import org.fuin.objects4j.common.ContractViolationException;
  * Check that a given string is a valid vendor name.
  */
 public final class VendorNameStrValidator implements
-		ConstraintValidator<VendorNameStr, String> {
+	ConstraintValidator<VendorNameStr, String> {
 
-	@Override
-	public final void initialize(final VendorNameStr constraintAnnotation) {
-	}
+    @Override
+    public final void initialize(final VendorNameStr constraintAnnotation) {
+    }
 
-	@Override
-	public final boolean isValid(final String value,
-			final ConstraintValidatorContext context) {
-		return isValid(value);
-	}
+    @Override
+    public final boolean isValid(final String value,
+	    final ConstraintValidatorContext context) {
+	return isValid(value);
+    }
 
-	/**
-	 * Check that a given string is a well-formed user id.
-	 * 
-	 * @param value
-	 *            Value to check.
-	 * 
-	 * @return Returns <code>true</code> if it's a valid user id else
-	 *         <code>false</code> is returned.
-	 */
-	public static final boolean isValid(final String value) {
-		if (value == null) {
-			return true;
-		}
-		final String trimmed = value.trim();
-		if ((trimmed.length() < 1) || (trimmed.length() > 100)) {
-			return false;
-		}
-		return true;
+    /**
+     * Check that a given string is a well-formed user id.
+     * 
+     * @param value
+     *            Value to check.
+     * 
+     * @return Returns <code>true</code> if it's a valid user id else
+     *         <code>false</code> is returned.
+     */
+    public static final boolean isValid(final String value) {
+	if (value == null) {
+	    return true;
 	}
+	final String trimmed = value.trim();
+	if ((trimmed.length() < 1) || (trimmed.length() > 100)) {
+	    return false;
+	}
+	return true;
+    }
 
-	/**
-	 * Parses the argument and throws an exception if it's not valid.
-	 * 
-	 * @param name
-	 *            Name of the value for a possible error message.
-	 * @param value
-	 *            Value to check.
-	 * 
-	 * @throws ContractViolationException
-	 *             The value was not valid.
-	 */
-	// CHECKSTYLE:OFF:RedundantThrows
-	public static void requireArgValid(@NotNull final String name,
-			@NotNull final String value) throws ContractViolationException {
-		// CHECKSTYLE:ON
-		if (!isValid(value)) {
-			throw new ContractViolationException("The argument '" + name
-					+ "' is not valid: '" + value + "'");
-		}
+    /**
+     * Parses the argument and throws an exception if it's not valid.
+     * 
+     * @param name
+     *            Name of the value for a possible error message.
+     * @param value
+     *            Value to check.
+     * 
+     * @throws ContractViolationException
+     *             The value was not valid.
+     */
+    // CHECKSTYLE:OFF:RedundantThrows
+    public static void requireArgValid(@NotNull final String name,
+	    @NotNull final String value) throws ContractViolationException {
+	// CHECKSTYLE:ON
+	if (!isValid(value)) {
+	    throw new ContractViolationException("The argument '" + name
+		    + "' is not valid: '" + value + "'");
 	}
+    }
 
 }

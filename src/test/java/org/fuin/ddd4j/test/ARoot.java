@@ -29,75 +29,75 @@ import org.fuin.ddd4j.ddd.EventHandler;
 // CHECKSTYLE:OFF
 public class ARoot extends AbstractAggregateRoot<AId> {
 
-	private AId id;
+    private AId id;
 
-	private List<BEntity> childs;
+    private List<BEntity> childs;
 
-	private AbstractDomainEvent<?> lastEvent;
+    private AbstractDomainEvent<?> lastEvent;
 
-	public ARoot() {
-		super();
+    public ARoot() {
+	super();
+    }
+
+    public ARoot(final AId id) {
+	super();
+	apply(new ACreatedEvent(id));
+    }
+
+    @Override
+    public AId getId() {
+	return id;
+    }
+
+    @Override
+    public EntityType getType() {
+	return AId.TYPE;
+    }
+
+    @ChildEntityLocator
+    private BEntity find(final BId bid) {
+	for (final BEntity child : childs) {
+	    if (child.getId().equals(bid)) {
+		return child;
+	    }
 	}
+	return null;
+    }
 
-	public ARoot(final AId id) {
-		super();
-		apply(new ACreatedEvent(id));
-	}
+    public void addB(final BId bid) {
+	apply(new BAddedEvent(id, bid));
+    }
 
-	@Override
-	public AId getId() {
-		return id;
-	}
+    public void addC(final BId bid, final CId cid) {
+	final BEntity found = find(bid);
+	found.add(cid);
+    }
 
-	@Override
-	public EntityType getType() {
-		return AId.TYPE;
-	}
+    public void doItC(final BId bid, final CId cid) {
+	final BEntity found = find(bid);
+	found.doIt(cid);
+    }
 
-	@ChildEntityLocator
-	private BEntity find(final BId bid) {
-		for (final BEntity child : childs) {
-			if (child.getId().equals(bid)) {
-				return child;
-			}
-		}
-		return null;
-	}
+    @EventHandler
+    public void handle(final ACreatedEvent event) {
+	this.id = event.getId();
+	this.childs = new ArrayList<BEntity>();
+	lastEvent = event;
+    }
 
-	public void addB(final BId bid) {
-		apply(new BAddedEvent(id, bid));
-	}
+    @EventHandler
+    public void handle(final BAddedEvent event) {
+	childs.add(new BEntity(this, event.getBId()));
+	lastEvent = event;
+    }
 
-	public void addC(final BId bid, final CId cid) {
-		final BEntity found = find(bid);
-		found.add(cid);
-	}
+    public AbstractDomainEvent<?> getLastEvent() {
+	return lastEvent;
+    }
 
-	public void doItC(final BId bid, final CId cid) {
-		final BEntity found = find(bid);
-		found.doIt(cid);
-	}
-
-	@EventHandler
-	public void handle(final ACreatedEvent event) {
-		this.id = event.getId();
-		this.childs = new ArrayList<BEntity>();
-		lastEvent = event;
-	}
-
-	@EventHandler
-	public void handle(final BAddedEvent event) {
-		childs.add(new BEntity(this, event.getBId()));
-		lastEvent = event;
-	}
-
-	public AbstractDomainEvent<?> getLastEvent() {
-		return lastEvent;
-	}
-
-	public BEntity getFirstChild() {
-		return childs.get(0);
-	}
+    public BEntity getFirstChild() {
+	return childs.get(0);
+    }
 
 }
 // CHECKSTYLE:OFF

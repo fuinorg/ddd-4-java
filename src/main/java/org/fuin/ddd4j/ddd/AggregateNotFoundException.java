@@ -28,50 +28,50 @@ import org.fuin.objects4j.common.NeverNull;
  */
 public final class AggregateNotFoundException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final EntityType aggregateType;
+    private final EntityType aggregateType;
 
-	private final AggregateRootId aggregateId;
+    private final AggregateRootId aggregateId;
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param aggregateType
-	 *            Type of the aggregate.
-	 * @param aggregateId
-	 *            Unique identifier of the aggregate.
-	 */
-	public AggregateNotFoundException(@NotNull final EntityType aggregateType,
-			@NotNull final AggregateRootId aggregateId) {
-		super("Aggregate of type '" + aggregateType + "' with id "
-				+ aggregateId + " not found");
+    /**
+     * Constructor with all data.
+     * 
+     * @param aggregateType
+     *            Type of the aggregate.
+     * @param aggregateId
+     *            Unique identifier of the aggregate.
+     */
+    public AggregateNotFoundException(@NotNull final EntityType aggregateType,
+	    @NotNull final AggregateRootId aggregateId) {
+	super("Aggregate of type '" + aggregateType + "' with id "
+		+ aggregateId + " not found");
 
-		Contract.requireArgNotNull("aggregateType", aggregateType);
-		Contract.requireArgNotNull("aggregateId", aggregateId);
+	Contract.requireArgNotNull("aggregateType", aggregateType);
+	Contract.requireArgNotNull("aggregateId", aggregateId);
 
-		this.aggregateType = aggregateType;
-		this.aggregateId = aggregateId;
-	}
+	this.aggregateType = aggregateType;
+	this.aggregateId = aggregateId;
+    }
 
-	/**
-	 * Returns the type of the aggregate.
-	 * 
-	 * @return Type.
-	 */
-	@NeverNull
-	public final EntityType getAggregateType() {
-		return aggregateType;
-	}
+    /**
+     * Returns the type of the aggregate.
+     * 
+     * @return Type.
+     */
+    @NeverNull
+    public final EntityType getAggregateType() {
+	return aggregateType;
+    }
 
-	/**
-	 * Returns the unique identifier of the aggregate.
-	 * 
-	 * @return Stream with version conflict.
-	 */
-	@NeverNull
-	public final AggregateRootId getAggregateId() {
-		return aggregateId;
-	}
+    /**
+     * Returns the unique identifier of the aggregate.
+     * 
+     * @return Stream with version conflict.
+     */
+    @NeverNull
+    public final AggregateRootId getAggregateId() {
+	return aggregateId;
+    }
 
 }

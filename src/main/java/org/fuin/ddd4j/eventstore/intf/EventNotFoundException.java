@@ -27,48 +27,48 @@ import org.fuin.objects4j.common.NeverNull;
  */
 public class EventNotFoundException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final StreamId streamId;
+    private final StreamId streamId;
 
-	private final int version;
+    private final int version;
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param streamId
-	 *            Unique identifier of the stream.
-	 * @param eventNumber
-	 *            Number of the event that was not found.
-	 */
-	public EventNotFoundException(@NotNull final StreamId streamId,
-			final int eventNumber) {
-		super("Version " + eventNumber + " does not exist on stream '"
-				+ streamId + "'");
+    /**
+     * Constructor with all data.
+     * 
+     * @param streamId
+     *            Unique identifier of the stream.
+     * @param eventNumber
+     *            Number of the event that was not found.
+     */
+    public EventNotFoundException(@NotNull final StreamId streamId,
+	    final int eventNumber) {
+	super("Version " + eventNumber + " does not exist on stream '"
+		+ streamId + "'");
 
-		Contract.requireArgNotNull("streamId", streamId);
+	Contract.requireArgNotNull("streamId", streamId);
 
-		this.streamId = streamId;
-		this.version = eventNumber;
-	}
+	this.streamId = streamId;
+	this.version = eventNumber;
+    }
 
-	/**
-	 * Returns the unique ID of the stream.
-	 * 
-	 * @return Stream with version that was not found.
-	 */
-	@NeverNull
-	public final StreamId getStreamId() {
-		return streamId;
-	}
+    /**
+     * Returns the unique ID of the stream.
+     * 
+     * @return Stream with version that was not found.
+     */
+    @NeverNull
+    public final StreamId getStreamId() {
+	return streamId;
+    }
 
-	/**
-	 * Returns the number of the event.
-	 * 
-	 * @return Number that was not found.
-	 */
-	public final int getVersion() {
-		return version;
-	}
+    /**
+     * Returns the number of the event.
+     * 
+     * @return Number that was not found.
+     */
+    public final int getVersion() {
+	return version;
+    }
 
 }

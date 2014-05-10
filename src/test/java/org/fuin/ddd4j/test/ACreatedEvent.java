@@ -24,24 +24,24 @@ import org.fuin.ddd4j.ddd.EventType;
 // CHECKSTYLE:OFF
 public class ACreatedEvent extends AbstractDomainEvent<AId> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private static final EventType EVENT_TYPE = new EventType("ACreatedEvent");
+    private static final EventType EVENT_TYPE = new EventType("ACreatedEvent");
 
-	private AId id;
+    private AId id;
 
-	public ACreatedEvent(final AId id) {
-		super(new EntityIdPath(id));
-	}
+    public ACreatedEvent(final AId id) {
+	super(new EntityIdPath(id));
+    }
 
-	public AId getId() {
-		return id;
-	}
+    public AId getId() {
+	return id;
+    }
 
-	@Override
-	public EventType getEventType() {
-		return EVENT_TYPE;
-	}
+    @Override
+    public EventType getEventType() {
+	return EVENT_TYPE;
+    }
 
 }
 // CHECKSTYLE:ON

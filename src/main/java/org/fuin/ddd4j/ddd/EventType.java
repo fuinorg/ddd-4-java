@@ -30,33 +30,33 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
 @Immutable
 public class EventType extends AbstractStringValueObject {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	@NotEmpty
-	@Size(max = 255)
-	private final String str;
+    @NotEmpty
+    @Size(max = 255)
+    private final String str;
 
-	/**
-	 * Constructor with unique name to use.
-	 * 
-	 * @param str
-	 *            Type name of an aggregate that is unique within all types of
-	 *            the context
-	 */
-	public EventType(@NotEmpty @Size(max = 255) final String str) {
-		Contract.requireArgNotEmpty("str", str);
-		Contract.requireArgMaxLength("str", str, 255);
-		this.str = str;
-	}
+    /**
+     * Constructor with unique name to use.
+     * 
+     * @param str
+     *            Type name of an aggregate that is unique within all types of
+     *            the context
+     */
+    public EventType(@NotEmpty @Size(max = 255) final String str) {
+	Contract.requireArgNotEmpty("str", str);
+	Contract.requireArgMaxLength("str", str, 255);
+	this.str = str;
+    }
 
-	@Override
-	public final String asBaseType() {
-		return str;
-	}
+    @Override
+    public final String asBaseType() {
+	return str;
+    }
 
-	@Override
-	public final String toString() {
-		return asBaseType();
-	}
+    @Override
+    public final String toString() {
+	return asBaseType();
+    }
 
 }

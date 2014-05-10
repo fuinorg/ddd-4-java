@@ -32,51 +32,51 @@ import org.fuin.objects4j.common.NeverNull;
 @XmlRootElement(name = "vendor-created-event")
 public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	/** Unique name of the event used to store it - Should never change. */
-	public static final EventType TYPE = new EventType(
-			VendorCreatedEvent.class.getSimpleName());
+    /** Unique name of the event used to store it - Should never change. */
+    public static final EventType TYPE = new EventType(
+	    VendorCreatedEvent.class.getSimpleName());
 
-	@XmlElement(name = "vendor")
-	private VendorRef vendorRef;
+    @XmlElement(name = "vendor")
+    private VendorRef vendorRef;
 
-	/**
-	 * Default constructor only for deserialization.
-	 */
-	protected VendorCreatedEvent() {
-		super();
-	}
+    /**
+     * Default constructor only for deserialization.
+     */
+    protected VendorCreatedEvent() {
+	super();
+    }
 
-	/**
-	 * Constructor with event data.
-	 * 
-	 * @param vendorRef
-	 *            Vendor reference.
-	 */
-	public VendorCreatedEvent(@NotNull final VendorRef vendorRef) {
-		super(new EntityIdPath(vendorRef.getId()));
-		this.vendorRef = vendorRef;
-	}
+    /**
+     * Constructor with event data.
+     * 
+     * @param vendorRef
+     *            Vendor reference.
+     */
+    public VendorCreatedEvent(@NotNull final VendorRef vendorRef) {
+	super(new EntityIdPath(vendorRef.getId()));
+	this.vendorRef = vendorRef;
+    }
 
-	@Override
-	public final EventType getEventType() {
-		return TYPE;
-	}
+    @Override
+    public final EventType getEventType() {
+	return TYPE;
+    }
 
-	/**
-	 * Returns the vendor reference.
-	 * 
-	 * @return Vendor reference.
-	 */
-	@NeverNull
-	public final VendorRef getVendorRef() {
-		return vendorRef;
-	}
+    /**
+     * Returns the vendor reference.
+     * 
+     * @return Vendor reference.
+     */
+    @NeverNull
+    public final VendorRef getVendorRef() {
+	return vendorRef;
+    }
 
-	@Override
-	public final String toString() {
-		return "Created vendor '" + vendorRef + "'";
-	}
+    @Override
+    public final String toString() {
+	return "Created vendor '" + vendorRef + "'";
+    }
 
 }

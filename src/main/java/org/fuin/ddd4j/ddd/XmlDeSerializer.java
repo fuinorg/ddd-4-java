@@ -34,99 +34,99 @@ import javax.xml.bind.ValidationEventHandler;
  */
 public final class XmlDeSerializer implements Serializer, Deserializer {
 
-	private final String type;
+    private final String type;
 
-	private final int version;
+    private final int version;
 
-	private final String mimeType;
+    private final String mimeType;
 
-	private final Charset charset;
+    private final Charset charset;
 
-	private final Marshaller marshaller;
+    private final Marshaller marshaller;
 
-	private final Unmarshaller unmarshaller;
+    private final Unmarshaller unmarshaller;
 
-	/**
-	 * Constructor with type and JAXB context classes.
-	 * 
-	 * @param type
-	 *            Type that can be serialized/deserialized.
-	 * @param classesToBeBound
-	 *            Classes to use for the JAXB context.
-	 */
-	public XmlDeSerializer(final String type,
-			final Class<?>... classesToBeBound) {
-		super();
-		this.type = type;
-		this.version = 1;
-		this.mimeType = "application/xml";
-		this.charset = Charset.forName("utf-8");
-		try {
-			final JAXBContext ctx = JAXBContext.newInstance(classesToBeBound);
-			marshaller = ctx.createMarshaller();
-			unmarshaller = ctx.createUnmarshaller();
-			unmarshaller.setEventHandler(new ValidationEventHandler() {
-				@Override
-				public boolean handleEvent(final ValidationEvent event) {
-					if (event.getSeverity() > 0) {
-						if (event.getLinkedException() == null) {
-							throw new RuntimeException(
-									"Error unmarshalling the data: "
-											+ event.getMessage());
-						}
-						throw new RuntimeException(
-								"Error unmarshalling the data", event
-										.getLinkedException());
-					}
-					return true;
-				}
-			});
-		} catch (final JAXBException ex) {
+    /**
+     * Constructor with type and JAXB context classes.
+     * 
+     * @param type
+     *            Type that can be serialized/deserialized.
+     * @param classesToBeBound
+     *            Classes to use for the JAXB context.
+     */
+    public XmlDeSerializer(final String type,
+	    final Class<?>... classesToBeBound) {
+	super();
+	this.type = type;
+	this.version = 1;
+	this.mimeType = "application/xml";
+	this.charset = Charset.forName("utf-8");
+	try {
+	    final JAXBContext ctx = JAXBContext.newInstance(classesToBeBound);
+	    marshaller = ctx.createMarshaller();
+	    unmarshaller = ctx.createUnmarshaller();
+	    unmarshaller.setEventHandler(new ValidationEventHandler() {
+		@Override
+		public boolean handleEvent(final ValidationEvent event) {
+		    if (event.getSeverity() > 0) {
+			if (event.getLinkedException() == null) {
+			    throw new RuntimeException(
+				    "Error unmarshalling the data: "
+					    + event.getMessage());
+			}
 			throw new RuntimeException(
-					"Error initializing JAXB helper classes", ex);
+				"Error unmarshalling the data", event
+					.getLinkedException());
+		    }
+		    return true;
 		}
+	    });
+	} catch (final JAXBException ex) {
+	    throw new RuntimeException(
+		    "Error initializing JAXB helper classes", ex);
 	}
+    }
 
-	@Override
-	public final String getType() {
-		return type;
-	}
+    @Override
+    public final String getType() {
+	return type;
+    }
 
-	@Override
-	public final int getVersion() {
-		return version;
-	}
+    @Override
+    public final int getVersion() {
+	return version;
+    }
 
-	@Override
-	public final String getMimeType() {
-		return mimeType;
-	}
+    @Override
+    public final String getMimeType() {
+	return mimeType;
+    }
 
-	@Override
-	public final Charset getEncoding() {
-		return charset;
-	}
+    @Override
+    public final Charset getEncoding() {
+	return charset;
+    }
 
-	@Override
-	public final byte[] marshal(final Object obj) {
-		try {
-			final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
-			marshaller.marshal(obj, bos);
-			return bos.toByteArray();
-		} catch (final JAXBException ex) {
-			throw new RuntimeException("Error serializing data", ex);
-		}
+    @Override
+    public final byte[] marshal(final Object obj) {
+	try {
+	    final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+	    marshaller.marshal(obj, bos);
+	    return bos.toByteArray();
+	} catch (final JAXBException ex) {
+	    throw new RuntimeException("Error serializing data", ex);
 	}
+    }
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public final <T> T unmarshal(final byte[] data) {
-		try {
-			final ByteArrayInputStream bais = new ByteArrayInputStream(data);
-			return (T) unmarshaller.unmarshal(bais);
-		} catch (final JAXBException ex) {
-			throw new RuntimeException("Error de-serializing data", ex);
-		}
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <T> T unmarshal(final byte[] data) {
+	try {
+	    final ByteArrayInputStream bais = new ByteArrayInputStream(data);
+	    return (T) unmarshaller.unmarshal(bais);
+	} catch (final JAXBException ex) {
+	    throw new RuntimeException("Error de-serializing data", ex);
 	}
+    }
 
 }

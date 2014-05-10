@@ -29,64 +29,67 @@ import org.fuin.objects4j.vo.KeyValue;
 
 /**
  * Unique name of an aggregate stream.
- * 
- * @param <ID>
- *            Type of the aggregate root identifier.
  */
 @Immutable
-public final class AggregateStreamId implements	StreamId {
+public final class AggregateStreamId implements StreamId {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	private EntityType type;
+    private EntityType type;
 
-	private String paramName;
+    private String paramName;
 
-	private AggregateRootId paramValue;
+    private AggregateRootId paramValue;
 
-	private transient List<KeyValue> params;
+    private transient List<KeyValue> params;
 
-	/**
-	 * Constructor with type and id.
-	 * 
-	 * @param type
-	 *            Aggregate type.
-	 * @param paramName
-	 *            Parameter name.
-	 * @param paramValue
-	 *            Aggregate id.
-	 */
-	public AggregateStreamId(final EntityType type, final String paramName,
-			final AggregateRootId paramValue) {
-		super();
-		this.type = type;
-		this.paramName = paramName;
-		this.paramValue = paramValue;
+    /**
+     * Constructor with type and id.
+     * 
+     * @param type
+     *            Aggregate type.
+     * @param paramName
+     *            Parameter name.
+     * @param paramValue
+     *            Aggregate id.
+     */
+    public AggregateStreamId(final EntityType type, final String paramName,
+	    final AggregateRootId paramValue) {
+	super();
+	this.type = type;
+	this.paramName = paramName;
+	this.paramValue = paramValue;
+    }
+
+    @Override
+    public final String getName() {
+	return type.asString();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public final <T> T getSingleParamValue() {
+	return (T) paramValue;
+    }
+
+    @Override
+    public final List<KeyValue> getParameters() {
+	if (params == null) {
+	    final List<KeyValue> list = new ArrayList<KeyValue>();
+	    list.add(new KeyValue(paramName, paramValue));
+	    params = Collections.unmodifiableList(list);
 	}
+	return params;
+    }
 
-	@Override
-	public final String getName() {
-		return type.asString();
-	}
+    @Override
+    public final String asString() {
+	return type + "-" + paramValue.asString();
+    }
 
-	@Override
-	public final List<KeyValue> getParameters() {
-		if (params == null) {
-			final List<KeyValue> list = new ArrayList<KeyValue>();
-			list.add(new KeyValue(paramName, paramValue));
-			params = Collections.unmodifiableList(list);
-		}
-		return params;
-	}
-
-	@Override
-	public final String asString() {
-		return type + "-" + paramValue.asString();
-	}
-
-	@Override
-	public final String toString() {
-		return asString();
-	}
+    @Override
+    public final String toString() {
+	return asString();
+    }
 
 }

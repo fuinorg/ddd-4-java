@@ -24,43 +24,43 @@ import org.fuin.ddd4j.ddd.EventHandler;
 // CHECKSTYLE:OFF
 public class CEntity extends AbstractEntity<AId, ARoot, CId> {
 
-	private final ARoot root;
+    private final ARoot root;
 
-	private final BId parentId;
+    private final BId parentId;
 
-	private final CId id;
+    private final CId id;
 
-	private CEvent lastEvent;
+    private CEvent lastEvent;
 
-	public CEntity(final ARoot root, final BId parentId, final CId id) {
-		super(root);
-		this.root = root;
-		this.parentId = parentId;
-		this.id = id;
-	}
+    public CEntity(final ARoot root, final BId parentId, final CId id) {
+	super(root);
+	this.root = root;
+	this.parentId = parentId;
+	this.id = id;
+    }
 
-	@Override
-	public CId getId() {
-		return id;
-	}
+    @Override
+    public CId getId() {
+	return id;
+    }
 
-	@Override
-	public EntityType getType() {
-		return CId.TYPE;
-	}
+    @Override
+    public EntityType getType() {
+	return CId.TYPE;
+    }
 
-	public void doIt() {
-		apply(new CEvent(root.getId(), parentId, id));
-	}
+    public void doIt() {
+	apply(new CEvent(root.getId(), parentId, id));
+    }
 
-	@EventHandler
-	public void handle(final CEvent event) {
-		lastEvent = event;
-	}
+    @EventHandler
+    public void handle(final CEvent event) {
+	lastEvent = event;
+    }
 
-	public CEvent getLastEvent() {
-		return lastEvent;
-	}
+    public CEvent getLastEvent() {
+	return lastEvent;
+    }
 
 }
 // CHECKSTYLE:ON

@@ -30,52 +30,52 @@ import org.junit.Test;
 // CHECKSTYLE:OFF
 public final class EventEntryTest extends AbstractPersistenceTest {
 
-	@Test
-	public void testPersist() {
+    @Test
+    public void testPersist() {
 
-		// PREPARE
-		final UUID uuid = UUID.randomUUID();
-		final String type = "HelloWorld";
-		final int version = 1;
-		final String xml = "<hello name=\"world\" />";
-		final EventEntry testee = create(uuid, type, version, xml);
+	// PREPARE
+	final UUID uuid = UUID.randomUUID();
+	final String type = "HelloWorld";
+	final int version = 1;
+	final String xml = "<hello name=\"world\" />";
+	final EventEntry testee = create(uuid, type, version, xml);
 
-		// beginTransaction();
-		// Nothing to prepare here...
-		// commitTransaction();
+	// beginTransaction();
+	// Nothing to prepare here...
+	// commitTransaction();
 
-		// TEST
-		beginTransaction();
-		getEm().persist(testee);
-		commitTransaction();
+	// TEST
+	beginTransaction();
+	getEm().persist(testee);
+	commitTransaction();
 
-		// VERIFY
-		beginTransaction();
-		final EventEntry found = getEm()
-				.find(EventEntry.class, uuid.toString());
-		assertThat(found).isNotNull();
-		assertThat(found.getId()).isEqualTo(uuid.toString());
-		assertThat(found.getTimestamp()).isNotNull();
-		assertThat(found.getData()).isNotNull();
-		assertThat(found.getData().getType()).isEqualTo(type);
-		assertThat(found.getData().getVersion()).isEqualTo(version);
-		assertThat(found.getData().getRaw()).isNotNull();
-		assertThat(found.getMeta()).isNull();
-		final String data = new String(found.getData().getRaw(), found
-				.getData().getEncoding());
-		assertThat(data).isEqualTo(xml);
-		commitTransaction();
+	// VERIFY
+	beginTransaction();
+	final EventEntry found = getEm()
+		.find(EventEntry.class, uuid.toString());
+	assertThat(found).isNotNull();
+	assertThat(found.getId()).isEqualTo(uuid.toString());
+	assertThat(found.getTimestamp()).isNotNull();
+	assertThat(found.getData()).isNotNull();
+	assertThat(found.getData().getType()).isEqualTo(type);
+	assertThat(found.getData().getVersion()).isEqualTo(version);
+	assertThat(found.getData().getRaw()).isNotNull();
+	assertThat(found.getMeta()).isNull();
+	final String data = new String(found.getData().getRaw(), found
+		.getData().getEncoding());
+	assertThat(data).isEqualTo(xml);
+	commitTransaction();
 
-	}
+    }
 
-	private EventEntry create(final UUID uuid, final String type,
-			final int version, final String xml) {
-		final Charset encoding = Charset.forName("utf-8");
-		final EventEntry eventEntry = new EventEntry(uuid.toString(),
-				new DateTime(), new Data(type, version, "application/xml",
-						encoding, xml.getBytes(encoding)));
-		return eventEntry;
-	}
+    private EventEntry create(final UUID uuid, final String type,
+	    final int version, final String xml) {
+	final Charset encoding = Charset.forName("utf-8");
+	final EventEntry eventEntry = new EventEntry(uuid.toString(),
+		new DateTime(), new Data(type, version, "application/xml",
+			encoding, xml.getBytes(encoding)));
+	return eventEntry;
+    }
 
 }
 // CHECKSTYLE:ON

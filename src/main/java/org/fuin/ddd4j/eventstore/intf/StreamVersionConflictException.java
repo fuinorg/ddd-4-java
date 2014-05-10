@@ -25,60 +25,60 @@ import org.fuin.objects4j.common.NeverNull;
  */
 public final class StreamVersionConflictException extends Exception {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private final StreamId streamId;
+    private final StreamId streamId;
 
-	private final int expected;
+    private final int expected;
 
-	private final int actual;
+    private final int actual;
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param streamId
-	 *            Unique name of the stream.
-	 * @param expected
-	 *            Expected version.
-	 * @param actual
-	 *            Actual version.
-	 */
-	public StreamVersionConflictException(final StreamId streamId,
-			final int expected, final int actual) {
-		super("Expected version " + expected + " for stream '" + streamId
-				+ "', but was " + actual);
-		Contract.requireArgNotNull("streamId", streamId);
-		this.streamId = streamId;
-		this.expected = expected;
-		this.actual = actual;
-	}
+    /**
+     * Constructor with all data.
+     * 
+     * @param streamId
+     *            Unique name of the stream.
+     * @param expected
+     *            Expected version.
+     * @param actual
+     *            Actual version.
+     */
+    public StreamVersionConflictException(final StreamId streamId,
+	    final int expected, final int actual) {
+	super("Expected version " + expected + " for stream '" + streamId
+		+ "', but was " + actual);
+	Contract.requireArgNotNull("streamId", streamId);
+	this.streamId = streamId;
+	this.expected = expected;
+	this.actual = actual;
+    }
 
-	/**
-	 * Returns the unique identifier of the stream.
-	 * 
-	 * @return Stream that was not found.
-	 */
-	@NeverNull
-	public final StreamId getStreamId() {
-		return streamId;
-	}
+    /**
+     * Returns the unique identifier of the stream.
+     * 
+     * @return Stream that was not found.
+     */
+    @NeverNull
+    public final StreamId getStreamId() {
+	return streamId;
+    }
 
-	/**
-	 * Returns the expected version.
-	 * 
-	 * @return Expected version.
-	 */
-	public final int getExpected() {
-		return expected;
-	}
+    /**
+     * Returns the expected version.
+     * 
+     * @return Expected version.
+     */
+    public final int getExpected() {
+	return expected;
+    }
 
-	/**
-	 * Returns the actual version.
-	 * 
-	 * @return Actual version.
-	 */
-	public final int getActual() {
-		return actual;
-	}
+    /**
+     * Returns the actual version.
+     * 
+     * @return Actual version.
+     */
+    public final int getActual() {
+	return actual;
+    }
 
 }

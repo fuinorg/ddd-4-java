@@ -31,17 +31,17 @@ import javax.validation.Payload;
  * The string has to be a valid vendor name.
  */
 @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
-		ElementType.ANNOTATION_TYPE })
+	ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = { VendorNameStrValidator.class })
 @Documented
 public @interface VendorNameStr {
 
-	String message() default "{org.fuin.ddd4j.ddd.VendorNameStr.message}";
+    String message() default "{org.fuin.ddd4j.ddd.VendorNameStr.message}";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }
 // CHECKSTYLE:ON

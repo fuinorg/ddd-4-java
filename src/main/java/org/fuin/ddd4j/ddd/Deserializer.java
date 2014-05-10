@@ -22,17 +22,17 @@ package org.fuin.ddd4j.ddd;
  */
 public interface Deserializer {
 
-	/**
-	 * Converts the given data into an object.
-	 * 
-	 * @param data
-	 *            Serialized object.
-	 * 
-	 * @return Deserialized object.
-	 * 
-	 * @param <T>
-	 *            Type the data is converted into.
-	 */
-	public <T> T unmarshal(byte[] data);
+    /**
+     * Converts the given data into an object.
+     * 
+     * @param data
+     *            Serialized object.
+     * 
+     * @return Deserialized object.
+     * 
+     * @param <T>
+     *            Type the data is converted into.
+     */
+    public <T> T unmarshal(byte[] data);
 
 }

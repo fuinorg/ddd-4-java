@@ -30,78 +30,78 @@ import org.joda.time.DateTime;
 @Immutable
 public final class EventData {
 
-	private final String eventId;
+    private final String eventId;
 
-	private final DateTime timestamp;
+    private final DateTime timestamp;
 
-	private final Data eventData;
+    private final Data eventData;
 
-	private final Data metaData;
+    private final Data metaData;
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param eventId
-	 *            The ID of the event, used as part of the idempotent write
-	 *            check.
-	 * @param timestamp
-	 *            Date, time an time zone the event was created.
-	 * @param eventData
-	 *            Event data.
-	 * @param metaData
-	 *            Meta data.
-	 */
-	public EventData(@NotNull final String eventId,
-			@NotNull final DateTime timestamp, final Data eventData,
-			final Data metaData) {
-		super();
+    /**
+     * Constructor with all data.
+     * 
+     * @param eventId
+     *            The ID of the event, used as part of the idempotent write
+     *            check.
+     * @param timestamp
+     *            Date, time an time zone the event was created.
+     * @param eventData
+     *            Event data.
+     * @param metaData
+     *            Meta data.
+     */
+    public EventData(@NotNull final String eventId,
+	    @NotNull final DateTime timestamp, final Data eventData,
+	    final Data metaData) {
+	super();
 
-		Contract.requireArgNotNull("eventId", eventId);
-		Contract.requireArgNotNull("timestamp", timestamp);
-		Contract.requireArgNotNull("eventData", eventData);
+	Contract.requireArgNotNull("eventId", eventId);
+	Contract.requireArgNotNull("timestamp", timestamp);
+	Contract.requireArgNotNull("eventData", eventData);
 
-		this.eventId = eventId;
-		this.timestamp = timestamp;
-		this.eventData = eventData;
-		this.metaData = metaData;
-	}
+	this.eventId = eventId;
+	this.timestamp = timestamp;
+	this.eventData = eventData;
+	this.metaData = metaData;
+    }
 
-	/**
-	 * Returns the ID of the event, used as part of the idempotent write check.
-	 * 
-	 * @return Unique event identifier.
-	 */
-	@NeverNull
-	public final String getEventId() {
-		return eventId;
-	}
+    /**
+     * Returns the ID of the event, used as part of the idempotent write check.
+     * 
+     * @return Unique event identifier.
+     */
+    @NeverNull
+    public final String getEventId() {
+	return eventId;
+    }
 
-	/**
-	 * Returns the date, time and time zone the event was created.
-	 * 
-	 * @return Timestamp.
-	 */
-	@NeverNull
-	public final DateTime getTimestamp() {
-		return timestamp;
-	}
+    /**
+     * Returns the date, time and time zone the event was created.
+     * 
+     * @return Timestamp.
+     */
+    @NeverNull
+    public final DateTime getTimestamp() {
+	return timestamp;
+    }
 
-	/**
-	 * Returns the event data.
-	 * 
-	 * @return Event data.
-	 */
-	public final Data getEventData() {
-		return eventData;
-	}
+    /**
+     * Returns the event data.
+     * 
+     * @return Event data.
+     */
+    public final Data getEventData() {
+	return eventData;
+    }
 
-	/**
-	 * Returns the meta data.
-	 * 
-	 * @return Meta data.
-	 */
-	public final Data getMetaData() {
-		return metaData;
-	}
+    /**
+     * Returns the meta data.
+     * 
+     * @return Meta data.
+     */
+    public final Data getMetaData() {
+	return metaData;
+    }
 
 }

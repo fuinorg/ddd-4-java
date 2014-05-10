@@ -26,22 +26,22 @@ import javax.validation.constraints.NotNull;
  */
 public interface DeserializerRegistry {
 
-	/**
-	 * Tries to find a deserializer for the given combination.
-	 * 
-	 * @param type
-	 *            Unique identifier for the type of data.
-	 * @param version
-	 *            Version of the data.
-	 * @param mimeType
-	 *            Mime type.
-	 * @param encoding
-	 *            Encoding.
-	 * 
-	 * @return Deserializer instance configured with the arguments or NULL if no
-	 *         deserializer was found for the type.
-	 */
-	public Deserializer getDeserializer(@NotNull String type, int version,
-			@NotNull String mimeType, @NotNull Charset encoding);
+    /**
+     * Tries to find a deserializer for the given combination.
+     * 
+     * @param type
+     *            Unique identifier for the type of data.
+     * @param version
+     *            Version of the data.
+     * @param mimeType
+     *            Mime type.
+     * @param encoding
+     *            Encoding.
+     * 
+     * @return Deserializer instance configured with the arguments or NULL if no
+     *         deserializer was found for the type.
+     */
+    public Deserializer getDeserializer(@NotNull String type, int version,
+	    @NotNull String mimeType, @NotNull Charset encoding);
 
 }

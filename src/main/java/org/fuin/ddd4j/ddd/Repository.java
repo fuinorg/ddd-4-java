@@ -31,107 +31,107 @@ import org.fuin.objects4j.common.NeverNull;
  */
 public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<ID>> {
 
-	/**
-	 * Returns the class of the aggregate in the repository.
-	 * 
-	 * @return Aggregate class.
-	 */
-	@NeverNull
-	public Class<T> getAggregateClass();
+    /**
+     * Returns the class of the aggregate in the repository.
+     * 
+     * @return Aggregate class.
+     */
+    @NeverNull
+    public Class<T> getAggregateClass();
 
-	/**
-	 * Returns a unique name for the aggregate root type. This can be used to
-	 * provide a shorted name for an aggregate type. Another good choice may be
-	 * the FQN of the {@link #getAggregateClass()} class.
-	 * 
-	 * @return Name of the type of the aggregate.
-	 */
-	@NeverNull
-	public EntityType getAggregateType();
+    /**
+     * Returns a unique name for the aggregate root type. This can be used to
+     * provide a shorted name for an aggregate type. Another good choice may be
+     * the FQN of the {@link #getAggregateClass()} class.
+     * 
+     * @return Name of the type of the aggregate.
+     */
+    @NeverNull
+    public EntityType getAggregateType();
 
-	/**
-	 * Factory method to create a new aggregate. Just creates a new instance
-	 * without doing anything else. The aggregate identifier will NOT be set.
-	 * 
-	 * @return New aggregate instance that is NOT persisted. Use the
-	 *         {@link #update(AggregateRoot, MetaData)} method to persist this
-	 *         new aggregate.
-	 */
-	@NeverNull
-	public T create();
+    /**
+     * Factory method to create a new aggregate. Just creates a new instance
+     * without doing anything else. The aggregate identifier will NOT be set.
+     * 
+     * @return New aggregate instance that is NOT persisted. Use the
+     *         {@link #update(AggregateRoot, MetaData)} method to persist this
+     *         new aggregate.
+     */
+    @NeverNull
+    public T create();
 
-	/**
-	 * Reads the latest version of an aggregate.
-	 * 
-	 * @param id
-	 *            Unique aggregate identifier.
-	 * 
-	 * @return Aggregate.
-	 * 
-	 * @throws AggregateNotFoundException
-	 *             An aggregate with the given identifier was not found.
-	 * @throws AggregateDeletedException
-	 *             The aggregate with the given identifier was already deleted.
-	 */
-	@NeverNull
-	public T read(@NotNull ID id) throws AggregateNotFoundException,
-			AggregateDeletedException;
+    /**
+     * Reads the latest version of an aggregate.
+     * 
+     * @param id
+     *            Unique aggregate identifier.
+     * 
+     * @return Aggregate.
+     * 
+     * @throws AggregateNotFoundException
+     *             An aggregate with the given identifier was not found.
+     * @throws AggregateDeletedException
+     *             The aggregate with the given identifier was already deleted.
+     */
+    @NeverNull
+    public T read(@NotNull ID id) throws AggregateNotFoundException,
+	    AggregateDeletedException;
 
-	/**
-	 * Reads a given version of an aggregate.
-	 * 
-	 * @param id
-	 *            Unique aggregate identifier.
-	 * @param version
-	 *            Version to read.
-	 * 
-	 * @return Aggregate.
-	 * 
-	 * @throws AggregateNotFoundException
-	 *             An aggregate with the given identifier was not found.
-	 * @throws AggregateDeletedException
-	 *             The aggregate with the given identifier was already deleted.
-	 * @throws AggregateVersionNotFoundException
-	 *             An aggregate with the requested version does not exist.
-	 */
-	@NeverNull
-	public T read(@NotNull ID id, int version)
-			throws AggregateNotFoundException, AggregateDeletedException,
-			AggregateVersionNotFoundException;
+    /**
+     * Reads a given version of an aggregate.
+     * 
+     * @param id
+     *            Unique aggregate identifier.
+     * @param version
+     *            Version to read.
+     * 
+     * @return Aggregate.
+     * 
+     * @throws AggregateNotFoundException
+     *             An aggregate with the given identifier was not found.
+     * @throws AggregateDeletedException
+     *             The aggregate with the given identifier was already deleted.
+     * @throws AggregateVersionNotFoundException
+     *             An aggregate with the requested version does not exist.
+     */
+    @NeverNull
+    public T read(@NotNull ID id, int version)
+	    throws AggregateNotFoundException, AggregateDeletedException,
+	    AggregateVersionNotFoundException;
 
-	/**
-	 * Saves the changes on an aggregate in the repository.
-	 * 
-	 * @param aggregate
-	 *            Aggregate to store.
-	 * @param metaData
-	 *            Optional information that is not directly available in the
-	 *            event.
-	 * 
-	 * @throws AggregateVersionConflictException
-	 *             The expected version didn't match the actual version.
-	 * @throws AggregateDeletedException
-	 *             The aggregate with the given identifier was already deleted.
-	 * @throws AggregateNotFoundException
-	 *             An aggregate with the given identifier was not found.
-	 */
-	@NeverNull
-	public void update(@NotNull T aggregate, MetaData metaData)
-			throws AggregateVersionConflictException,
-			AggregateNotFoundException, AggregateDeletedException;
+    /**
+     * Saves the changes on an aggregate in the repository.
+     * 
+     * @param aggregate
+     *            Aggregate to store.
+     * @param metaData
+     *            Optional information that is not directly available in the
+     *            event.
+     * 
+     * @throws AggregateVersionConflictException
+     *             The expected version didn't match the actual version.
+     * @throws AggregateDeletedException
+     *             The aggregate with the given identifier was already deleted.
+     * @throws AggregateNotFoundException
+     *             An aggregate with the given identifier was not found.
+     */
+    @NeverNull
+    public void update(@NotNull T aggregate, MetaData metaData)
+	    throws AggregateVersionConflictException,
+	    AggregateNotFoundException, AggregateDeletedException;
 
-	/**
-	 * Deletes an aggregate from the repository.
-	 * 
-	 * @param aggregateId
-	 *            Identifier of the aggregate to delete.
-	 * @param expectedVersion
-	 *            Expected (current) version of the aggregate.
-	 * 
-	 * @throws AggregateVersionConflictException
-	 *             The expected version didn't match the actual version.
-	 */
-	public void delete(@NotNull ID aggregateId, int expectedVersion)
-			throws AggregateVersionConflictException;
+    /**
+     * Deletes an aggregate from the repository.
+     * 
+     * @param aggregateId
+     *            Identifier of the aggregate to delete.
+     * @param expectedVersion
+     *            Expected (current) version of the aggregate.
+     * 
+     * @throws AggregateVersionConflictException
+     *             The expected version didn't match the actual version.
+     */
+    public void delete(@NotNull ID aggregateId, int expectedVersion)
+	    throws AggregateVersionConflictException;
 
 }

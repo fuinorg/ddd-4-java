@@ -24,35 +24,35 @@ import org.fuin.ddd4j.ddd.StringBasedEntityType;
 //CHECKSTYLE:OFF
 public class CId implements EntityId {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final EntityType TYPE = new StringBasedEntityType("C");
+    public static final EntityType TYPE = new StringBasedEntityType("C");
 
-	private final long id;
+    private final long id;
 
-	public CId(final long id) {
-		this.id = id;
-	}
+    public CId(final long id) {
+	this.id = id;
+    }
 
-	@Override
-	public EntityType getType() {
-		return TYPE;
-	}
+    @Override
+    public EntityType getType() {
+	return TYPE;
+    }
 
-	@Override
-	public String asString() {
-		return "" + id;
-	}
+    @Override
+    public String asString() {
+	return "" + id;
+    }
 
-	@Override
-	public String toString() {
-		return asString();
-	}
+    @Override
+    public String toString() {
+	return asString();
+    }
 
-	@Override
-	public String asTypedString() {
-		return "C " + toString();
-	}
+    @Override
+    public String asTypedString() {
+	return "C " + toString();
+    }
 
 }
 // CHECKSTYLE:ON

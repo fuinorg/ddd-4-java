@@ -22,11 +22,11 @@ package org.fuin.ddd4j.ddd;
  */
 public interface MetaData {
 
-	/**
-	 * Uniquely identifies the meta data type.
-	 * 
-	 * @return Never changing unique name for this type of meta data.
-	 */
-	public String getType();
+    /**
+     * Uniquely identifies the meta data type.
+     * 
+     * @return Never changing unique name for this type of meta data.
+     */
+    public String getType();
 
 }

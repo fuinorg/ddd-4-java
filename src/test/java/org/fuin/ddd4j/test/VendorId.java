@@ -36,78 +36,78 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 @Immutable
 @XmlJavaTypeAdapter(VendorIdConverter.class)
 public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
-		ValueObjectWithBaseType<String> {
+	ValueObjectWithBaseType<String> {
 
-	private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 1000L;
 
-	/** Type of entity this identifier represents. */
-	public static final EntityType ENTITY_TYPE = new StringBasedEntityType(
-			"Vendor");
+    /** Type of entity this identifier represents. */
+    public static final EntityType ENTITY_TYPE = new StringBasedEntityType(
+	    "Vendor");
 
-	/**
-	 * Default constructor.
-	 */
-	public VendorId() {
-		super();
+    /**
+     * Default constructor.
+     */
+    public VendorId() {
+	super();
+    }
+
+    /**
+     * Constructor with UUID.
+     * 
+     * @param uuid
+     *            UUID.
+     */
+    public VendorId(@NotNull final UUID uuid) {
+	super(uuid);
+    }
+
+    @Override
+    public final Class<String> getBaseType() {
+	return String.class;
+    }
+
+    @Override
+    public final String asBaseType() {
+	return asString();
+    }
+
+    @Override
+    public final EntityType getType() {
+	return ENTITY_TYPE;
+    }
+
+    @Override
+    public final String asTypedString() {
+	return getType() + " " + asString();
+    }
+
+    /**
+     * Returns the information if a given string is a valid vendor identifier.
+     * 
+     * @param value
+     *            Value to check. A <code>null</code> value returns
+     *            <code>true</code>.
+     * 
+     * @return TRUE if it's a valid ID, else FALSE.
+     */
+    public static boolean isValid(final String value) {
+	return UUIDStrValidator.isValid(value);
+    }
+
+    /**
+     * Parses a vendor identifier.
+     * 
+     * @param value
+     *            Value to convert. A <code>null</code> value returns
+     *            <code>null</code>.
+     * 
+     * @return Converted value.
+     */
+    public static VendorId valueOf(final String value) {
+	if (value == null) {
+	    return null;
 	}
-
-	/**
-	 * Constructor with UUID.
-	 * 
-	 * @param uuid
-	 *            UUID.
-	 */
-	public VendorId(@NotNull final UUID uuid) {
-		super(uuid);
-	}
-
-	@Override
-	public final Class<String> getBaseType() {
-		return String.class;
-	}
-
-	@Override
-	public final String asBaseType() {
-		return asString();
-	}
-
-	@Override
-	public final EntityType getType() {
-		return ENTITY_TYPE;
-	}
-
-	@Override
-	public final String asTypedString() {
-		return getType() + " " + asString();
-	}
-
-	/**
-	 * Returns the information if a given string is a valid vendor identifier.
-	 * 
-	 * @param value
-	 *            Value to check. A <code>null</code> value returns
-	 *            <code>true</code>.
-	 * 
-	 * @return TRUE if it's a valid ID, else FALSE.
-	 */
-	public static boolean isValid(final String value) {
-		return UUIDStrValidator.isValid(value);
-	}
-
-	/**
-	 * Parses a vendor identifier.
-	 * 
-	 * @param value
-	 *            Value to convert. A <code>null</code> value returns
-	 *            <code>null</code>.
-	 * 
-	 * @return Converted value.
-	 */
-	public static VendorId valueOf(final String value) {
-		if (value == null) {
-			return null;
-		}
-		return new VendorId(UUID.fromString(value));
-	}
+	return new VendorId(UUID.fromString(value));
+    }
 
 }

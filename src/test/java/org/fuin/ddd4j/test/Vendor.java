@@ -26,44 +26,44 @@ import org.fuin.ddd4j.ddd.EventHandler;
  */
 public class Vendor extends AbstractAggregateRoot<VendorId> {
 
-	private VendorId id;
+    private VendorId id;
 
-	/**
-	 * Default constructor used by the repositories. NEVER use in your
-	 * application code!
-	 */
-	public Vendor() {
-		super();
-	}
+    /**
+     * Default constructor used by the repositories. NEVER use in your
+     * application code!
+     */
+    public Vendor() {
+	super();
+    }
 
-	/**
-	 * Constructor with all data.
-	 * 
-	 * @param id
-	 *            Unique identifier.
-	 * @param key
-	 *            Unique key.
-	 * @param name
-	 *            Name.
-	 */
-	public Vendor(final VendorId id, final VendorKey key, final VendorName name) {
-		super();
-		apply(new VendorCreatedEvent(new VendorRef(id, key, name)));
-	}
+    /**
+     * Constructor with all data.
+     * 
+     * @param id
+     *            Unique identifier.
+     * @param key
+     *            Unique key.
+     * @param name
+     *            Name.
+     */
+    public Vendor(final VendorId id, final VendorKey key, final VendorName name) {
+	super();
+	apply(new VendorCreatedEvent(new VendorRef(id, key, name)));
+    }
 
-	@Override
-	public final EntityType getType() {
-		return VendorId.ENTITY_TYPE;
-	}
+    @Override
+    public final EntityType getType() {
+	return VendorId.ENTITY_TYPE;
+    }
 
-	@Override
-	public final VendorId getId() {
-		return id;
-	}
+    @Override
+    public final VendorId getId() {
+	return id;
+    }
 
-	@EventHandler
-	private final void handle(final VendorCreatedEvent event) {
-		this.id = event.getEntityId();
-	}
+    @EventHandler
+    private final void handle(final VendorCreatedEvent event) {
+	this.id = event.getEntityId();
+    }
 
 }

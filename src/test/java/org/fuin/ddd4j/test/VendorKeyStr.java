@@ -36,17 +36,17 @@ import javax.validation.Payload;
  * </ul>
  */
 @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
-		ElementType.ANNOTATION_TYPE })
+	ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = { VendorKeyStrValidator.class })
 @Documented
 public @interface VendorKeyStr {
 
-	String message() default "{org.fuin.ddd4j.ddd.VendorKeyStr.message}";
+    String message() default "{org.fuin.ddd4j.ddd.VendorKeyStr.message}";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }
 // CHECKSTYLE:ON

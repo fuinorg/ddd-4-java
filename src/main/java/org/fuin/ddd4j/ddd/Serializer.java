@@ -28,49 +28,49 @@ import org.fuin.objects4j.common.NeverNull;
  */
 public interface Serializer {
 
-	/**
-	 * Returns the unique identifier for the type of data.
-	 * 
-	 * @return Unique and never changing type name.
-	 */
-	@NeverNull
-	public String getType();
+    /**
+     * Returns the unique identifier for the type of data.
+     * 
+     * @return Unique and never changing type name.
+     */
+    @NeverNull
+    public String getType();
 
-	/**
-	 * Returns the version of the type.
-	 * 
-	 * @return Version.
-	 */
-	public int getVersion();
+    /**
+     * Returns the version of the type.
+     * 
+     * @return Version.
+     */
+    public int getVersion();
 
-	/**
-	 * Returns the mime type the serializer supports.
-	 * 
-	 * @return Mime type.
-	 */
-	@NeverNull
-	public String getMimeType();
+    /**
+     * Returns the mime type the serializer supports.
+     * 
+     * @return Mime type.
+     */
+    @NeverNull
+    public String getMimeType();
 
-	/**
-	 * Returns the used encoding.
-	 * 
-	 * @return Encoding.
-	 */
-	@NeverNull
-	public Charset getEncoding();
+    /**
+     * Returns the used encoding.
+     * 
+     * @return Encoding.
+     */
+    @NeverNull
+    public Charset getEncoding();
 
-	/**
-	 * Converts the given object into a byte representation.
-	 * 
-	 * @param obj
-	 *            Object to serialize.
-	 * 
-	 * @return Serialized object.
-	 * 
-	 * @param <T>
-	 *            Type the data is converted into.
-	 */
-	@NeverNull
-	public <T> byte[] marshal(@NotNull T obj);
+    /**
+     * Converts the given object into a byte representation.
+     * 
+     * @param obj
+     *            Object to serialize.
+     * 
+     * @return Serialized object.
+     * 
+     * @param <T>
+     *            Type the data is converted into.
+     */
+    @NeverNull
+    public <T> byte[] marshal(@NotNull T obj);
 
 }

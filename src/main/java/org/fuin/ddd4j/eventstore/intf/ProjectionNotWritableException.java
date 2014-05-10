@@ -23,9 +23,9 @@ import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
 
 /**
- * Signals that a stream with that name previously existed but was deleted.
+ * Signals that a an attempt was made to write to a projection.
  */
-public class StreamDeletedException extends RuntimeException {
+public class ProjectionNotWritableException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,8 +37,9 @@ public class StreamDeletedException extends RuntimeException {
      * @param streamId
      *            Unique name of the stream.
      */
-    public StreamDeletedException(@NotNull final StreamId streamId) {
-	super("Stream '" + streamId + "' previously existed but was deleted");
+    public ProjectionNotWritableException(@NotNull final StreamId streamId) {
+	super("Stream '" + streamId
+		+ "' is a projection, which means it's read only");
 	Contract.requireArgNotNull("streamId", streamId);
 	this.streamId = streamId;
     }

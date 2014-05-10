@@ -24,35 +24,35 @@ import org.fuin.ddd4j.ddd.StringBasedEntityType;
 //CHECKSTYLE:OFF
 public class AId implements AggregateRootId {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public static final EntityType TYPE = new StringBasedEntityType("A");
+    public static final EntityType TYPE = new StringBasedEntityType("A");
 
-	private final long id;
+    private final long id;
 
-	public AId(final long id) {
-		this.id = id;
-	}
+    public AId(final long id) {
+	this.id = id;
+    }
 
-	@Override
-	public EntityType getType() {
-		return TYPE;
-	}
+    @Override
+    public EntityType getType() {
+	return TYPE;
+    }
 
-	@Override
-	public String asString() {
-		return "" + id;
-	}
+    @Override
+    public String asString() {
+	return "" + id;
+    }
 
-	@Override
-	public String toString() {
-		return asString();
-	}
+    @Override
+    public String toString() {
+	return asString();
+    }
 
-	@Override
-	public String asTypedString() {
-		return "A " + toString();
-	}
+    @Override
+    public String asTypedString() {
+	return "A " + toString();
+    }
 
 }
 // CHECKSTYLE:ON

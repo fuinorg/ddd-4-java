@@ -22,50 +22,61 @@ import static org.fest.assertions.Assertions.assertThat;
 import org.fuin.ddd4j.ddd.SimpleDeserializerRegistry;
 import org.fuin.ddd4j.ddd.XmlDeSerializer;
 import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
+import org.fuin.ddd4j.eventstore.intf.StreamId;
 import org.fuin.ddd4j.eventstore.jpa.JpaEventStore;
+import org.fuin.ddd4j.eventstore.jpa.Stream;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorCreatedEvent;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.ddd4j.test.VendorKey;
 import org.fuin.ddd4j.test.VendorName;
+import org.fuin.ddd4j.test.VendorStream;
 import org.fuin.units4j.AbstractPersistenceTest;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF
 public class EventStoreRespositoryTest extends AbstractPersistenceTest {
 
-	@Test
-	public void testCreateAggregate() throws Exception {
+    @Test
+    public void testCreateAggregate() throws Exception {
 
-		// PREPARE
-		final JpaEventStore eventStore = new JpaEventStore(getEm());		
-		final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
-		registry.add(new XmlDeSerializer(
-				VendorCreatedEvent.TYPE.asBaseType(), VendorCreatedEvent.class));
-		final VendorRepository repo = new VendorRepository(eventStore, registry,
-				registry);
+	// PREPARE
+	final JpaEventStore eventStore = new JpaEventStore(getEm(),
+		new JpaEventStore.StreamFactory() {
+		    @Override
+		    public Stream create(final StreamId streamId) {
+			final VendorId vendorId = streamId
+				.getSingleParamValue();
+			return new VendorStream(vendorId);
+		    }
+		});
+	final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
+	registry.add(new XmlDeSerializer(VendorCreatedEvent.TYPE.asBaseType(),
+		VendorCreatedEvent.class));
+	final VendorRepository repo = new VendorRepository(eventStore,
+		registry, registry);
 
-		final VendorId vendorId = new VendorId();
-		final VendorKey vendorKey = new VendorKey("V00001");
-		final VendorName vendorName = new VendorName(
-				"Hazards International Inc.");
-		final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName);
+	final VendorId vendorId = new VendorId();
+	final VendorKey vendorKey = new VendorKey("V00001");
+	final VendorName vendorName = new VendorName(
+		"Hazards International Inc.");
+	final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName);
 
-		// TEST
-		beginTransaction();
-		repo.update(vendor, null);
-		commitTransaction();
+	// TEST
+	beginTransaction();
+	repo.update(vendor, null);
+	commitTransaction();
 
-		// VERIFY
-		beginTransaction();
-		final AggregateStreamId streamId = new AggregateStreamId(
-				VendorId.ENTITY_TYPE, "vendorId", vendorId);
-		final StreamEventsSlice slice = eventStore.readStreamEventsForward(
-				streamId, 1, 1);
-		commitTransaction();
-		assertThat(slice.getEvents()).hasSize(1);
+	// VERIFY
+	beginTransaction();
+	final AggregateStreamId streamId = new AggregateStreamId(
+		VendorId.ENTITY_TYPE, "vendorId", vendorId);
+	final StreamEventsSlice slice = eventStore.readStreamEventsForward(
+		streamId, 1, 1);
+	commitTransaction();
+	assertThat(slice.getEvents()).hasSize(1);
 
-	}
+    }
 
 }
 // CHECKSTYLE:ON

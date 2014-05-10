@@ -24,15 +24,15 @@ import javax.validation.constraints.NotNull;
  */
 public interface SerializerRegistry {
 
-	/**
-	 * Tries to find a deserializer for the given type.
-	 * 
-	 * @param type
-	 *            Unique identifier for the type of data.
-	 * 
-	 * @return Serializer instance or NULL if no serializer was found for the
-	 *         type.
-	 */
-	public Serializer getSerializer(@NotNull String type);
+    /**
+     * Tries to find a deserializer for the given type.
+     * 
+     * @param type
+     *            Unique identifier for the type of data.
+     * 
+     * @return Serializer instance or NULL if no serializer was found for the
+     *         type.
+     */
+    public Serializer getSerializer(@NotNull String type);
 
 }

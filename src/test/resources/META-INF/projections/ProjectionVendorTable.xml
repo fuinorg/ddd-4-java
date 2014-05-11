@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<projection name="ProjectionVendorTable">
+	<trigger-sql>
+		CREATE OR REPLACE TRIGGER prj_vendor_table_events_trg
+		AFTER INSERT ON
+			events
+		REFERENCING NEW AS ev
+		FOR EACH ROW
+		WHEN
+			(ev.data_type IN (
+			'VendorCreatedEvent',
+			'VendorRemovedEvent'
+			))
+		BEGIN
+			INSERT INTO prj_vendor_table_events (id, events_id) VALUES (ev.id, ev.id);
+		END;
+	</trigger-sql>
+	<insert-sql>
+		MERGE INTO prj_vendor_table_events prj
+		USING events ev
+			ON (prj.events_id = ev.id)
+		WHEN NOT MATCHED THEN
+			INSERT (id, events_id)
+			VALUES (ev.id, ev.id)
+			WHERE (ev.data_type IN (
+			'VendorCreatedEvent',
+			'VendorRemovedEvent'
+			))
+	</insert-sql>
+</projection>

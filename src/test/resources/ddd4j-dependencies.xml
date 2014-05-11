@@ -4,18 +4,10 @@
   
   <!-- All classes are allowed to use this -->
   <alwaysAllowed>
-      <dependsOn package="java.io"/>
-      <dependsOn package="java.lang"/>
-      <dependsOn package="java.math"/>
-      <dependsOn package="java.nio"/>
-      <dependsOn package="java.security"/>
-      <dependsOn package="java.text"/>
-      <dependsOn package="java.util"/>
-      <dependsOn package="javax.validation"/>
-      <dependsOn package="javax.persistence"/>
-      <dependsOn package="javax.enterprise"/>
-      <dependsOn package="javax.xml"/>
+      <dependsOn package="java"/>
+      <dependsOn package="javax"/>
       <dependsOn package="org.fuin.objects4j"/>
+      <dependsOn package="org.fuin.utils4j"/>
       <dependsOn package="org.joda.time"/>
   </alwaysAllowed>
   

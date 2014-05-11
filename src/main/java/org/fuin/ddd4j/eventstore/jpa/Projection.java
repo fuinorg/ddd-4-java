@@ -23,6 +23,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.fuin.objects4j.common.Contract;
+
 /**
  * Projection.
  */
@@ -50,6 +52,8 @@ public class Projection {
      */
     public Projection(@NotNull final String name) {
 	super();
+	Contract.requireArgNotNull("name", name);
+	this.name = name;
     }
     
 

@@ -38,7 +38,7 @@ import javax.validation.constraints.Size;
 @NotNull
 @Size(min = 1, max = 250)
 @Pattern(regexp = "[a-z][a-z0-9\\-_]*")
-@Target({PARAMETER, FIELD, ANNOTATION_TYPE })
+@Target({ PARAMETER, FIELD, ANNOTATION_TYPE })
 @Retention(RUNTIME)
 @Constraint(validatedBy = {})
 @Documented

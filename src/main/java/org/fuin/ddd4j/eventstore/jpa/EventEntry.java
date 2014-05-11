@@ -23,7 +23,11 @@ import javax.persistence.Column;
 import javax.persistence.Convert;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -35,17 +39,18 @@ import org.joda.time.DateTime;
 /**
  * Stores an event and it's meta data.
  */
-@Table(name = "EVENTS")
+@Table(name = "EVENTS", indexes = { @Index(name = "IDX_EVENT_ID", unique = true, columnList = "EVENT_ID") })
 @Entity
+@SequenceGenerator(name = "EventEntrySequenceGenerator", sequenceName = "EVENTS_SEQ", allocationSize = 1000)
 public class EventEntry {
 
-    /**
-     * Unique identifier of the event. Generated on the client and used to
-     * achieve idempotence when trying to append the same event multiple times.
-     */
     @Id
-    @Column(name = "ID", length = 100, nullable = false, columnDefinition = "VARCHAR(100)")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EventEntrySequenceGenerator")
+    @Column(name = "ID", nullable = false)
+    private Long id;
+
+    @Column(name = "EVENT_ID", length = 100, nullable = false, columnDefinition = "VARCHAR(100)")
+    private String eventId;
 
     /** Date, time and zone the event was created. */
     @Convert(converter = DateTimeAdapter.class)
@@ -75,7 +80,7 @@ public class EventEntry {
     /**
      * Constructor without meta data.
      * 
-     * @param id
+     * @param eventId
      *            Unique identifier of the event. Generated on the client and
      *            used to achieve idempotence when trying to append the same
      *            event multiple times.
@@ -84,15 +89,15 @@ public class EventEntry {
      * @param data
      *            Data of the event.
      */
-    public EventEntry(@NotNull final String id,
+    public EventEntry(@NotNull final String eventId,
 	    @NotNull final DateTime timestamp, @NotNull final Data data) {
-	this(id, timestamp, data, null);
+	this(eventId, timestamp, data, null);
     }
 
     /**
      * Constructor with all data.
      * 
-     * @param id
+     * @param eventId
      *            Unique identifier of the event. Generated on the client and
      *            used to achieve idempotence when trying to append the same
      *            event multiple times.
@@ -103,11 +108,11 @@ public class EventEntry {
      * @param meta
      *            Meta data (Optional).
      */
-    public EventEntry(@NotNull final String id,
+    public EventEntry(@NotNull final String eventId,
 	    @NotNull final DateTime timestamp, @NotNull final Data data,
 	    final Data meta) {
 	super();
-	this.id = id;
+	this.eventId = eventId;
 	this.timestamp = timestamp;
 	this.data = data;
 	this.meta = meta;
@@ -118,9 +123,20 @@ public class EventEntry {
      * 
      * @return Unique entry ID.
      */
-    @NeverNull
-    public final String getId() {
+    public final Long getId() {
 	return id;
+    }
+
+    /**
+     * Returns the unique identifier of the event. Generated on the client and
+     * used to achieve idempotence when trying to append the same event multiple
+     * times.
+     * 
+     * @return Unique event ID.
+     */
+    @NeverNull
+    public final String getEventId() {
+	return eventId;
     }
 
     /**

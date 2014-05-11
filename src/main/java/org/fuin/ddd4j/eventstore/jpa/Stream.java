@@ -30,30 +30,8 @@ public abstract class Stream {
     @Column(name = "DELETED", nullable = false)
     private boolean deleted = false;
 
-    @Column(name = "PROJECTION", nullable = false)
-    private boolean projection = false;
-
     @Column(name = "VERSION", nullable = false)
     private int version = 0;
-
-    /**
-     * Protected default constructor for JPA.
-     */
-    protected Stream() {
-	super();
-    }
-
-    /**
-     * Constructor with projection.
-     * 
-     * @param projection
-     *            TRUE if this is a projection (read only) else FALSE (may be
-     *            written to).
-     */
-    public Stream(final boolean projection) {
-	super();
-	this.projection = projection;
-    }
 
     /**
      * Returns the information if the stream was deleted.
@@ -62,16 +40,6 @@ public abstract class Stream {
      */
     public final boolean isDeleted() {
 	return deleted;
-    }
-
-    /**
-     * Returns the information if this is a projection.
-     * 
-     * @return TRUE if this is a projection (read only) else FALSE (may be
-     *         written to)
-     */
-    public final boolean isProjection() {
-	return projection;
     }
 
     /**

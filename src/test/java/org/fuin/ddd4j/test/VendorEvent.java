@@ -18,11 +18,10 @@
 package org.fuin.ddd4j.test;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
-import javax.persistence.Converter;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -33,7 +32,7 @@ import org.fuin.objects4j.common.Contract;
 /**
  * Vendor event.
  */
-@Table(name = "VENDOR_EVENTS")
+@Table(name = "VENDOR_EVENTS", indexes = { @Index(name = "IDX_EVENTS_ID", unique = true, columnList = "EVENTS_ID") })
 @Entity
 @IdClass(VendorEventId.class)
 public class VendorEvent extends StreamEvent {
@@ -49,7 +48,7 @@ public class VendorEvent extends StreamEvent {
     private Integer eventNumber;
 
     private transient VendorId id;
-    
+
     /**
      * Protected default constructor only required for JPA.
      */
@@ -85,7 +84,7 @@ public class VendorEvent extends StreamEvent {
     public final String getVendorId() {
 	return vendorId;
     }
-    
+
     /**
      * Returns the vendor identifier.
      * 
@@ -97,7 +96,6 @@ public class VendorEvent extends StreamEvent {
 	}
 	return id;
     }
-    
 
     /**
      * Returns the number of the stream.
@@ -115,7 +113,8 @@ public class VendorEvent extends StreamEvent {
 	int result = 1;
 	result = prime * result
 		+ ((vendorId == null) ? 0 : vendorId.hashCode());
-	result = prime * result + ((eventNumber == null) ? 0 : eventNumber.hashCode());
+	result = prime * result
+		+ ((eventNumber == null) ? 0 : eventNumber.hashCode());
 	return result;
     }
 

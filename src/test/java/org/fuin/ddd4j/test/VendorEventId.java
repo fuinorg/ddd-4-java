@@ -19,7 +19,6 @@ package org.fuin.ddd4j.test;
 
 import java.io.Serializable;
 
-import javax.persistence.Convert;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
@@ -81,11 +80,6 @@ public class VendorEventId implements Serializable {
 	return eventNumber;
     }
 
-    @Override
-    public String toString() {
-	return vendorId + "-" + eventNumber;
-    }
-
     // CHECKSTYLE:OFF Generated code
     @Override
     public int hashCode() {
@@ -119,6 +113,12 @@ public class VendorEventId implements Serializable {
 	    return false;
 	return true;
     }
+
     // CHECKSTYLE:ON
+
+    @Override
+    public String toString() {
+	return vendorId + "-" + eventNumber;
+    }
 
 }

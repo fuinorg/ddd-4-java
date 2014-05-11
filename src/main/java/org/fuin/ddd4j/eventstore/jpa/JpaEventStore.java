@@ -87,6 +87,11 @@ public final class JpaEventStore implements EventStore {
 	    final int expectedVersion, final List<EventData> events)
 	    throws StreamVersionConflictException {
 
+	if (streamId.isProjection()) {
+	    throw new IllegalArgumentException("Projections are read only: "
+		    + streamId);
+	}
+
 	final String sql = createStreamSelect(streamId);
 	final TypedQuery<Stream> query = em.createQuery(sql, Stream.class);
 	setParameters(query, streamId);
@@ -159,10 +164,16 @@ public final class JpaEventStore implements EventStore {
     private StreamEventsSlice readStreamEvents(final StreamId streamId,
 	    final int start, final int count, final boolean forward) {
 
+	if (streamId.isProjection() && !projectionExists(streamId)) {
+	    // The projection does not exist at all or it's currently
+	    // being created, but not yet available
+	    return new StreamEventsSlice(start, new ArrayList<EventData>(),
+		    start, true);
+	}
+
 	// Prepare SQL
 	final String sql = createEventSelect(streamId)
 		+ createOrderBy(streamId, forward);
-	System.out.println(sql);
 	final TypedQuery<StreamEvent> query = em.createQuery(sql,
 		StreamEvent.class);
 	setParameters(query, streamId);
@@ -180,6 +191,34 @@ public final class JpaEventStore implements EventStore {
 
 	return new StreamEventsSlice(fromEventNumber, events, nextEventNumber,
 		endOfStream);
+    }
+
+    private boolean projectionExists(final StreamId streamId) {
+	final TypedQuery<Projection> query = em.createQuery(
+		"select p from Projection p where p.name=:name",
+		Projection.class);
+	query.setParameter("name", streamId.asString());
+	final List<Projection> resultList = query.getResultList();
+	return !resultList.isEmpty();
+    }
+
+    private String createOrderBy(final StreamId streamId, final boolean asc) {
+	final StringBuilder sb = new StringBuilder(" ORDER BY ");
+	final List<KeyValue> params = streamId.getParameters();
+	if (params.size() > 0) {
+	    for (int i = 0; i < params.size(); i++) {
+		final KeyValue param = params.get(i);
+		sb.append("t." + param.getKey());
+		sb.append(", ");
+	    }
+	}
+	sb.append("t.eventEntry.id");
+	if (asc) {
+	    sb.append(" ASC");
+	} else {
+	    sb.append(" DESC");
+	}
+	return sb.toString();
     }
 
     @Override
@@ -236,25 +275,6 @@ public final class JpaEventStore implements EventStore {
 	return sb.toString();
     }
 
-    private String createOrderBy(final StreamId streamId, final boolean asc) {
-	final StringBuilder sb = new StringBuilder(" ORDER BY ");
-	final List<KeyValue> params = streamId.getParameters();
-	if (params.size() > 0) {
-	    for (int i = 0; i < params.size(); i++) {
-		final KeyValue param = params.get(i);
-		sb.append("t." + param.getKey());
-		sb.append(", ");
-	    }
-	}
-	sb.append("t.id.eventNumber");
-	if (asc) {
-	    sb.append(" ASC");
-	} else {
-	    sb.append(" DESC");
-	}
-	return sb.toString();
-    }
-
     private void setParameters(final Query query, final StreamId streamId) {
 	final List<KeyValue> params = streamId.getParameters();
 	if (params.size() > 0) {
@@ -275,8 +295,9 @@ public final class JpaEventStore implements EventStore {
     }
 
     private EventData asEventData(final EventEntry eventEntry) {
-	return new EventData(eventEntry.getId(), eventEntry.getTimestamp(),
-		eventEntry.getData(), eventEntry.getMeta());
+	return new EventData(eventEntry.getEventId(),
+		eventEntry.getTimestamp(), eventEntry.getData(),
+		eventEntry.getMeta());
     }
 
     private EventEntry asEventEntry(final EventData eventData) {

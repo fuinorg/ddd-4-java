@@ -66,6 +66,11 @@ public final class AggregateStreamId implements StreamId {
 	return type.asString();
     }
 
+    @Override
+    public final boolean isProjection() {
+        return false;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     public final <T> T getSingleParamValue() {

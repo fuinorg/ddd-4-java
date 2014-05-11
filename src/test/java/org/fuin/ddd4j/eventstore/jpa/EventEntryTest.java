@@ -22,6 +22,8 @@ import static org.fest.assertions.Assertions.assertThat;
 import java.nio.charset.Charset;
 import java.util.UUID;
 
+import javax.persistence.TypedQuery;
+
 import org.fuin.ddd4j.eventstore.intf.Data;
 import org.fuin.units4j.AbstractPersistenceTest;
 import org.joda.time.DateTime;
@@ -51,10 +53,11 @@ public final class EventEntryTest extends AbstractPersistenceTest {
 
 	// VERIFY
 	beginTransaction();
-	final EventEntry found = getEm()
-		.find(EventEntry.class, uuid.toString());
+	final TypedQuery<EventEntry> query = getEm().createQuery("select ee from EventEntry ee where ee.eventId=:eventId", EventEntry.class);
+	query.setParameter("eventId", uuid.toString());
+	final EventEntry found = query.getSingleResult();
 	assertThat(found).isNotNull();
-	assertThat(found.getId()).isEqualTo(uuid.toString());
+	assertThat(found.getEventId()).isEqualTo(uuid.toString());
 	assertThat(found.getTimestamp()).isNotNull();
 	assertThat(found.getData()).isNotNull();
 	assertThat(found.getData().getType()).isEqualTo(type);

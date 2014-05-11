@@ -87,6 +87,8 @@ public class ProjectionConfigurator {
 	triggerQuery.executeUpdate();
 	final Query insertQuery = em.createNativeQuery(config.getInsertSql());
 	insertQuery.executeUpdate();
+	final Projection projection = new Projection(config.getName());
+	em.merge(projection);
     }
 
     private ProjectionConfig readConfig(final String configResourceName) {

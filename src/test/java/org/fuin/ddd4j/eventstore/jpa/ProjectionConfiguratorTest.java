@@ -31,7 +31,8 @@ public class ProjectionConfiguratorTest extends AbstractPersistenceTest {
     public void testPersist() {
 
 	// PREPARE
-	final ProjectionConfigurator testee = new ProjectionConfigurator(getEm());
+	final ProjectionConfigurator testee = new ProjectionConfigurator(
+		getEm());
 
 	// TEST
 	beginTransaction();

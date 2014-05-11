@@ -12,7 +12,7 @@
 			'VendorRemovedEvent'
 			))
 		BEGIN
-			INSERT INTO prj_vendor_table_events (id, events_id) VALUES (ev.id, ev.id);
+			INSERT INTO prj_vendor_table_events (id, events_id) VALUES (:ev.id, :ev.id);
 		END;
 	</trigger-sql>
 	<insert-sql>

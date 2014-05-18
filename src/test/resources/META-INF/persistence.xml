@@ -19,6 +19,22 @@
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 
 		<properties>
+			<property name="hibernate.connection.url" value="jdbc:hsqldb:mem:unit-testing-jpa"	/> 
+			<property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect" />
+			<property name="hibernate.hbm2ddl.auto" value="create-drop" /> 
+			<property name="hibernate.connection.username" value="sa" />
+			<property name="hibernate.connection.password"	value="" /> 
+			<property name="hibernate.connection.useUnicode" value="true" />
+			<property name="hibernate.connection.characterEncoding"	value="UTF-8" />
+
+			<!-- Necessary for shutdown of HSQL in tests -->
+			<property name="units4j.shutdown" value="true" />
+			<property name="units4j.url" value="jdbc:hsqldb:mem:unit-testing-jpa" />
+			<property name="units4j.user" value="sa" />
+			<property name="units4j.pw" value="" />
+
+			<!-- 
 			<property name="hibernate.connection.url" value="jdbc:oracle:thin:@localhost:49161/XE"	/> 
 			<property name="hibernate.connection.driver_class" value="oracle.jdbc.OracleDriver" />
 			<property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect" />
@@ -27,6 +43,8 @@
 			<property name="hibernate.connection.password"	value="DDD4J" /> 
 			<property name="hibernate.connection.useUnicode" value="true" />
 			<property name="hibernate.connection.characterEncoding"	value="UTF-8" />
+			 -->
+			
 		</properties>
 
 

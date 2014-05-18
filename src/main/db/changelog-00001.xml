@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd 
+	                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="1" author="michael">
+		<comment>Initialize the database</comment>
+
+		<createTable tableName="events"
+			remarks="Contains all events of the context">
+			<column name="id" type="java.sql.Types.BIGINT">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk__events" />
+			</column>
+			<column name="event_id" type="java.sql.Types.VARCHAR(100)">
+				<constraints nullable="false" unique="true"
+					uniqueConstraintName="ux__events__event_id" />
+			</column>
+			<column name="timestamp" type="java.sql.Types.VARCHAR(30)">
+				<constraints nullable="false" />
+			</column>
+
+			<column name="data_type" type="java.sql.Types.VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="data_version" type="java.sql.Types.INTEGER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="data_mime_type" type="java.sql.Types.VARCHAR(255)">
+				<constraints nullable="false" />
+			</column>
+			<column name="data_encoding" type="java.sql.Types.VARCHAR(30)">
+				<constraints nullable="false" />
+			</column>
+			<column name="data_raw" type="java.sql.Types.BLOB" />
+
+			<column name="meta_type" type="java.sql.Types.VARCHAR(255)" />
+			<column name="meta_version" type="java.sql.Types.INTEGER(10)" />
+			<column name="meta_mime_type" type="java.sql.Types.VARCHAR(255)" />
+			<column name="meta_encoding" type="java.sql.Types.VARCHAR(30)" />
+			<column name="meta_raw" type="java.sql.Types.BLOB" />
+
+		</createTable>
+
+		<createSequence sequenceName="events_seq" incrementBy="1"
+			minValue="1" ordered="true" startValue="1" cycle="false" />
+
+		<createTable tableName="projections"
+			remarks="Contains a list of all projections">
+			<column name="name" type="java.sql.Types.VARCHAR(250)">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk__projections" />
+			</column>
+			<column name="enabled" type="java.sql.Types.INTEGER(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+		<createTable tableName="vendor_events" remarks="Events of aggregate Vendor">
+			<column name="vendor_id" type="java.sql.Types.VARCHAR(36)">
+				<constraints nullable="false" />
+			</column>
+			<column name="event_number" type="java.sql.Types.INTEGER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="events_id" type="java.sql.Types.BIGINT">
+				<constraints nullable="false" references="EVENTS"
+					foreignKeyName="fk__vendor_events__events_id" />
+			</column>
+		</createTable>
+
+		<addPrimaryKey tableName="vendor_events" columnNames="vendor_id, event_number"
+			constraintName="pk__vendor_events" />
+
+		<createTable tableName="vendor_streams" remarks="Vendor streams">
+			<column name="vendor_id" type="java.sql.Types.VARCHAR(36)">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk__vendor_streams" />
+			</column>
+			<column name="version" type="java.sql.Types.INTEGER(10)">
+				<constraints nullable="false" />
+			</column>
+			<column name="deleted" type="java.sql.Types.INTEGER(1)">
+				<constraints nullable="false" />
+			</column>
+		</createTable>
+
+	</changeSet>
+
+</databaseChangeLog>
+

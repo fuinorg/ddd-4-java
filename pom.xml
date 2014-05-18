@@ -196,12 +196,12 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- dependency>
+		<dependency>
 			<groupId>com.oracle</groupId>
 			<artifactId>ojdbc6</artifactId>
 			<version>11.2.0</version>
 			<scope>test</scope>
-		</dependency-->
+		</dependency>
 
 	</dependencies>
 
@@ -219,29 +219,43 @@
 				</configuration>
 			</plugin>
 
-			<!-- plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-install-plugin</artifactId>
-				<version>2.3.1</version>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>3.0.5</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.liquibase</groupId>
+						<artifactId>liquibase-core</artifactId>
+						<version>3.1.1</version>
+					</dependency>
+					<dependency>
+						<groupId>org.liquibase.ext</groupId>
+						<artifactId>liquibase-oracle</artifactId>
+						<version>3.0.0</version>
+					</dependency>
+				</dependencies>
+				<configuration>
+					<propertyFile>src/main/db/liquibase.properties</propertyFile>
+					<driver>oracle.jdbc.OracleDriver</driver>
+				</configuration>
 				<executions>
 					<execution>
-						<id>install-oracle-jdbc</id>
+						<phase>none</phase>
 						<goals>
-							<goal>install-file</goal>
+							<goal>update</goal>
 						</goals>
-						<phase>clean</phase>
-						<configuration>
-							<groupId>com.oracle</groupId>
-							<artifactId>ojdbc6</artifactId>
-							<version>11.2.0</version>
-							<packaging>jar</packaging>
-							<generatePom>true</generatePom>
-							<createChecksum>true</createChecksum>
-							<file>${project.basedir}/add2mvn/ojdbc6.jar</file>
-						</configuration>
 					</execution>
 				</executions>
-			</plugin-->
+			</plugin>
+
+			<!-- plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-install-plugin</artifactId> 
+				<version>2.3.1</version> <executions> <execution> <id>install-oracle-jdbc</id> 
+				<goals> <goal>install-file</goal> </goals> <phase>clean</phase> <configuration> 
+				<groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> <version>11.2.0</version> 
+				<packaging>jar</packaging> <generatePom>true</generatePom> <createChecksum>true</createChecksum> 
+				<file>${project.basedir}/add2mvn/ojdbc6.jar</file> </configuration> </execution> 
+				</executions> </plugin -->
 
 		</plugins>
 

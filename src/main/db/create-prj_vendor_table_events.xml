@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd 
+	                    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+	<changeSet id="2" author="michael">
+		<comment>Create projection for the vendor table</comment>
+
+		<createTable tableName="prj_vendor_table_events" remarks="Events necessary to create the vendor table">
+			<column name="events_id" type="java.sql.Types.BIGINT">
+				<constraints nullable="false" primaryKey="true"
+					primaryKeyName="pk__prj_vendor_table_events" references="EVENTS"
+					foreignKeyName="fk__p_v_t_e__events_id" />
+			</column>
+		</createTable>
+
+		<!-- 
+			CREATE OR REPLACE TRIGGER prj_vendor_table_events_trg
+			AFTER INSERT ON
+				events
+			FOR EACH ROW
+			WHEN
+				(NEW.data_type IN (
+				'VendorCreatedEvent',
+				'VendorRemovedEvent'
+				))
+			BEGIN
+				INSERT INTO prj_vendor_table_events (events_id) VALUES (:NEW.id);
+			END;
+			
+		    The "ext:createTrigger" does not work because of bug in liquibase that will be fixed in 3.0.1 
+			https://github.com/liquibase/liquibase-oracle/pull/3 
+			-->
+		<ext:createTrigger triggerName="prj_vendor_table_events_trg"
+			afterBeforeInsteadOf="after" insert="true" tableName="events"
+			forEachRow="true"
+			whenCondition="(new.data_type IN ('VendorCreatedEvent','VendorRemovedEvent'))"
+			procedure="INSERT INTO prj_vendor_table_events (events_id) VALUES (:new.id);" />
+
+		<sql dbms="oracle">
+			MERGE INTO prj_vendor_table_events prj
+			USING events ev
+				ON (prj.events_id = ev.id)
+			WHEN NOT MATCHED THEN
+				INSERT (id, events_id)
+				VALUES (ev.id, ev.id)
+				WHERE (ev.data_type IN (
+				'VendorCreatedEvent',
+				'VendorRemovedEvent'
+				))
+		</sql>
+
+
+	</changeSet>
+
+</databaseChangeLog>
+

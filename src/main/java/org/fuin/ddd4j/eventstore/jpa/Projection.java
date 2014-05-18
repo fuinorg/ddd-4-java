@@ -36,12 +36,15 @@ public class Projection {
     @NotNull
     @Column(name = "NAME", nullable = false, updatable = false, length = 250)
     private String name;
-    
+
+    @Column(name = "ENABLED", nullable = false)
+    private boolean enabled = false;
+
     /**
      * Protected default constructor for JPA.
      */
     protected Projection() {
-	super();
+        super();
     }
 
     /**
@@ -51,42 +54,66 @@ public class Projection {
      *            Unique name for the projection.
      */
     public Projection(@NotNull final String name) {
-	super();
-	Contract.requireArgNotNull("name", name);
-	this.name = name;
+        super();
+        Contract.requireArgNotNull("name", name);
+        this.name = name;
     }
-    
+
+    /**
+     * Constructor with all data.
+     * 
+     * @param name
+     *            Unique name for the projection.
+     * @param enabled
+     *            FALSE if the query is being created, else TRUE.
+     */
+    public Projection(@NotNull final String name, final boolean enabled) {
+        super();
+        Contract.requireArgNotNull("name", name);
+        this.name = name;
+        this.enabled = enabled;
+    }
+
+    /**
+     * Returns the information if the query is enabled.
+     * 
+     * @return FALSE if the query is being created, else TRUE.
+     */
+    public final boolean isEnabled() {
+        return enabled;
+    }
 
     // CHECKSTYLE:OFF Generated code
     @Override
     public final int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result + ((name == null) ? 0 : name.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
     }
 
     @Override
     public final boolean equals(final Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	Projection other = (Projection) obj;
-	if (name == null) {
-	    if (other.name != null)
-		return false;
-	} else if (!name.equals(other.name))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Projection other = (Projection) obj;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
     }
+
     // CHECKSTYLE:ON
 
     @Override
     public final String toString() {
         return name;
     }
-    
+
 }

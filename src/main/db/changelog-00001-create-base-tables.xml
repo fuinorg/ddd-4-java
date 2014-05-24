@@ -57,35 +57,6 @@
 			</column>
 		</createTable>
 
-		<createTable tableName="vendor_events" remarks="Events of aggregate Vendor">
-			<column name="vendor_id" type="java.sql.Types.VARCHAR(36)">
-				<constraints nullable="false" />
-			</column>
-			<column name="event_number" type="java.sql.Types.INTEGER(10)">
-				<constraints nullable="false" />
-			</column>
-			<column name="events_id" type="java.sql.Types.BIGINT">
-				<constraints nullable="false" references="EVENTS"
-					foreignKeyName="fk__vendor_events__events_id" />
-			</column>
-		</createTable>
-
-		<addPrimaryKey tableName="vendor_events" columnNames="vendor_id, event_number"
-			constraintName="pk__vendor_events" />
-
-		<createTable tableName="vendor_streams" remarks="Vendor streams">
-			<column name="vendor_id" type="java.sql.Types.VARCHAR(36)">
-				<constraints nullable="false" primaryKey="true"
-					primaryKeyName="pk__vendor_streams" />
-			</column>
-			<column name="version" type="java.sql.Types.INTEGER(10)">
-				<constraints nullable="false" />
-			</column>
-			<column name="deleted" type="java.sql.Types.INTEGER(1)">
-				<constraints nullable="false" />
-			</column>
-		</createTable>
-
 	</changeSet>
 
 </databaseChangeLog>

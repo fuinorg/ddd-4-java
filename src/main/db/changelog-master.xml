@@ -4,7 +4,8 @@
 	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
-	<include file="src/main/db/changelog-00001.xml" />
+	<include file="changelog-00001-create-base-tables.xml" />
+	<include file="changelog-00002-vendor-events.xml" />
 	<!-- include file="src/main/db/create-prj_vendor_table_events.xml" /-->
 	
 </databaseChangeLog> 

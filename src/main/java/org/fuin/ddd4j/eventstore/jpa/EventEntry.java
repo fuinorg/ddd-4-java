@@ -26,7 +26,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -39,7 +38,7 @@ import org.joda.time.DateTime;
 /**
  * Stores an event and it's meta data.
  */
-@Table(name = "EVENTS", indexes = { @Index(name = "IDX_EVENT_ID", unique = true, columnList = "EVENT_ID") })
+@Table(name = "EVENTS")
 @Entity
 @SequenceGenerator(name = "EventEntrySequenceGenerator", sequenceName = "EVENTS_SEQ", allocationSize = 1000)
 public class EventEntry {
@@ -63,18 +62,18 @@ public class EventEntry {
 
     @Embedded
     @AttributeOverrides({
-	    @AttributeOverride(name = "type", column = @Column(name = "META_TYPE")),
-	    @AttributeOverride(name = "version", column = @Column(name = "META_VERSION")),
-	    @AttributeOverride(name = "mimeType", column = @Column(name = "META_MIME_TYPE")),
-	    @AttributeOverride(name = "encoding", column = @Column(name = "META_ENCODING")),
-	    @AttributeOverride(name = "raw", column = @Column(name = "META_RAW")) })
+            @AttributeOverride(name = "type", column = @Column(name = "META_TYPE")),
+            @AttributeOverride(name = "version", column = @Column(name = "META_VERSION")),
+            @AttributeOverride(name = "mimeType", column = @Column(name = "META_MIME_TYPE")),
+            @AttributeOverride(name = "encoding", column = @Column(name = "META_ENCODING")),
+            @AttributeOverride(name = "raw", column = @Column(name = "META_RAW")) })
     private Data meta;
 
     /**
      * Protected default constructor only required for JPA.
      */
     protected EventEntry() {
-	super();
+        super();
     }
 
     /**
@@ -90,8 +89,8 @@ public class EventEntry {
      *            Data of the event.
      */
     public EventEntry(@NotNull final String eventId,
-	    @NotNull final DateTime timestamp, @NotNull final Data data) {
-	this(eventId, timestamp, data, null);
+            @NotNull final DateTime timestamp, @NotNull final Data data) {
+        this(eventId, timestamp, data, null);
     }
 
     /**
@@ -109,13 +108,13 @@ public class EventEntry {
      *            Meta data (Optional).
      */
     public EventEntry(@NotNull final String eventId,
-	    @NotNull final DateTime timestamp, @NotNull final Data data,
-	    final Data meta) {
-	super();
-	this.eventId = eventId;
-	this.timestamp = timestamp;
-	this.data = data;
-	this.meta = meta;
+            @NotNull final DateTime timestamp, @NotNull final Data data,
+            final Data meta) {
+        super();
+        this.eventId = eventId;
+        this.timestamp = timestamp;
+        this.data = data;
+        this.meta = meta;
     }
 
     /**
@@ -124,7 +123,7 @@ public class EventEntry {
      * @return Unique entry ID.
      */
     public final Long getId() {
-	return id;
+        return id;
     }
 
     /**
@@ -136,7 +135,7 @@ public class EventEntry {
      */
     @NeverNull
     public final String getEventId() {
-	return eventId;
+        return eventId;
     }
 
     /**
@@ -146,7 +145,7 @@ public class EventEntry {
      */
     @NeverNull
     public final DateTime getTimestamp() {
-	return timestamp;
+        return timestamp;
     }
 
     /**
@@ -156,7 +155,7 @@ public class EventEntry {
      */
     @NeverNull
     public final Data getData() {
-	return data;
+        return data;
     }
 
     /**
@@ -165,7 +164,7 @@ public class EventEntry {
      * @return The event's meta data or NULL.
      */
     public final Data getMeta() {
-	return meta;
+        return meta;
     }
 
 }

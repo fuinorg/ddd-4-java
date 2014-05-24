@@ -40,41 +40,40 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
     @Test
     public void testCreateAggregate() throws Exception {
 
-	// PREPARE
-	final JpaEventStore eventStore = new JpaEventStore(getEm(),
-		new JpaEventStore.StreamFactory() {
-		    @Override
-		    public Stream create(final StreamId streamId) {
-			final String vendorId = streamId
-				.getSingleParamValue();
-			return new VendorStream(VendorId.valueOf(vendorId));
-		    }
-		});
-	final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
-	registry.add(new XmlDeSerializer(VendorCreatedEvent.TYPE.asBaseType(),
-		VendorCreatedEvent.class));
-	final VendorRepository repo = new VendorRepository(eventStore,
-		registry, registry);
+        // PREPARE
+        final JpaEventStore eventStore = new JpaEventStore(getEm(),
+                new JpaEventStore.StreamFactory() {
+                    @Override
+                    public Stream create(final StreamId streamId) {
+                        final String vendorId = streamId.getSingleParamValue();
+                        return new VendorStream(VendorId.valueOf(vendorId));
+                    }
+                });
+        final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
+        registry.add(new XmlDeSerializer(VendorCreatedEvent.TYPE.asBaseType(),
+                VendorCreatedEvent.class));
+        final VendorRepository repo = new VendorRepository(eventStore,
+                registry, registry);
 
-	final VendorId vendorId = new VendorId();
-	final VendorKey vendorKey = new VendorKey("V00001");
-	final VendorName vendorName = new VendorName(
-		"Hazards International Inc.");
-	final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName);
+        final VendorId vendorId = new VendorId();
+        final VendorKey vendorKey = new VendorKey("V00001");
+        final VendorName vendorName = new VendorName(
+                "Hazards International Inc.");
+        final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName);
 
-	// TEST
-	beginTransaction();
-	repo.update(vendor, null);
-	commitTransaction();
+        // TEST
+        beginTransaction();
+        repo.update(vendor, null);
+        commitTransaction();
 
-	// VERIFY
-	beginTransaction();
-	final AggregateStreamId streamId = new AggregateStreamId(
-		VendorId.ENTITY_TYPE, "vendorId", vendorId);
-	final StreamEventsSlice slice = eventStore.readStreamEventsForward(
-		streamId, 1, 1);
-	commitTransaction();
-	assertThat(slice.getEvents()).hasSize(1);
+        // VERIFY
+        beginTransaction();
+        final AggregateStreamId streamId = new AggregateStreamId(
+                VendorId.ENTITY_TYPE, "vendorId", vendorId);
+        final StreamEventsSlice slice = eventStore.readStreamEventsForward(
+                streamId, 1, 1);
+        commitTransaction();
+        assertThat(slice.getEvents()).hasSize(1);
 
     }
 

@@ -21,7 +21,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -32,19 +31,19 @@ import org.fuin.objects4j.common.Contract;
 /**
  * Vendor event.
  */
-@Table(name = "VENDOR_EVENTS", indexes = { @Index(name = "IDX_EVENTS_ID", unique = true, columnList = "EVENTS_ID") })
+@Table(name = "VENDOR_EVENTS")
 @Entity
 @IdClass(VendorEventId.class)
 public class VendorEvent extends StreamEvent {
 
     @Id
     @NotNull
-    @Column(name = "VENDOR_ID", nullable = false, updatable = false, length = 36)
+    @Column(name = "VENDOR_ID")
     private String vendorId;
 
     @Id
     @NotNull
-    @Column(name = "EVENT_NUMBER", nullable = false, updatable = false)
+    @Column(name = "EVENT_NUMBER")
     private Integer eventNumber;
 
     private transient VendorId id;

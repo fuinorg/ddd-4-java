@@ -20,7 +20,6 @@ package org.fuin.ddd4j.test;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Index;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -32,7 +31,7 @@ import org.fuin.objects4j.common.Contract;
 /**
  * Vendor stream.
  */
-@Table(name = "VENDOR_STREAMS", indexes = { @Index(name = "IDX_VENDOR_ID", unique = true, columnList = "VENDOR_ID") })
+@Table(name = "VENDOR_STREAMS")
 @Entity
 public class VendorStream extends Stream {
 

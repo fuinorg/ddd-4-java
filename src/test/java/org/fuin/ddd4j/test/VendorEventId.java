@@ -40,7 +40,7 @@ public class VendorEventId implements Serializable {
      * CODE.</b>
      */
     public VendorEventId() {
-	super();
+        super();
     }
 
     /**
@@ -52,12 +52,12 @@ public class VendorEventId implements Serializable {
      *            Number of the event within the stream.
      */
     public VendorEventId(@NotNull final VendorId vendorId,
-	    @NotNull final Integer eventNumber) {
-	super();
-	Contract.requireArgNotNull("vendorId", vendorId);
-	Contract.requireArgNotNull("nueventNumbermber", eventNumber);
-	this.vendorId = vendorId.asString();
-	this.eventNumber = eventNumber;
+            @NotNull final Integer eventNumber) {
+        super();
+        Contract.requireArgNotNull("vendorId", vendorId);
+        Contract.requireArgNotNull("nueventNumbermber", eventNumber);
+        this.vendorId = vendorId.asString();
+        this.eventNumber = eventNumber;
     }
 
     /**
@@ -67,7 +67,7 @@ public class VendorEventId implements Serializable {
      */
     @NeverNull
     public String getVendorId() {
-	return vendorId;
+        return vendorId;
     }
 
     /**
@@ -77,48 +77,48 @@ public class VendorEventId implements Serializable {
      */
     @NeverNull
     public Integer getEventNumber() {
-	return eventNumber;
+        return eventNumber;
     }
 
     // CHECKSTYLE:OFF Generated code
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((vendorId == null) ? 0 : vendorId.hashCode());
-	result = prime * result
-		+ ((eventNumber == null) ? 0 : eventNumber.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((vendorId == null) ? 0 : vendorId.hashCode());
+        result = prime * result
+                + ((eventNumber == null) ? 0 : eventNumber.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	VendorEventId other = (VendorEventId) obj;
-	if (vendorId == null) {
-	    if (other.vendorId != null)
-		return false;
-	} else if (!vendorId.equals(other.vendorId))
-	    return false;
-	if (eventNumber == null) {
-	    if (other.eventNumber != null)
-		return false;
-	} else if (!eventNumber.equals(other.eventNumber))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        VendorEventId other = (VendorEventId) obj;
+        if (vendorId == null) {
+            if (other.vendorId != null)
+                return false;
+        } else if (!vendorId.equals(other.vendorId))
+            return false;
+        if (eventNumber == null) {
+            if (other.eventNumber != null)
+                return false;
+        } else if (!eventNumber.equals(other.eventNumber))
+            return false;
+        return true;
     }
 
     // CHECKSTYLE:ON
 
     @Override
     public String toString() {
-	return vendorId + "-" + eventNumber;
+        return vendorId + "-" + eventNumber;
     }
 
 }

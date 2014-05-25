@@ -24,15 +24,25 @@ import org.fuin.ddd4j.eventstore.intf.StreamId;
  */
 public interface IdStreamFactory {
 
+    /**
+     * Checks if the factory can create a stream based on a given stream
+     * identifier.
+     * 
+     * @param streamId
+     *            Identifier to create a stream for.
+     * 
+     * @return TRUE if a stream can be created using the identifier.
+     */
+    public boolean containsType(StreamId streamId);
 
     /**
-     * Creates a stream based on a stream identifier.
+     * Creates a stream based on a given stream identifier.
      * 
      * @param streamId
      *            Identifier to create a stream for.
      * 
      * @return Stream with given type.
      */
-    public Stream create(StreamId streamId);
-    
+    public Stream createStream(StreamId streamId);
+
 }

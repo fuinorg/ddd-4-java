@@ -46,7 +46,7 @@ public final class JpaEventStore implements EventStore {
 
     private EntityManager em;
 
-    private StreamFactory streamFactory;
+    private IdStreamFactory streamFactory;
 
     /**
      * Constructor with all mandatory data.
@@ -57,7 +57,7 @@ public final class JpaEventStore implements EventStore {
      *            Stream factory.
      */
     public JpaEventStore(@NotNull final EntityManager em,
-            @NotNull final StreamFactory streamFactory) {
+            @NotNull final IdStreamFactory streamFactory) {
         super();
         Contract.requireArgNotNull("em", em);
         Contract.requireArgNotNull("streamFactory", streamFactory);
@@ -99,7 +99,7 @@ public final class JpaEventStore implements EventStore {
         final List<Stream> streams = query.getResultList();
         final Stream stream;
         if (streams.size() == 0) {
-            stream = streamFactory.create(streamId);
+            stream = streamFactory.createStream(streamId);
             em.persist(stream);
         } else {
             stream = streams.get(0);
@@ -294,23 +294,6 @@ public final class JpaEventStore implements EventStore {
     private EventEntry asEventEntry(final EventData eventData) {
         return new EventEntry(eventData.getEventId(), eventData.getTimestamp(),
                 eventData.getEventData(), eventData.getMetaData());
-    }
-
-    /**
-     * Creates a new instance of a stream identified by a stream identifier.
-     */
-    public static interface StreamFactory {
-
-        /**
-         * Creates a new instance (without persisting it).
-         * 
-         * @param streamId
-         *            Stream identifier to create an instance for.
-         * 
-         * @return New object.
-         */
-        public Stream create(StreamId streamId);
-
     }
 
 }

@@ -36,12 +36,12 @@ public interface IdStreamFactory {
     public boolean containsType(StreamId streamId);
 
     /**
-     * Creates a stream based on a given stream identifier.
+     * Creates a new stream instance (without persisting it).
      * 
      * @param streamId
-     *            Identifier to create a stream for.
+     *            Stream identifier to create an instance for.
      * 
-     * @return Stream with given type.
+     * @return New object.
      */
     public Stream createStream(StreamId streamId);
 

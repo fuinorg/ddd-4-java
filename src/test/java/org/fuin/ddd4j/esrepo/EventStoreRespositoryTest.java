@@ -19,6 +19,13 @@ package org.fuin.ddd4j.esrepo;
 
 import static org.fest.assertions.Assertions.assertThat;
 
+import java.util.UUID;
+
+import javax.xml.bind.annotation.adapters.XmlAdapter;
+
+import org.fuin.ddd4j.ddd.EntityId;
+import org.fuin.ddd4j.ddd.EntityIdFactory;
+import org.fuin.ddd4j.ddd.EntityIdPathConverter;
 import org.fuin.ddd4j.ddd.SimpleDeserializerRegistry;
 import org.fuin.ddd4j.ddd.XmlDeSerializer;
 import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
@@ -42,22 +49,13 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
     public void testCreateAggregate() throws Exception {
 
         // PREPARE
-        final JpaEventStore eventStore = new JpaEventStore(getEm(),
-                new IdStreamFactory() {
-                    @Override
-                    public Stream createStream(final StreamId streamId) {
-                        final String vendorId = streamId.getSingleParamValue();
-                        return new VendorStream(VendorId.valueOf(vendorId));
-                    }
-
-                    @Override
-                    public boolean containsType(StreamId streamId) {
-                        return true;
-                    }
-                });
+        final JpaEventStore eventStore = createEventStore();
+        final EntityIdFactory entityIdFactory = createEntityIdFactory();
+        final XmlAdapter<?, ?>[] adapters = new XmlAdapter<?, ?>[] { new EntityIdPathConverter(
+                entityIdFactory) };
         final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
         registry.add(new XmlDeSerializer(VendorCreatedEvent.TYPE.asBaseType(),
-                VendorCreatedEvent.class));
+                adapters, VendorCreatedEvent.class));
         final VendorRepository repo = new VendorRepository(eventStore,
                 registry, registry);
 
@@ -81,6 +79,44 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
         commitTransaction();
         assertThat(slice.getEvents()).hasSize(1);
 
+    }
+
+    private EntityIdFactory createEntityIdFactory() {
+        final EntityIdFactory entityIdFactory = new EntityIdFactory() {
+            @Override
+            public EntityId createEntityId(String type, String id) {
+                if (type == VendorId.ENTITY_TYPE.asString()) {
+                    return new VendorId(UUID.fromString(id));
+                }
+                throw new IllegalArgumentException("Unknown type: " + type);
+            }
+
+            @Override
+            public boolean containsType(String type) {
+                if (type == VendorId.ENTITY_TYPE.asString()) {
+                    return true;
+                }
+                return false;
+            }
+        };
+        return entityIdFactory;
+    }
+
+    private JpaEventStore createEventStore() {
+        final JpaEventStore eventStore = new JpaEventStore(getEm(),
+                new IdStreamFactory() {
+                    @Override
+                    public Stream createStream(final StreamId streamId) {
+                        final String vendorId = streamId.getSingleParamValue();
+                        return new VendorStream(VendorId.valueOf(vendorId));
+                    }
+
+                    @Override
+                    public boolean containsType(StreamId streamId) {
+                        return true;
+                    }
+                });
+        return eventStore;
     }
 
 }

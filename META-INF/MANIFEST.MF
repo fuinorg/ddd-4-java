@@ -9,19 +9,18 @@ Bundle-SymbolicName: org.fuin.ddd-4-java
 Bundle-Vendor: Future Invent Informationsmanagement GmbH, Hamburg (Germa
  ny)
 Bundle-Version: 0.1.0.SNAPSHOT
-Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
- vax.validation.constraints,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore
- .intf,org.fuin.objects4j.common,org.fuin.objects4j.vo",org.fuin.ddd4j.d
- dd;version="0.1.0.SNAPSHOT";uses:="javax.enterprise.context,javax.persi
- stence,javax.validation.constraints,javax.xml.bind.annotation,javax.xml
- .bind.annotation.adapters,org.fuin.objects4j.common,org.fuin.objects4j.
- vo,org.joda.time",org.fuin.ddd4j.eventstore.jpa;version="0.1.0.SNAPSHOT
- ";uses:="javax.persistence,javax.validation.constraints,org.fuin.ddd4j.
- eventstore.intf,org.fuin.objects4j.common,org.joda.time",org.fuin.ddd4j
- .eventstore;version="0.1.0.SNAPSHOT",org.fuin.ddd4j.eventstore.intf;ver
- sion="0.1.0.SNAPSHOT";uses:="javax.persistence,javax.validation,javax.v
- alidation.constraints,org.fuin.objects4j.common,org.fuin.objects4j.vo,o
- rg.joda.time"
+Export-Package: org.fuin.ddd4j.esrepo;uses:="javax.validation.constraint
+ s,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore.intf,org.fuin.objects4j.
+ common,org.fuin.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin.ddd4j.d
+ dd;uses:="javax.enterprise.context,javax.persistence,javax.validation.c
+ onstraints,javax.xml.bind.annotation,javax.xml.bind.annotation.adapters
+ ,org.fuin.objects4j.common,org.fuin.objects4j.vo,org.joda.time";version
+ ="0.1.0.SNAPSHOT",org.fuin.ddd4j.eventstore.jpa;uses:="javax.persistenc
+ e,javax.validation.constraints,org.fuin.ddd4j.eventstore.intf,org.fuin.
+ objects4j.common,org.joda.time";version="0.1.0.SNAPSHOT",org.fuin.ddd4j
+ .eventstore.intf;uses:="javax.persistence,javax.validation,javax.valida
+ tion.constraints,org.fuin.objects4j.common,org.fuin.objects4j.vo,org.jo
+ da.time";version="0.1.0.SNAPSHOT"
 Import-Package: javax.enterprise.context,javax.persistence,javax.validat
  ion;version="[1.1,2)",javax.validation.constraints;version="[1.1,2)",ja
  vax.xml.bind,javax.xml.bind.annotation,javax.xml.bind.annotation.adapte

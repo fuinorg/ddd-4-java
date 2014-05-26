@@ -33,13 +33,11 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  * JAXB and JPA converter for an entity identifier path.
  */
 @ThreadSafe
-@ApplicationScoped
 @Converter(autoApply = true)
 public final class EntityIdPathConverter extends
 	AbstractValueObjectConverter<String, EntityIdPath> implements
 	AttributeConverter<EntityIdPath, String> {
 
-    @Inject
     private EntityIdFactory factory;
 
     @Override

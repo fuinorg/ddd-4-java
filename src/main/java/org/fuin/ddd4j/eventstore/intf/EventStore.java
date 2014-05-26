@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.eventstore.intf;
 
-import java.io.Closeable;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -26,17 +25,7 @@ import javax.validation.constraints.NotNull;
  * Stores events.
  */
 // CHECKSTYLE:OFF:RedundantThrows
-public interface EventStore extends Closeable {
-
-    /**
-     * Opens a connection to the repository.
-     */
-    public void open();
-
-    /**
-     * Closes the connection to the repository.
-     */
-    public void close();
+public interface EventStore extends ReadOnlyEventStore {
 
     /**
      * Deletes a stream from the event store.
@@ -109,77 +98,6 @@ public interface EventStore extends Closeable {
     public int appendToStream(@NotNull StreamId streamId, int expectedVersion,
             @NotNull EventData... events) throws StreamNotFoundException,
             StreamVersionConflictException, StreamDeletedException;
-
-    /**
-     * Reads a single event from a stream.
-     * 
-     * @param streamId
-     *            The stream to read from
-     * @param eventNumber
-     *            The event number to read.
-     * 
-     * @return A result containing the results of the read operation
-     * 
-     * @throws EventNotFoundException
-     *             An event with the given number was not found in the stream.
-     * @throws StreamNotFoundException
-     *             A stream with the given name does not exist in the
-     *             repository.
-     * @throws StreamDeletedException
-     *             A stream with the given name previously existed but was
-     *             deleted.
-     */
-    public EventData readEvent(@NotNull StreamId streamId, int eventNumber)
-            throws EventNotFoundException, StreamNotFoundException,
-            StreamDeletedException;
-
-    /**
-     * Reads count Events from an Event Stream forwards (e.g. oldest to newest)
-     * starting from position start
-     * 
-     * @param streamId
-     *            The stream to read from
-     * @param start
-     *            The starting point to read from
-     * @param count
-     *            The count of items to read
-     * 
-     * @return A slice containing the results of the read operation
-     * 
-     * @throws StreamNotFoundException
-     *             A stream with the given name does not exist in the
-     *             repository.
-     * @throws StreamDeletedException
-     *             A stream with the given name previously existed but was
-     *             deleted.
-     */
-    public StreamEventsSlice readStreamEventsForward(
-            @NotNull StreamId streamId, int start, int count)
-            throws StreamNotFoundException, StreamDeletedException;
-
-    /**
-     * Reads count events from an Event Stream backwards (e.g. newest to oldest)
-     * from position
-     * 
-     * @param streamId
-     *            The Event Stream to read from
-     * @param start
-     *            The position to start reading from
-     * @param count
-     *            The count to read from the position
-     * 
-     * @return An slice containing the results of the read operation
-     * 
-     * @throws StreamNotFoundException
-     *             A stream with the given name does not exist in the
-     *             repository.
-     * @throws StreamDeletedException
-     *             A stream with the given name previously existed but was
-     *             deleted.
-     */
-    public StreamEventsSlice readStreamEventsBackward(
-            @NotNull StreamId streamId, int start, int count)
-            throws StreamNotFoundException, StreamDeletedException;
 
 }
 // CHECKSTYLE:ON:RedundantThrows

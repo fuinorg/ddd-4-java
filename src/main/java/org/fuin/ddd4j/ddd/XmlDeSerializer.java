@@ -38,8 +38,9 @@ import org.slf4j.LoggerFactory;
  */
 public final class XmlDeSerializer implements Serializer, Deserializer {
 
-    private static final Logger LOG = LoggerFactory.getLogger(XmlDeSerializer.class);
-    
+    private static final Logger LOG = LoggerFactory
+	    .getLogger(XmlDeSerializer.class);
+
     private final String type;
 
     private final int version;
@@ -60,10 +61,11 @@ public final class XmlDeSerializer implements Serializer, Deserializer {
      * @param classesToBeBound
      *            Classes to use for the JAXB context.
      */
-    public XmlDeSerializer(final String type, final Class<?>... classesToBeBound) {
-        this(type, null, classesToBeBound);
+    public XmlDeSerializer(final String type,
+	    final Class<?>... classesToBeBound) {
+	this(type, null, classesToBeBound);
     }
-    
+
     /**
      * Constructor with type and JAXB context classes.
      * 
@@ -75,87 +77,89 @@ public final class XmlDeSerializer implements Serializer, Deserializer {
      * @param classesToBeBound
      *            Classes to use for the JAXB context.
      */
-    public XmlDeSerializer(final String type, final XmlAdapter<?, ?>[] adapters,
-            final Class<?>... classesToBeBound) {
-        super();
-        this.type = type;
-        this.version = 1;
-        this.mimeType = "application/xml";
-        this.charset = Charset.forName("utf-8");
-        try {
-            final JAXBContext ctx = JAXBContext.newInstance(classesToBeBound);
-            marshaller = ctx.createMarshaller();
-            unmarshaller = ctx.createUnmarshaller();
-            if ((adapters == null) || (adapters.length == 0)) {
-                LOG.debug("No adapters set for: " + type);
-            } else {
-                for (XmlAdapter<?, ?> adapter : adapters) {
-                    LOG.debug("Set adapter for: " + type + " [" + adapter + "]");
-                    unmarshaller.setAdapter(adapter);
-                }
-            }
-            unmarshaller.setEventHandler(new ValidationEventHandler() {
-                @Override
-                public boolean handleEvent(final ValidationEvent event) {
-                    if (event.getSeverity() > 0) {
-                        if (event.getLinkedException() == null) {
-                            throw new RuntimeException(
-                                    "Error unmarshalling the data: "
-                                            + event.getMessage());
-                        }
-                        throw new RuntimeException(
-                                "Error unmarshalling the data", event
-                                        .getLinkedException());
-                    }
-                    return true;
-                }
-            });
-        } catch (final JAXBException ex) {
-            throw new RuntimeException(
-                    "Error initializing JAXB helper classes", ex);
-        }
+    public XmlDeSerializer(final String type,
+	    final XmlAdapter<?, ?>[] adapters,
+	    final Class<?>... classesToBeBound) {
+	super();
+	this.type = type;
+	this.version = 1;
+	this.mimeType = "application/xml";
+	this.charset = Charset.forName("utf-8");
+	try {
+	    final JAXBContext ctx = JAXBContext.newInstance(classesToBeBound);
+	    marshaller = ctx.createMarshaller();
+	    unmarshaller = ctx.createUnmarshaller();
+	    if ((adapters == null) || (adapters.length == 0)) {
+		LOG.debug("No adapters set for: " + type);
+	    } else {
+		for (XmlAdapter<?, ?> adapter : adapters) {
+		    LOG.debug("Set adapter for: " + type + " [" + adapter + "]");
+		    marshaller.setAdapter(adapter);
+		    unmarshaller.setAdapter(adapter);
+		}
+	    }
+	    unmarshaller.setEventHandler(new ValidationEventHandler() {
+		@Override
+		public boolean handleEvent(final ValidationEvent event) {
+		    if (event.getSeverity() > 0) {
+			if (event.getLinkedException() == null) {
+			    throw new RuntimeException(
+				    "Error unmarshalling the data: "
+					    + event.getMessage());
+			}
+			throw new RuntimeException(
+				"Error unmarshalling the data", event
+					.getLinkedException());
+		    }
+		    return true;
+		}
+	    });
+	} catch (final JAXBException ex) {
+	    throw new RuntimeException(
+		    "Error initializing JAXB helper classes", ex);
+	}
     }
 
     @Override
     public final String getType() {
-        return type;
+	return type;
     }
 
     @Override
     public final int getVersion() {
-        return version;
+	return version;
     }
 
     @Override
     public final String getMimeType() {
-        return mimeType;
+	return mimeType;
     }
 
     @Override
     public final Charset getEncoding() {
-        return charset;
+	return charset;
     }
 
     @Override
     public final byte[] marshal(final Object obj) {
-        try {
-            final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
-            marshaller.marshal(obj, bos);
-            return bos.toByteArray();
-        } catch (final JAXBException ex) {
-            throw new RuntimeException("Error serializing data", ex);
-        }
+	try {
+	    final ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+	    marshaller.marshal(obj, bos);
+	    return bos.toByteArray();
+	} catch (final JAXBException ex) {
+	    throw new RuntimeException("Error serializing data", ex);
+	}
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final <T> T unmarshal(final byte[] data) {
-        try {
-            final ByteArrayInputStream bais = new ByteArrayInputStream(data);
-            return (T) unmarshaller.unmarshal(bais);
-        } catch (final JAXBException ex) {
-            throw new RuntimeException("Error de-serializing data", ex);
-        }
+	try {
+	    final ByteArrayInputStream bais = new ByteArrayInputStream(data);
+	    return (T) unmarshaller.unmarshal(bais);
+	} catch (final JAXBException ex) {
+	    throw new RuntimeException("Error de-serializing data", ex);
+	}
     }
 
 }

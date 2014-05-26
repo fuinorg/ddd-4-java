@@ -33,8 +33,8 @@ public class EntityIdPathConverterTest {
     public void testIsValid() {
 
 	// PREPARE
-	final EntityIdPathConverter testee = new EntityIdPathConverter();
-	testee.setFactory(new MyIdFactory());
+	final EntityIdPathConverter testee = new EntityIdPathConverter(
+		new MyIdFactory());
 
 	// TEST & VERIFY
 	assertThat(testee.isValid(null)).isTrue();
@@ -52,8 +52,8 @@ public class EntityIdPathConverterTest {
     public void testToVOSingle() {
 
 	// PREPARE
-	final EntityIdPathConverter testee = new EntityIdPathConverter();
-	testee.setFactory(new MyIdFactory());
+	final EntityIdPathConverter testee = new EntityIdPathConverter(
+		new MyIdFactory());
 	EntityIdPath path;
 	Iterator<EntityId> it;
 

@@ -21,8 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
@@ -38,7 +36,21 @@ public final class EntityIdPathConverter extends
 	AbstractValueObjectConverter<String, EntityIdPath> implements
 	AttributeConverter<EntityIdPath, String> {
 
-    private EntityIdFactory factory;
+    private final EntityIdFactory factory;
+
+    /**
+     * Constructor with factory.
+     * 
+     * @param factory
+     *            Factory to use.
+     */
+    public EntityIdPathConverter(final EntityIdFactory factory) {
+	super();
+	if (factory == null) {
+	    throw new IllegalStateException("Factory cannot be null");
+	}
+	this.factory = factory;
+    }
 
     @Override
     public final Class<String> getBaseTypeClass() {
@@ -55,7 +67,6 @@ public final class EntityIdPathConverter extends
 	if (value == null) {
 	    return true;
 	}
-	assertFactoryIsSet();
 	final List<Entry> entryList = entries(value);
 	if ((entryList == null) || (entryList.size() == 0)) {
 	    return false;
@@ -73,7 +84,6 @@ public final class EntityIdPathConverter extends
 	if (value == null) {
 	    return null;
 	}
-	assertFactoryIsSet();
 	final List<Entry> entryList = entries(value);
 	if ((entryList == null) || (entryList.size() == 0)) {
 	    throw new IllegalArgumentException("Invalid entity path: '" + value
@@ -92,22 +102,6 @@ public final class EntityIdPathConverter extends
 	    return null;
 	}
 	return value.asString();
-    }
-
-    /**
-     * Sets the factory to a new value.
-     * 
-     * @param factory
-     *            Factory to set.
-     */
-    public final void setFactory(final EntityIdFactory factory) {
-	this.factory = factory;
-    }
-
-    private void assertFactoryIsSet() {
-	if (factory == null) {
-	    throw new IllegalStateException("Factory not set");
-	}
     }
 
     private List<Entry> entries(final String value) {

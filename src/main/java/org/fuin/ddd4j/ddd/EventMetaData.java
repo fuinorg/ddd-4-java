@@ -60,7 +60,7 @@ public class EventMetaData implements MetaData, Serializable {
      * Protected default constructor for de-serialization.
      */
     protected EventMetaData() {
-	super();
+        super();
     }
 
     /**
@@ -85,19 +85,19 @@ public class EventMetaData implements MetaData, Serializable {
      */
     // CHECKSTYLE:OFF More than 7 args is OK here
     public EventMetaData(final String remoteAddr, final Integer remotePort,
-	    final String remoteUser, final String localAddr,
-	    final Integer localPort, final String user,
-	    final DateTime cmdCreated, final DateTime cmdReceived) {
-	// CHECKSTYLE:ON
-	super();
-	this.remoteAddr = remoteAddr;
-	this.remotePort = remotePort;
-	this.remoteUser = remoteUser;
-	this.localAddr = localAddr;
-	this.localPort = localPort;
-	this.user = user;
-	this.cmdCreated = cmdCreated;
-	this.cmdReceived = cmdReceived;
+            final String remoteUser, final String localAddr,
+            final Integer localPort, final String user,
+            final DateTime cmdCreated, final DateTime cmdReceived) {
+        // CHECKSTYLE:ON
+        super();
+        this.remoteAddr = remoteAddr;
+        this.remotePort = remotePort;
+        this.remoteUser = remoteUser;
+        this.localAddr = localAddr;
+        this.localPort = localPort;
+        this.user = user;
+        this.cmdCreated = cmdCreated;
+        this.cmdReceived = cmdReceived;
     }
 
     /**
@@ -106,7 +106,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return IP from the HTTP header.
      */
     public final String getRemoteAddr() {
-	return remoteAddr;
+        return remoteAddr;
     }
 
     /**
@@ -115,7 +115,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return Port from the HTTP header.
      */
     public final Integer getRemotePort() {
-	return remotePort;
+        return remotePort;
     }
 
     /**
@@ -124,7 +124,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return User from the HTTP header.
      */
     public final String getRemoteUser() {
-	return remoteUser;
+        return remoteUser;
     }
 
     /**
@@ -133,7 +133,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return Local IP address.
      */
     public final String getLocalAddr() {
-	return localAddr;
+        return localAddr;
     }
 
     /**
@@ -142,7 +142,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return Local port.
      */
     public final Integer getLocalPort() {
-	return localPort;
+        return localPort;
     }
 
     /**
@@ -151,7 +151,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return User name.
      */
     public final String getUser() {
-	return user;
+        return user;
     }
 
     /**
@@ -160,7 +160,7 @@ public class EventMetaData implements MetaData, Serializable {
      * @return Date/Time of command creation.
      */
     public final DateTime getCmdCreated() {
-	return cmdCreated;
+        return cmdCreated;
     }
 
     /**
@@ -169,87 +169,87 @@ public class EventMetaData implements MetaData, Serializable {
      * @return Date/Time of command receipt.
      */
     public final DateTime getCmdReceived() {
-	return cmdReceived;
+        return cmdReceived;
     }
 
     @Override
     public final String getType() {
-	return getClass().getSimpleName();
+        return getClass().getSimpleName();
     }
 
     // CHECKSTYLE:OFF Generated code
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((cmdCreated == null) ? 0 : cmdCreated.hashCode());
-	result = prime * result
-		+ ((cmdReceived == null) ? 0 : cmdReceived.hashCode());
-	result = prime * result
-		+ ((localAddr == null) ? 0 : localAddr.hashCode());
-	result = prime * result
-		+ ((localPort == null) ? 0 : localPort.hashCode());
-	result = prime * result
-		+ ((remoteAddr == null) ? 0 : remoteAddr.hashCode());
-	result = prime * result
-		+ ((remotePort == null) ? 0 : remotePort.hashCode());
-	result = prime * result
-		+ ((remoteUser == null) ? 0 : remoteUser.hashCode());
-	result = prime * result + ((user == null) ? 0 : user.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((cmdCreated == null) ? 0 : cmdCreated.hashCode());
+        result = prime * result
+                + ((cmdReceived == null) ? 0 : cmdReceived.hashCode());
+        result = prime * result
+                + ((localAddr == null) ? 0 : localAddr.hashCode());
+        result = prime * result
+                + ((localPort == null) ? 0 : localPort.hashCode());
+        result = prime * result
+                + ((remoteAddr == null) ? 0 : remoteAddr.hashCode());
+        result = prime * result
+                + ((remotePort == null) ? 0 : remotePort.hashCode());
+        result = prime * result
+                + ((remoteUser == null) ? 0 : remoteUser.hashCode());
+        result = prime * result + ((user == null) ? 0 : user.hashCode());
+        return result;
     }
 
     @Override
     public boolean equals(Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	EventMetaData other = (EventMetaData) obj;
-	if (cmdCreated == null) {
-	    if (other.cmdCreated != null)
-		return false;
-	} else if (!cmdCreated.equals(other.cmdCreated))
-	    return false;
-	if (cmdReceived == null) {
-	    if (other.cmdReceived != null)
-		return false;
-	} else if (!cmdReceived.equals(other.cmdReceived))
-	    return false;
-	if (localAddr == null) {
-	    if (other.localAddr != null)
-		return false;
-	} else if (!localAddr.equals(other.localAddr))
-	    return false;
-	if (localPort == null) {
-	    if (other.localPort != null)
-		return false;
-	} else if (!localPort.equals(other.localPort))
-	    return false;
-	if (remoteAddr == null) {
-	    if (other.remoteAddr != null)
-		return false;
-	} else if (!remoteAddr.equals(other.remoteAddr))
-	    return false;
-	if (remotePort == null) {
-	    if (other.remotePort != null)
-		return false;
-	} else if (!remotePort.equals(other.remotePort))
-	    return false;
-	if (remoteUser == null) {
-	    if (other.remoteUser != null)
-		return false;
-	} else if (!remoteUser.equals(other.remoteUser))
-	    return false;
-	if (user == null) {
-	    if (other.user != null)
-		return false;
-	} else if (!user.equals(other.user))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        EventMetaData other = (EventMetaData) obj;
+        if (cmdCreated == null) {
+            if (other.cmdCreated != null)
+                return false;
+        } else if (!cmdCreated.equals(other.cmdCreated))
+            return false;
+        if (cmdReceived == null) {
+            if (other.cmdReceived != null)
+                return false;
+        } else if (!cmdReceived.equals(other.cmdReceived))
+            return false;
+        if (localAddr == null) {
+            if (other.localAddr != null)
+                return false;
+        } else if (!localAddr.equals(other.localAddr))
+            return false;
+        if (localPort == null) {
+            if (other.localPort != null)
+                return false;
+        } else if (!localPort.equals(other.localPort))
+            return false;
+        if (remoteAddr == null) {
+            if (other.remoteAddr != null)
+                return false;
+        } else if (!remoteAddr.equals(other.remoteAddr))
+            return false;
+        if (remotePort == null) {
+            if (other.remotePort != null)
+                return false;
+        } else if (!remotePort.equals(other.remotePort))
+            return false;
+        if (remoteUser == null) {
+            if (other.remoteUser != null)
+                return false;
+        } else if (!remoteUser.equals(other.remoteUser))
+            return false;
+        if (user == null) {
+            if (other.user != null)
+                return false;
+        } else if (!user.equals(other.user))
+            return false;
+        return true;
     }
     // CHECKSTYLE:ON
 

@@ -38,9 +38,9 @@ public class StreamNotFoundException extends RuntimeException {
      *            Unique name of the stream.
      */
     public StreamNotFoundException(@NotNull final StreamId streamId) {
-	super("Stream '" + streamId + "' does not exist");
-	Contract.requireArgNotNull("streamId", streamId);
-	this.streamId = streamId;
+        super("Stream '" + streamId + "' does not exist");
+        Contract.requireArgNotNull("streamId", streamId);
+        this.streamId = streamId;
     }
 
     /**
@@ -50,7 +50,7 @@ public class StreamNotFoundException extends RuntimeException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
 }

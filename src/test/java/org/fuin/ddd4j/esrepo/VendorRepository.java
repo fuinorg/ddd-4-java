@@ -28,7 +28,7 @@ import org.fuin.ddd4j.test.VendorId;
  * Implements a repository that is capable of storing vendors.
  */
 public final class VendorRepository extends
-	EventStoreRepository<VendorId, Vendor> {
+        EventStoreRepository<VendorId, Vendor> {
 
     /**
      * Constructor with event store to use as storage.
@@ -41,29 +41,29 @@ public final class VendorRepository extends
      *            Registry used to locate deserializers.
      */
     public VendorRepository(final EventStore eventStore,
-	    final SerializerRegistry serRegistry,
-	    final DeserializerRegistry desRegistry) {
-	super(eventStore, serRegistry, desRegistry);
+            final SerializerRegistry serRegistry,
+            final DeserializerRegistry desRegistry) {
+        super(eventStore, serRegistry, desRegistry);
     }
 
     @Override
     public Class<Vendor> getAggregateClass() {
-	return Vendor.class;
+        return Vendor.class;
     }
 
     @Override
     public final EntityType getAggregateType() {
-	return VendorId.ENTITY_TYPE;
+        return VendorId.ENTITY_TYPE;
     }
 
     @Override
     public final Vendor create() {
-	return new Vendor();
+        return new Vendor();
     }
 
     @Override
     protected final String getIdParamName() {
-	return "vendorId";
+        return "vendorId";
     }
 
 }

@@ -34,7 +34,7 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  */
 @XmlJavaTypeAdapter(EntityIdPathConverter.class)
 public final class EntityIdPath implements ValueObjectWithBaseType<String>,
-	Serializable {
+        Serializable {
 
     private static final long serialVersionUID = 1000L;
 
@@ -50,14 +50,14 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      *            Entity identifier in correct order (from outer to inner).
      */
     public EntityIdPath(final EntityId... entityIds) {
-	super();
-	Contract.requireArgNotNull("entityIds", entityIds);
-	if (entityIds.length == 0) {
-	    throw new IllegalArgumentException(
-		    "Identifier array cannot be empty");
-	}
-	this.entityIds = new ArrayList<EntityId>();
-	this.entityIds.addAll(Arrays.asList(entityIds));
+        super();
+        Contract.requireArgNotNull("entityIds", entityIds);
+        if (entityIds.length == 0) {
+            throw new IllegalArgumentException(
+                    "Identifier array cannot be empty");
+        }
+        this.entityIds = new ArrayList<EntityId>();
+        this.entityIds.addAll(Arrays.asList(entityIds));
     }
 
     /**
@@ -67,13 +67,13 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      *            Entity identifiers in correct order (from outer to inner).
      */
     public EntityIdPath(final List<EntityId> ids) {
-	Contract.requireArgNotNull("ids", ids);
-	if (ids.size() == 0) {
-	    throw new IllegalArgumentException(
-		    "Identifier list cannot be empty");
-	}
-	this.entityIds = new ArrayList<EntityId>();
-	this.entityIds.addAll(ids);
+        Contract.requireArgNotNull("ids", ids);
+        if (ids.size() == 0) {
+            throw new IllegalArgumentException(
+                    "Identifier list cannot be empty");
+        }
+        this.entityIds = new ArrayList<EntityId>();
+        this.entityIds.addAll(ids);
     }
 
     /**
@@ -85,7 +85,7 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      * @return Iterator on a new list instance.
      */
     public final Iterator<EntityId> iterator() {
-	return new ArrayList<EntityId>(entityIds).iterator();
+        return new ArrayList<EntityId>(entityIds).iterator();
     }
 
     /**
@@ -98,7 +98,7 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      */
     @SuppressWarnings("unchecked")
     public final <T extends EntityId> T first() {
-	return (T) entityIds.get(0);
+        return (T) entityIds.get(0);
     }
 
     /**
@@ -111,7 +111,7 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      */
     @SuppressWarnings("unchecked")
     public final <T extends EntityId> T last() {
-	return (T) entityIds.get(entityIds.size() - 1);
+        return (T) entityIds.get(entityIds.size() - 1);
     }
 
     /**
@@ -120,14 +120,14 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      * @return Rest or NULL if the path has only one element.
      */
     public final EntityIdPath rest() {
-	if (entityIds.size() == 1) {
-	    return null;
-	}
-	final List<EntityId> list = new ArrayList<EntityId>();
-	for (int i = 1; i < entityIds.size(); i++) {
-	    list.add(entityIds.get(i));
-	}
-	return new EntityIdPath(list);
+        if (entityIds.size() == 1) {
+            return null;
+        }
+        final List<EntityId> list = new ArrayList<EntityId>();
+        for (int i = 1; i < entityIds.size(); i++) {
+            list.add(entityIds.get(i));
+        }
+        return new EntityIdPath(list);
     }
 
     /**
@@ -136,7 +136,7 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      * @return Number of identifiers contained in the path.
      */
     public final int size() {
-	return entityIds.size();
+        return entityIds.size();
     }
 
     /**
@@ -145,24 +145,24 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
      * @return Path.
      */
     public final String asString() {
-	final StringBuilder sb = new StringBuilder();
-	for (final EntityId entityId : entityIds) {
-	    if (sb.length() > 0) {
-		sb.append(PATH_SEPARATOR);
-	    }
-	    sb.append(entityId.asTypedString());
-	}
-	return sb.toString();
+        final StringBuilder sb = new StringBuilder();
+        for (final EntityId entityId : entityIds) {
+            if (sb.length() > 0) {
+                sb.append(PATH_SEPARATOR);
+            }
+            sb.append(entityId.asTypedString());
+        }
+        return sb.toString();
     }
 
     @Override
     public final String asBaseType() {
-	return asString();
+        return asString();
     }
 
     @Override
     public final Class<String> getBaseType() {
-	return String.class;
+        return String.class;
     }
 
 }

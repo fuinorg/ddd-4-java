@@ -29,7 +29,7 @@ import org.fuin.objects4j.vo.ValueObject;
  * Unique identifier based on a UUID.
  */
 public abstract class AbstractUUIDVO implements ValueObject,
-	Comparable<AbstractUUIDVO>, Serializable {
+        Comparable<AbstractUUIDVO>, Serializable {
 
     private static final long serialVersionUID = 1000L;
 
@@ -41,8 +41,8 @@ public abstract class AbstractUUIDVO implements ValueObject,
      * Default constructor.
      */
     public AbstractUUIDVO() {
-	super();
-	uuid = UUID.randomUUID();
+        super();
+        uuid = UUID.randomUUID();
     }
 
     /**
@@ -52,34 +52,34 @@ public abstract class AbstractUUIDVO implements ValueObject,
      *            UUID.
      */
     public AbstractUUIDVO(@NotNull final UUID uuid) {
-	super();
-	Contract.requireArgNotNull("uuid", uuid);
-	this.uuid = uuid;
+        super();
+        Contract.requireArgNotNull("uuid", uuid);
+        this.uuid = uuid;
     }
 
     @Override
     public final int hashCode() {
-	return uuid.hashCode();
+        return uuid.hashCode();
     }
 
     @Override
     public final boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractUUIDVO other = (AbstractUUIDVO) obj;
-	return uuid.equals(other.uuid);
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractUUIDVO other = (AbstractUUIDVO) obj;
+        return uuid.equals(other.uuid);
     }
 
     @Override
     public final int compareTo(final AbstractUUIDVO other) {
-	return uuid.compareTo(other.uuid);
+        return uuid.compareTo(other.uuid);
     }
 
     /**
@@ -88,15 +88,15 @@ public abstract class AbstractUUIDVO implements ValueObject,
      * @return String representation.
      */
     public final String asString() {
-	if (uuidStr == null) {
-	    uuidStr = uuid.toString();
-	}
-	return uuidStr;
+        if (uuidStr == null) {
+            uuidStr = uuid.toString();
+        }
+        return uuidStr;
     }
 
     @Override
     public final String toString() {
-	return asString();
+        return asString();
     }
 
 }

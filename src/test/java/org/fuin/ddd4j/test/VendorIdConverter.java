@@ -31,35 +31,35 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 @ApplicationScoped
 @Converter(autoApply = true)
 public final class VendorIdConverter extends
-	AbstractValueObjectConverter<String, VendorId> implements
-	AttributeConverter<VendorId, String> {
+        AbstractValueObjectConverter<String, VendorId> implements
+        AttributeConverter<VendorId, String> {
 
     @Override
     public Class<VendorId> getValueObjectClass() {
-	return VendorId.class;
+        return VendorId.class;
     }
 
     @Override
     public final VendorId toVO(final String value) {
-	return VendorId.valueOf(value);
+        return VendorId.valueOf(value);
     }
 
     @Override
     public Class<String> getBaseTypeClass() {
-	return String.class;
+        return String.class;
     }
 
     @Override
     public final boolean isValid(final String value) {
-	return VendorId.isValid(value);
+        return VendorId.isValid(value);
     }
 
     @Override
     public final String fromVO(final VendorId value) {
-	if (value == null) {
-	    return null;
-	}
-	return value.toString();
+        if (value == null) {
+            return null;
+        }
+        return value.toString();
     }
 
 }

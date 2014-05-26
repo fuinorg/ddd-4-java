@@ -36,7 +36,7 @@ import javax.validation.Payload;
  * </ul>
  */
 @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
-	ElementType.ANNOTATION_TYPE })
+        ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = { VendorKeyStrValidator.class })
 @Documented

@@ -43,15 +43,15 @@ public final class AggregateNotFoundException extends Exception {
      *            Unique identifier of the aggregate.
      */
     public AggregateNotFoundException(@NotNull final EntityType aggregateType,
-	    @NotNull final AggregateRootId aggregateId) {
-	super("Aggregate of type '" + aggregateType + "' with id "
-		+ aggregateId + " not found");
+            @NotNull final AggregateRootId aggregateId) {
+        super("Aggregate of type '" + aggregateType + "' with id "
+                + aggregateId + " not found");
 
-	Contract.requireArgNotNull("aggregateType", aggregateType);
-	Contract.requireArgNotNull("aggregateId", aggregateId);
+        Contract.requireArgNotNull("aggregateType", aggregateType);
+        Contract.requireArgNotNull("aggregateId", aggregateId);
 
-	this.aggregateType = aggregateType;
-	this.aggregateId = aggregateId;
+        this.aggregateType = aggregateType;
+        this.aggregateId = aggregateId;
     }
 
     /**
@@ -61,7 +61,7 @@ public final class AggregateNotFoundException extends Exception {
      */
     @NeverNull
     public final EntityType getAggregateType() {
-	return aggregateType;
+        return aggregateType;
     }
 
     /**
@@ -71,7 +71,7 @@ public final class AggregateNotFoundException extends Exception {
      */
     @NeverNull
     public final AggregateRootId getAggregateId() {
-	return aggregateId;
+        return aggregateId;
     }
 
 }

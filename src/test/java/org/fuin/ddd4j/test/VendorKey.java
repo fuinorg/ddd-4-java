@@ -37,7 +37,7 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
 @Immutable
 @XmlJavaTypeAdapter(VendorKeyConverter.class)
 public final class VendorKey extends AbstractStringValueObject implements
-	BusinessKey {
+        BusinessKey {
 
     private static final long serialVersionUID = 1000L;
 
@@ -52,20 +52,20 @@ public final class VendorKey extends AbstractStringValueObject implements
      *            Key.
      */
     public VendorKey(@NotNull @VendorKeyStr final String key) {
-	super();
-	Contract.requireArgNotEmpty("key", key);
-	VendorKeyStrValidator.requireArgValid("key", key);
-	this.key = key;
+        super();
+        Contract.requireArgNotEmpty("key", key);
+        VendorKeyStrValidator.requireArgValid("key", key);
+        this.key = key;
     }
 
     @Override
     public final String asBaseType() {
-	return key;
+        return key;
     }
 
     @Override
     public final String toString() {
-	return key;
+        return key;
     }
 
     /**
@@ -78,7 +78,7 @@ public final class VendorKey extends AbstractStringValueObject implements
      * @return TRUE if it's a valid key, else FALSE.
      */
     public static boolean isValid(final String value) {
-	return VendorKeyStrValidator.isValid(value);
+        return VendorKeyStrValidator.isValid(value);
     }
 
     /**
@@ -91,10 +91,10 @@ public final class VendorKey extends AbstractStringValueObject implements
      * @return Converted value.
      */
     public static VendorKey valueOf(final String value) {
-	if (value == null) {
-	    return null;
-	}
-	return new VendorKey(value);
+        if (value == null) {
+            return null;
+        }
+        return new VendorKey(value);
     }
 
 }

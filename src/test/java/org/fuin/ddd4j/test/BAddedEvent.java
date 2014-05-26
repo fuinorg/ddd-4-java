@@ -31,17 +31,17 @@ public class BAddedEvent extends AbstractDomainEvent<AId> {
     private final BId bid;
 
     public BAddedEvent(final AId aid, final BId bid) {
-	super(new EntityIdPath(aid));
-	this.bid = bid;
+        super(new EntityIdPath(aid));
+        this.bid = bid;
     }
 
     @Override
     public EventType getEventType() {
-	return EVENT_TYPE;
+        return EVENT_TYPE;
     }
 
     public BId getBId() {
-	return bid;
+        return bid;
     }
 
 }

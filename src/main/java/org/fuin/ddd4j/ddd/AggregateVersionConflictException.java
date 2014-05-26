@@ -51,19 +51,19 @@ public final class AggregateVersionConflictException extends Exception {
      *            Actual version.
      */
     public AggregateVersionConflictException(
-	    @NotNull final EntityType aggregateType,
-	    @NotNull final AggregateRootId aggregateId, final int expected,
-	    final int actual) {
-	super("Expected version " + expected + " for aggregate '"
-		+ aggregateType + "' (" + aggregateId + "), but was " + actual);
+            @NotNull final EntityType aggregateType,
+            @NotNull final AggregateRootId aggregateId, final int expected,
+            final int actual) {
+        super("Expected version " + expected + " for aggregate '"
+                + aggregateType + "' (" + aggregateId + "), but was " + actual);
 
-	Contract.requireArgNotNull("aggregateType", aggregateType);
-	Contract.requireArgNotNull("aggregateId", aggregateId);
+        Contract.requireArgNotNull("aggregateType", aggregateType);
+        Contract.requireArgNotNull("aggregateId", aggregateId);
 
-	this.aggregateType = aggregateType;
-	this.aggregateId = aggregateId;
-	this.expected = expected;
-	this.actual = actual;
+        this.aggregateType = aggregateType;
+        this.aggregateId = aggregateId;
+        this.expected = expected;
+        this.actual = actual;
     }
 
     /**
@@ -73,7 +73,7 @@ public final class AggregateVersionConflictException extends Exception {
      */
     @NeverNull
     public final EntityType getAggregateType() {
-	return aggregateType;
+        return aggregateType;
     }
 
     /**
@@ -83,7 +83,7 @@ public final class AggregateVersionConflictException extends Exception {
      */
     @NeverNull
     public final AggregateRootId getAggregateId() {
-	return aggregateId;
+        return aggregateId;
     }
 
     /**
@@ -92,7 +92,7 @@ public final class AggregateVersionConflictException extends Exception {
      * @return Expected version.
      */
     public final int getExpected() {
-	return expected;
+        return expected;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class AggregateVersionConflictException extends Exception {
      * @return Actual version.
      */
     public final int getActual() {
-	return actual;
+        return actual;
     }
 
 }

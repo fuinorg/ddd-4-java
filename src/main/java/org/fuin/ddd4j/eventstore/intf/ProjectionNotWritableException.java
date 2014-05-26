@@ -38,10 +38,10 @@ public class ProjectionNotWritableException extends RuntimeException {
      *            Unique name of the stream.
      */
     public ProjectionNotWritableException(@NotNull final StreamId streamId) {
-	super("Stream '" + streamId
-		+ "' is a projection, which means it's read only");
-	Contract.requireArgNotNull("streamId", streamId);
-	this.streamId = streamId;
+        super("Stream '" + streamId
+                + "' is a projection, which means it's read only");
+        Contract.requireArgNotNull("streamId", streamId);
+        this.streamId = streamId;
     }
 
     /**
@@ -51,7 +51,7 @@ public class ProjectionNotWritableException extends RuntimeException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
 }

@@ -42,6 +42,6 @@ public interface DeserializerRegistry {
      *         deserializer was found for the type.
      */
     public Deserializer getDeserializer(@NotNull String type, int version,
-	    @NotNull String mimeType, @NotNull Charset encoding);
+            @NotNull String mimeType, @NotNull Charset encoding);
 
 }

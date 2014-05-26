@@ -54,47 +54,47 @@ public final class AggregateStreamId implements StreamId {
      *            Aggregate id.
      */
     public AggregateStreamId(final EntityType type, final String paramName,
-	    final AggregateRootId paramValue) {
-	super();
-	this.type = type;
-	this.paramName = paramName;
-	this.paramValue = paramValue;
+            final AggregateRootId paramValue) {
+        super();
+        this.type = type;
+        this.paramName = paramName;
+        this.paramValue = paramValue;
     }
 
     @Override
     public final String getName() {
-	return type.asString();
+        return type.asString();
     }
 
     @Override
     public final boolean isProjection() {
         return false;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public final <T> T getSingleParamValue() {
-	return (T) paramValue.asString();
+        return (T) paramValue.asString();
     }
 
     @Override
     public final List<KeyValue> getParameters() {
-	if (params == null) {
-	    final List<KeyValue> list = new ArrayList<KeyValue>();
-	    list.add(new KeyValue(paramName, paramValue.asString()));
-	    params = Collections.unmodifiableList(list);
-	}
-	return params;
+        if (params == null) {
+            final List<KeyValue> list = new ArrayList<KeyValue>();
+            list.add(new KeyValue(paramName, paramValue.asString()));
+            params = Collections.unmodifiableList(list);
+        }
+        return params;
     }
 
     @Override
     public final String asString() {
-	return type + "-" + paramValue.asString();
+        return type + "-" + paramValue.asString();
     }
 
     @Override
     public final String toString() {
-	return asString();
+        return asString();
     }
 
 }

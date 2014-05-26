@@ -52,7 +52,7 @@ public class VendorEvent extends StreamEvent {
      * Protected default constructor only required for JPA.
      */
     protected VendorEvent() {
-	super();
+        super();
     }
 
     /**
@@ -66,13 +66,13 @@ public class VendorEvent extends StreamEvent {
      *            Event entry to connect.
      */
     public VendorEvent(@NotNull final VendorId vendorId,
-	    @NotNull final Integer version, final EventEntry eventEntry) {
-	super(eventEntry);
-	Contract.requireArgNotNull("vendorId", vendorId);
-	Contract.requireArgNotNull("version", version);
-	this.vendorId = vendorId.asString();
-	this.eventNumber = version;
-	this.id = vendorId;
+            @NotNull final Integer version, final EventEntry eventEntry) {
+        super(eventEntry);
+        Contract.requireArgNotNull("vendorId", vendorId);
+        Contract.requireArgNotNull("version", version);
+        this.vendorId = vendorId.asString();
+        this.eventNumber = version;
+        this.id = vendorId;
     }
 
     /**
@@ -81,7 +81,7 @@ public class VendorEvent extends StreamEvent {
      * @return Vendor identifier.
      */
     public final String getVendorId() {
-	return vendorId;
+        return vendorId;
     }
 
     /**
@@ -90,10 +90,10 @@ public class VendorEvent extends StreamEvent {
      * @return Name converted into a vendor ID.
      */
     public final VendorId getId() {
-	if (id == null) {
-	    id = VendorId.valueOf(vendorId);
-	}
-	return id;
+        if (id == null) {
+            id = VendorId.valueOf(vendorId);
+        }
+        return id;
     }
 
     /**
@@ -102,48 +102,48 @@ public class VendorEvent extends StreamEvent {
      * @return Number that is unique in combination with the name.
      */
     public final Integer getEventNumber() {
-	return eventNumber;
+        return eventNumber;
     }
 
     // CHECKSTYLE:OFF Generated code
     @Override
     public final int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = prime * result
-		+ ((vendorId == null) ? 0 : vendorId.hashCode());
-	result = prime * result
-		+ ((eventNumber == null) ? 0 : eventNumber.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = prime * result
+                + ((vendorId == null) ? 0 : vendorId.hashCode());
+        result = prime * result
+                + ((eventNumber == null) ? 0 : eventNumber.hashCode());
+        return result;
     }
 
     @Override
     public final boolean equals(final Object obj) {
-	if (this == obj)
-	    return true;
-	if (obj == null)
-	    return false;
-	if (getClass() != obj.getClass())
-	    return false;
-	VendorEvent other = (VendorEvent) obj;
-	if (vendorId == null) {
-	    if (other.vendorId != null)
-		return false;
-	} else if (!vendorId.equals(other.vendorId))
-	    return false;
-	if (eventNumber == null) {
-	    if (other.eventNumber != null)
-		return false;
-	} else if (!eventNumber.equals(other.eventNumber))
-	    return false;
-	return true;
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        VendorEvent other = (VendorEvent) obj;
+        if (vendorId == null) {
+            if (other.vendorId != null)
+                return false;
+        } else if (!vendorId.equals(other.vendorId))
+            return false;
+        if (eventNumber == null) {
+            if (other.eventNumber != null)
+                return false;
+        } else if (!eventNumber.equals(other.eventNumber))
+            return false;
+        return true;
     }
 
     // CHECKSTYLE:ON
 
     @Override
     public final String toString() {
-	return vendorId + "-" + eventNumber;
+        return vendorId + "-" + eventNumber;
     }
 
 }

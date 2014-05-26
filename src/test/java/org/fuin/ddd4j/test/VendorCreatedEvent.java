@@ -36,7 +36,7 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
 
     /** Unique name of the event used to store it - Should never change. */
     public static final EventType TYPE = new EventType(
-	    VendorCreatedEvent.class.getSimpleName());
+            VendorCreatedEvent.class.getSimpleName());
 
     @XmlElement(name = "vendor")
     private VendorRef vendorRef;
@@ -45,7 +45,7 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
      * Default constructor only for deserialization.
      */
     protected VendorCreatedEvent() {
-	super();
+        super();
     }
 
     /**
@@ -55,13 +55,13 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
      *            Vendor reference.
      */
     public VendorCreatedEvent(@NotNull final VendorRef vendorRef) {
-	super(new EntityIdPath(vendorRef.getId()));
-	this.vendorRef = vendorRef;
+        super(new EntityIdPath(vendorRef.getId()));
+        this.vendorRef = vendorRef;
     }
 
     @Override
     public final EventType getEventType() {
-	return TYPE;
+        return TYPE;
     }
 
     /**
@@ -71,12 +71,12 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
      */
     @NeverNull
     public final VendorRef getVendorRef() {
-	return vendorRef;
+        return vendorRef;
     }
 
     @Override
     public final String toString() {
-	return "Created vendor '" + vendorRef + "'";
+        return "Created vendor '" + vendorRef + "'";
     }
 
 }

@@ -46,17 +46,17 @@ public final class AggregateVersionNotFoundException extends Exception {
      *            Requested version.
      */
     public AggregateVersionNotFoundException(
-	    @NotNull final EntityType aggregateType,
-	    @NotNull final AggregateRootId aggregateId, final int version) {
-	super("Requested version " + version + " for aggregate '"
-		+ aggregateType + "' (" + aggregateId + ") does not exist");
+            @NotNull final EntityType aggregateType,
+            @NotNull final AggregateRootId aggregateId, final int version) {
+        super("Requested version " + version + " for aggregate '"
+                + aggregateType + "' (" + aggregateId + ") does not exist");
 
-	Contract.requireArgNotNull("aggregateType", aggregateType);
-	Contract.requireArgNotNull("aggregateId", aggregateId);
+        Contract.requireArgNotNull("aggregateType", aggregateType);
+        Contract.requireArgNotNull("aggregateId", aggregateId);
 
-	this.aggregateType = aggregateType;
-	this.aggregateId = aggregateId;
-	this.version = version;
+        this.aggregateType = aggregateType;
+        this.aggregateId = aggregateId;
+        this.version = version;
     }
 
     /**
@@ -66,7 +66,7 @@ public final class AggregateVersionNotFoundException extends Exception {
      */
     @NeverNull
     public final EntityType getAggregateType() {
-	return aggregateType;
+        return aggregateType;
     }
 
     /**
@@ -76,7 +76,7 @@ public final class AggregateVersionNotFoundException extends Exception {
      */
     @NeverNull
     public final AggregateRootId getAggregateId() {
-	return aggregateId;
+        return aggregateId;
     }
 
     /**
@@ -85,7 +85,7 @@ public final class AggregateVersionNotFoundException extends Exception {
      * @return Version.
      */
     public final int getVersion() {
-	return version;
+        return version;
     }
 
 }

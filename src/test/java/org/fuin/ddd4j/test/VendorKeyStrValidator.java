@@ -29,10 +29,10 @@ import org.fuin.objects4j.common.ContractViolationException;
  * Check that a given string is a well-formed user id.
  */
 public final class VendorKeyStrValidator implements
-	ConstraintValidator<VendorKeyStr, String> {
+        ConstraintValidator<VendorKeyStr, String> {
 
     private static final Pattern PATTERN = Pattern
-	    .compile("V[0-9][0-9][0-9][0-9][0-9]");
+            .compile("V[0-9][0-9][0-9][0-9][0-9]");
 
     @Override
     public final void initialize(final VendorKeyStr constraintAnnotation) {
@@ -40,8 +40,8 @@ public final class VendorKeyStrValidator implements
 
     @Override
     public final boolean isValid(final String value,
-	    final ConstraintValidatorContext context) {
-	return isValid(value);
+            final ConstraintValidatorContext context) {
+        return isValid(value);
     }
 
     /**
@@ -54,13 +54,13 @@ public final class VendorKeyStrValidator implements
      *         <code>false</code> is returned.
      */
     public static final boolean isValid(final String value) {
-	if (value == null) {
-	    return true;
-	}
-	if (value.length() != 6) {
-	    return false;
-	}
-	return PATTERN.matcher(value.toString()).matches();
+        if (value == null) {
+            return true;
+        }
+        if (value.length() != 6) {
+            return false;
+        }
+        return PATTERN.matcher(value.toString()).matches();
     }
 
     /**
@@ -76,12 +76,12 @@ public final class VendorKeyStrValidator implements
      */
     // CHECKSTYLE:OFF:RedundantThrows
     public static void requireArgValid(@NotNull final String name,
-	    @NotNull final String value) throws ContractViolationException {
-	// CHECKSTYLE:ON
-	if (!isValid(value)) {
-	    throw new ContractViolationException("The argument '" + name
-		    + "' is not valid: '" + value + "'");
-	}
+            @NotNull final String value) throws ContractViolationException {
+        // CHECKSTYLE:ON
+        if (!isValid(value)) {
+            throw new ContractViolationException("The argument '" + name
+                    + "' is not valid: '" + value + "'");
+        }
     }
 
 }

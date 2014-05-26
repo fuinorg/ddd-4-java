@@ -44,13 +44,13 @@ public final class StreamVersionConflictException extends Exception {
      *            Actual version.
      */
     public StreamVersionConflictException(final StreamId streamId,
-	    final int expected, final int actual) {
-	super("Expected version " + expected + " for stream '" + streamId
-		+ "', but was " + actual);
-	Contract.requireArgNotNull("streamId", streamId);
-	this.streamId = streamId;
-	this.expected = expected;
-	this.actual = actual;
+            final int expected, final int actual) {
+        super("Expected version " + expected + " for stream '" + streamId
+                + "', but was " + actual);
+        Contract.requireArgNotNull("streamId", streamId);
+        this.streamId = streamId;
+        this.expected = expected;
+        this.actual = actual;
     }
 
     /**
@@ -60,7 +60,7 @@ public final class StreamVersionConflictException extends Exception {
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
     /**
@@ -69,7 +69,7 @@ public final class StreamVersionConflictException extends Exception {
      * @return Expected version.
      */
     public final int getExpected() {
-	return expected;
+        return expected;
     }
 
     /**
@@ -78,7 +78,7 @@ public final class StreamVersionConflictException extends Exception {
      * @return Actual version.
      */
     public final int getActual() {
-	return actual;
+        return actual;
     }
 
 }

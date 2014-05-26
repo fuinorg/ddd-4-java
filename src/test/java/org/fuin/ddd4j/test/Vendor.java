@@ -33,7 +33,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      * application code!
      */
     public Vendor() {
-	super();
+        super();
     }
 
     /**
@@ -47,23 +47,23 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      *            Name.
      */
     public Vendor(final VendorId id, final VendorKey key, final VendorName name) {
-	super();
-	apply(new VendorCreatedEvent(new VendorRef(id, key, name)));
+        super();
+        apply(new VendorCreatedEvent(new VendorRef(id, key, name)));
     }
 
     @Override
     public final EntityType getType() {
-	return VendorId.ENTITY_TYPE;
+        return VendorId.ENTITY_TYPE;
     }
 
     @Override
     public final VendorId getId() {
-	return id;
+        return id;
     }
 
     @EventHandler
     private final void handle(final VendorCreatedEvent event) {
-	this.id = event.getEntityId();
+        this.id = event.getEntityId();
     }
 
 }

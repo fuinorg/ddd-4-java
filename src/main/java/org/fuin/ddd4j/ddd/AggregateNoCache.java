@@ -24,22 +24,22 @@ package org.fuin.ddd4j.ddd;
  *            Type of the aggregate.
  */
 public final class AggregateNoCache<AGGREGATE> implements
-	AggregateCache<AGGREGATE> {
+        AggregateCache<AGGREGATE> {
 
     @Override
     public final AGGREGATE get(final AggregateRootId aggregateId) {
-	// Always return null
-	return null;
+        // Always return null
+        return null;
     }
 
     @Override
     public void put(final AggregateRootId aggregateId, final AGGREGATE aggregate) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public final void remove(final AggregateRootId aggregateId) {
-	// Do nothing
+        // Do nothing
     }
 
 }

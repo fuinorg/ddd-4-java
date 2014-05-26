@@ -56,8 +56,8 @@ public interface EventStore extends Closeable {
      *             The expected version didn't match the actual version.
      */
     public void deleteStream(@NotNull StreamId streamId, int expectedVersion)
-	    throws StreamNotFoundException, StreamVersionConflictException,
-	    StreamDeletedException;
+            throws StreamNotFoundException, StreamVersionConflictException,
+            StreamDeletedException;
 
     /**
      * Appends a list of events to a stream.
@@ -81,9 +81,9 @@ public interface EventStore extends Closeable {
      *             The given stream identifier points to a projection.
      */
     public int appendToStream(@NotNull StreamId streamId, int expectedVersion,
-	    @NotNull List<EventData> events) throws StreamNotFoundException,
-	    StreamVersionConflictException, StreamDeletedException,
-	    ProjectionNotWritableException;
+            @NotNull List<EventData> events) throws StreamNotFoundException,
+            StreamVersionConflictException, StreamDeletedException,
+            ProjectionNotWritableException;
 
     /**
      * Appends one or more events to a stream.
@@ -107,8 +107,8 @@ public interface EventStore extends Closeable {
      *             The expected version didn't match the actual version.
      */
     public int appendToStream(@NotNull StreamId streamId, int expectedVersion,
-	    @NotNull EventData... events) throws StreamNotFoundException,
-	    StreamVersionConflictException, StreamDeletedException;
+            @NotNull EventData... events) throws StreamNotFoundException,
+            StreamVersionConflictException, StreamDeletedException;
 
     /**
      * Reads a single event from a stream.
@@ -130,8 +130,8 @@ public interface EventStore extends Closeable {
      *             deleted.
      */
     public EventData readEvent(@NotNull StreamId streamId, int eventNumber)
-	    throws EventNotFoundException, StreamNotFoundException,
-	    StreamDeletedException;
+            throws EventNotFoundException, StreamNotFoundException,
+            StreamDeletedException;
 
     /**
      * Reads count Events from an Event Stream forwards (e.g. oldest to newest)
@@ -154,8 +154,8 @@ public interface EventStore extends Closeable {
      *             deleted.
      */
     public StreamEventsSlice readStreamEventsForward(
-	    @NotNull StreamId streamId, int start, int count)
-	    throws StreamNotFoundException, StreamDeletedException;
+            @NotNull StreamId streamId, int start, int count)
+            throws StreamNotFoundException, StreamDeletedException;
 
     /**
      * Reads count events from an Event Stream backwards (e.g. newest to oldest)
@@ -178,8 +178,8 @@ public interface EventStore extends Closeable {
      *             deleted.
      */
     public StreamEventsSlice readStreamEventsBackward(
-	    @NotNull StreamId streamId, int start, int count)
-	    throws StreamNotFoundException, StreamDeletedException;
+            @NotNull StreamId streamId, int start, int count)
+            throws StreamNotFoundException, StreamDeletedException;
 
 }
 // CHECKSTYLE:ON:RedundantThrows

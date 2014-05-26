@@ -52,18 +52,18 @@ public final class EventData {
      *            Meta data.
      */
     public EventData(@NotNull final String eventId,
-	    @NotNull final DateTime timestamp, final Data eventData,
-	    final Data metaData) {
-	super();
+            @NotNull final DateTime timestamp, final Data eventData,
+            final Data metaData) {
+        super();
 
-	Contract.requireArgNotNull("eventId", eventId);
-	Contract.requireArgNotNull("timestamp", timestamp);
-	Contract.requireArgNotNull("eventData", eventData);
+        Contract.requireArgNotNull("eventId", eventId);
+        Contract.requireArgNotNull("timestamp", timestamp);
+        Contract.requireArgNotNull("eventData", eventData);
 
-	this.eventId = eventId;
-	this.timestamp = timestamp;
-	this.eventData = eventData;
-	this.metaData = metaData;
+        this.eventId = eventId;
+        this.timestamp = timestamp;
+        this.eventData = eventData;
+        this.metaData = metaData;
     }
 
     /**
@@ -73,7 +73,7 @@ public final class EventData {
      */
     @NeverNull
     public final String getEventId() {
-	return eventId;
+        return eventId;
     }
 
     /**
@@ -83,7 +83,7 @@ public final class EventData {
      */
     @NeverNull
     public final DateTime getTimestamp() {
-	return timestamp;
+        return timestamp;
     }
 
     /**
@@ -92,7 +92,7 @@ public final class EventData {
      * @return Event data.
      */
     public final Data getEventData() {
-	return eventData;
+        return eventData;
     }
 
     /**
@@ -101,7 +101,7 @@ public final class EventData {
      * @return Meta data.
      */
     public final Data getMetaData() {
-	return metaData;
+        return metaData;
     }
 
 }

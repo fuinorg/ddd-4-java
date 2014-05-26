@@ -40,9 +40,9 @@ public abstract class StreamEvent {
      * Protected default constructor only required for JPA.
      */
     protected StreamEvent() {
-	super();
+        super();
     }
-    
+
     /**
      * Constructs a stream event.
      * 
@@ -50,9 +50,9 @@ public abstract class StreamEvent {
      *            Event entry to be connected with this event stream.
      */
     public StreamEvent(@NotNull final EventEntry eventEntry) {
-	super();
-	Contract.requireArgNotNull("eventEntry", eventEntry);
-	this.eventEntry = eventEntry;
+        super();
+        Contract.requireArgNotNull("eventEntry", eventEntry);
+        this.eventEntry = eventEntry;
     }
 
     /**
@@ -62,7 +62,7 @@ public abstract class StreamEvent {
      */
     @NeverNull
     public final EventEntry getEventEntry() {
-	return eventEntry;
+        return eventEntry;
     }
 
 }

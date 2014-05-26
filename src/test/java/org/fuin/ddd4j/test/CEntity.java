@@ -33,33 +33,33 @@ public class CEntity extends AbstractEntity<AId, ARoot, CId> {
     private CEvent lastEvent;
 
     public CEntity(final ARoot root, final BId parentId, final CId id) {
-	super(root);
-	this.root = root;
-	this.parentId = parentId;
-	this.id = id;
+        super(root);
+        this.root = root;
+        this.parentId = parentId;
+        this.id = id;
     }
 
     @Override
     public CId getId() {
-	return id;
+        return id;
     }
 
     @Override
     public EntityType getType() {
-	return CId.TYPE;
+        return CId.TYPE;
     }
 
     public void doIt() {
-	apply(new CEvent(root.getId(), parentId, id));
+        apply(new CEvent(root.getId(), parentId, id));
     }
 
     @EventHandler
     public void handle(final CEvent event) {
-	lastEvent = event;
+        lastEvent = event;
     }
 
     public CEvent getLastEvent() {
-	return lastEvent;
+        return lastEvent;
     }
 
 }

@@ -29,7 +29,7 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
  */
 @Immutable
 public final class StringBasedEntityType extends AbstractStringValueObject
-	implements EntityType {
+        implements EntityType {
 
     private static final long serialVersionUID = 1000L;
 
@@ -45,24 +45,24 @@ public final class StringBasedEntityType extends AbstractStringValueObject
      *            the context
      */
     public StringBasedEntityType(@NotEmpty @Size(max = 255) final String str) {
-	Contract.requireArgNotEmpty("str", str);
-	Contract.requireArgMaxLength("str", str, 255);
-	this.str = str;
+        Contract.requireArgNotEmpty("str", str);
+        Contract.requireArgMaxLength("str", str, 255);
+        this.str = str;
     }
 
     @Override
     public final String asString() {
-	return str;
+        return str;
     }
 
     @Override
     public final String asBaseType() {
-	return str;
+        return str;
     }
 
     @Override
     public final String toString() {
-	return str;
+        return str;
     }
 
 }

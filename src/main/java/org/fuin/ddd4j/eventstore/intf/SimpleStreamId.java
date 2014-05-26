@@ -43,36 +43,36 @@ public final class SimpleStreamId implements StreamId {
      *            Unique name.
      */
     public SimpleStreamId(@NotNull final String name) {
-	Contract.requireArgNotNull("name", name);
-	this.name = name;
+        Contract.requireArgNotNull("name", name);
+        this.name = name;
     }
 
     @Override
     public final String getName() {
-	return name;
+        return name;
     }
 
     @Override
     public final boolean isProjection() {
-	return true;
+        return true;
     }
 
     @Override
     public final <T> T getSingleParamValue() {
-	throw new UnsupportedOperationException(getClass().getSimpleName()
-		+ " has no parameters");
+        throw new UnsupportedOperationException(getClass().getSimpleName()
+                + " has no parameters");
     }
 
     @Override
     public final List<KeyValue> getParameters() {
-	return Collections.emptyList();
+        return Collections.emptyList();
     }
 
     @Override
     public final String asString() {
-	return name;
+        return name;
     }
-    
+
     @Override
     public final String toString() {
         return name;

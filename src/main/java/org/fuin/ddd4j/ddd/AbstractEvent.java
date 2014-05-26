@@ -38,51 +38,51 @@ public abstract class AbstractEvent implements Event {
      * Default constructor.
      */
     public AbstractEvent() {
-	super();
-	this.eventId = new EventId();
-	this.timestamp = new DateTime();
+        super();
+        this.eventId = new EventId();
+        this.timestamp = new DateTime();
     }
 
     @Override
     public final EventId getEventId() {
-	return eventId;
+        return eventId;
     }
 
     @Override
     public final DateTime getTimestamp() {
-	return timestamp;
+        return timestamp;
     }
 
     // CHECKSTYLE:OFF Generated code
     @Override
     public final int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = (prime * result)
-		+ ((eventId == null) ? 0 : eventId.hashCode());
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result)
+                + ((eventId == null) ? 0 : eventId.hashCode());
+        return result;
     }
 
     @Override
     public final boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractEvent other = (AbstractEvent) obj;
-	if (eventId == null) {
-	    if (other.eventId != null) {
-		return false;
-	    }
-	} else if (!eventId.equals(other.eventId)) {
-	    return false;
-	}
-	return true;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractEvent other = (AbstractEvent) obj;
+        if (eventId == null) {
+            if (other.eventId != null) {
+                return false;
+            }
+        } else if (!eventId.equals(other.eventId)) {
+            return false;
+        }
+        return true;
     }
     // CHECKSTYLE:ON
 

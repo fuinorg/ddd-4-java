@@ -31,16 +31,16 @@ public class ACreatedEvent extends AbstractDomainEvent<AId> {
     private AId id;
 
     public ACreatedEvent(final AId id) {
-	super(new EntityIdPath(id));
+        super(new EntityIdPath(id));
     }
 
     public AId getId() {
-	return id;
+        return id;
     }
 
     @Override
     public EventType getEventType() {
-	return EVENT_TYPE;
+        return EVENT_TYPE;
     }
 
 }

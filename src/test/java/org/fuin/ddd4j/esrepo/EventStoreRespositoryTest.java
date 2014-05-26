@@ -49,6 +49,7 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
                         final String vendorId = streamId.getSingleParamValue();
                         return new VendorStream(VendorId.valueOf(vendorId));
                     }
+
                     @Override
                     public boolean containsType(StreamId streamId) {
                         return true;

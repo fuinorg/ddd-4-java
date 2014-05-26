@@ -39,14 +39,14 @@ public abstract class Stream {
      * @return TRUE if the stream was deleted.
      */
     public final boolean isDeleted() {
-	return deleted;
+        return deleted;
     }
 
     /**
      * Marks the stream as deleted.
      */
     public final void delete() {
-	this.deleted = true;
+        this.deleted = true;
     }
 
     /**
@@ -55,7 +55,7 @@ public abstract class Stream {
      * @return Version.
      */
     public final int getVersion() {
-	return version;
+        return version;
     }
 
     /**
@@ -64,7 +64,7 @@ public abstract class Stream {
      * @return New version.
      */
     public final int incVersion() {
-	return this.version++;
+        return this.version++;
     }
 
     /**
@@ -76,5 +76,5 @@ public abstract class Stream {
      * @return JPA entity.
      */
     public abstract StreamEvent createEvent(@NotNull EventEntry eventEntry);
-    
+
 }

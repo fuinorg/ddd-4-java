@@ -31,17 +31,17 @@ public class CAddedEvent extends AbstractDomainEvent<BId> {
     private final CId cid;
 
     public CAddedEvent(final AId aid, final BId bid, final CId cid) {
-	super(new EntityIdPath(aid, bid));
-	this.cid = cid;
+        super(new EntityIdPath(aid, bid));
+        this.cid = cid;
     }
 
     @Override
     public EventType getEventType() {
-	return EVENT_TYPE;
+        return EVENT_TYPE;
     }
 
     public CId getCId() {
-	return cid;
+        return cid;
     }
 
 }

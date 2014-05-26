@@ -31,27 +31,27 @@ public class AId implements AggregateRootId {
     private final long id;
 
     public AId(final long id) {
-	this.id = id;
+        this.id = id;
     }
 
     @Override
     public EntityType getType() {
-	return TYPE;
+        return TYPE;
     }
 
     @Override
     public String asString() {
-	return "" + id;
+        return "" + id;
     }
 
     @Override
     public String toString() {
-	return asString();
+        return asString();
     }
 
     @Override
     public String asTypedString() {
-	return "A " + toString();
+        return "A " + toString();
     }
 
 }

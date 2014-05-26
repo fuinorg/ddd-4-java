@@ -44,7 +44,7 @@ public final class VendorRef implements ValueObject {
      * Default constructor only for de-serialization.
      */
     VendorRef() {
-	super();
+        super();
     }
 
     /**
@@ -58,17 +58,17 @@ public final class VendorRef implements ValueObject {
      *            Vendor name.
      */
     public VendorRef(@NotNull final VendorId vendorId,
-	    @NotNull final VendorKey vendorKey,
-	    @NotNull final VendorName vendorName) {
-	super();
+            @NotNull final VendorKey vendorKey,
+            @NotNull final VendorName vendorName) {
+        super();
 
-	Contract.requireArgNotNull("vendorId", vendorId);
-	Contract.requireArgNotNull("vendorKey", vendorKey);
-	Contract.requireArgNotNull("vendorName", vendorName);
+        Contract.requireArgNotNull("vendorId", vendorId);
+        Contract.requireArgNotNull("vendorKey", vendorKey);
+        Contract.requireArgNotNull("vendorName", vendorName);
 
-	this.vendorId = vendorId;
-	this.vendorKey = vendorKey;
-	this.vendorName = vendorName;
+        this.vendorId = vendorId;
+        this.vendorKey = vendorKey;
+        this.vendorName = vendorName;
     }
 
     /**
@@ -78,7 +78,7 @@ public final class VendorRef implements ValueObject {
      */
     @NeverNull
     public VendorId getId() {
-	return vendorId;
+        return vendorId;
     }
 
     /**
@@ -88,7 +88,7 @@ public final class VendorRef implements ValueObject {
      */
     @NeverNull
     public VendorKey getKey() {
-	return vendorKey;
+        return vendorKey;
     }
 
     /**
@@ -98,12 +98,12 @@ public final class VendorRef implements ValueObject {
      */
     @NeverNull
     public VendorName getName() {
-	return vendorName;
+        return vendorName;
     }
 
     @Override
     public final String toString() {
-	return VendorId.ENTITY_TYPE + " " + vendorKey;
+        return VendorId.ENTITY_TYPE + " " + vendorKey;
     }
 
 }

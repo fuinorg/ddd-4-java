@@ -31,7 +31,7 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 @Immutable
 @XmlJavaTypeAdapter(VendorNameConverter.class)
 public final class VendorName extends AbstractStringValueObject implements
-	ValueObjectWithBaseType<String> {
+        ValueObjectWithBaseType<String> {
 
     private static final long serialVersionUID = 1000L;
 
@@ -46,20 +46,20 @@ public final class VendorName extends AbstractStringValueObject implements
      *            Name.
      */
     public VendorName(@NotNull @VendorNameStr final String name) {
-	super();
-	Contract.requireArgNotNull("name", name);
-	VendorNameStrValidator.requireArgValid("name", name);
-	this.name = name;
+        super();
+        Contract.requireArgNotNull("name", name);
+        VendorNameStrValidator.requireArgValid("name", name);
+        this.name = name;
     }
 
     @Override
     public final String asBaseType() {
-	return name;
+        return name;
     }
 
     @Override
     public final String toString() {
-	return name;
+        return name;
     }
 
     /**
@@ -72,7 +72,7 @@ public final class VendorName extends AbstractStringValueObject implements
      * @return TRUE if it's a valid key, else FALSE.
      */
     public static boolean isValid(final String value) {
-	return VendorNameStrValidator.isValid(value);
+        return VendorNameStrValidator.isValid(value);
     }
 
     /**
@@ -85,10 +85,10 @@ public final class VendorName extends AbstractStringValueObject implements
      * @return Converted value.
      */
     public static VendorName valueOf(final String value) {
-	if (value == null) {
-	    return null;
-	}
-	return new VendorName(value);
+        if (value == null) {
+            return null;
+        }
+        return new VendorName(value);
     }
 
 }

@@ -27,7 +27,7 @@ import org.fuin.objects4j.common.ContractViolationException;
  * Check that a given string is a valid vendor name.
  */
 public final class VendorNameStrValidator implements
-	ConstraintValidator<VendorNameStr, String> {
+        ConstraintValidator<VendorNameStr, String> {
 
     @Override
     public final void initialize(final VendorNameStr constraintAnnotation) {
@@ -35,8 +35,8 @@ public final class VendorNameStrValidator implements
 
     @Override
     public final boolean isValid(final String value,
-	    final ConstraintValidatorContext context) {
-	return isValid(value);
+            final ConstraintValidatorContext context) {
+        return isValid(value);
     }
 
     /**
@@ -49,14 +49,14 @@ public final class VendorNameStrValidator implements
      *         <code>false</code> is returned.
      */
     public static final boolean isValid(final String value) {
-	if (value == null) {
-	    return true;
-	}
-	final String trimmed = value.trim();
-	if ((trimmed.length() < 1) || (trimmed.length() > 100)) {
-	    return false;
-	}
-	return true;
+        if (value == null) {
+            return true;
+        }
+        final String trimmed = value.trim();
+        if ((trimmed.length() < 1) || (trimmed.length() > 100)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -72,12 +72,12 @@ public final class VendorNameStrValidator implements
      */
     // CHECKSTYLE:OFF:RedundantThrows
     public static void requireArgValid(@NotNull final String name,
-	    @NotNull final String value) throws ContractViolationException {
-	// CHECKSTYLE:ON
-	if (!isValid(value)) {
-	    throw new ContractViolationException("The argument '" + name
-		    + "' is not valid: '" + value + "'");
-	}
+            @NotNull final String value) throws ContractViolationException {
+        // CHECKSTYLE:ON
+        if (!isValid(value)) {
+            throw new ContractViolationException("The argument '" + name
+                    + "' is not valid: '" + value + "'");
+        }
     }
 
 }

@@ -47,7 +47,7 @@ public interface AggregateCache<AGGREGATE> {
      *            Aggregate to cache.
      */
     public void put(@NotNull AggregateRootId aggregateId,
-	    @NotNull AGGREGATE aggregate);
+            @NotNull AGGREGATE aggregate);
 
     /**
      * Removes the aggregate with the given identifier from the cache.

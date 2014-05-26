@@ -38,9 +38,9 @@ public class StreamDeletedException extends RuntimeException {
      *            Unique name of the stream.
      */
     public StreamDeletedException(@NotNull final StreamId streamId) {
-	super("Stream '" + streamId + "' previously existed but was deleted");
-	Contract.requireArgNotNull("streamId", streamId);
-	this.streamId = streamId;
+        super("Stream '" + streamId + "' previously existed but was deleted");
+        Contract.requireArgNotNull("streamId", streamId);
+        this.streamId = streamId;
     }
 
     /**
@@ -50,7 +50,7 @@ public class StreamDeletedException extends RuntimeException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
 }

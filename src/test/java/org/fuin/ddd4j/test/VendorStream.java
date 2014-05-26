@@ -46,7 +46,7 @@ public class VendorStream extends Stream {
      * Protected default constructor for JPA.
      */
     protected VendorStream() {
-	super();
+        super();
     }
 
     /**
@@ -56,10 +56,10 @@ public class VendorStream extends Stream {
      *            Unique vendor identifier.
      */
     public VendorStream(@NotNull final VendorId vendorId) {
-	super();
-	Contract.requireArgNotNull("vendorId", vendorId);
-	this.vendorId = vendorId.asString();
-	this.id = vendorId;
+        super();
+        Contract.requireArgNotNull("vendorId", vendorId);
+        this.vendorId = vendorId.asString();
+        this.id = vendorId;
     }
 
     /**
@@ -68,7 +68,7 @@ public class VendorStream extends Stream {
      * @return Vendor identifier.
      */
     public final String getVendorId() {
-	return vendorId;
+        return vendorId;
     }
 
     /**
@@ -77,10 +77,10 @@ public class VendorStream extends Stream {
      * @return Name converted into a vendor ID.
      */
     public final VendorId getId() {
-	if (id == null) {
-	    id = VendorId.valueOf(vendorId);
-	}
-	return id;
+        if (id == null) {
+            id = VendorId.valueOf(vendorId);
+        }
+        return id;
     }
 
     /**
@@ -92,13 +92,13 @@ public class VendorStream extends Stream {
      * @return JPA entity.
      */
     public final StreamEvent createEvent(@NotNull final EventEntry eventEntry) {
-	incVersion();
-	return new VendorEvent(getId(), getVersion(), eventEntry);
+        incVersion();
+        return new VendorEvent(getId(), getVersion(), eventEntry);
     }
 
     @Override
     public final String toString() {
-	return vendorId;
+        return vendorId;
     }
 
 }

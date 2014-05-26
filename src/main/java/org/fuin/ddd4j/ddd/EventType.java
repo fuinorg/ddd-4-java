@@ -44,19 +44,19 @@ public class EventType extends AbstractStringValueObject {
      *            the context
      */
     public EventType(@NotEmpty @Size(max = 255) final String str) {
-	Contract.requireArgNotEmpty("str", str);
-	Contract.requireArgMaxLength("str", str, 255);
-	this.str = str;
+        Contract.requireArgNotEmpty("str", str);
+        Contract.requireArgMaxLength("str", str, 255);
+        this.str = str;
     }
 
     @Override
     public final String asBaseType() {
-	return str;
+        return str;
     }
 
     @Override
     public final String toString() {
-	return asBaseType();
+        return asBaseType();
     }
 
 }

@@ -33,8 +33,8 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 @ThreadSafe
 @Converter(autoApply = true)
 public final class EntityIdPathConverter extends
-	AbstractValueObjectConverter<String, EntityIdPath> implements
-	AttributeConverter<EntityIdPath, String> {
+        AbstractValueObjectConverter<String, EntityIdPath> implements
+        AttributeConverter<EntityIdPath, String> {
 
     private final EntityIdFactory factory;
 
@@ -45,81 +45,81 @@ public final class EntityIdPathConverter extends
      *            Factory to use.
      */
     public EntityIdPathConverter(final EntityIdFactory factory) {
-	super();
-	if (factory == null) {
-	    throw new IllegalStateException("Factory cannot be null");
-	}
-	this.factory = factory;
+        super();
+        if (factory == null) {
+            throw new IllegalStateException("Factory cannot be null");
+        }
+        this.factory = factory;
     }
 
     @Override
     public final Class<String> getBaseTypeClass() {
-	return String.class;
+        return String.class;
     }
 
     @Override
     public final Class<EntityIdPath> getValueObjectClass() {
-	return EntityIdPath.class;
+        return EntityIdPath.class;
     }
 
     @Override
     public final boolean isValid(final String value) {
-	if (value == null) {
-	    return true;
-	}
-	final List<Entry> entryList = entries(value);
-	if ((entryList == null) || (entryList.size() == 0)) {
-	    return false;
-	}
-	for (final Entry entry : entryList) {
-	    if (!factory.containsType(entry.type)) {
-		return false;
-	    }
-	}
-	return true;
+        if (value == null) {
+            return true;
+        }
+        final List<Entry> entryList = entries(value);
+        if ((entryList == null) || (entryList.size() == 0)) {
+            return false;
+        }
+        for (final Entry entry : entryList) {
+            if (!factory.containsType(entry.type)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
     public final EntityIdPath toVO(final String value) {
-	if (value == null) {
-	    return null;
-	}
-	final List<Entry> entryList = entries(value);
-	if ((entryList == null) || (entryList.size() == 0)) {
-	    throw new IllegalArgumentException("Invalid entity path: '" + value
-		    + "'");
-	}
-	final List<EntityId> ids = new ArrayList<EntityId>();
-	for (final Entry entry : entryList) {
-	    ids.add(factory.createEntityId(entry.type, entry.id));
-	}
-	return new EntityIdPath(ids);
+        if (value == null) {
+            return null;
+        }
+        final List<Entry> entryList = entries(value);
+        if ((entryList == null) || (entryList.size() == 0)) {
+            throw new IllegalArgumentException("Invalid entity path: '" + value
+                    + "'");
+        }
+        final List<EntityId> ids = new ArrayList<EntityId>();
+        for (final Entry entry : entryList) {
+            ids.add(factory.createEntityId(entry.type, entry.id));
+        }
+        return new EntityIdPath(ids);
     }
 
     @Override
     public final String fromVO(final EntityIdPath value) {
-	if (value == null) {
-	    return null;
-	}
-	return value.asString();
+        if (value == null) {
+            return null;
+        }
+        return value.asString();
     }
 
     private List<Entry> entries(final String value) {
-	final List<Entry> list = new ArrayList<Entry>();
-	final StringTokenizer tok = new StringTokenizer(value,
-		EntityIdPath.PATH_SEPARATOR);
-	while (tok.hasMoreTokens()) {
-	    final String str = tok.nextToken();
-	    final int p = str.indexOf(' ');
-	    if (p == -1) {
-		// Error
-		return null;
-	    }
-	    final String type = str.substring(0, p);
-	    final String id = str.substring(p + 1);
-	    list.add(new Entry(type, id));
-	}
-	return list;
+        final List<Entry> list = new ArrayList<Entry>();
+        final StringTokenizer tok = new StringTokenizer(value,
+                EntityIdPath.PATH_SEPARATOR);
+        while (tok.hasMoreTokens()) {
+            final String str = tok.nextToken();
+            final int p = str.indexOf(' ');
+            if (p == -1) {
+                // Error
+                return null;
+            }
+            final String type = str.substring(0, p);
+            final String id = str.substring(p + 1);
+            list.add(new Entry(type, id));
+        }
+        return list;
     }
 
     /**
@@ -127,13 +127,13 @@ public final class EntityIdPathConverter extends
      */
     private static final class Entry {
 
-	private String type;
-	private String id;
+        private String type;
+        private String id;
 
-	public Entry(final String type, final String id) {
-	    this.type = type;
-	    this.id = id;
-	}
+        public Entry(final String type, final String id) {
+            this.type = type;
+            this.id = id;
+        }
 
     }
 

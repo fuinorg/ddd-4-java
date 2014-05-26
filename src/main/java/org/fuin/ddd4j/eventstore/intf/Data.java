@@ -66,7 +66,7 @@ public class Data implements ValueObject {
      * Protected constructor for deserialization.
      */
     protected Data() {
-	super();
+        super();
     }
 
     /**
@@ -84,21 +84,21 @@ public class Data implements ValueObject {
      *            Raw data block.
      */
     public Data(@NotNull final String type, final Integer version,
-	    @NotNull final String mimeType, @NotNull final Charset encoding,
-	    @NotNull final byte[] raw) {
-	super();
+            @NotNull final String mimeType, @NotNull final Charset encoding,
+            @NotNull final byte[] raw) {
+        super();
 
-	Contract.requireArgNotNull("type", type);
-	Contract.requireArgNotNull("version", version);
-	Contract.requireArgNotNull("mimeType", mimeType);
-	Contract.requireArgNotNull("encoding", encoding);
-	Contract.requireArgNotNull("raw", raw);
+        Contract.requireArgNotNull("type", type);
+        Contract.requireArgNotNull("version", version);
+        Contract.requireArgNotNull("mimeType", mimeType);
+        Contract.requireArgNotNull("encoding", encoding);
+        Contract.requireArgNotNull("raw", raw);
 
-	this.type = type;
-	this.version = version;
-	this.mimeType = mimeType;
-	this.encoding = encoding.name();
-	this.raw = raw;
+        this.type = type;
+        this.version = version;
+        this.mimeType = mimeType;
+        this.encoding = encoding.name();
+        this.raw = raw;
     }
 
     /**
@@ -108,7 +108,7 @@ public class Data implements ValueObject {
      */
     @NeverNull
     public final String getType() {
-	return type;
+        return type;
     }
 
     /**
@@ -118,7 +118,7 @@ public class Data implements ValueObject {
      */
     @NeverNull
     public final Integer getVersion() {
-	return version;
+        return version;
     }
 
     /**
@@ -128,7 +128,7 @@ public class Data implements ValueObject {
      */
     @NeverNull
     public final String getMimeType() {
-	return mimeType;
+        return mimeType;
     }
 
     /**
@@ -138,7 +138,7 @@ public class Data implements ValueObject {
      */
     @NeverNull
     public final Charset getEncoding() {
-	return Charset.forName(encoding);
+        return Charset.forName(encoding);
     }
 
     /**
@@ -148,7 +148,7 @@ public class Data implements ValueObject {
      */
     @NeverNull
     public final byte[] getRaw() {
-	return raw;
+        return raw;
     }
 
 }

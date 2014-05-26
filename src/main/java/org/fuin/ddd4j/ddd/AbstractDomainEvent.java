@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlAttribute;
  *            Type of the entity identifier.
  */
 public abstract class AbstractDomainEvent<ID extends EntityId> extends
-	AbstractEvent implements DomainEvent<ID> {
+        AbstractEvent implements DomainEvent<ID> {
 
     private static final long serialVersionUID = 1000L;
 
@@ -37,7 +37,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends
      * Protected default constructor for deserialization.
      */
     protected AbstractDomainEvent() {
-	super();
+        super();
     }
 
     /**
@@ -48,18 +48,18 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends
      *            the event.
      */
     public AbstractDomainEvent(final EntityIdPath entityIdPath) {
-	super();
-	this.entityIdPath = entityIdPath;
+        super();
+        this.entityIdPath = entityIdPath;
     }
 
     @Override
     public final EntityIdPath getEntityIdPath() {
-	return entityIdPath;
+        return entityIdPath;
     }
 
     @Override
     public final ID getEntityId() {
-	return entityIdPath.last();
+        return entityIdPath.last();
     }
 
 }

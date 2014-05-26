@@ -33,7 +33,7 @@ import org.fuin.objects4j.common.Contract;
  */
 // CHECKSTYLE:OFF:LineLength
 public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId>
-	implements Entity<ID> {
+        implements Entity<ID> {
     // CHECKSTYLE:ON:LineLength
 
     private final ROOT root;
@@ -45,9 +45,9 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      *            Root aggregate.
      */
     public AbstractEntity(@NotNull final ROOT root) {
-	super();
-	Contract.requireArgNotNull("root", root);
-	this.root = root;
+        super();
+        Contract.requireArgNotNull("root", root);
+        this.root = root;
     }
 
     /**
@@ -58,33 +58,33 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      *            Event to dispatch to the appropriate event handler method.
      */
     protected final void apply(@NotNull final DomainEvent<?> event) {
-	root.applyNewChildEvent(this, event);
+        root.applyNewChildEvent(this, event);
     }
 
     @Override
     public final int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = (prime * result) + getId().hashCode();
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result) + getId().hashCode();
+        return result;
     }
 
     @Override
     public final boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractEntity<?, ?, ?> other = (AbstractEntity<?, ?, ?>) obj;
-	if (!getId().equals(other.getId())) {
-	    return false;
-	}
-	return true;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractEntity<?, ?, ?> other = (AbstractEntity<?, ?, ?>) obj;
+        if (!getId().equals(other.getId())) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -93,7 +93,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      * @return Aggregate root this is a child of.
      */
     protected final ROOT getRoot() {
-	return root;
+        return root;
     }
 
     /**
@@ -102,7 +102,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      * @return Unique aggregate root identifier.
      */
     protected final ROOT_ID getRootId() {
-	return root.getId();
+        return root.getId();
     }
 
 }

@@ -38,53 +38,53 @@ public class BEntity extends AbstractEntity<AId, ARoot, BId> {
     private AbstractDomainEvent<?> lastEvent;
 
     public BEntity(final ARoot root, final BId id) {
-	super(root);
-	this.root = root;
-	this.id = id;
-	this.childs = new ArrayList<CEntity>();
+        super(root);
+        this.root = root;
+        this.id = id;
+        this.childs = new ArrayList<CEntity>();
     }
 
     @Override
     public BId getId() {
-	return id;
+        return id;
     }
 
     @Override
     public EntityType getType() {
-	return BId.TYPE;
+        return BId.TYPE;
     }
 
     @ChildEntityLocator
     private CEntity find(final CId bid) {
-	for (final CEntity child : childs) {
-	    if (child.getId().equals(bid)) {
-		return child;
-	    }
-	}
-	return null;
+        for (final CEntity child : childs) {
+            if (child.getId().equals(bid)) {
+                return child;
+            }
+        }
+        return null;
     }
 
     public void add(final CId cid) {
-	apply(new CAddedEvent(root.getId(), id, cid));
+        apply(new CAddedEvent(root.getId(), id, cid));
     }
 
     public void doIt(final CId cid) {
-	final CEntity found = find(cid);
-	found.doIt();
+        final CEntity found = find(cid);
+        found.doIt();
     }
 
     @EventHandler
     public void handle(final CAddedEvent event) {
-	childs.add(new CEntity(root, id, event.getCId()));
-	lastEvent = event;
+        childs.add(new CEntity(root, id, event.getCId()));
+        lastEvent = event;
     }
 
     public AbstractDomainEvent<?> getLastEvent() {
-	return lastEvent;
+        return lastEvent;
     }
 
     public CEntity getFirstChild() {
-	return childs.get(0);
+        return childs.get(0);
     }
 
 }

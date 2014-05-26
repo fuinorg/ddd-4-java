@@ -29,7 +29,7 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  */
 @XmlJavaTypeAdapter(EventIdConverter.class)
 public class EventId extends AbstractUUIDVO implements
-	ValueObjectWithBaseType<String>, TechnicalId {
+        ValueObjectWithBaseType<String>, TechnicalId {
 
     private static final long serialVersionUID = 1000L;
 
@@ -37,7 +37,7 @@ public class EventId extends AbstractUUIDVO implements
      * Default constructor.
      */
     public EventId() {
-	super();
+        super();
     }
 
     /**
@@ -47,17 +47,17 @@ public class EventId extends AbstractUUIDVO implements
      *            UUID.
      */
     public EventId(@NotNull final UUID uuid) {
-	super(uuid);
+        super(uuid);
     }
 
     @Override
     public final String asBaseType() {
-	return asString();
+        return asString();
     }
 
     @Override
     public final Class<String> getBaseType() {
-	return String.class;
+        return String.class;
     }
 
 }

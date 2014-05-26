@@ -36,19 +36,19 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 @Immutable
 @XmlJavaTypeAdapter(VendorIdConverter.class)
 public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
-	ValueObjectWithBaseType<String> {
+        ValueObjectWithBaseType<String> {
 
     private static final long serialVersionUID = 1000L;
 
     /** Type of entity this identifier represents. */
     public static final EntityType ENTITY_TYPE = new StringBasedEntityType(
-	    "Vendor");
+            "Vendor");
 
     /**
      * Default constructor.
      */
     public VendorId() {
-	super();
+        super();
     }
 
     /**
@@ -58,27 +58,27 @@ public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
      *            UUID.
      */
     public VendorId(@NotNull final UUID uuid) {
-	super(uuid);
+        super(uuid);
     }
 
     @Override
     public final Class<String> getBaseType() {
-	return String.class;
+        return String.class;
     }
 
     @Override
     public final String asBaseType() {
-	return asString();
+        return asString();
     }
 
     @Override
     public final EntityType getType() {
-	return ENTITY_TYPE;
+        return ENTITY_TYPE;
     }
 
     @Override
     public final String asTypedString() {
-	return getType() + " " + asString();
+        return getType() + " " + asString();
     }
 
     /**
@@ -91,7 +91,7 @@ public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
      * @return TRUE if it's a valid ID, else FALSE.
      */
     public static boolean isValid(final String value) {
-	return UUIDStrValidator.isValid(value);
+        return UUIDStrValidator.isValid(value);
     }
 
     /**
@@ -104,10 +104,10 @@ public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
      * @return Converted value.
      */
     public static VendorId valueOf(final String value) {
-	if (value == null) {
-	    return null;
-	}
-	return new VendorId(UUID.fromString(value));
+        if (value == null) {
+            return null;
+        }
+        return new VendorId(UUID.fromString(value));
     }
 
 }

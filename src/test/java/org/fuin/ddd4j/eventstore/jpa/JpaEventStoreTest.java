@@ -42,60 +42,60 @@ public final class JpaEventStoreTest extends AbstractPersistenceTest {
 
     @Test
     public void testAppendSingleSuccess() throws SQLException,
-	    StreamNotFoundException, StreamDeletedException,
-	    StreamVersionConflictException {
+            StreamNotFoundException, StreamDeletedException,
+            StreamVersionConflictException {
 
-	// PREPARE
-	final JpaEventStore testee = new JpaEventStore(getEm(),
-		new IdStreamFactory() {
-		    @Override
-		    public Stream createStream(final StreamId streamId) {
-			final String vendorId = streamId
-				.getSingleParamValue();
-			return new VendorStream(VendorId.valueOf(vendorId));
-		    }
+        // PREPARE
+        final JpaEventStore testee = new JpaEventStore(getEm(),
+                new IdStreamFactory() {
+                    @Override
+                    public Stream createStream(final StreamId streamId) {
+                        final String vendorId = streamId.getSingleParamValue();
+                        return new VendorStream(VendorId.valueOf(vendorId));
+                    }
+
                     @Override
                     public boolean containsType(StreamId streamId) {
                         return true;
                     }
-		});
-	testee.open();
-	try {
-	    final VendorId vendorId = new VendorId();
-	    final String xml = "<vendor-created-event id=\"" + vendorId
-		    + "\"/>";
-	    final AggregateStreamId streamId = new AggregateStreamId(
-		    VendorId.ENTITY_TYPE, "vendorId", vendorId);
-	    final String eventId = UUID.randomUUID().toString();
-	    final DateTime timestamp = new DateTime();
-	    final Charset charset = Charset.forName("utf-8");
-	    final Data data = new Data("VendorCreatedEvent", 1,
-		    "application/xml", charset, xml.getBytes(charset));
-	    final Data meta = null;
-	    final EventData eventData = new EventData(eventId, timestamp, data,
-		    meta);
+                });
+        testee.open();
+        try {
+            final VendorId vendorId = new VendorId();
+            final String xml = "<vendor-created-event id=\"" + vendorId
+                    + "\"/>";
+            final AggregateStreamId streamId = new AggregateStreamId(
+                    VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            final String eventId = UUID.randomUUID().toString();
+            final DateTime timestamp = new DateTime();
+            final Charset charset = Charset.forName("utf-8");
+            final Data data = new Data("VendorCreatedEvent", 1,
+                    "application/xml", charset, xml.getBytes(charset));
+            final Data meta = null;
+            final EventData eventData = new EventData(eventId, timestamp, data,
+                    meta);
 
-	    // TEST
-	    beginTransaction();
-	    final int version = testee.appendToStream(streamId, 0, eventData);
-	    commitTransaction();
+            // TEST
+            beginTransaction();
+            final int version = testee.appendToStream(streamId, 0, eventData);
+            commitTransaction();
 
-	    // VERIFY
-	    assertThat(version).isEqualTo(1);
-	    beginTransaction();
-	    final StreamEventsSlice slice = testee.readStreamEventsForward(
-		    streamId, 1, 2);
-	    commitTransaction();
-	    assertThat(slice.getFromEventNumber()).isEqualTo(1);
-	    assertThat(slice.getNextEventNumber()).isEqualTo(2);
-	    assertThat(slice.isEndOfStream()).isTrue();
-	    assertThat(slice.getEvents()).hasSize(1);
-	    final EventData ed = slice.getEvents().get(0);
-	    assertThat(ed.getEventId()).isEqualTo(eventId);
+            // VERIFY
+            assertThat(version).isEqualTo(1);
+            beginTransaction();
+            final StreamEventsSlice slice = testee.readStreamEventsForward(
+                    streamId, 1, 2);
+            commitTransaction();
+            assertThat(slice.getFromEventNumber()).isEqualTo(1);
+            assertThat(slice.getNextEventNumber()).isEqualTo(2);
+            assertThat(slice.isEndOfStream()).isTrue();
+            assertThat(slice.getEvents()).hasSize(1);
+            final EventData ed = slice.getEvents().get(0);
+            assertThat(ed.getEventId()).isEqualTo(eventId);
 
-	} finally {
-	    testee.close();
-	}
+        } finally {
+            testee.close();
+        }
 
     }
 

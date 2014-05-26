@@ -36,67 +36,67 @@ public class ARoot extends AbstractAggregateRoot<AId> {
     private AbstractDomainEvent<?> lastEvent;
 
     public ARoot() {
-	super();
+        super();
     }
 
     public ARoot(final AId id) {
-	super();
-	apply(new ACreatedEvent(id));
+        super();
+        apply(new ACreatedEvent(id));
     }
 
     @Override
     public AId getId() {
-	return id;
+        return id;
     }
 
     @Override
     public EntityType getType() {
-	return AId.TYPE;
+        return AId.TYPE;
     }
 
     @ChildEntityLocator
     private BEntity find(final BId bid) {
-	for (final BEntity child : childs) {
-	    if (child.getId().equals(bid)) {
-		return child;
-	    }
-	}
-	return null;
+        for (final BEntity child : childs) {
+            if (child.getId().equals(bid)) {
+                return child;
+            }
+        }
+        return null;
     }
 
     public void addB(final BId bid) {
-	apply(new BAddedEvent(id, bid));
+        apply(new BAddedEvent(id, bid));
     }
 
     public void addC(final BId bid, final CId cid) {
-	final BEntity found = find(bid);
-	found.add(cid);
+        final BEntity found = find(bid);
+        found.add(cid);
     }
 
     public void doItC(final BId bid, final CId cid) {
-	final BEntity found = find(bid);
-	found.doIt(cid);
+        final BEntity found = find(bid);
+        found.doIt(cid);
     }
 
     @EventHandler
     public void handle(final ACreatedEvent event) {
-	this.id = event.getId();
-	this.childs = new ArrayList<BEntity>();
-	lastEvent = event;
+        this.id = event.getId();
+        this.childs = new ArrayList<BEntity>();
+        lastEvent = event;
     }
 
     @EventHandler
     public void handle(final BAddedEvent event) {
-	childs.add(new BEntity(this, event.getBId()));
-	lastEvent = event;
+        childs.add(new BEntity(this, event.getBId()));
+        lastEvent = event;
     }
 
     public AbstractDomainEvent<?> getLastEvent() {
-	return lastEvent;
+        return lastEvent;
     }
 
     public BEntity getFirstChild() {
-	return childs.get(0);
+        return childs.get(0);
     }
 
 }

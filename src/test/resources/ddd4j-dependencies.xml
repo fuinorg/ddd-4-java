@@ -9,6 +9,8 @@
       <dependsOn package="org.fuin.objects4j"/>
       <dependsOn package="org.fuin.utils4j"/>
       <dependsOn package="org.joda.time"/>
+      <dependsOn package="org.slf4j"/>
+      <dependsOn package="org.apache.commons.lang3"/>
   </alwaysAllowed>
   
   <!-- It's forbidden for all classes to use this (in production code) -->

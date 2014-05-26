@@ -29,12 +29,17 @@ import javax.xml.bind.ValidationEvent;
 import javax.xml.bind.ValidationEventHandler;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Serializes and deserializes a class of a given type that only has one version
  * and is always "application/xml" + "utf-8" encoded.
  */
 public final class XmlDeSerializer implements Serializer, Deserializer {
 
+    private static final Logger LOG = LoggerFactory.getLogger(XmlDeSerializer.class);
+    
     private final String type;
 
     private final int version;
@@ -81,8 +86,11 @@ public final class XmlDeSerializer implements Serializer, Deserializer {
             final JAXBContext ctx = JAXBContext.newInstance(classesToBeBound);
             marshaller = ctx.createMarshaller();
             unmarshaller = ctx.createUnmarshaller();
-            if (adapters != null) {
+            if ((adapters == null) || (adapters.length == 0)) {
+                LOG.debug("No adapters set for: " + type);
+            } else {
                 for (XmlAdapter<?, ?> adapter : adapters) {
+                    LOG.debug("Set adapter for: " + type + " [" + adapter + "]");
                     unmarshaller.setAdapter(adapter);
                 }
             }

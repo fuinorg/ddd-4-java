@@ -38,11 +38,16 @@ import org.fuin.ddd4j.eventstore.intf.StreamNotFoundException;
 import org.fuin.ddd4j.eventstore.intf.StreamVersionConflictException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.vo.KeyValue;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JPA Implementation of the event store.
  */
 public final class JpaEventStore implements EventStore {
+
+    private static final Logger LOG = LoggerFactory
+            .getLogger(JpaEventStore.class);
 
     private EntityManager em;
 
@@ -180,7 +185,7 @@ public final class JpaEventStore implements EventStore {
         // Prepare SQL
         final String sql = createEventSelect(streamId)
                 + createOrderBy(streamId, forward);
-        System.out.println(sql);
+        LOG.debug(sql);
         final Query query = em.createNativeQuery(sql, EventEntry.class);
         setParameters(query, streamId);
         query.setFirstResult(start - 1);
@@ -251,22 +256,23 @@ public final class JpaEventStore implements EventStore {
     private String createEventSelect(final StreamId streamId) {
         final List<KeyValue> params = streamId.getParameters();
         final StringBuilder sb = new StringBuilder(
-                "SELECT ev.* FROM events ev, " + sqlName(streamId.getName()) + "_events"
-                        + " s WHERE ev.id=s.events_id");
+                "SELECT ev.* FROM events ev, " + sqlName(streamId.getName())
+                        + "_events" + " s WHERE ev.id=s.events_id");
         if (params.size() > 0) {
             for (int i = 0; i < params.size(); i++) {
                 final KeyValue param = params.get(i);
                 sb.append(" AND ");
-                sb.append("s." + sqlName(param.getKey()) + "=:" + param.getKey());
+                sb.append("s." + sqlName(param.getKey()) + "=:"
+                        + param.getKey());
             }
         }
         return sb.toString();
     }
 
     private String sqlName(final String name) {
-        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();        
+        return name.replaceAll("(.)(\\p{Upper})", "$1_$2").toLowerCase();
     }
-    
+
     private void setParameters(final Query query, final StreamId streamId) {
         final List<KeyValue> params = streamId.getParameters();
         if (params.size() > 0) {

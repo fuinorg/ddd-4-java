@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.common.NeverNull;
 
@@ -53,17 +54,17 @@ public final class StreamEventsSlice {
      *            Determines whether or not this is the end of the stream.
      */
     public StreamEventsSlice(final int fromEventNumber,
-	    final List<EventData> events, final int nextEventNumber,
-	    final boolean endOfStream) {
+            final List<EventData> events, final int nextEventNumber,
+            final boolean endOfStream) {
 
-	this.fromEventNumber = fromEventNumber;
-	if (events == null || events.size() == 0) {
-	    this.events = new ArrayList<EventData>();
-	} else {
-	    this.events = new ArrayList<EventData>(events);
-	}
-	this.nextEventNumber = nextEventNumber;
-	this.endOfStream = endOfStream;
+        this.fromEventNumber = fromEventNumber;
+        if (events == null || events.size() == 0) {
+            this.events = new ArrayList<EventData>();
+        } else {
+            this.events = new ArrayList<EventData>(events);
+        }
+        this.nextEventNumber = nextEventNumber;
+        this.endOfStream = endOfStream;
     }
 
     /**
@@ -73,7 +74,7 @@ public final class StreamEventsSlice {
      * @return Event number.
      */
     public int getFromEventNumber() {
-	return fromEventNumber;
+        return fromEventNumber;
     }
 
     /**
@@ -83,7 +84,7 @@ public final class StreamEventsSlice {
      */
     @NeverNull
     public List<EventData> getEvents() {
-	return Collections.unmodifiableList(events);
+        return Collections.unmodifiableList(events);
     }
 
     /**
@@ -92,7 +93,7 @@ public final class StreamEventsSlice {
      * @return Next event number.
      */
     public int getNextEventNumber() {
-	return nextEventNumber;
+        return nextEventNumber;
     }
 
     /**
@@ -102,7 +103,16 @@ public final class StreamEventsSlice {
      * @return TRUE if this is the end of the stream, else FALSE.
      */
     public boolean isEndOfStream() {
-	return endOfStream;
+        return endOfStream;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("fromEventNumber", fromEventNumber)
+                .append("nextEventNumber", nextEventNumber)
+                .append("endOfStream", endOfStream)
+                .append("events.size", events.size()).toString();
     }
 
 }

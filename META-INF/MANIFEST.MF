@@ -21,11 +21,13 @@ Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
  .eventstore.intf;version="0.1.0.SNAPSHOT";uses:="javax.persistence,java
  x.validation,javax.validation.constraints,org.fuin.objects4j.common,org
  .fuin.objects4j.vo,org.joda.time"
-Import-Package: javax.enterprise.context,javax.persistence,javax.validat
- ion;version="[1.1,2)",javax.validation.constraints;version="[1.1,2)",ja
- vax.xml.bind,javax.xml.bind.annotation,javax.xml.bind.annotation.adapte
- rs,org.apache.commons.lang3.builder;version="[3.3,4)",org.fuin.objects4
- j.common;version="[0.5,1)",org.fuin.objects4j.vo;version="[0.5,1)",org.
- joda.time;version="[2.3,3)",org.slf4j;version="[1.7,2)"
+Import-Package: javax.enterprise.context;resolution:=optional,javax.pers
+ istence;resolution:=optional,javax.validation;version="[1.1,2)";resolut
+ ion:=optional,javax.validation.constraints;version="[1.1,2)";resolution
+ :=optional,javax.xml.bind;resolution:=optional,javax.xml.bind.annotatio
+ n;resolution:=optional,javax.xml.bind.annotation.adapters;resolution:=o
+ ptional,org.apache.commons.lang3.builder;version="[3.3,4)",org.fuin.obj
+ ects4j.common;version="[0.5,1)",org.fuin.objects4j.vo;version="[0.5,1)"
+ ,org.joda.time;version="[2.3,3)",org.slf4j;version="[1.7,2)"
 Include-Resource: META-INF/beans.xml=src/main/resources/META-INF/beans.x
  ml

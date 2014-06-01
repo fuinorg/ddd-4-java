@@ -33,7 +33,7 @@ import org.fuin.objects4j.common.ThreadSafe;
  */
 @ThreadSafe
 @ApplicationScoped
-public final class MethodExecutor {
+public class MethodExecutor {
 
     /**
      * Finds a declared method that has an annotation and optional parameters.
@@ -53,7 +53,7 @@ public final class MethodExecutor {
      * @param <T>
      *            Type of the return value.
      */
-    public final <T> T invokeDeclaredAnnotatedMethod(@NotNull final Object obj,
+    public <T> T invokeDeclaredAnnotatedMethod(@NotNull final Object obj,
             @NotNull final Class<? extends Annotation> annotationType,
             final Class<?>[] argumentTypes, final Object[] arguments) {
 
@@ -88,7 +88,7 @@ public final class MethodExecutor {
      * @return Method or <code>null</code> if any of the expected parameters
      *         does not match.
      */
-    public final Method findDeclaredAnnotatedMethod(@NotNull final Object obj,
+    public Method findDeclaredAnnotatedMethod(@NotNull final Object obj,
             @NotNull final Class<? extends Annotation> annotationType,
             final Class<?>... expectedArgumentTypes) {
 
@@ -124,7 +124,7 @@ public final class MethodExecutor {
      *            Type of the return value.
      */
     @SuppressWarnings("unchecked")
-    public final <T> T invoke(@NotNull final Method method,
+    public <T> T invoke(@NotNull final Method method,
             @NotNull final Object target, final Object... args) {
 
         Contract.requireArgNotNull("method", method);
@@ -163,7 +163,7 @@ public final class MethodExecutor {
      * 
      * @return TRUE if both arguments match.
      */
-    public final boolean same(final Class<?>[] expected, final Class<?>[] actual) {
+    public boolean same(final Class<?>[] expected, final Class<?>[] actual) {
         if (expected == null) {
             if (actual == null) {
                 return true;

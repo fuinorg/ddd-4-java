@@ -21,11 +21,12 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
+import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
  * Signals that an event with the given number was not found.
  */
-public class EventNotFoundException extends Exception {
+public class EventNotFoundException extends UniquelyNumberedException {
 
     private static final long serialVersionUID = 1L;
 
@@ -42,14 +43,14 @@ public class EventNotFoundException extends Exception {
      *            Number of the event that was not found.
      */
     public EventNotFoundException(@NotNull final StreamId streamId,
-            final int eventNumber) {
-        super("Version " + eventNumber + " does not exist on stream '"
-                + streamId + "'");
+	    final int eventNumber) {
+	super(105, "Version " + eventNumber + " does not exist on stream '"
+		+ streamId + "'");
 
-        Contract.requireArgNotNull("streamId", streamId);
+	Contract.requireArgNotNull("streamId", streamId);
 
-        this.streamId = streamId;
-        this.version = eventNumber;
+	this.streamId = streamId;
+	this.version = eventNumber;
     }
 
     /**
@@ -59,7 +60,7 @@ public class EventNotFoundException extends Exception {
      */
     @NeverNull
     public final StreamId getStreamId() {
-        return streamId;
+	return streamId;
     }
 
     /**
@@ -68,7 +69,7 @@ public class EventNotFoundException extends Exception {
      * @return Number that was not found.
      */
     public final int getVersion() {
-        return version;
+	return version;
     }
 
 }

@@ -21,12 +21,13 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
+import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
  * Signals that an aggregate of a given type and identifier was not found in the
  * repository.
  */
-public final class AggregateNotFoundException extends Exception {
+public final class AggregateNotFoundException extends UniquelyNumberedException {
 
     private static final long serialVersionUID = 1L;
 
@@ -43,15 +44,15 @@ public final class AggregateNotFoundException extends Exception {
      *            Unique identifier of the aggregate.
      */
     public AggregateNotFoundException(@NotNull final EntityType aggregateType,
-            @NotNull final AggregateRootId aggregateId) {
-        super("Aggregate of type '" + aggregateType + "' with id "
-                + aggregateId + " not found");
+	    @NotNull final AggregateRootId aggregateId) {
+	super(101, "Aggregate of type '" + aggregateType + "' with id "
+		+ aggregateId + " not found");
 
-        Contract.requireArgNotNull("aggregateType", aggregateType);
-        Contract.requireArgNotNull("aggregateId", aggregateId);
+	Contract.requireArgNotNull("aggregateType", aggregateType);
+	Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        this.aggregateType = aggregateType;
-        this.aggregateId = aggregateId;
+	this.aggregateType = aggregateType;
+	this.aggregateId = aggregateId;
     }
 
     /**
@@ -61,7 +62,7 @@ public final class AggregateNotFoundException extends Exception {
      */
     @NeverNull
     public final EntityType getAggregateType() {
-        return aggregateType;
+	return aggregateType;
     }
 
     /**
@@ -71,7 +72,7 @@ public final class AggregateNotFoundException extends Exception {
      */
     @NeverNull
     public final AggregateRootId getAggregateId() {
-        return aggregateId;
+	return aggregateId;
     }
 
 }

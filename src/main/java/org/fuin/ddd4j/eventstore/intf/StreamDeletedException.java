@@ -21,11 +21,12 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
+import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
  * Signals that a stream with that name previously existed but was deleted.
  */
-public class StreamDeletedException extends RuntimeException {
+public class StreamDeletedException extends UniquelyNumberedException {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,9 +39,10 @@ public class StreamDeletedException extends RuntimeException {
      *            Unique name of the stream.
      */
     public StreamDeletedException(@NotNull final StreamId streamId) {
-        super("Stream '" + streamId + "' previously existed but was deleted");
-        Contract.requireArgNotNull("streamId", streamId);
-        this.streamId = streamId;
+	super(106, "Stream '" + streamId
+		+ "' previously existed but was deleted");
+	Contract.requireArgNotNull("streamId", streamId);
+	this.streamId = streamId;
     }
 
     /**
@@ -50,7 +52,7 @@ public class StreamDeletedException extends RuntimeException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-        return streamId;
+	return streamId;
     }
 
 }

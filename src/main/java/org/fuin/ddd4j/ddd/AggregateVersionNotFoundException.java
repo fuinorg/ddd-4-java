@@ -21,11 +21,13 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
+import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
  * Signals that the requested version for an aggregate does not exist.
  */
-public final class AggregateVersionNotFoundException extends Exception {
+public final class AggregateVersionNotFoundException extends
+	UniquelyNumberedException {
 
     private static final long serialVersionUID = 1L;
 
@@ -46,17 +48,17 @@ public final class AggregateVersionNotFoundException extends Exception {
      *            Requested version.
      */
     public AggregateVersionNotFoundException(
-            @NotNull final EntityType aggregateType,
-            @NotNull final AggregateRootId aggregateId, final int version) {
-        super("Requested version " + version + " for aggregate '"
-                + aggregateType + "' (" + aggregateId + ") does not exist");
+	    @NotNull final EntityType aggregateType,
+	    @NotNull final AggregateRootId aggregateId, final int version) {
+	super(104, "Requested version " + version + " for aggregate '"
+		+ aggregateType + "' (" + aggregateId + ") does not exist");
 
-        Contract.requireArgNotNull("aggregateType", aggregateType);
-        Contract.requireArgNotNull("aggregateId", aggregateId);
+	Contract.requireArgNotNull("aggregateType", aggregateType);
+	Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        this.aggregateType = aggregateType;
-        this.aggregateId = aggregateId;
-        this.version = version;
+	this.aggregateType = aggregateType;
+	this.aggregateId = aggregateId;
+	this.version = version;
     }
 
     /**
@@ -66,7 +68,7 @@ public final class AggregateVersionNotFoundException extends Exception {
      */
     @NeverNull
     public final EntityType getAggregateType() {
-        return aggregateType;
+	return aggregateType;
     }
 
     /**
@@ -76,7 +78,7 @@ public final class AggregateVersionNotFoundException extends Exception {
      */
     @NeverNull
     public final AggregateRootId getAggregateId() {
-        return aggregateId;
+	return aggregateId;
     }
 
     /**
@@ -85,7 +87,7 @@ public final class AggregateVersionNotFoundException extends Exception {
      * @return Version.
      */
     public final int getVersion() {
-        return version;
+	return version;
     }
 
 }

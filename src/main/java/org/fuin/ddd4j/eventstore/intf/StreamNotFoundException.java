@@ -21,11 +21,12 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
+import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
  * Signals that a stream with that ID doesn't exist.
  */
-public class StreamNotFoundException extends RuntimeException {
+public class StreamNotFoundException extends UniquelyNumberedException {
 
     private static final long serialVersionUID = 1L;
 
@@ -38,9 +39,9 @@ public class StreamNotFoundException extends RuntimeException {
      *            Unique name of the stream.
      */
     public StreamNotFoundException(@NotNull final StreamId streamId) {
-        super("Stream '" + streamId + "' does not exist");
-        Contract.requireArgNotNull("streamId", streamId);
-        this.streamId = streamId;
+	super(108, "Stream '" + streamId + "' does not exist");
+	Contract.requireArgNotNull("streamId", streamId);
+	this.streamId = streamId;
     }
 
     /**
@@ -50,7 +51,7 @@ public class StreamNotFoundException extends RuntimeException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-        return streamId;
+	return streamId;
     }
 
 }

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.ddd.EntityId;
 import org.fuin.ddd4j.ddd.EntityIdFactory;
 import org.fuin.ddd4j.ddd.EntityIdPathConverter;
-import org.fuin.ddd4j.ddd.SimpleDeserializerRegistry;
+import org.fuin.ddd4j.ddd.SimpleSerializerDeserializerRegistry;
 import org.fuin.ddd4j.ddd.XmlDeSerializer;
 import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
 import org.fuin.ddd4j.eventstore.intf.StreamId;
@@ -53,7 +53,7 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
         final EntityIdFactory entityIdFactory = createEntityIdFactory();
         final XmlAdapter<?, ?>[] adapters = new XmlAdapter<?, ?>[] { new EntityIdPathConverter(
                 entityIdFactory) };
-        final SimpleDeserializerRegistry registry = new SimpleDeserializerRegistry();
+        final SimpleSerializerDeserializerRegistry registry = new SimpleSerializerDeserializerRegistry();
         registry.add(new XmlDeSerializer(VendorCreatedEvent.TYPE.asBaseType(),
                 adapters, VendorCreatedEvent.class));
         final VendorRepository repo = new VendorRepository(eventStore,

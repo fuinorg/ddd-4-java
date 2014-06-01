@@ -26,10 +26,10 @@ import javax.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 
 /**
- * Contains all known deserializer.
+ * Contains all known serializers and deserializers.
  */
-public final class SimpleDeserializerRegistry implements DeserializerRegistry,
-        SerializerRegistry {
+public final class SimpleSerializerDeserializerRegistry implements
+        SerializerDeserializerRegistry {
 
     private final Map<String, Serializer> serMap;
 
@@ -38,7 +38,7 @@ public final class SimpleDeserializerRegistry implements DeserializerRegistry,
     /**
      * Default constructor.
      */
-    public SimpleDeserializerRegistry() {
+    public SimpleSerializerDeserializerRegistry() {
         super();
         serMap = new HashMap<String, Serializer>();
         desMap = new HashMap<Key, Deserializer>();
@@ -97,11 +97,11 @@ public final class SimpleDeserializerRegistry implements DeserializerRegistry,
      * @param vcds
      *            Deserializer to add.
      */
-    public final void add(@NotNull final XmlDeSerializer vcds) {
-        Contract.requireArgNotNull("vcds", vcds);
-        this.addSerializer(vcds.getType(), vcds);
-        this.addDeserializer(vcds.getType(), vcds.getVersion(),
-                vcds.getMimeType(), vcds.getEncoding(), vcds);
+    public final void add(@NotNull final SerializerDeserializer sd) {
+        Contract.requireArgNotNull("sd", sd);
+        this.addSerializer(sd.getType(), sd);
+        this.addDeserializer(sd.getType(), sd.getVersion(), sd.getMimeType(),
+                sd.getEncoding(), sd);
     }
 
     @Override

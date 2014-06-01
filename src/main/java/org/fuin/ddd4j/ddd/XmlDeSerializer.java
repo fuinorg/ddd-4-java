@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * Serializes and deserializes a class of a given type that only has one version
  * and is always "application/xml" + "utf-8" encoded.
  */
-public final class XmlDeSerializer implements Serializer, Deserializer {
+public final class XmlDeSerializer implements SerializerDeserializer {
 
     private static final Logger LOG = LoggerFactory
             .getLogger(XmlDeSerializer.class);

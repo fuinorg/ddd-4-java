@@ -20,15 +20,15 @@ package org.fuin.ddd4j.ddd;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
 
+import org.fuin.objects4j.vo.ValueObject;
 import org.joda.time.DateTime;
 
 /**
- * Meta data stored together with an event.
+ * Base class for typical meta data stored together with an event.
  */
-@XmlRootElement(name = "event-meta-data")
-public class EventMetaData implements MetaData, Serializable {
+public abstract class AbstractEventMetaData implements MetaData, ValueObject,
+        Serializable {
 
     private static final long serialVersionUID = 1000L;
 
@@ -59,7 +59,7 @@ public class EventMetaData implements MetaData, Serializable {
     /**
      * Protected default constructor for de-serialization.
      */
-    protected EventMetaData() {
+    protected AbstractEventMetaData() {
         super();
     }
 
@@ -84,9 +84,9 @@ public class EventMetaData implements MetaData, Serializable {
      *            Date/Time the command was received by the command handler.
      */
     // CHECKSTYLE:OFF More than 7 args is OK here
-    public EventMetaData(final String remoteAddr, final Integer remotePort,
-            final String remoteUser, final String localAddr,
-            final Integer localPort, final String user,
+    public AbstractEventMetaData(final String remoteAddr,
+            final Integer remotePort, final String remoteUser,
+            final String localAddr, final Integer localPort, final String user,
             final DateTime cmdCreated, final DateTime cmdReceived) {
         // CHECKSTYLE:ON
         super();
@@ -171,86 +171,5 @@ public class EventMetaData implements MetaData, Serializable {
     public final DateTime getCmdReceived() {
         return cmdReceived;
     }
-
-    @Override
-    public final String getType() {
-        return getClass().getSimpleName();
-    }
-
-    // CHECKSTYLE:OFF Generated code
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result
-                + ((cmdCreated == null) ? 0 : cmdCreated.hashCode());
-        result = prime * result
-                + ((cmdReceived == null) ? 0 : cmdReceived.hashCode());
-        result = prime * result
-                + ((localAddr == null) ? 0 : localAddr.hashCode());
-        result = prime * result
-                + ((localPort == null) ? 0 : localPort.hashCode());
-        result = prime * result
-                + ((remoteAddr == null) ? 0 : remoteAddr.hashCode());
-        result = prime * result
-                + ((remotePort == null) ? 0 : remotePort.hashCode());
-        result = prime * result
-                + ((remoteUser == null) ? 0 : remoteUser.hashCode());
-        result = prime * result + ((user == null) ? 0 : user.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        EventMetaData other = (EventMetaData) obj;
-        if (cmdCreated == null) {
-            if (other.cmdCreated != null)
-                return false;
-        } else if (!cmdCreated.equals(other.cmdCreated))
-            return false;
-        if (cmdReceived == null) {
-            if (other.cmdReceived != null)
-                return false;
-        } else if (!cmdReceived.equals(other.cmdReceived))
-            return false;
-        if (localAddr == null) {
-            if (other.localAddr != null)
-                return false;
-        } else if (!localAddr.equals(other.localAddr))
-            return false;
-        if (localPort == null) {
-            if (other.localPort != null)
-                return false;
-        } else if (!localPort.equals(other.localPort))
-            return false;
-        if (remoteAddr == null) {
-            if (other.remoteAddr != null)
-                return false;
-        } else if (!remoteAddr.equals(other.remoteAddr))
-            return false;
-        if (remotePort == null) {
-            if (other.remotePort != null)
-                return false;
-        } else if (!remotePort.equals(other.remotePort))
-            return false;
-        if (remoteUser == null) {
-            if (other.remoteUser != null)
-                return false;
-        } else if (!remoteUser.equals(other.remoteUser))
-            return false;
-        if (user == null) {
-            if (other.user != null)
-                return false;
-        } else if (!user.equals(other.user))
-            return false;
-        return true;
-    }
-    // CHECKSTYLE:ON
 
 }

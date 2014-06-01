@@ -27,16 +27,16 @@ import org.joda.time.DateTime;
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
-public final class EventMetaDataTest {
+public final class BasicEventMetaDataTest {
 
     @Test
     public final void testSerializeDeserialize() {
 
         // PREPARE
-        final EventMetaData original = createTestee();
+        final BasicEventMetaData original = createTestee();
 
         // TEST
-        final EventMetaData copy = deserialize(serialize(original));
+        final BasicEventMetaData copy = deserialize(serialize(original));
 
         // VERIFY
         assertThat(original).isEqualTo(copy);
@@ -47,20 +47,20 @@ public final class EventMetaDataTest {
     public final void testMarshalUnmarshal() {
 
         // PREPARE
-        final EventMetaData original = createTestee();
+        final BasicEventMetaData original = createTestee();
 
         // TEST
-        final String xml = marshal(original, EventMetaData.class);
-        final EventMetaData copy = unmarshal(xml, EventMetaData.class);
+        final String xml = marshal(original, BasicEventMetaData.class);
+        final BasicEventMetaData copy = unmarshal(xml, BasicEventMetaData.class);
 
         // VERIFY
         assertThat(original).isEqualTo(copy);
 
     }
 
-    private EventMetaData createTestee() {
-        return new EventMetaData("127.0.0.1", 1, "REMOTE_USER", "127.0.0.2", 2,
-                "USER", new DateTime(), new DateTime());
+    private BasicEventMetaData createTestee() {
+        return new BasicEventMetaData("127.0.0.1", 1, "REMOTE_USER",
+                "127.0.0.2", 2, "USER", new DateTime(), new DateTime());
     }
 
 }

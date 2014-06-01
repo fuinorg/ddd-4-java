@@ -44,15 +44,15 @@ public final class AggregateDeletedException extends UniquelyNumberedException {
      *            Unique identifier of the aggregate.
      */
     public AggregateDeletedException(@NotNull final EntityType aggregateType,
-	    @NotNull final AggregateRootId aggregateId) {
-	super(102, "Aggregate of type '" + aggregateType + "' with id "
-		+ aggregateId + " already deleted");
+            @NotNull final AggregateRootId aggregateId) {
+        super(102, "Aggregate of type '" + aggregateType + "' with id "
+                + aggregateId + " already deleted");
 
-	Contract.requireArgNotNull("aggregateType", aggregateType);
-	Contract.requireArgNotNull("aggregateId", aggregateId);
+        Contract.requireArgNotNull("aggregateType", aggregateType);
+        Contract.requireArgNotNull("aggregateId", aggregateId);
 
-	this.aggregateType = aggregateType;
-	this.aggregateId = aggregateId;
+        this.aggregateType = aggregateType;
+        this.aggregateId = aggregateId;
     }
 
     /**
@@ -62,7 +62,7 @@ public final class AggregateDeletedException extends UniquelyNumberedException {
      */
     @NeverNull
     public final EntityType getAggregateType() {
-	return aggregateType;
+        return aggregateType;
     }
 
     /**
@@ -72,7 +72,7 @@ public final class AggregateDeletedException extends UniquelyNumberedException {
      */
     @NeverNull
     public final AggregateRootId getAggregateId() {
-	return aggregateId;
+        return aggregateId;
     }
 
 }

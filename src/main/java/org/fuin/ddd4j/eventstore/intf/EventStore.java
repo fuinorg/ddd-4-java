@@ -44,8 +44,8 @@ public interface EventStore extends ReadOnlyEventStore {
      *             The expected version didn't match the actual version.
      */
     public void deleteStream(@NotNull StreamId streamId, int expectedVersion)
-	    throws StreamNotFoundException, StreamVersionConflictException,
-	    StreamDeletedException;
+            throws StreamNotFoundException, StreamVersionConflictException,
+            StreamDeletedException;
 
     /**
      * Appends a list of events to a stream.
@@ -69,9 +69,9 @@ public interface EventStore extends ReadOnlyEventStore {
      *             The given stream identifier points to a projection.
      */
     public int appendToStream(@NotNull StreamId streamId, int expectedVersion,
-	    @NotNull List<EventData> events) throws StreamNotFoundException,
-	    StreamVersionConflictException, StreamDeletedException,
-	    ProjectionNotWritableException;
+            @NotNull List<EventData> events) throws StreamNotFoundException,
+            StreamVersionConflictException, StreamDeletedException,
+            ProjectionNotWritableException;
 
     /**
      * Appends one or more events to a stream.
@@ -95,7 +95,7 @@ public interface EventStore extends ReadOnlyEventStore {
      *             The expected version didn't match the actual version.
      */
     public int appendToStream(@NotNull StreamId streamId, int expectedVersion,
-	    @NotNull EventData... events) throws StreamNotFoundException,
-	    StreamVersionConflictException, StreamDeletedException;
+            @NotNull EventData... events) throws StreamNotFoundException,
+            StreamVersionConflictException, StreamDeletedException;
 
 }

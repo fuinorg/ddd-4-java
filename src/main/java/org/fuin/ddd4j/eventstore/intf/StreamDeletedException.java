@@ -39,10 +39,10 @@ public class StreamDeletedException extends UniquelyNumberedException {
      *            Unique name of the stream.
      */
     public StreamDeletedException(@NotNull final StreamId streamId) {
-	super(106, "Stream '" + streamId
-		+ "' previously existed but was deleted");
-	Contract.requireArgNotNull("streamId", streamId);
-	this.streamId = streamId;
+        super(106, "Stream '" + streamId
+                + "' previously existed but was deleted");
+        Contract.requireArgNotNull("streamId", streamId);
+        this.streamId = streamId;
     }
 
     /**
@@ -52,7 +52,7 @@ public class StreamDeletedException extends UniquelyNumberedException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
 }

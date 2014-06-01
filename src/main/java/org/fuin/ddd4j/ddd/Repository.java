@@ -75,7 +75,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      */
     @NeverNull
     public T read(@NotNull ID id) throws AggregateNotFoundException,
-	    AggregateDeletedException;
+            AggregateDeletedException;
 
     /**
      * Reads a given version of an aggregate.
@@ -96,8 +96,8 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      */
     @NeverNull
     public T read(@NotNull ID id, int version)
-	    throws AggregateNotFoundException, AggregateDeletedException,
-	    AggregateVersionNotFoundException;
+            throws AggregateNotFoundException, AggregateDeletedException,
+            AggregateVersionNotFoundException;
 
     /**
      * Saves the changes on an aggregate in the repository.
@@ -117,8 +117,8 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      */
     @NeverNull
     public void update(@NotNull T aggregate, MetaData metaData)
-	    throws AggregateVersionConflictException,
-	    AggregateNotFoundException, AggregateDeletedException;
+            throws AggregateVersionConflictException,
+            AggregateNotFoundException, AggregateDeletedException;
 
     /**
      * Deletes an aggregate from the repository. If the aggregate was already
@@ -135,7 +135,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             The expected version didn't match the actual version.
      */
     public void delete(@NotNull ID aggregateId, int expectedVersion)
-	    throws AggregateNotFoundException,
-	    AggregateVersionConflictException;
+            throws AggregateNotFoundException,
+            AggregateVersionConflictException;
 
 }

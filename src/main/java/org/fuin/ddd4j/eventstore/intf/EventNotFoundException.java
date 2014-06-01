@@ -43,14 +43,14 @@ public class EventNotFoundException extends UniquelyNumberedException {
      *            Number of the event that was not found.
      */
     public EventNotFoundException(@NotNull final StreamId streamId,
-	    final int eventNumber) {
-	super(105, "Version " + eventNumber + " does not exist on stream '"
-		+ streamId + "'");
+            final int eventNumber) {
+        super(105, "Version " + eventNumber + " does not exist on stream '"
+                + streamId + "'");
 
-	Contract.requireArgNotNull("streamId", streamId);
+        Contract.requireArgNotNull("streamId", streamId);
 
-	this.streamId = streamId;
-	this.version = eventNumber;
+        this.streamId = streamId;
+        this.version = eventNumber;
     }
 
     /**
@@ -60,7 +60,7 @@ public class EventNotFoundException extends UniquelyNumberedException {
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
     /**
@@ -69,7 +69,7 @@ public class EventNotFoundException extends UniquelyNumberedException {
      * @return Number that was not found.
      */
     public final int getVersion() {
-	return version;
+        return version;
     }
 
 }

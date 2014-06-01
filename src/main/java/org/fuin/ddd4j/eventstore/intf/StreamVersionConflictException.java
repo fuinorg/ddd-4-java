@@ -25,7 +25,7 @@ import org.fuin.objects4j.common.UniquelyNumberedException;
  * Signals a conflict between an expected and an actual version.
  */
 public final class StreamVersionConflictException extends
-	UniquelyNumberedException {
+        UniquelyNumberedException {
 
     private static final long serialVersionUID = 1000L;
 
@@ -46,13 +46,13 @@ public final class StreamVersionConflictException extends
      *            Actual version.
      */
     public StreamVersionConflictException(final StreamId streamId,
-	    final int expected, final int actual) {
-	super(109, "Expected version " + expected + " for stream '" + streamId
-		+ "', but was " + actual);
-	Contract.requireArgNotNull("streamId", streamId);
-	this.streamId = streamId;
-	this.expected = expected;
-	this.actual = actual;
+            final int expected, final int actual) {
+        super(109, "Expected version " + expected + " for stream '" + streamId
+                + "', but was " + actual);
+        Contract.requireArgNotNull("streamId", streamId);
+        this.streamId = streamId;
+        this.expected = expected;
+        this.actual = actual;
     }
 
     /**
@@ -62,7 +62,7 @@ public final class StreamVersionConflictException extends
      */
     @NeverNull
     public final StreamId getStreamId() {
-	return streamId;
+        return streamId;
     }
 
     /**
@@ -71,7 +71,7 @@ public final class StreamVersionConflictException extends
      * @return Expected version.
      */
     public final int getExpected() {
-	return expected;
+        return expected;
     }
 
     /**
@@ -80,7 +80,7 @@ public final class StreamVersionConflictException extends
      * @return Actual version.
      */
     public final int getActual() {
-	return actual;
+        return actual;
     }
 
 }

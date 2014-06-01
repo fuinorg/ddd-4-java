@@ -35,7 +35,7 @@ import org.fuin.objects4j.common.Contract;
  *            Aggregate identifier.
  */
 public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
-	implements AggregateRoot<ID> {
+        implements AggregateRoot<ID> {
 
     private static final MethodExecutor METHOD_EXECUTOR = new MethodExecutor();
 
@@ -47,88 +47,88 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      * Default constructor.
      */
     public AbstractAggregateRoot() {
-	super();
-	this.uncommitedChanges = new ArrayList<DomainEvent<?>>();
+        super();
+        this.uncommitedChanges = new ArrayList<DomainEvent<?>>();
     }
 
     @Override
     public final int hashCode() {
-	final int prime = 31;
-	int result = 1;
-	result = (prime * result) + getId().hashCode();
-	return result;
+        final int prime = 31;
+        int result = 1;
+        result = (prime * result) + getId().hashCode();
+        return result;
     }
 
     @Override
     public final boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null) {
-	    return false;
-	}
-	if (getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractAggregateRoot<?> other = (AbstractAggregateRoot<?>) obj;
-	if (!getId().equals(other.getId())) {
-	    return false;
-	}
-	return true;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AbstractAggregateRoot<?> other = (AbstractAggregateRoot<?>) obj;
+        if (!getId().equals(other.getId())) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public final List<DomainEvent<?>> getUncommittedChanges() {
-	return Collections.unmodifiableList(uncommitedChanges);
+        return Collections.unmodifiableList(uncommitedChanges);
     }
 
     @Override
     public final boolean hasUncommitedChanges() {
-	return uncommitedChanges.size() > 0;
+        return uncommitedChanges.size() > 0;
     }
 
     @Override
     public final void markChangesAsCommitted() {
-	version = getNextVersion();
-	uncommitedChanges.clear();
+        version = getNextVersion();
+        uncommitedChanges.clear();
     }
 
     @Override
     public final int getVersion() {
-	return version;
+        return version;
     }
 
     @Override
     public final int getNextVersion() {
-	return version + uncommitedChanges.size();
+        return version + uncommitedChanges.size();
     }
 
     @Override
     public final void loadFromHistory(final DomainEvent<?>... history) {
-	if (history == null) {
-	    return;
-	}
-	loadFromHistory(Arrays.asList(history));
+        if (history == null) {
+            return;
+        }
+        loadFromHistory(Arrays.asList(history));
     }
 
     @Override
     public final void loadFromHistory(final List<DomainEvent<?>> history) {
-	if (history == null) {
-	    return;
-	}
-	for (final DomainEvent<?> event : history) {
-	    if (!getIgnoredEvents().contains(event.getClass())) {
-		final boolean applied = callAnnotatedEventHandlerMethodOnAggregateRootOrChild(
-			this, event);
-		if (applied) {
-		    version++;
-		} else {
-		    throw new IllegalStateException(
-			    "Wasn't able to apply historic event '" + event
-				    + "' to: " + this.getClass().getName());
-		}
-	    }
-	}
+        if (history == null) {
+            return;
+        }
+        for (final DomainEvent<?> event : history) {
+            if (!getIgnoredEvents().contains(event.getClass())) {
+                final boolean applied = callAnnotatedEventHandlerMethodOnAggregateRootOrChild(
+                        this, event);
+                if (applied) {
+                    version++;
+                } else {
+                    throw new IllegalStateException(
+                            "Wasn't able to apply historic event '" + event
+                                    + "' to: " + this.getClass().getName());
+                }
+            }
+        }
     }
 
     /**
@@ -143,38 +143,38 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      * @return TRUE if the event was successfully applied, else FALSE.
      */
     static boolean callAnnotatedEventHandlerMethodOnAggregateRootOrChild(
-	    final AggregateRoot<?> aggregateRoot, final DomainEvent<?> event) {
+            final AggregateRoot<?> aggregateRoot, final DomainEvent<?> event) {
 
-	final EntityIdPath path = event.getEntityIdPath();
-	final Iterator<EntityId> idIt = path.iterator();
-	final EntityId entityId = idIt.next();
-	if (!(entityId instanceof AggregateRootId)) {
-	    throw new IllegalStateException(
-		    "The first ID in the entity identifier path was not an "
-			    + AggregateRootId.class.getSimpleName() + ": "
-			    + path);
-	}
+        final EntityIdPath path = event.getEntityIdPath();
+        final Iterator<EntityId> idIt = path.iterator();
+        final EntityId entityId = idIt.next();
+        if (!(entityId instanceof AggregateRootId)) {
+            throw new IllegalStateException(
+                    "The first ID in the entity identifier path was not an "
+                            + AggregateRootId.class.getSimpleName() + ": "
+                            + path);
+        }
 
-	if (!idIt.hasNext()) {
-	    // Direct event from aggregate root
-	    return callAnnotatedEventHandlerMethod(aggregateRoot, event);
-	}
+        if (!idIt.hasNext()) {
+            // Direct event from aggregate root
+            return callAnnotatedEventHandlerMethod(aggregateRoot, event);
+        }
 
-	// Continue with child(s)
-	Entity<?> entity = aggregateRoot;
-	while (idIt.hasNext()) {
-	    final EntityId id = idIt.next();
-	    final Method foundChildEntityMethod = METHOD_EXECUTOR
-		    .findDeclaredAnnotatedMethod(entity,
-			    ChildEntityLocator.class, id.getClass());
-	    if (foundChildEntityMethod == null) {
-		return false;
-	    }
-	    entity = METHOD_EXECUTOR.invoke(foundChildEntityMethod, entity, id);
-	}
+        // Continue with child(s)
+        Entity<?> entity = aggregateRoot;
+        while (idIt.hasNext()) {
+            final EntityId id = idIt.next();
+            final Method foundChildEntityMethod = METHOD_EXECUTOR
+                    .findDeclaredAnnotatedMethod(entity,
+                            ChildEntityLocator.class, id.getClass());
+            if (foundChildEntityMethod == null) {
+                return false;
+            }
+            entity = METHOD_EXECUTOR.invoke(foundChildEntityMethod, entity, id);
+        }
 
-	// Call event handler on the child entity
-	return callAnnotatedEventHandlerMethod(entity, event);
+        // Call event handler on the child entity
+        return callAnnotatedEventHandlerMethod(entity, event);
     }
 
     /**
@@ -184,7 +184,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      * @return Events that can be safely ignored.
      */
     protected final List<Class<? extends DomainEvent<?>>> getIgnoredEvents() {
-	return Collections.emptyList();
+        return Collections.emptyList();
     }
 
     /**
@@ -195,13 +195,13 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      *            Event to dispatch to the appropriate event handler method.
      */
     protected final void apply(@NotNull final DomainEvent<?> event) {
-	if (callAnnotatedEventHandlerMethod(this, event)) {
-	    uncommitedChanges.add(event);
-	} else {
-	    throw new IllegalStateException(
-		    "Couldn't find an event handler for: "
-			    + event.getClass().getName());
-	}
+        if (callAnnotatedEventHandlerMethod(this, event)) {
+            uncommitedChanges.add(event);
+        } else {
+            throw new IllegalStateException(
+                    "Couldn't find an event handler for: "
+                            + event.getClass().getName());
+        }
     }
 
     /**
@@ -214,16 +214,16 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      *            Event to dispatch to the appropriate event handler method.
      */
     final void applyNewChildEvent(
-	    @NotNull final AbstractEntity<?, ?, ?> entity,
-	    @NotNull final DomainEvent<?> event) {
+            @NotNull final AbstractEntity<?, ?, ?> entity,
+            @NotNull final DomainEvent<?> event) {
 
-	if (callAnnotatedEventHandlerMethod(entity, event)) {
-	    uncommitedChanges.add(event);
-	} else {
-	    throw new IllegalStateException(
-		    "Couldn't find an event handler in '"
-			    + entity.getClass().getName() + "' for: " + event);
-	}
+        if (callAnnotatedEventHandlerMethod(entity, event)) {
+            uncommitedChanges.add(event);
+        } else {
+            throw new IllegalStateException(
+                    "Couldn't find an event handler in '"
+                            + entity.getClass().getName() + "' for: " + event);
+        }
 
     }
 
@@ -241,18 +241,18 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      *         event was applied, else FALSE.
      */
     static boolean callAnnotatedEventHandlerMethod(final Entity<?> entity,
-	    final DomainEvent<?> event) {
+            final DomainEvent<?> event) {
 
-	Contract.requireArgNotNull("entity", entity);
-	Contract.requireArgNotNull("event", event);
+        Contract.requireArgNotNull("entity", entity);
+        Contract.requireArgNotNull("event", event);
 
-	final Method method = METHOD_EXECUTOR.findDeclaredAnnotatedMethod(
-		entity, EventHandler.class, event.getClass());
-	if (method == null) {
-	    return false;
-	}
-	METHOD_EXECUTOR.invoke(method, entity, event);
-	return true;
+        final Method method = METHOD_EXECUTOR.findDeclaredAnnotatedMethod(
+                entity, EventHandler.class, event.getClass());
+        if (method == null) {
+            return false;
+        }
+        METHOD_EXECUTOR.invoke(method, entity, event);
+        return true;
 
     }
 

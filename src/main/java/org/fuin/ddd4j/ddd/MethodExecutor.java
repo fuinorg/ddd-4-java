@@ -54,24 +54,24 @@ public final class MethodExecutor {
      *            Type of the return value.
      */
     public final <T> T invokeDeclaredAnnotatedMethod(@NotNull final Object obj,
-	    @NotNull final Class<? extends Annotation> annotationType,
-	    final Class<?>[] argumentTypes, final Object[] arguments) {
+            @NotNull final Class<? extends Annotation> annotationType,
+            final Class<?>[] argumentTypes, final Object[] arguments) {
 
-	Contract.requireArgNotNull("obj", obj);
-	Contract.requireArgNotNull("annotationType", annotationType);
-	requireValid(argumentTypes, arguments);
+        Contract.requireArgNotNull("obj", obj);
+        Contract.requireArgNotNull("annotationType", annotationType);
+        requireValid(argumentTypes, arguments);
 
-	final Method method = findDeclaredAnnotatedMethod(obj, annotationType,
-		argumentTypes);
-	if (method == null) {
-	    throw new IllegalArgumentException(
-		    "Cannot find a method annotated with '"
-			    + annotationType.getSimpleName()
-			    + "' and arguments '"
-			    + Arrays.asList(argumentTypes) + "' in class '"
-			    + obj.getClass().getName() + "'");
-	}
-	return invoke(method, obj, arguments);
+        final Method method = findDeclaredAnnotatedMethod(obj, annotationType,
+                argumentTypes);
+        if (method == null) {
+            throw new IllegalArgumentException(
+                    "Cannot find a method annotated with '"
+                            + annotationType.getSimpleName()
+                            + "' and arguments '"
+                            + Arrays.asList(argumentTypes) + "' in class '"
+                            + obj.getClass().getName() + "'");
+        }
+        return invoke(method, obj, arguments);
 
     }
 
@@ -89,22 +89,22 @@ public final class MethodExecutor {
      *         does not match.
      */
     public final Method findDeclaredAnnotatedMethod(@NotNull final Object obj,
-	    @NotNull final Class<? extends Annotation> annotationType,
-	    final Class<?>... expectedArgumentTypes) {
+            @NotNull final Class<? extends Annotation> annotationType,
+            final Class<?>... expectedArgumentTypes) {
 
-	Contract.requireArgNotNull("obj", obj);
-	Contract.requireArgNotNull("annotationType", annotationType);
+        Contract.requireArgNotNull("obj", obj);
+        Contract.requireArgNotNull("annotationType", annotationType);
 
-	final Method[] methods = obj.getClass().getDeclaredMethods();
-	for (final Method method : methods) {
-	    if (method.getAnnotation(annotationType) != null) {
-		final Class<?>[] types = method.getParameterTypes();
-		if (same(expectedArgumentTypes, types)) {
-		    return method;
-		}
-	    }
-	}
-	return null;
+        final Method[] methods = obj.getClass().getDeclaredMethods();
+        for (final Method method : methods) {
+            if (method.getAnnotation(annotationType) != null) {
+                final Class<?>[] types = method.getParameterTypes();
+                if (same(expectedArgumentTypes, types)) {
+                    return method;
+                }
+            }
+        }
+        return null;
 
     }
 
@@ -125,32 +125,32 @@ public final class MethodExecutor {
      */
     @SuppressWarnings("unchecked")
     public final <T> T invoke(@NotNull final Method method,
-	    @NotNull final Object target, final Object... args) {
+            @NotNull final Object target, final Object... args) {
 
-	Contract.requireArgNotNull("method", method);
-	Contract.requireArgNotNull("target", target);
+        Contract.requireArgNotNull("method", method);
+        Contract.requireArgNotNull("target", target);
 
-	try {
-	    if (!method.isAccessible()) {
-		method.setAccessible(true);
-	    }
-	    return (T) method.invoke(target, args);
-	} catch (final IllegalAccessException | IllegalArgumentException
-		| InvocationTargetException ex) {
-	    throw new RuntimeException(
-		    createInvokeErrMsg(target, method, args), ex);
-	}
+        try {
+            if (!method.isAccessible()) {
+                method.setAccessible(true);
+            }
+            return (T) method.invoke(target, args);
+        } catch (final IllegalAccessException | IllegalArgumentException
+                | InvocationTargetException ex) {
+            throw new RuntimeException(
+                    createInvokeErrMsg(target, method, args), ex);
+        }
     }
 
     private String createInvokeErrMsg(final Object target, final Method method,
-	    final Object... args) {
-	if ((args == null) || (args.length == 0)) {
-	    return "Failed to call method '" + method + "' on '"
-		    + target.getClass().getSimpleName();
-	}
-	return "Failed to call method '" + method + "' on '"
-		+ target.getClass().getSimpleName() + "' with arguments: "
-		+ Arrays.asList(args);
+            final Object... args) {
+        if ((args == null) || (args.length == 0)) {
+            return "Failed to call method '" + method + "' on '"
+                    + target.getClass().getSimpleName();
+        }
+        return "Failed to call method '" + method + "' on '"
+                + target.getClass().getSimpleName() + "' with arguments: "
+                + Arrays.asList(args);
     }
 
     /**
@@ -164,45 +164,45 @@ public final class MethodExecutor {
      * @return TRUE if both arguments match.
      */
     public final boolean same(final Class<?>[] expected, final Class<?>[] actual) {
-	if (expected == null) {
-	    if (actual == null) {
-		return true;
-	    }
-	    return false;
-	}
-	if (actual == null) {
-	    return false;
-	}
-	if (expected.length != actual.length) {
-	    return false;
-	}
-	for (int i = 0; i < expected.length; i++) {
-	    if (expected[0] != actual[i]) {
-		return false;
-	    }
-	}
-	return true;
+        if (expected == null) {
+            if (actual == null) {
+                return true;
+            }
+            return false;
+        }
+        if (actual == null) {
+            return false;
+        }
+        if (expected.length != actual.length) {
+            return false;
+        }
+        for (int i = 0; i < expected.length; i++) {
+            if (expected[0] != actual[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void requireValid(final Class<?>[] argumentTypes,
-	    final Object[] arguments) {
-	if ((argumentTypes == null) && (arguments != null)) {
-	    throw new IllegalArgumentException(
-		    "Argument type array is null, but arguments array is not: "
-			    + Arrays.asList(arguments));
-	}
-	if ((arguments == null) && (argumentTypes != null)) {
-	    throw new IllegalArgumentException(
-		    "Arguments array is null, but argument types array is not: "
-			    + Arrays.asList(argumentTypes));
-	}
-	if ((argumentTypes != null) && (arguments != null)
-		&& (argumentTypes.length != arguments.length)) {
-	    throw new IllegalArgumentException(
-		    "Types and arguments have different length: Types="
-			    + Arrays.asList(argumentTypes) + ", Args="
-			    + Arrays.asList(arguments));
-	}
+            final Object[] arguments) {
+        if ((argumentTypes == null) && (arguments != null)) {
+            throw new IllegalArgumentException(
+                    "Argument type array is null, but arguments array is not: "
+                            + Arrays.asList(arguments));
+        }
+        if ((arguments == null) && (argumentTypes != null)) {
+            throw new IllegalArgumentException(
+                    "Arguments array is null, but argument types array is not: "
+                            + Arrays.asList(argumentTypes));
+        }
+        if ((argumentTypes != null) && (arguments != null)
+                && (argumentTypes.length != arguments.length)) {
+            throw new IllegalArgumentException(
+                    "Types and arguments have different length: Types="
+                            + Arrays.asList(argumentTypes) + ", Args="
+                            + Arrays.asList(arguments));
+        }
     }
 
 }

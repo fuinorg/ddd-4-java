@@ -17,9 +17,13 @@
  */
 package org.fuin.ddd4j.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
+import org.fuin.ddd4j.ddd.ChildEntityLocator;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.EventHandler;
 import org.fuin.objects4j.common.Contract;
@@ -29,7 +33,11 @@ import org.fuin.objects4j.common.Contract;
  */
 public class Vendor extends AbstractAggregateRoot<VendorId> {
 
-    private VendorId id;
+    private VendorRef ref;
+
+    private Integer lastPersonId;
+
+    private List<Person> persons;
 
     /**
      * Default constructor used by the repositories. NEVER use in your
@@ -75,7 +83,81 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
 
     @EventHandler
     private final void handle(final VendorCreatedEvent event) {
-        this.id = event.getEntityId();
+        this.ref = event.getVendorRef();
+    }
+
+    /**
+     * Adds a person with the given name.
+     * 
+     * @param name
+     *            Name of the person to add.
+     */
+    public final void addPerson(@NotNull final PersonName name) {
+
+        // CHECK PRECONDITIONS
+        Contract.requireArgNotNull("name", name);
+
+        // VERIFY BUSINESS RULES
+        // Nothing to do here
+
+        // HANDLE EVENT
+        apply(new PersonCreatedEvent(ref, new PersonId(nextId()), name));
+
+    }
+
+    @EventHandler
+    private final void handle(final PersonCreatedEvent event) {
+        this.lastPersonId = event.getPersonId().asBaseType();
+        if (persons == null) {
+            persons = new ArrayList<Person>();
+        }
+        persons.add(new Person(this, event.getPersonId(), event.getPersonName()));
+    }
+
+    private int nextId() {
+        if (lastPersonId == null) {
+            return 1;
+        }
+        return lastPersonId + 1;
+    }
+
+    /**
+     * Changes the name of a person.
+     * 
+     * @param personId
+     *            Person ID.
+     * @param newName
+     *            New name.
+     * 
+     * @throws PersonNotFoundException
+     *             No person with teh given ID was found.
+     */
+    public final void changePersonName(@NotNull final PersonId personId,
+            @NotNull final PersonName newName) throws PersonNotFoundException {
+
+        // CHECK PRECONDITIONS
+        Contract.requireArgNotNull("personId", personId);
+        Contract.requireArgNotNull("newName", newName);
+
+        // LOCATE PERSON
+        final Person person = findPerson(personId);
+        if (person == null) {
+            throw new PersonNotFoundException(getRef(), personId);
+        }
+
+        // FORWARD CHANGE REQUEST TO PERSON
+        person.changeName(newName);
+
+    }
+
+    @ChildEntityLocator
+    private Person findPerson(final PersonId personId) {
+        for (final Person child : persons) {
+            if (child.getId().equals(personId)) {
+                return child;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -85,7 +167,16 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
 
     @Override
     public final VendorId getId() {
-        return id;
+        return ref.getId();
+    }
+
+    /**
+     * Returns the reference.
+     * 
+     * @return Vendor reference.
+     */
+    public final VendorRef getRef() {
+        return ref;
     }
 
     /**

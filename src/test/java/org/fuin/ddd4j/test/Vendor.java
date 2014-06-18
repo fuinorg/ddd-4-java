@@ -17,9 +17,12 @@
  */
 package org.fuin.ddd4j.test;
 
+import javax.validation.constraints.NotNull;
+
 import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.EventHandler;
+import org.fuin.objects4j.common.Contract;
 
 /**
  * Vendor aggregate.
@@ -45,10 +48,34 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      *            Unique key.
      * @param name
      *            Name.
+     * @param service
+     *            Service used by the method.
+     * 
+     * @throws DuplicateVendorKeyException
+     *             The given key already exists.
      */
-    public Vendor(final VendorId id, final VendorKey key, final VendorName name) {
+    public Vendor(@NotNull final VendorId id, @NotNull final VendorKey key,
+            @NotNull final VendorName name,
+            @NotNull final ConstructorService service)
+            throws DuplicateVendorKeyException {
         super();
+
+        // CHECK PRECONDITIONS
+        Contract.requireArgNotNull("id", id);
+        Contract.requireArgNotNull("key", key);
+        Contract.requireArgNotNull("name", name);
+        Contract.requireArgNotNull("service", service);
+
+        // VERIFY BUSINESS RULES
+        service.addVendorKey(key);
+
+        // HANDLE EVENT
         apply(new VendorCreatedEvent(new VendorRef(id, key, name)));
+    }
+
+    @EventHandler
+    private final void handle(final VendorCreatedEvent event) {
+        this.id = event.getEntityId();
     }
 
     @Override
@@ -61,9 +88,24 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
         return id;
     }
 
-    @EventHandler
-    private final void handle(final VendorCreatedEvent event) {
-        this.id = event.getEntityId();
+    /**
+     * Interface for the constructor.
+     */
+    public interface ConstructorService {
+
+        /**
+         * Adds a new vendor key to the context. The key will be persisted or an
+         * exception will be thrown if it already exists.
+         * 
+         * @param key
+         *            Key to verify and persist.
+         * 
+         * @throws DuplicateVendorKeyException
+         *             The given key already exists.
+         */
+        public void addVendorKey(VendorKey key)
+                throws DuplicateVendorKeyException;
+
     }
 
 }

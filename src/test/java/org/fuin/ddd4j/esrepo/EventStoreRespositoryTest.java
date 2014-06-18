@@ -33,6 +33,7 @@ import org.fuin.ddd4j.eventstore.intf.StreamId;
 import org.fuin.ddd4j.eventstore.jpa.IdStreamFactory;
 import org.fuin.ddd4j.eventstore.jpa.JpaEventStore;
 import org.fuin.ddd4j.eventstore.jpa.Stream;
+import org.fuin.ddd4j.test.DuplicateVendorKeyException;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorCreatedEvent;
 import org.fuin.ddd4j.test.VendorId;
@@ -63,7 +64,12 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
         final VendorKey vendorKey = new VendorKey("V00001");
         final VendorName vendorName = new VendorName(
                 "Hazards International Inc.");
-        final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName);
+        final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName, new Vendor.ConstructorService() {
+            @Override
+            public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException {
+                // Do nothing
+            }
+        });
 
         // TEST
         beginTransaction();

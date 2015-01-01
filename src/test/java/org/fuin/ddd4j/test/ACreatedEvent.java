@@ -32,6 +32,7 @@ public class ACreatedEvent extends AbstractDomainEvent<AId> {
 
     public ACreatedEvent(final AId id) {
         super(new EntityIdPath(id));
+        this.id = id;
     }
 
     public AId getId() {

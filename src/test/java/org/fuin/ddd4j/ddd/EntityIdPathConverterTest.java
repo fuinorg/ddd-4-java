@@ -56,22 +56,28 @@ public class EntityIdPathConverterTest {
                 new MyIdFactory());
         EntityIdPath path;
         Iterator<EntityId> it;
+        EntityId first;
+        EntityId last;
 
         // TEST & VERIFY
 
         // Single
         path = testee.toVO("A 1");
-        assertValues(path.first(), AId.class, "A", 1L);
-        assertValues(path.last(), AId.class, "A", 1L);
-        assertThat(path.first()).isSameAs(path.last());
+        first = path.first();
+        last = path.last();
+        assertValues(first, AId.class, "A", 1L);
+        assertValues(last, AId.class, "A", 1L);
+        assertThat(first).isSameAs(last);
         it = path.iterator();
         assertValues(it.next(), AId.class, "A", 1L);
         assertThat(it.hasNext()).isFalse();
 
         // Two
         path = testee.toVO("A 1/B 2");
-        assertValues(path.first(), AId.class, "A", 1L);
-        assertValues(path.last(), BId.class, "B", 2L);
+        first = path.first();
+        last = path.last();
+        assertValues(first, AId.class, "A", 1L);
+        assertValues(last, BId.class, "B", 2L);
         it = path.iterator();
         assertValues(it.next(), AId.class, "A", 1L);
         assertValues(it.next(), BId.class, "B", 2L);
@@ -79,8 +85,10 @@ public class EntityIdPathConverterTest {
 
         // Three
         path = testee.toVO("A 1/B 2/C 3");
-        assertValues(path.first(), AId.class, "A", 1L);
-        assertValues(path.last(), CId.class, "C", 3L);
+        first = path.first();
+        last = path.last();
+        assertValues(first, AId.class, "A", 1L);
+        assertValues(last, CId.class, "C", 3L);
         it = path.iterator();
         assertValues(it.next(), AId.class, "A", 1L);
         assertValues(it.next(), BId.class, "B", 2L);

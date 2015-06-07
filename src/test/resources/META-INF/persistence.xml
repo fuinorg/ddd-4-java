@@ -9,10 +9,10 @@
 
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 
-		<class>org.fuin.ddd4j.eventstore.jpa.EventEntry</class>
-		<class>org.fuin.ddd4j.eventstore.jpa.Stream</class>
-		<class>org.fuin.ddd4j.eventstore.jpa.Projection</class>
-		<class>org.fuin.ddd4j.eventstore.intf.Data</class>
+        <class>org.fuin.esc.jpa.JpaEvent</class>
+        <class>org.fuin.esc.jpa.JpaStream</class>
+        <class>org.fuin.esc.jpa.JpaProjection</class>
+        <class>org.fuin.esc.jpa.JpaData</class>
 		<class>org.fuin.ddd4j.test.VendorEvent</class>
 		<class>org.fuin.ddd4j.test.VendorStream</class>
 

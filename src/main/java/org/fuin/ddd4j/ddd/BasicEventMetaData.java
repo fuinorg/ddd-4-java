@@ -29,6 +29,9 @@ public class BasicEventMetaData extends AbstractEventMetaData {
 
     private static final long serialVersionUID = 1000L;
 
+    /** Never changing unique name of the type. */
+    public static final String TYPE = BasicEventMetaData.class.getSimpleName();
+
     /**
      * Protected default constructor for de-serialization.
      */

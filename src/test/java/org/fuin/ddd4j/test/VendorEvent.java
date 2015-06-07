@@ -24,8 +24,8 @@ import javax.persistence.IdClass;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.fuin.ddd4j.eventstore.jpa.EventEntry;
-import org.fuin.ddd4j.eventstore.jpa.StreamEvent;
+import org.fuin.esc.jpa.JpaEvent;
+import org.fuin.esc.jpa.JpaStreamEvent;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -34,7 +34,7 @@ import org.fuin.objects4j.common.Contract;
 @Table(name = "VENDOR_EVENTS")
 @Entity
 @IdClass(VendorEventId.class)
-public class VendorEvent extends StreamEvent {
+public class VendorEvent extends JpaStreamEvent {
 
     @Id
     @NotNull
@@ -62,12 +62,12 @@ public class VendorEvent extends StreamEvent {
      *            Unique vendor identifier.
      * @param version
      *            Version.
-     * @param eventEntry
+     * @param event
      *            Event entry to connect.
      */
     public VendorEvent(@NotNull final VendorId vendorId,
-            @NotNull final Integer version, final EventEntry eventEntry) {
-        super(eventEntry);
+            @NotNull final Integer version, final JpaEvent event) {
+        super(event);
         Contract.requireArgNotNull("vendorId", vendorId);
         Contract.requireArgNotNull("version", version);
         this.vendorId = vendorId.asString();

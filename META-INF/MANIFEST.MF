@@ -9,27 +9,19 @@ Bundle-SymbolicName: org.fuin.ddd-4-java
 Bundle-Vendor: Future Invent Informationsmanagement GmbH, Hamburg (Germa
  ny)
 Bundle-Version: 0.1.0.SNAPSHOT
-Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
- vax.validation.constraints,org.fuin.ddd4j.ddd,org.fuin.ddd4j.eventstore
- .intf,org.fuin.objects4j.common,org.fuin.objects4j.vo",org.fuin.ddd4j.d
- dd;version="0.1.0.SNAPSHOT";uses:="javax.enterprise.context,javax.persi
- stence,javax.validation.constraints,javax.xml.bind.annotation,javax.xml
- .bind.annotation.adapters,org.fuin.objects4j.common,org.fuin.objects4j.
- vo,org.joda.time",org.fuin.ddd4j.eventstore.jpa;version="0.1.0.SNAPSHOT
- ";uses:="javax.persistence,javax.validation.constraints,org.fuin.ddd4j.
- eventstore.intf,org.fuin.objects4j.common,org.joda.time",org.fuin.ddd4j
- .eventstore.memory;version="0.1.0.SNAPSHOT";uses:="org.fuin.ddd4j.event
- store.intf",org.fuin.ddd4j.eventstore;version="0.1.0.SNAPSHOT",org.fuin
- .ddd4j.eventstore.intf;version="0.1.0.SNAPSHOT";uses:="javax.persistenc
- e,javax.validation,javax.validation.constraints,org.fuin.objects4j.comm
- on,org.fuin.objects4j.vo,org.joda.time"
+Export-Package: org.fuin.ddd4j.esrepo;uses:="javax.validation.constraint
+ s,org.fuin.ddd4j.ddd,org.fuin.esc.api,org.fuin.objects4j.common,org.fui
+ n.objects4j.vo";version="0.1.0.SNAPSHOT",org.fuin.ddd4j.ddd;uses:="java
+ x.enterprise.context,javax.persistence,javax.validation.constraints,jav
+ ax.xml.bind.annotation,javax.xml.bind.annotation.adapters,org.fuin.obje
+ cts4j.common,org.fuin.objects4j.vo,org.joda.time";version="0.1.0.SNAPSH
+ OT"
 Import-Package: javax.enterprise.context;resolution:=optional,javax.pers
- istence;resolution:=optional,javax.validation;version="[1.1,2)";resolut
- ion:=optional,javax.validation.constraints;version="[1.1,2)";resolution
- :=optional,javax.xml.bind;resolution:=optional,javax.xml.bind.annotatio
- n;resolution:=optional,javax.xml.bind.annotation.adapters;resolution:=o
- ptional,org.apache.commons.lang3.builder;version="[3.3,4)",org.fuin.obj
- ects4j.common;version="[0.6,1)",org.fuin.objects4j.vo;version="[0.6,1)"
- ,org.joda.time;version="[2.3,3)",org.slf4j;version="[1.7,2)"
+ istence;resolution:=optional,javax.validation.constraints;version="[1.1
+ ,2)";resolution:=optional,javax.xml.bind.annotation;resolution:=optiona
+ l,javax.xml.bind.annotation.adapters;resolution:=optional,org.fuin.esc.
+ api,org.fuin.objects4j.common;version="[0.6,1)",org.fuin.objects4j.vo;v
+ ersion="[0.6,1)",org.joda.time;version="[2.3,3)",org.slf4j;version="[1.
+ 7,2)"
 Include-Resource: META-INF/beans.xml=src/main/resources/META-INF/beans.x
  ml

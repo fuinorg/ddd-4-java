@@ -23,9 +23,9 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import org.fuin.ddd4j.eventstore.jpa.EventEntry;
-import org.fuin.ddd4j.eventstore.jpa.Stream;
-import org.fuin.ddd4j.eventstore.jpa.StreamEvent;
+import org.fuin.esc.jpa.JpaEvent;
+import org.fuin.esc.jpa.JpaStream;
+import org.fuin.esc.jpa.JpaStreamEvent;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -33,7 +33,7 @@ import org.fuin.objects4j.common.Contract;
  */
 @Table(name = "VENDOR_STREAMS")
 @Entity
-public class VendorStream extends Stream {
+public class VendorStream extends JpaStream {
 
     @Id
     @NotNull
@@ -86,14 +86,14 @@ public class VendorStream extends Stream {
     /**
      * Creates a container that stores the given event entry.
      * 
-     * @param eventEntry
-     *            Event entry to convert into a JPA variaant.
+     * @param jpaEvent
+     *            Event entry to convert into a JPA variant.
      * 
      * @return JPA entity.
      */
-    public final StreamEvent createEvent(@NotNull final EventEntry eventEntry) {
+    public final JpaStreamEvent createEvent(@NotNull final JpaEvent jpaEvent) {
         incVersion();
-        return new VendorEvent(getId(), getVersion(), eventEntry);
+        return new VendorEvent(getId(), getVersion(), jpaEvent);
     }
 
     @Override

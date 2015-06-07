@@ -19,6 +19,7 @@ package org.fuin.ddd4j.esrepo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -30,21 +31,18 @@ import org.fuin.ddd4j.ddd.AggregateRoot;
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.AggregateVersionConflictException;
 import org.fuin.ddd4j.ddd.AggregateVersionNotFoundException;
-import org.fuin.ddd4j.ddd.Deserializer;
-import org.fuin.ddd4j.ddd.DeserializerRegistry;
 import org.fuin.ddd4j.ddd.DomainEvent;
-import org.fuin.ddd4j.ddd.Event;
 import org.fuin.ddd4j.ddd.MetaData;
 import org.fuin.ddd4j.ddd.Repository;
-import org.fuin.ddd4j.ddd.Serializer;
-import org.fuin.ddd4j.ddd.SerializerRegistry;
-import org.fuin.ddd4j.eventstore.intf.Data;
-import org.fuin.ddd4j.eventstore.intf.EventData;
-import org.fuin.ddd4j.eventstore.intf.EventStore;
-import org.fuin.ddd4j.eventstore.intf.StreamDeletedException;
-import org.fuin.ddd4j.eventstore.intf.StreamEventsSlice;
-import org.fuin.ddd4j.eventstore.intf.StreamNotFoundException;
-import org.fuin.ddd4j.eventstore.intf.StreamVersionConflictException;
+import org.fuin.esc.api.CommonEvent;
+import org.fuin.esc.api.Credentials;
+import org.fuin.esc.api.EventId;
+import org.fuin.esc.api.EventStoreSync;
+import org.fuin.esc.api.EventType;
+import org.fuin.esc.api.StreamDeletedException;
+import org.fuin.esc.api.StreamEventsSlice;
+import org.fuin.esc.api.StreamNotFoundException;
+import org.fuin.esc.api.StreamVersionConflictException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
 import org.slf4j.Logger;
@@ -64,36 +62,40 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     private static final Logger LOG = LoggerFactory
             .getLogger(EventStoreRepository.class);
 
-    private final EventStore eventStore;
+    private final EventStoreSync eventStore;
 
-    private final SerializerRegistry serRegistry;
-
-    private final DeserializerRegistry desRegistry;
+    private final Optional<Credentials> credentials;
 
     private final AggregateCache<AGGREGATE> noCache;
 
     /**
-     * Constructor with all data.
+     * Constructor without credentials.
      * 
      * @param eventStore
      *            Event store.
-     * @param serRegistry
-     *            Registry used to locate serializers.
-     * @param desRegistry
-     *            Registry used to locate deserializers.
      */
-    protected EventStoreRepository(@NotNull final EventStore eventStore,
-            @NotNull final SerializerRegistry serRegistry,
-            @NotNull final DeserializerRegistry desRegistry) {
+    protected EventStoreRepository(@NotNull final EventStoreSync eventStore) {
+        this(Credentials.NONE, eventStore);
+    }
+
+    /**
+     * Constructor with all data.
+     * 
+     * @param credentials
+     *            Credentials to use.
+     * @param eventStore
+     *            Event store.
+     */
+    protected EventStoreRepository(
+            @NotNull final Optional<Credentials> credentials,
+            @NotNull final EventStoreSync eventStore) {
         super();
 
+        Contract.requireArgNotNull("credentials", credentials);
         Contract.requireArgNotNull("eventStore", eventStore);
-        Contract.requireArgNotNull("serRegistry", serRegistry);
-        Contract.requireArgNotNull("desRegistry", desRegistry);
 
+        this.credentials = credentials;
         this.eventStore = eventStore;
-        this.serRegistry = serRegistry;
-        this.desRegistry = desRegistry;
         noCache = new AggregateNoCache<AGGREGATE>();
     }
 
@@ -190,7 +192,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 LOG.debug(
                         "Read slice: streamId={}, sliceStart={}, sliceCount={}",
                         streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readStreamEventsForward(
+                currentSlice = getEventStore().readEventsForward(credentials,
                         streamId, sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
@@ -199,9 +201,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 throw new AggregateDeletedException(getAggregateType(), id);
             }
 
-            for (final EventData eventData : currentSlice.getEvents()) {
-                final Data data = eventData.getEventData();
-                final DomainEvent<?> event = deserialize(data);
+            for (final CommonEvent commonEvent : currentSlice.getEvents()) {
+                final DomainEvent<?> event = (DomainEvent<?>) commonEvent
+                        .getData();
                 aggregate.loadFromHistory(event);
             }
 
@@ -244,7 +246,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 getAggregateType(), getIdParamName(), aggregate.getId());
 
         final List<DomainEvent<?>> events = aggregate.getUncommittedChanges();
-        final List<EventData> eventDataList = asEventDataList(events, metaData);
+        final List<CommonEvent> eventDataList = asCommonEvents(events, metaData);
 
         int retryCount = 0;
         boolean unsaved = true;
@@ -253,8 +255,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             try {
                 final int aggregateNextVersion = aggregate.getNextVersion();
                 final long eventStoreNextVersion = getEventStore()
-                        .appendToStream(streamId, aggregate.getVersion(),
-                                eventDataList);
+                        .appendToStream(credentials, streamId,
+                                aggregate.getVersion(), eventDataList);
                 if (aggregateNextVersion != eventStoreNextVersion) {
                     throw new IllegalStateException(
                             "Next aggregate version is " + aggregateNextVersion
@@ -313,7 +315,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         try {
             final AggregateStreamId streamId = new AggregateStreamId(
                     getAggregateType(), getIdParamName(), aggregateId);
-            getEventStore().deleteStream(streamId, expectedVersion);
+            getEventStore()
+                    .deleteStream(credentials, streamId, expectedVersion);
         } catch (final StreamVersionConflictException ex) {
             throw new AggregateVersionConflictException(getAggregateType(),
                     aggregateId, ex.getExpected(), ex.getActual());
@@ -370,7 +373,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 LOG.debug(
                         "Read slice: streamId={}, sliceStart={}, sliceCount={}",
                         streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readStreamEventsForward(
+                currentSlice = getEventStore().readEventsForward(credentials,
                         streamId, sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
@@ -381,9 +384,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                         aggregateId);
             }
 
-            for (final EventData eventData : currentSlice.getEvents()) {
-                final Data data = eventData.getEventData();
-                final DomainEvent<?> event = deserialize(data);
+            for (final CommonEvent commonEvent : currentSlice.getEvents()) {
+                final DomainEvent<?> event = (DomainEvent<?>) commonEvent
+                        .getData();
                 list.add(event);
             }
 
@@ -395,56 +398,15 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         return list;
     }
 
-    private List<EventData> asEventDataList(final List<DomainEvent<?>> events,
+    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events,
             final MetaData metaData) {
-
-        final Data md = serialize(metaData);
-        final List<EventData> eventDataList = new ArrayList<EventData>(
-                events.size());
-        for (final Event event : events) {
-            final Data ed = serialize(event.getEventType().asBaseType(), event);
-            eventDataList.add(new EventData(event.getEventId().asString(),
-                    event.getTimestamp(), ed, md));
+        final List<CommonEvent> list = new ArrayList<>();
+        for (final DomainEvent<?> event : events) {
+            list.add(new CommonEvent(new EventId(event.getEventId()
+                    .asBaseType()), new EventType(event.getEventType()
+                    .asBaseType()), event, metaData));
         }
-        return eventDataList;
-    }
-
-    private Data serialize(final MetaData meta) {
-        if (meta == null) {
-            return null;
-        }
-        return serialize(meta.getType(), meta);
-    }
-
-    private Data serialize(final String type, final Object data) {
-        if (data == null) {
-            return null;
-        }
-        final Serializer serializer = getSerializerRegistry().getSerializer(
-                type);
-        if (serializer == null) {
-            throw new IllegalStateException("Couldn't get a serializer for: "
-                    + type);
-        }
-        return new Data(serializer.getType(), serializer.getVersion(),
-                serializer.getMimeType(), serializer.getEncoding(),
-                serializer.marshal(data));
-    }
-
-    private <T> T deserialize(final Data data) {
-        LOG.debug("Deserialize: type={}, version={}, mimeType={}, encoding={}",
-                data.getType(), data.getVersion(), data.getMimeType(),
-                data.getEncoding());
-        final Deserializer deserializer = getDeserializerRegistry()
-                .getDeserializer(data.getType(), data.getVersion(),
-                        data.getMimeType(), data.getEncoding());
-        if (deserializer == null) {
-            throw new IllegalStateException("Couldn't get a deserializer for: "
-                    + data.getType() + " / " + data.getVersion() + " / "
-                    + data.getMimeType() + " / " + data.getEncoding());
-        }
-        return deserializer.unmarshal(data.getRaw());
-
+        return list;
     }
 
     /**
@@ -519,28 +481,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @return Event store implementation.
      */
     @NeverNull
-    protected final EventStore getEventStore() {
+    protected final EventStoreSync getEventStore() {
         return eventStore;
-    }
-
-    /**
-     * Returns a registry of serializers.
-     * 
-     * @return Registry with known serializers.
-     */
-    @NeverNull
-    protected final SerializerRegistry getSerializerRegistry() {
-        return serRegistry;
-    }
-
-    /**
-     * Returns a registry of deserializers.
-     * 
-     * @return Registry with known deserializers.
-     */
-    @NeverNull
-    protected final DeserializerRegistry getDeserializerRegistry() {
-        return desRegistry;
     }
 
     /**

@@ -19,7 +19,6 @@ package org.fuin.ddd4j.esrepo;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.constraints.NotNull;
 
@@ -35,7 +34,6 @@ import org.fuin.ddd4j.ddd.DomainEvent;
 import org.fuin.ddd4j.ddd.MetaData;
 import org.fuin.ddd4j.ddd.Repository;
 import org.fuin.esc.api.CommonEvent;
-import org.fuin.esc.api.Credentials;
 import org.fuin.esc.api.EventId;
 import org.fuin.esc.api.EventStoreSync;
 import org.fuin.esc.api.EventType;
@@ -64,37 +62,19 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
     private final EventStoreSync eventStore;
 
-    private final Optional<Credentials> credentials;
-
     private final AggregateCache<AGGREGATE> noCache;
 
     /**
-     * Constructor without credentials.
+     * Constructor with all mandatory data.
      * 
      * @param eventStore
      *            Event store.
      */
     protected EventStoreRepository(@NotNull final EventStoreSync eventStore) {
-        this(Credentials.NONE, eventStore);
-    }
-
-    /**
-     * Constructor with all data.
-     * 
-     * @param credentials
-     *            Credentials to use.
-     * @param eventStore
-     *            Event store.
-     */
-    protected EventStoreRepository(
-            @NotNull final Optional<Credentials> credentials,
-            @NotNull final EventStoreSync eventStore) {
         super();
 
-        Contract.requireArgNotNull("credentials", credentials);
         Contract.requireArgNotNull("eventStore", eventStore);
 
-        this.credentials = credentials;
         this.eventStore = eventStore;
         noCache = new AggregateNoCache<AGGREGATE>();
     }
@@ -192,8 +172,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 LOG.debug(
                         "Read slice: streamId={}, sliceStart={}, sliceCount={}",
                         streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readEventsForward(credentials,
-                        streamId, sliceStart, sliceCount);
+                currentSlice = getEventStore().readEventsForward(streamId,
+                        sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
                 throw new AggregateNotFoundException(getAggregateType(), id);
@@ -255,8 +235,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             try {
                 final int aggregateNextVersion = aggregate.getNextVersion();
                 final long eventStoreNextVersion = getEventStore()
-                        .appendToStream(credentials, streamId,
-                                aggregate.getVersion(), eventDataList);
+                        .appendToStream(streamId, aggregate.getVersion(),
+                                eventDataList);
                 if (aggregateNextVersion != eventStoreNextVersion) {
                     throw new IllegalStateException(
                             "Next aggregate version is " + aggregateNextVersion
@@ -315,8 +295,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         try {
             final AggregateStreamId streamId = new AggregateStreamId(
                     getAggregateType(), getIdParamName(), aggregateId);
-            getEventStore()
-                    .deleteStream(credentials, streamId, expectedVersion);
+            getEventStore().deleteStream(streamId, expectedVersion);
         } catch (final StreamVersionConflictException ex) {
             throw new AggregateVersionConflictException(getAggregateType(),
                     aggregateId, ex.getExpected(), ex.getActual());
@@ -373,8 +352,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 LOG.debug(
                         "Read slice: streamId={}, sliceStart={}, sliceCount={}",
                         streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readEventsForward(credentials,
-                        streamId, sliceStart, sliceCount);
+                currentSlice = getEventStore().readEventsForward(streamId,
+                        sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
                 throw new AggregateNotFoundException(getAggregateType(),

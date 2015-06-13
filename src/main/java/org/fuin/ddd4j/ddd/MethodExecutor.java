@@ -123,7 +123,6 @@ public class MethodExecutor {
      * @param <T>
      *            Type of the return value.
      */
-    @SuppressWarnings("unchecked")
     public <T> T invoke(@NotNull final Method method,
             @NotNull final Object target, final Object... args) {
 

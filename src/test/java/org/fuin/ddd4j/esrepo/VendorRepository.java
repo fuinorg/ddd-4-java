@@ -17,12 +17,9 @@
  */
 package org.fuin.ddd4j.esrepo;
 
-import java.util.Optional;
-
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
-import org.fuin.esc.api.Credentials;
 import org.fuin.esc.api.EventStoreSync;
 
 /**
@@ -32,26 +29,13 @@ public final class VendorRepository extends
         EventStoreRepository<VendorId, Vendor> {
 
     /**
-     * Constructor with credentials.
+     * Constructor all mandatory data.
      * 
      * @param eventStore
      *            Event store.
      */
     public VendorRepository(final EventStoreSync eventStore) {
         super(eventStore);
-    }
-
-    /**
-     * Constructor without credentials.
-     * 
-     * @param credentials
-     *            Credentials to use.
-     * @param eventStore
-     *            Event store.
-     */
-    public VendorRepository(final Optional<Credentials> credentials,
-            final EventStoreSync eventStore) {
-        super(credentials, eventStore);
     }
 
     @Override

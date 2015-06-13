@@ -20,7 +20,6 @@ package org.fuin.ddd4j.esrepo;
 import static org.fest.assertions.Assertions.assertThat;
 
 import java.nio.charset.Charset;
-import java.util.Optional;
 import java.util.UUID;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
@@ -36,7 +35,6 @@ import org.fuin.ddd4j.test.VendorId;
 import org.fuin.ddd4j.test.VendorKey;
 import org.fuin.ddd4j.test.VendorName;
 import org.fuin.ddd4j.test.VendorStream;
-import org.fuin.esc.api.Credentials;
 import org.fuin.esc.api.EventStoreSync;
 import org.fuin.esc.api.StreamEventsSlice;
 import org.fuin.esc.api.StreamId;
@@ -58,7 +56,6 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
     public void testCreateAggregate() throws Exception {
 
         // PREPARE
-        final Optional<Credentials> credentials = Credentials.NONE;
         final SerializedDataType serMetaType = new SerializedDataType(
                 BasicEventMetaData.TYPE);
         final SimpleSerializerDeserializerRegistry registry = new SimpleSerializerDeserializerRegistry();
@@ -67,8 +64,7 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
         final EventStoreSync eventStore = createEventStore(registry, registry,
                 serMetaType);
 
-        final VendorRepository repo = new VendorRepository(credentials,
-                eventStore);
+        final VendorRepository repo = new VendorRepository(eventStore);
 
         final VendorId vendorId = new VendorId();
         final VendorKey vendorKey = new VendorKey("V00001");
@@ -92,8 +88,8 @@ public class EventStoreRespositoryTest extends AbstractPersistenceTest {
         beginTransaction();
         final AggregateStreamId streamId = new AggregateStreamId(
                 VendorId.ENTITY_TYPE, "vendorId", vendorId);
-        final StreamEventsSlice slice = eventStore.readEventsForward(
-                credentials, streamId, 1, 1);
+        final StreamEventsSlice slice = eventStore.readEventsForward(streamId,
+                1, 1);
         commitTransaction();
         assertThat(slice.getEvents()).hasSize(1);
 

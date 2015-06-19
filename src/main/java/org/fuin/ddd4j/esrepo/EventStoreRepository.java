@@ -85,7 +85,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
         try {
-            AGGREGATE aggregate = getAggregateCache().get(aggregateId);
+            AGGREGATE aggregate = getAggregateCache().get(aggregateId, null);
             if (aggregate == null) {
                 LOG.debug("Aggregate {} not found in cache",
                         aggregateId.asTypedString());
@@ -105,7 +105,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        AGGREGATE aggregate = getAggregateCache().get(aggregateId);
+        AGGREGATE aggregate = getAggregateCache().get(aggregateId, version);
         if (aggregate == null) {
             LOG.debug("Aggregate {} not found in cache",
                     aggregateId.asTypedString());

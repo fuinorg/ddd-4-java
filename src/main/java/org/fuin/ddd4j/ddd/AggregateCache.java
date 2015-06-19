@@ -32,11 +32,13 @@ public interface AggregateCache<AGGREGATE> {
      * 
      * @param aggregateId
      *            Aggregate to load.
+     * @param version
+     *            Version to load or <code>null</code> for latest.
      * 
      * @return Cached aggregate or <code>null</code> if it was not found in the
      *         cache.
      */
-    public AGGREGATE get(@NotNull AggregateRootId aggregateId);
+    public AGGREGATE get(@NotNull AggregateRootId aggregateId, Integer version);
 
     /**
      * Puts an aggregate with the given identifier in the cache.

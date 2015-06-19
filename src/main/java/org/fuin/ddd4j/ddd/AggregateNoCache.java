@@ -27,7 +27,7 @@ public final class AggregateNoCache<AGGREGATE> implements
         AggregateCache<AGGREGATE> {
 
     @Override
-    public final AGGREGATE get(final AggregateRootId aggregateId) {
+    public final AGGREGATE get(final AggregateRootId aggregateId, final Integer version) {
         // Always return null
         return null;
     }

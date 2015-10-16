@@ -19,7 +19,7 @@ package org.fuin.ddd4j.test;
 
 import org.fuin.ddd4j.ddd.AbstractEntity;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.EventHandler;
+import org.fuin.ddd4j.ddd.ApplyEvent;
 
 // CHECKSTYLE:OFF
 public class CEntity extends AbstractEntity<AId, ARoot, CId> {
@@ -53,8 +53,8 @@ public class CEntity extends AbstractEntity<AId, ARoot, CId> {
         apply(new CEvent(root.getId(), parentId, id));
     }
 
-    @EventHandler
-    public void handle(final CEvent event) {
+    @ApplyEvent
+    public void applyEvent(final CEvent event) {
         lastEvent = event;
     }
 

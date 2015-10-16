@@ -24,12 +24,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Handles a given domain event. The {@link Event} is the only argument. Any
- * return value will be ignored.
+ * Identifies a method in an aggregate or an entity that applies a given domain event. The {@link Event} is
+ * the only argument. Any return value will be ignored.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
-public @interface EventHandler {
+public @interface ApplyEvent {
 
 }

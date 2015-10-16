@@ -229,7 +229,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 
     /**
      * Applies the event to the method in the entity that is annotated with
-     * {@link EventHandler} and has exactly one parameter with the same type as
+     * {@link ApplyEvent} and has exactly one parameter with the same type as
      * the domain event.
      * 
      * @param entity
@@ -247,7 +247,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
         Contract.requireArgNotNull("event", event);
 
         final Method method = METHOD_EXECUTOR.findDeclaredAnnotatedMethod(
-                entity, EventHandler.class, event.getClass());
+                entity, ApplyEvent.class, event.getClass());
         if (method == null) {
             return false;
         }

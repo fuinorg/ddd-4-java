@@ -24,7 +24,7 @@ import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.AbstractEntity;
 import org.fuin.ddd4j.ddd.ChildEntityLocator;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.EventHandler;
+import org.fuin.ddd4j.ddd.ApplyEvent;
 
 // CHECKSTYLE:OFF
 public class BEntity extends AbstractEntity<AId, ARoot, BId> {
@@ -73,8 +73,8 @@ public class BEntity extends AbstractEntity<AId, ARoot, BId> {
         found.doIt();
     }
 
-    @EventHandler
-    public void handle(final CAddedEvent event) {
+    @ApplyEvent
+    public void applyEvent(final CAddedEvent event) {
         childs.add(new CEntity(root, id, event.getCId()));
         lastEvent = event;
     }

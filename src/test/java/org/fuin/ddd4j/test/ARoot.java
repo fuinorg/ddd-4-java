@@ -24,7 +24,7 @@ import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.ChildEntityLocator;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.EventHandler;
+import org.fuin.ddd4j.ddd.ApplyEvent;
 
 // CHECKSTYLE:OFF
 public class ARoot extends AbstractAggregateRoot<AId> {
@@ -78,15 +78,15 @@ public class ARoot extends AbstractAggregateRoot<AId> {
         found.doIt(cid);
     }
 
-    @EventHandler
-    public void handle(final ACreatedEvent event) {
+    @ApplyEvent
+    public void applyEvent(final ACreatedEvent event) {
         this.id = event.getId();
         this.childs = new ArrayList<BEntity>();
         lastEvent = event;
     }
 
-    @EventHandler
-    public void handle(final BAddedEvent event) {
+    @ApplyEvent
+    public void applyEvent(final BAddedEvent event) {
         childs.add(new BEntity(this, event.getBId()));
         lastEvent = event;
     }

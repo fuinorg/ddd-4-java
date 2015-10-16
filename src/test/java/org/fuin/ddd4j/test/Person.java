@@ -21,7 +21,7 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.AbstractEntity;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.EventHandler;
+import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -77,8 +77,8 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
         
     }
     
-    @EventHandler
-    private final void handle(final PersonNameChangedEvent event) {
+    @ApplyEvent
+    private final void applyEvent(final PersonNameChangedEvent event) {
         this.name = event.getNewName();
     }
     

@@ -25,7 +25,7 @@ import javax.validation.constraints.NotNull;
 import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
 import org.fuin.ddd4j.ddd.ChildEntityLocator;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.EventHandler;
+import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -81,8 +81,8 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
         apply(new VendorCreatedEvent(new VendorRef(id, key, name)));
     }
 
-    @EventHandler
-    private final void handle(final VendorCreatedEvent event) {
+    @ApplyEvent
+    private final void applyEvent(final VendorCreatedEvent event) {
         this.ref = event.getVendorRef();
     }
 
@@ -105,8 +105,8 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
 
     }
 
-    @EventHandler
-    private final void handle(final PersonCreatedEvent event) {
+    @ApplyEvent
+    private final void applyEvent(final PersonCreatedEvent event) {
         this.lastPersonId = event.getPersonId().asBaseType();
         if (persons == null) {
             persons = new ArrayList<Person>();

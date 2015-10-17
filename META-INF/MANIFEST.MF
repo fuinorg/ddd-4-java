@@ -6,8 +6,7 @@ Bundle-License: http://www.fsf.org/licensing/licenses/lgpl.html
 Bundle-ManifestVersion: 2
 Bundle-Name: Domain Driven Design for Java
 Bundle-SymbolicName: org.fuin.ddd-4-java
-Bundle-Vendor: Future Invent Informationsmanagement GmbH, Hamburg (Germa
- ny)
+Bundle-Vendor: fuin.org (Germany)
 Bundle-Version: 0.1.0.SNAPSHOT
 Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
  vax.validation.constraints,org.fuin.ddd4j.ddd,org.fuin.esc.api,org.fuin
@@ -25,3 +24,4 @@ Import-Package: javax.enterprise.context;version="[1.1,2)";resolution:=o
  slf4j;version="[1.7,2)"
 Include-Resource: META-INF/beans.xml=src/main/resources/META-INF/beans.x
  ml
+Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"

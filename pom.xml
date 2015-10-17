@@ -51,20 +51,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-			<version>1.2</version>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>javax</groupId>
-			<artifactId>javaee-api</artifactId>
-			<version>7.0</version>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
@@ -86,10 +72,11 @@
 
         <dependency>
             <groupId>org.fuin.esc</groupId>
-            <artifactId>esc-jpa</artifactId>
+            <artifactId>esc-mem</artifactId>
             <version>0.1.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
+
 
 		<dependency>
 			<groupId>junit</groupId>
@@ -130,35 +117,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.jboss.weld.se</groupId>
-			<artifactId>weld-se-core</artifactId>
-			<version>2.2.12.Final</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>4.3.10.Final</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>1.8.0.10</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>5.1.35</version>
-			<scope>test</scope>
-		</dependency>
-
-
-		<dependency>
 			<groupId>xmlunit</groupId>
 			<artifactId>xmlunit</artifactId>
 			<version>1.6</version>
@@ -171,9 +129,6 @@
 			<version>1.7.2</version>
 			<scope>test</scope>
 		</dependency>
-
-		<!-- dependency> <groupId>com.oracle</groupId> <artifactId>ojdbc6</artifactId> 
-			<version>11.2.0</version> <scope>test</scope> </dependency -->
 
 	</dependencies>
 

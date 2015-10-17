@@ -15,13 +15,9 @@ Export-Package: org.fuin.ddd4j.esrepo;version="0.1.0.SNAPSHOT";uses:="ja
  alidation.constraints,javax.xml.bind.annotation,javax.xml.bind.annotati
  on.adapters,org.fuin.objects4j.common,org.fuin.objects4j.vo,org.joda.ti
  me"
-Import-Package: javax.enterprise.context;version="[1.1,2)";resolution:=o
- ptional,javax.persistence;resolution:=optional,javax.validation.constra
- ints;version="[1.1,2)";resolution:=optional,javax.xml.bind.annotation;r
- esolution:=optional,javax.xml.bind.annotation.adapters;resolution:=opti
- onal,org.fuin.esc.api,org.fuin.objects4j.common;version="[0.6,1)",org.f
- uin.objects4j.vo;version="[0.6,1)",org.joda.time;version="[2.8,3)",org.
- slf4j;version="[1.7,2)"
-Include-Resource: META-INF/beans.xml=src/main/resources/META-INF/beans.x
- ml
+Import-Package: javax.enterprise.context,javax.persistence,javax.validat
+ ion.constraints;version="[1.1,2)";resolution:=optional,javax.xml.bind.a
+ nnotation,javax.xml.bind.annotation.adapters,org.fuin.esc.api,org.fuin.
+ objects4j.common;version="[0.6,1)",org.fuin.objects4j.vo;version="[0.6,
+ 1)",org.joda.time;version="[2.8,3)",org.slf4j;version="[1.7,2)"
 Require-Capability: osgi.ee;filter:="(&(osgi.ee=JavaSE)(version=1.8))"

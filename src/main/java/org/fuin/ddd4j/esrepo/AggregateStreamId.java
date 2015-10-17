@@ -28,7 +28,7 @@ import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.vo.KeyValue;
 
 /**
- * Unique name of an aggregate stream.
+ * Unique name of an aggregate stream. Equals and has code are based on the {@link #asString()} method.
  */
 @Immutable
 public final class AggregateStreamId implements StreamId {
@@ -53,8 +53,7 @@ public final class AggregateStreamId implements StreamId {
      * @param paramValue
      *            Aggregate id.
      */
-    public AggregateStreamId(final EntityType type, final String paramName,
-            final AggregateRootId paramValue) {
+    public AggregateStreamId(final EntityType type, final String paramName, final AggregateRootId paramValue) {
         super();
         this.type = type;
         this.paramName = paramName;
@@ -90,6 +89,26 @@ public final class AggregateStreamId implements StreamId {
     @Override
     public final String asString() {
         return type + "-" + paramValue.asString();
+    }
+
+    @Override
+    public final int hashCode() {
+        return asString().hashCode();
+    }
+
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final AggregateStreamId other = (AggregateStreamId) obj;
+        return asString().equals(other.asString());
     }
 
     @Override

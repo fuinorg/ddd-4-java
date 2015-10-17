@@ -19,7 +19,6 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.UUID;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
@@ -31,10 +30,8 @@ import org.fuin.objects4j.vo.UUIDStrValidator;
  * JAXB and JPA converter for an entity identifier.
  */
 @ThreadSafe
-@ApplicationScoped
 @Converter(autoApply = true)
-public final class EventIdConverter extends
-        AbstractValueObjectConverter<String, EventId> implements
+public final class EventIdConverter extends AbstractValueObjectConverter<String, EventId> implements
         AttributeConverter<EventId, String> {
 
     @Override

@@ -22,7 +22,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
@@ -32,7 +31,6 @@ import org.fuin.objects4j.common.ThreadSafe;
  * Lightweight utility class to execute a method using reflection.
  */
 @ThreadSafe
-@ApplicationScoped
 public class MethodExecutor {
 
     /**

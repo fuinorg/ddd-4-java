@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.test;
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
@@ -28,7 +27,6 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  * Converts a vendor key into a string and back (JAXB and JPA).
  */
 @ThreadSafe
-@ApplicationScoped
 @Converter(autoApply = true)
 public final class VendorKeyConverter extends
         AbstractValueObjectConverter<String, VendorKey> implements

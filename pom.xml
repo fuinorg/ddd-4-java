@@ -50,6 +50,15 @@
 			<optional>true</optional>
 		</dependency>
 
+        <dependency>
+            <!-- Artifact for Java Persistence API 2.1.0 is not available separately... 
+                We don't want to include the whole JEE stuff (javax:javaee-api:7.0) here. -->
+            <groupId>org.hibernate.javax.persistence</groupId>
+            <artifactId>hibernate-jpa-2.1-api</artifactId>
+            <version>1.0.0.Final</version>
+            <optional>true</optional>
+        </dependency>
+        
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>

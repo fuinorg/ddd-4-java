@@ -1,5 +1,6 @@
 .*
 !.gitignore
+!.gitkeep
 !.checkstyle
 target
 META-INF

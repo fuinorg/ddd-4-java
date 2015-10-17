@@ -1,3 +1,6 @@
-/.settings
-/target
-/add2mvn
+.*
+!.gitignore
+!.checkstyle
+target
+META-INF
+*.log

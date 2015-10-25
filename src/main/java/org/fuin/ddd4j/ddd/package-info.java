@@ -15,13 +15,14 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library. If not, see http://www.gnu.org/licenses/.
  */
-@XmlJavaTypeAdapter(type = DateTime.class, value = DateTimeAdapter.class)
+@XmlJavaTypeAdapter(type = ZonedDateTime.class, value = ZonedDateTimeAdapter.class)
 package org.fuin.ddd4j.ddd;
+
+import java.time.ZonedDateTime;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.fuin.objects4j.common.DateTimeAdapter;
-import org.joda.time.DateTime;
+import org.fuin.ddd4j.common.ZonedDateTimeAdapter;
 
 /**
  * Domain Driven Design base classes.

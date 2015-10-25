@@ -17,9 +17,9 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import java.time.ZonedDateTime;
 
-import org.joda.time.DateTime;
+import javax.xml.bind.annotation.XmlAttribute;
 
 /**
  * Base class for events.
@@ -32,7 +32,7 @@ public abstract class AbstractEvent implements Event {
     private final EventId eventId;
 
     @XmlAttribute(name = "event-timestamp")
-    private final DateTime timestamp;
+    private final ZonedDateTime timestamp;
 
     /**
      * Default constructor.
@@ -40,7 +40,7 @@ public abstract class AbstractEvent implements Event {
     public AbstractEvent() {
         super();
         this.eventId = new EventId();
-        this.timestamp = new DateTime();
+        this.timestamp = ZonedDateTime.now();
     }
 
     @Override
@@ -49,7 +49,7 @@ public abstract class AbstractEvent implements Event {
     }
 
     @Override
-    public final DateTime getTimestamp() {
+    public final ZonedDateTime getTimestamp() {
         return timestamp;
     }
 

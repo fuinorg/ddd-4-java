@@ -18,11 +18,11 @@
 package org.fuin.ddd4j.ddd;
 
 import java.io.Serializable;
+import java.time.ZonedDateTime;
 
 import javax.xml.bind.annotation.XmlAttribute;
 
 import org.fuin.objects4j.vo.ValueObject;
-import org.joda.time.DateTime;
 
 /**
  * Base class for typical meta data stored together with an event.
@@ -51,10 +51,10 @@ public abstract class AbstractEventMetaData implements MetaData, ValueObject,
     private String user;
 
     @XmlAttribute(name = "cmd-created")
-    private DateTime cmdCreated;
+    private ZonedDateTime cmdCreated;
 
     @XmlAttribute(name = "cmd-received")
-    private DateTime cmdReceived;
+    private ZonedDateTime cmdReceived;
 
     /**
      * Protected default constructor for de-serialization.
@@ -87,7 +87,7 @@ public abstract class AbstractEventMetaData implements MetaData, ValueObject,
     public AbstractEventMetaData(final String remoteAddr,
             final Integer remotePort, final String remoteUser,
             final String localAddr, final Integer localPort, final String user,
-            final DateTime cmdCreated, final DateTime cmdReceived) {
+            final ZonedDateTime cmdCreated, final ZonedDateTime cmdReceived) {
         // CHECKSTYLE:ON
         super();
         this.remoteAddr = remoteAddr;
@@ -159,7 +159,7 @@ public abstract class AbstractEventMetaData implements MetaData, ValueObject,
      * 
      * @return Date/Time of command creation.
      */
-    public final DateTime getCmdCreated() {
+    public final ZonedDateTime getCmdCreated() {
         return cmdCreated;
     }
 
@@ -168,7 +168,7 @@ public abstract class AbstractEventMetaData implements MetaData, ValueObject,
      * 
      * @return Date/Time of command receipt.
      */
-    public final DateTime getCmdReceived() {
+    public final ZonedDateTime getCmdReceived() {
         return cmdReceived;
     }
 

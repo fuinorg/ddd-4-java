@@ -15,39 +15,35 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library. If not, see http://www.gnu.org/licenses/.
  */
-package org.fuin.ddd4j.ddd;
+package org.fuin.ddd4j.common;
 
-import java.io.Serializable;
+import static org.fest.assertions.Assertions.assertThat;
+
 import java.time.ZonedDateTime;
 
-import org.fuin.objects4j.common.NeverNull;
+import org.junit.Test;
 
 /**
- * Something that happened in the system.
+ * Tests the {@link ZonedZonedDateTimeAdapter}.
  */
-public interface Event extends Serializable {
+// CHECKSTYLE:OFF Test code
+public final class ZonedDateTimeAdapterTest {
 
-    /**
-     * Returns the identifier of the event.
-     * 
-     * @return Unique identifier event.
-     */
-    @NeverNull
-    public EventId getEventId();
+    @Test
+    public final void testMarshalUnmarshal() {
 
-    /**
-     * Returns the type of the event (What happened).
-     * 
-     * @return A text unique for all events of an aggregate.
-     */
-    @NeverNull
-    public EventType getEventType();
+        // PREPARE
+        final ZonedDateTimeAdapter testee = new ZonedDateTimeAdapter();
+        final ZonedDateTime now = ZonedDateTime.now();
 
-    /**
-     * Date, time and time zone the event was created.
-     * 
-     * @return Event creation date and time.
-     */
-    public ZonedDateTime getTimestamp();
+        // TEST
+        final String nowStr = testee.marshal(now);
+        final ZonedDateTime copy = testee.unmarshal(nowStr);
+
+        // VERIFY
+        assertThat(copy).isEqualTo(now);
+
+    }
 
 }
+// CHECKSTYLE:ON

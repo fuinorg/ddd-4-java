@@ -23,7 +23,8 @@ import static org.fuin.units4j.Units4JUtils.marshal;
 import static org.fuin.units4j.Units4JUtils.serialize;
 import static org.fuin.units4j.Units4JUtils.unmarshal;
 
-import org.joda.time.DateTime;
+import java.time.ZonedDateTime;
+
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
@@ -59,8 +60,8 @@ public final class BasicEventMetaDataTest {
     }
 
     private BasicEventMetaData createTestee() {
-        return new BasicEventMetaData("127.0.0.1", 1, "REMOTE_USER",
-                "127.0.0.2", 2, "USER", new DateTime(), new DateTime());
+        return new BasicEventMetaData("127.0.0.1", 1, "REMOTE_USER", "127.0.0.2", 2, "USER",
+                ZonedDateTime.now(), ZonedDateTime.now());
     }
 
 }

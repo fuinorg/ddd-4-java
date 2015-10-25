@@ -17,9 +17,9 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.time.ZonedDateTime;
 
-import org.joda.time.DateTime;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * Meta data stored together with an event.
@@ -63,7 +63,7 @@ public class BasicEventMetaData extends AbstractEventMetaData {
     public BasicEventMetaData(final String remoteAddr,
             final Integer remotePort, final String remoteUser,
             final String localAddr, final Integer localPort, final String user,
-            final DateTime cmdCreated, final DateTime cmdReceived) {
+            final ZonedDateTime cmdCreated, final ZonedDateTime cmdReceived) {
         // CHECKSTYLE:ON
         super(remoteAddr, remotePort, remoteUser, localAddr, localPort, user,
                 cmdCreated, cmdReceived);

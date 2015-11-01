@@ -33,11 +33,11 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
  */
 @Label(value = "Vendor number")
 @ShortLabel(value = "VN")
-@Tooltip("A human readable unique identifier for a vendor. Used for example in mails or contracts as a reference.")
+@Tooltip("A human readable unique identifier for a vendor. "
+        + "Used for example in mails or contracts as a reference.")
 @Immutable
 @XmlJavaTypeAdapter(VendorKeyConverter.class)
-public final class VendorKey extends AbstractStringValueObject implements
-        BusinessKey {
+public final class VendorKey extends AbstractStringValueObject implements BusinessKey {
 
     private static final long serialVersionUID = 1000L;
 
@@ -72,8 +72,7 @@ public final class VendorKey extends AbstractStringValueObject implements
      * Returns the information if a given string is a valid key.
      * 
      * @param value
-     *            Value to check. A <code>null</code> value returns
-     *            <code>true</code>.
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
      * 
      * @return TRUE if it's a valid key, else FALSE.
      */
@@ -85,8 +84,7 @@ public final class VendorKey extends AbstractStringValueObject implements
      * Parses a key.
      * 
      * @param value
-     *            Value to convert. A <code>null</code> value returns
-     *            <code>null</code>.
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
      * 
      * @return Converted value.
      */

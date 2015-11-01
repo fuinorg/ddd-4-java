@@ -29,7 +29,6 @@ import org.fuin.ddd4j.test.VendorName;
 import org.fuin.esc.api.EventStoreSync;
 import org.fuin.esc.api.StreamEventsSlice;
 import org.fuin.esc.mem.InMemoryEventStoreSync;
-import org.fuin.units4j.AbstractPersistenceTest;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF

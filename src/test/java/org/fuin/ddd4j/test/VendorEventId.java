@@ -27,7 +27,7 @@ import org.fuin.objects4j.common.NeverNull;
 /**
  * Identifies a stream event based on a string and a number.
  */
-public class VendorEventId implements Serializable {
+public final class VendorEventId implements Serializable {
 
     private static final long serialVersionUID = 1000L;
 
@@ -66,7 +66,7 @@ public class VendorEventId implements Serializable {
      * @return Unique vendor identifier.
      */
     @NeverNull
-    public String getVendorId() {
+    public final String getVendorId() {
         return vendorId;
     }
 
@@ -76,7 +76,7 @@ public class VendorEventId implements Serializable {
      * @return Order of the event in the stream.
      */
     @NeverNull
-    public Integer getEventNumber() {
+    public final Integer getEventNumber() {
         return eventNumber;
     }
 
@@ -117,7 +117,7 @@ public class VendorEventId implements Serializable {
     // CHECKSTYLE:ON
 
     @Override
-    public String toString() {
+    public final String toString() {
         return vendorId + "-" + eventNumber;
     }
 

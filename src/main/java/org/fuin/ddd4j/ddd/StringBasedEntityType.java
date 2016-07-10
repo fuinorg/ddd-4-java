@@ -28,8 +28,7 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
  * Entity type based on a string with a maximum length of 255 characters.
  */
 @Immutable
-public final class StringBasedEntityType extends AbstractStringValueObject
-        implements EntityType {
+public final class StringBasedEntityType extends AbstractStringValueObject implements EntityType {
 
     private static final long serialVersionUID = 1000L;
 
@@ -41,18 +40,12 @@ public final class StringBasedEntityType extends AbstractStringValueObject
      * Constructor with unique name to use.
      * 
      * @param str
-     *            Type name of an aggregate that is unique within all types of
-     *            the context
+     *            Type name of an aggregate that is unique within all types of the context
      */
     public StringBasedEntityType(@NotEmpty @Size(max = 255) final String str) {
         Contract.requireArgNotEmpty("str", str);
         Contract.requireArgMaxLength("str", str, 255);
         this.str = str;
-    }
-
-    @Override
-    public final String asString() {
-        return str;
     }
 
     @Override

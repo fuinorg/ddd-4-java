@@ -19,20 +19,29 @@ package org.fuin.ddd4j.ddd;
 
 import java.time.ZonedDateTime;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.fuin.objects4j.common.Nullable;
 
 /**
- * Base class for events.
+ * Base class for events. Equals and hash code are solely based on the event id.
  */
 public abstract class AbstractEvent implements Event {
 
     private static final long serialVersionUID = 1000L;
 
-    @XmlAttribute(name = "event-id")
-    private final EventId eventId;
+    @XmlElement(name = "event-id")
+    private EventId eventId;
 
-    @XmlAttribute(name = "event-timestamp")
-    private final ZonedDateTime timestamp;
+    @XmlElement(name = "event-timestamp")
+    private ZonedDateTime timestamp;
+
+    @XmlElement(name = "correlation-id")
+    private EventId correlationId;
+
+    @XmlElement(name = "causation-id")
+    private EventId causationId;
 
     /**
      * Default constructor.
@@ -41,6 +50,33 @@ public abstract class AbstractEvent implements Event {
         super();
         this.eventId = new EventId();
         this.timestamp = ZonedDateTime.now();
+        this.correlationId = null;
+        this.causationId = null;
+    }
+
+    /**
+     * Constructor with event this one responds to. Convenience method to set the correlation and causation
+     * identifiers correctly.
+     * 
+     * @param respondTo
+     *            Causing event.
+     */
+    public AbstractEvent(@NotNull final Event respondTo) {
+        this(respondTo.getCorrelationId(), respondTo.getEventId());
+    }
+
+    /**
+     * Constructor with optional data.
+     * 
+     * @param correlationId
+     *            Correlation ID.
+     * @param causationId
+     *            ID of the event that caused this one.
+     */
+    public AbstractEvent(@Nullable final EventId correlationId, @Nullable final EventId causationId) {
+        super();
+        this.correlationId = correlationId;
+        this.causationId = causationId;
     }
 
     @Override
@@ -53,13 +89,22 @@ public abstract class AbstractEvent implements Event {
         return timestamp;
     }
 
+    @Override
+    public final EventId getCorrelationId() {
+        return correlationId;
+    }
+
+    @Override
+    public final EventId getCausationId() {
+        return causationId;
+    }
+
     // CHECKSTYLE:OFF Generated code
     @Override
     public final int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = (prime * result)
-                + ((eventId == null) ? 0 : eventId.hashCode());
+        result = (prime * result) + ((eventId == null) ? 0 : eventId.hashCode());
         return result;
     }
 

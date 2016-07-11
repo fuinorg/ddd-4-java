@@ -31,16 +31,16 @@ import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.AggregateVersionConflictException;
 import org.fuin.ddd4j.ddd.AggregateVersionNotFoundException;
 import org.fuin.ddd4j.ddd.DomainEvent;
-import org.fuin.ddd4j.ddd.MetaData;
 import org.fuin.ddd4j.ddd.Repository;
 import org.fuin.esc.api.CommonEvent;
 import org.fuin.esc.api.EventId;
-import org.fuin.esc.api.EventStoreSync;
-import org.fuin.esc.api.EventType;
+import org.fuin.esc.api.EventStore;
+import org.fuin.esc.api.SimpleCommonEvent;
 import org.fuin.esc.api.StreamDeletedException;
 import org.fuin.esc.api.StreamEventsSlice;
 import org.fuin.esc.api.StreamNotFoundException;
-import org.fuin.esc.api.StreamVersionConflictException;
+import org.fuin.esc.api.TypeName;
+import org.fuin.esc.api.WrongExpectedVersionException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NeverNull;
 import org.slf4j.Logger;
@@ -57,10 +57,9 @@ import org.slf4j.LoggerFactory;
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
         implements Repository<ID, AGGREGATE> {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(EventStoreRepository.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EventStoreRepository.class);
 
-    private final EventStoreSync eventStore;
+    private final EventStore eventStore;
 
     private final AggregateCache<AGGREGATE> noCache;
 
@@ -70,7 +69,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @param eventStore
      *            Event store.
      */
-    protected EventStoreRepository(@NotNull final EventStoreSync eventStore) {
+    protected EventStoreRepository(@NotNull final EventStore eventStore) {
         super();
 
         Contract.requireArgNotNull("eventStore", eventStore);
@@ -80,15 +79,14 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final AGGREGATE read(final ID aggregateId)
-            throws AggregateNotFoundException, AggregateDeletedException {
+    public final AGGREGATE read(final ID aggregateId) throws AggregateNotFoundException,
+            AggregateDeletedException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
         try {
             AGGREGATE aggregate = getAggregateCache().get(aggregateId, null);
             if (aggregate == null) {
-                LOG.debug("Aggregate {} not found in cache",
-                        aggregateId.asTypedString());
+                LOG.debug("Aggregate {} not found in cache", aggregateId.asTypedString());
                 aggregate = create();
             }
             return read(aggregate, aggregateId, Integer.MAX_VALUE);
@@ -99,26 +97,22 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final AGGREGATE read(final ID aggregateId, final int version)
-            throws AggregateNotFoundException, AggregateDeletedException,
-            AggregateVersionNotFoundException {
+    public final AGGREGATE read(final ID aggregateId, final int version) throws AggregateNotFoundException,
+            AggregateDeletedException, AggregateVersionNotFoundException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
         AGGREGATE aggregate = getAggregateCache().get(aggregateId, version);
         if (aggregate == null) {
-            LOG.debug("Aggregate {} not found in cache",
-                    aggregateId.asTypedString());
+            LOG.debug("Aggregate {} not found in cache", aggregateId.asTypedString());
             aggregate = create();
         } else if (aggregate.getVersion() > version) {
-            LOG.debug(
-                    "Aggregate {} found in cache - Requested version {}, but found: {}",
-                    aggregateId.asTypedString(), version,
-                    aggregate.getVersion());
+            LOG.debug("Aggregate {} found in cache - Requested version {}, but found: {}",
+                    aggregateId.asTypedString(), version, aggregate.getVersion());
             aggregate = create();
         } else if (aggregate.getVersion() == version) {
-            LOG.debug("Aggregate {} found in cache with requested version: {}",
-                    aggregateId.asTypedString(), version);
+            LOG.debug("Aggregate {} found in cache with requested version: {}", aggregateId.asTypedString(),
+                    version);
             return aggregate;
         }
         return read(aggregate, aggregateId, version);
@@ -132,8 +126,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @param id
      *            Unique identifier of the aggregate.
      * @param targetVersion
-     *            Version of the aggregate to load or {@link Integer#MAX_VALUE}
-     *            to read the latest version.
+     *            Version of the aggregate to load or {@link Integer#MAX_VALUE} to read the latest version.
      * 
      * @return Aggregate in target version.
      * 
@@ -144,20 +137,20 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @throws AggregateVersionNotFoundException
      *             An aggregate with the requested version does not exist.
      */
-    private AGGREGATE read(final AGGREGATE aggregate, final ID id,
-            final int targetVersion) throws AggregateNotFoundException,
-            AggregateDeletedException, AggregateVersionNotFoundException {
+    private AGGREGATE read(final AGGREGATE aggregate, final ID id, final int targetAggregateVersion)
+            throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException {
 
         requireNoUncommittedChanges(aggregate);
 
-        LOG.info("Read aggregate: id={}, targetVersion={}", id.asTypedString(),
-                targetVersion);
+        LOG.info("Read aggregate: id={}, targetVersion={}", id.asTypedString(), targetAggregateVersion);
 
-        final AggregateStreamId streamId = new AggregateStreamId(
-                getAggregateType(), getIdParamName(), id);
+        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(), id);
         final int readPageSize = getReadPageSize();
+        
+        final int aggregateVersion = aggregate.getVersion() - 1;
+        final int targetVersion = targetAggregateVersion - 1;
 
-        int sliceStart = aggregate.getVersion();
+        int sliceStart = aggregateVersion;
         StreamEventsSlice currentSlice;
         do {
             final int sliceInc;
@@ -169,11 +162,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             final int sliceCount = sliceStart + sliceInc;
 
             try {
-                LOG.debug(
-                        "Read slice: streamId={}, sliceStart={}, sliceCount={}",
-                        streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readEventsForward(streamId,
-                        sliceStart, sliceCount);
+                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart,
+                        sliceCount);
+                currentSlice = getEventStore().readEventsForward(streamId, sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
                 throw new AggregateNotFoundException(getAggregateType(), id);
@@ -182,20 +173,16 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             }
 
             for (final CommonEvent commonEvent : currentSlice.getEvents()) {
-                final DomainEvent<?> event = (DomainEvent<?>) commonEvent
-                        .getData();
+                final DomainEvent<?> event = (DomainEvent<?>) commonEvent.getData();
                 aggregate.loadFromHistory(event);
             }
 
             sliceStart = currentSlice.getNextEventNumber();
 
-        } while ((targetVersion >= currentSlice.getNextEventNumber())
-                && !currentSlice.isEndOfStream());
+        } while ((targetVersion >= currentSlice.getNextEventNumber()) && !currentSlice.isEndOfStream());
 
-        if ((aggregate.getVersion() != targetVersion)
-                && (targetVersion < Integer.MAX_VALUE)) {
-            throw new AggregateVersionNotFoundException(getAggregateType(), id,
-                    targetVersion);
+        if ((aggregateVersion != targetVersion) && (targetVersion < Integer.MAX_VALUE)) {
+            throw new AggregateVersionNotFoundException(getAggregateType(), id, targetVersion);
         }
 
         getAggregateCache().put(aggregate.getId(), aggregate);
@@ -205,106 +192,99 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
     private void requireNoUncommittedChanges(final AGGREGATE aggregate) {
         if (aggregate.hasUncommitedChanges()) {
-            throw new IllegalArgumentException("The aggregate '"
-                    + getAggregateType() + "' (" + aggregate.getId()
-                    + ") has uncommitted changes");
+            throw new IllegalArgumentException("The aggregate '" + getAggregateType() + "' ("
+                    + aggregate.getId() + ") has uncommitted changes");
         }
     }
 
     @Override
-    public final void update(final AGGREGATE aggregate, final MetaData metaData)
-            throws AggregateVersionConflictException,
+    public final void update(final AGGREGATE aggregate) throws AggregateVersionConflictException,
             AggregateNotFoundException, AggregateDeletedException {
+        update(aggregate, null, null);
+    }
+
+    @Override
+    public final void update(final AGGREGATE aggregate, final String metaType, final Object metaData)
+            throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException {
 
         Contract.requireArgNotNull("aggregate", aggregate);
 
-        LOG.info("Update aggregate: id={}, version={}, nextVersion={}",
-                aggregate.getId().asTypedString(), aggregate.getVersion(),
-                aggregate.getNextVersion());
+        LOG.info("Update aggregate: id={}, version={}, nextVersion={}", aggregate.getId().asTypedString(),
+                aggregate.getVersion(), aggregate.getNextVersion());
 
-        final AggregateStreamId streamId = new AggregateStreamId(
-                getAggregateType(), getIdParamName(), aggregate.getId());
+        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(),
+                aggregate.getId());
 
         final List<DomainEvent<?>> events = aggregate.getUncommittedChanges();
-        final List<CommonEvent> eventDataList = asCommonEvents(events, metaData);
+        final List<CommonEvent> eventDataList = asCommonEvents(events, metaType, metaData);
 
+        final int aggregateVersion = aggregate.getVersion() - 1;
+        
         int retryCount = 0;
         boolean unsaved = true;
         do {
 
             try {
-                final int aggregateNextVersion = aggregate.getNextVersion();
-                final long eventStoreNextVersion = getEventStore()
-                        .appendToStream(streamId, aggregate.getVersion(),
-                                eventDataList);
+                final int aggregateNextVersion = aggregate.getNextVersion() - 1;
+                final long eventStoreNextVersion = getEventStore().appendToStream(streamId,
+                        aggregateVersion, eventDataList);
                 if (aggregateNextVersion != eventStoreNextVersion) {
-                    throw new IllegalStateException(
-                            "Next aggregate version is " + aggregateNextVersion
-                                    + " but event store's next is "
-                                    + eventStoreNextVersion);
+                    throw new IllegalStateException("Next aggregate version is " + aggregateNextVersion
+                            + " but event store's next is " + eventStoreNextVersion);
                 }
                 aggregate.markChangesAsCommitted();
                 unsaved = false;
-            } catch (final StreamVersionConflictException ex) {
-                LOG.debug(
-                        "Version conflict: id={}, expected={}, actual={}, retryCount=",
-                        aggregate.getId().asTypedString(), ex.getExpected(),
-                        ex.getActual(), retryCount);
-                resolveConflicts(aggregate, ex.getExpected(), ex.getActual(),
-                        retryCount++);
+            } catch (final WrongExpectedVersionException ex) {
+                LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount=", aggregate.getId()
+                        .asTypedString(), ex.getExpected(), ex.getActual(), retryCount);
+                resolveConflicts(aggregate, ex.getExpected(), ex.getActual(), retryCount++);
             } catch (final StreamDeletedException | StreamNotFoundException ex) {
-                throw new AggregateNotFoundException(getAggregateType(),
-                        aggregate.getId());
+                throw new AggregateNotFoundException(getAggregateType(), aggregate.getId());
             }
 
         } while (unsaved);
 
     }
 
-    private void resolveConflicts(final AGGREGATE aggregate,
-            final int expectedVersion, final int actualVersion,
-            final int retryCount) throws AggregateVersionConflictException,
+    private void resolveConflicts(final AGGREGATE aggregate, final int expectedVersion,
+            final int actualVersion, final int retryCount) throws AggregateVersionConflictException,
             AggregateNotFoundException, AggregateDeletedException {
 
         // Check how many times we should try
         if (retryCount == getMaxTryCount()) {
-            throw new AggregateVersionConflictException(getAggregateType(),
-                    aggregate.getId(), expectedVersion, actualVersion);
+            throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(),
+                    expectedVersion, actualVersion);
         }
 
         // Load unseen events and try to resolve the conflict
-        final List<DomainEvent<?>> unseenEvents = readEvents(aggregate.getId(),
-                expectedVersion + 1, actualVersion);
+        final List<DomainEvent<?>> unseenEvents = readEvents(aggregate.getId(), expectedVersion + 1,
+                actualVersion);
         if (!conflictsResolved(aggregate.getUncommittedChanges(), unseenEvents)) {
-            throw new AggregateVersionConflictException(getAggregateType(),
-                    aggregate.getId(), expectedVersion, actualVersion);
+            throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(),
+                    expectedVersion, actualVersion);
         }
 
     }
 
     @Override
     public final void delete(final ID aggregateId, final int expectedVersion)
-            throws AggregateNotFoundException,
-            AggregateVersionConflictException {
+            throws AggregateNotFoundException, AggregateVersionConflictException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        LOG.info("Delete aggregate: id={}, expectedVersion={}",
-                aggregateId.asTypedString(), expectedVersion);
+        LOG.info("Delete aggregate: id={}, expectedVersion={}", aggregateId.asTypedString(), expectedVersion);
 
         try {
-            final AggregateStreamId streamId = new AggregateStreamId(
-                    getAggregateType(), getIdParamName(), aggregateId);
-            getEventStore().deleteStream(streamId, expectedVersion);
-        } catch (final StreamVersionConflictException ex) {
-            throw new AggregateVersionConflictException(getAggregateType(),
-                    aggregateId, ex.getExpected(), ex.getActual());
-        } catch (final StreamNotFoundException ex) {
-            throw new AggregateNotFoundException(getAggregateType(),
+            final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(),
                     aggregateId);
+            getEventStore().deleteStream(streamId, expectedVersion, false);
+        } catch (final WrongExpectedVersionException ex) {
+            throw new AggregateVersionConflictException(getAggregateType(), aggregateId, ex.getExpected(),
+                    ex.getActual());
+        } catch (final StreamNotFoundException ex) {
+            throw new AggregateNotFoundException(getAggregateType(), aggregateId);
         } catch (final StreamDeletedException ex) {
-            LOG.debug("Aggregate {} was already deleted: {}", aggregateId,
-                    ex.getMessage());
+            LOG.debug("Aggregate {} was already deleted: {}", aggregateId, ex.getMessage());
         }
     }
 
@@ -325,16 +305,15 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @throws AggregateDeletedException
      *             The aggregate with the given identifier was already deleted.
      */
-    public final List<DomainEvent<?>> readEvents(final ID aggregateId,
-            final int startVersion, final int targetVersion)
-            throws AggregateNotFoundException, AggregateDeletedException {
+    public final List<DomainEvent<?>> readEvents(final ID aggregateId, final int startVersion,
+            final int targetVersion) throws AggregateNotFoundException, AggregateDeletedException {
 
-        LOG.info("Read events: id={}, startVersion={}, targetVersion={}",
-                aggregateId.asTypedString(), startVersion, targetVersion);
+        LOG.info("Read events: id={}, startVersion={}, targetVersion={}", aggregateId.asTypedString(),
+                startVersion, targetVersion);
 
         final List<DomainEvent<?>> list = new ArrayList<DomainEvent<?>>();
-        final AggregateStreamId streamId = new AggregateStreamId(
-                getAggregateType(), getIdParamName(), aggregateId);
+        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(),
+                aggregateId);
         final int readPageSize = getReadPageSize();
 
         int sliceStart = startVersion;
@@ -349,49 +328,52 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             final int sliceCount = sliceStart + sliceInc;
 
             try {
-                LOG.debug(
-                        "Read slice: streamId={}, sliceStart={}, sliceCount={}",
-                        streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readEventsForward(streamId,
-                        sliceStart, sliceCount);
+                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart,
+                        sliceCount);
+                currentSlice = getEventStore().readEventsForward(streamId, sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
-                throw new AggregateNotFoundException(getAggregateType(),
-                        aggregateId);
+                throw new AggregateNotFoundException(getAggregateType(), aggregateId);
             } catch (final StreamDeletedException ex) {
-                throw new AggregateDeletedException(getAggregateType(),
-                        aggregateId);
+                throw new AggregateDeletedException(getAggregateType(), aggregateId);
             }
 
             for (final CommonEvent commonEvent : currentSlice.getEvents()) {
-                final DomainEvent<?> event = (DomainEvent<?>) commonEvent
-                        .getData();
+                final DomainEvent<?> event = (DomainEvent<?>) commonEvent.getData();
                 list.add(event);
             }
 
             sliceStart = currentSlice.getNextEventNumber();
 
-        } while ((targetVersion >= currentSlice.getNextEventNumber())
-                && !currentSlice.isEndOfStream());
+        } while ((targetVersion >= currentSlice.getNextEventNumber()) && !currentSlice.isEndOfStream());
 
         return list;
     }
 
-    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events,
-            final MetaData metaData) {
+    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events, final String metaType,
+            final Object metaData) {
         final List<CommonEvent> list = new ArrayList<>();
         for (final DomainEvent<?> event : events) {
-            list.add(new CommonEvent(new EventId(event.getEventId()
-                    .asBaseType()), new EventType(event.getEventType()
-                    .asBaseType()), event, metaData));
+            final SimpleCommonEvent sce;
+            if (metaData == null) {
+                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(
+                        event.getEventType().asBaseType()), event);
+            } else {
+                if (metaType == null) {
+                    throw new IllegalArgumentException(
+                            "Argument 'metaType' cannot be null if 'metaData' is provided (non-null)");
+                }
+                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(
+                        event.getEventType().asBaseType()), event, new TypeName(metaType), metaData);
+            }
+            list.add(sce);
         }
         return list;
     }
 
     /**
-     * Checks if the uncommitted changes conflicts with unseen changes from the
-     * event store and tries to solve the problem. This method may be
-     * overwritten by concrete implementation. Returns FALSE as default if not
+     * Checks if the uncommitted changes conflicts with unseen changes from the event store and tries to solve
+     * the problem. This method may be overwritten by concrete implementation. Returns FALSE as default if not
      * overwritten in subclasses.
      * 
      * @param uncommittedChanges
@@ -399,22 +381,20 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @param unseenEvents
      *            Unseen changes from the event store.
      * 
-     * @return TRUE if there are no conflicting changes, else FALSE (conflict
-     *         couldn't be resolved).
+     * @return TRUE if there are no conflicting changes, else FALSE (conflict couldn't be resolved).
      */
     // CHECKSTYLE:OFF:DesignForExtension OK because method has no logic (just a
     // boolean).
-    protected boolean conflictsResolved(
-            final List<DomainEvent<?>> uncommittedChanges,
+    protected boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges,
             final List<DomainEvent<?>> unseenEvents) {
         // CHECKSTYLE:ON:DesignForExtension
         return false;
     }
 
     /**
-     * Returns the number of tries that should be done to resolve a version
-     * conflict. This method may be overwritten by concrete implementation.
-     * Returns <code>3</code> as default if not overwritten in subclasses.
+     * Returns the number of tries that should be done to resolve a version conflict. This method may be
+     * overwritten by concrete implementation. Returns <code>3</code> as default if not overwritten in
+     * subclasses.
      * 
      * @return Number of tries.
      */
@@ -426,9 +406,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     /**
-     * Returns the aggregate cache. This method may be overwritten by concrete
-     * implementation. Returns no cache as default if not overwritten in
-     * subclasses.
+     * Returns the aggregate cache. This method may be overwritten by concrete implementation. Returns no
+     * cache as default if not overwritten in subclasses.
      * 
      * @return Cache.
      */
@@ -441,9 +420,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     /**
-     * Returns the number of events to read in a slice. This method may be
-     * overwritten by concrete implementation. Returns <code>100</code> as
-     * default if not overwritten in subclasses.
+     * Returns the number of events to read in a slice. This method may be overwritten by concrete
+     * implementation. Returns <code>100</code> as default if not overwritten in subclasses.
      * 
      * @return Page size.
      */
@@ -460,7 +438,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @return Event store implementation.
      */
     @NeverNull
-    protected final EventStoreSync getEventStore() {
+    protected final EventStore getEventStore() {
         return eventStore;
     }
 

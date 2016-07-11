@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 /**
  * Base class for domain events.
@@ -25,12 +25,12 @@ import javax.xml.bind.annotation.XmlAttribute;
  * @param <ID>
  *            Type of the entity identifier.
  */
-public abstract class AbstractDomainEvent<ID extends EntityId> extends
-        AbstractEvent implements DomainEvent<ID> {
+public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractEvent implements
+        DomainEvent<ID> {
 
     private static final long serialVersionUID = 1000L;
 
-    @XmlAttribute(name = "entity-id-path")
+    @XmlElement(name = "entity-id-path")
     private EntityIdPath entityIdPath;
 
     /**
@@ -44,8 +44,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends
      * Constructor with entity identifier path.
      * 
      * @param entityIdPath
-     *            Identifier path from aggregate root to the entity that emitted
-     *            the event.
+     *            Identifier path from aggregate root to the entity that emitted the event.
      */
     public AbstractDomainEvent(final EntityIdPath entityIdPath) {
         super();

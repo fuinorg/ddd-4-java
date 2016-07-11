@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 import org.fuin.objects4j.common.NeverNull;
+import org.fuin.objects4j.common.Nullable;
 
 /**
  * Something that happened in the system.
@@ -48,6 +49,23 @@ public interface Event extends Serializable {
      * 
      * @return Event creation date and time.
      */
+    @NeverNull
     public ZonedDateTime getTimestamp();
 
+    /**
+     * Correlation identifier. 
+     *  
+     * @return Context of the event.
+     */
+    @Nullable
+    public EventId getCorrelationId();
+
+    /**
+     * Causation identifier. 
+     *  
+     * @return Identifier of the evtn that caused this one.
+     */
+    @Nullable
+    public EventId getCausationId();
+    
 }

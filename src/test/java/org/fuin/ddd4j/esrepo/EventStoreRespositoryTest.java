@@ -26,9 +26,9 @@ import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.ddd4j.test.VendorKey;
 import org.fuin.ddd4j.test.VendorName;
-import org.fuin.esc.api.EventStoreSync;
+import org.fuin.esc.api.EventStore;
 import org.fuin.esc.api.StreamEventsSlice;
-import org.fuin.esc.mem.InMemoryEventStoreSync;
+import org.fuin.esc.mem.InMemoryEventStore;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF
@@ -38,7 +38,7 @@ public class EventStoreRespositoryTest {
     public void testCreateAggregate() throws Exception {
 
         // PREPARE
-        final EventStoreSync eventStore = new InMemoryEventStoreSync(Executors.newCachedThreadPool());
+        final EventStore eventStore = new InMemoryEventStore(Executors.newCachedThreadPool());
 
         final VendorRepository repo = new VendorRepository(eventStore);
 
@@ -53,7 +53,7 @@ public class EventStoreRespositoryTest {
         });
 
         // TEST
-        repo.update(vendor, null);
+        repo.update(vendor);
 
         // VERIFY
         final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);

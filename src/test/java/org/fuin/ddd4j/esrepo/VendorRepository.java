@@ -20,7 +20,7 @@ package org.fuin.ddd4j.esrepo;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
-import org.fuin.esc.api.EventStoreSync;
+import org.fuin.esc.api.EventStore;
 
 /**
  * Implements a repository that is capable of storing vendors.
@@ -34,7 +34,7 @@ public final class VendorRepository extends
      * @param eventStore
      *            Event store.
      */
-    public VendorRepository(final EventStoreSync eventStore) {
+    public VendorRepository(final EventStore eventStore) {
         super(eventStore);
     }
 

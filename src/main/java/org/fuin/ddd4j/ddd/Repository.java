@@ -53,8 +53,8 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * Factory method to create a new aggregate. Just creates a new instance without doing anything else. The
      * aggregate identifier will NOT be set.
      * 
-     * @return New aggregate instance that is NOT persisted. Use the {@link #update(AggregateRoot, MetaData)}
-     *         method to persist this new aggregate.
+     * @return New aggregate instance that is NOT persisted. Use the
+     *         {@link #update(AggregateRoot, String, Object)} method to persist this new aggregate.
      */
     @NeverNull
     public T create();

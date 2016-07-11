@@ -47,11 +47,7 @@ public abstract class AbstractEvent implements Event {
      * Default constructor.
      */
     public AbstractEvent() {
-        super();
-        this.eventId = new EventId();
-        this.timestamp = ZonedDateTime.now();
-        this.correlationId = null;
-        this.causationId = null;
+        this(null, null);
     }
 
     /**
@@ -75,6 +71,8 @@ public abstract class AbstractEvent implements Event {
      */
     public AbstractEvent(@Nullable final EventId correlationId, @Nullable final EventId causationId) {
         super();
+        this.eventId = new EventId();
+        this.timestamp = ZonedDateTime.now();
         this.correlationId = correlationId;
         this.causationId = causationId;
     }

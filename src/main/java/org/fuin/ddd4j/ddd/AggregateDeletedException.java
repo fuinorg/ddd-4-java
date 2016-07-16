@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.fuin.ddd4j.common.CommonUtils.SHORT_ID_PREFIX;
+import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;

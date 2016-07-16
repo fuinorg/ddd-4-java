@@ -15,17 +15,13 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library. If not, see http://www.gnu.org/licenses/.
  */
-package org.fuin.ddd4j.common;
+package org.fuin.ddd4j.ddd;
 
-import org.fuin.ddd4j.ddd.AggregateDeletedException;
-import org.fuin.ddd4j.ddd.AggregateNotFoundException;
-import org.fuin.ddd4j.ddd.AggregateVersionConflictException;
-import org.fuin.ddd4j.ddd.AggregateVersionNotFoundException;
 
 /**
  * Utility methods and constants.
  */
-public final class CommonUtils {
+public final class Ddd4JUtils {
 
     /** Prefix for unique short identifiers. */
     public static final String SHORT_ID_PREFIX = "DDD4J";
@@ -41,7 +37,7 @@ public final class CommonUtils {
     /**
      * Private by intention.
      */
-    private CommonUtils() {
+    private Ddd4JUtils() {
         throw new UnsupportedOperationException();
     }
 

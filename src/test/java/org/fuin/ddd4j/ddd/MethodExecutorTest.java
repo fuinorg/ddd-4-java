@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.fest.assertions.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
 

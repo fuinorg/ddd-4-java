@@ -17,28 +17,47 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.validation.constraints.NotNull;
+import static org.fuin.ddd4j.common.CommonUtils.SHORT_ID_PREFIX;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
-import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
- * Signals a conflict between an expected and an actual version for an
- * aggregate.
+ * Signals a conflict between an expected and an actual version for an aggregate.
  */
-public final class AggregateVersionConflictException extends
-        UniquelyNumberedException {
+@XmlRootElement(name = "aggregate-version-conflict-exception")
+public final class AggregateVersionConflictException extends AbstractJaxbMarshallableException implements
+        ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
-    private final EntityType aggregateType;
+    @XmlElement(name = "sid")
+    private String sid;
 
-    private final AggregateRootId aggregateId;
+    @XmlElement(name = "aggregate-type")
+    private String aggregateType;
 
-    private final int expected;
+    @XmlElement(name = "aggregate-id")
+    private String aggregateId;
 
-    private final int actual;
+    @XmlElement(name = "expected")
+    private int expected;
+
+    @XmlElement(name = "actual")
+    private int actual;
+
+    /**
+     * JAX-B constructor.
+     */
+    protected AggregateVersionConflictException() {
+        super();
+    }
 
     /**
      * Constructor with all data.
@@ -52,20 +71,24 @@ public final class AggregateVersionConflictException extends
      * @param actual
      *            Actual version.
      */
-    public AggregateVersionConflictException(
-            @NotNull final EntityType aggregateType,
-            @NotNull final AggregateRootId aggregateId, final int expected,
-            final int actual) {
-        super(103, "Expected version " + expected + " for aggregate '"
-                + aggregateType + "' (" + aggregateId + "), but was " + actual);
+    public AggregateVersionConflictException(@NotNull final EntityType aggregateType,
+            @NotNull final AggregateRootId aggregateId, final int expected, final int actual) {
+        super("Expected version " + expected + " for " + aggregateType + " (" + aggregateId
+                + "), but was " + actual);
 
         Contract.requireArgNotNull("aggregateType", aggregateType);
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        this.aggregateType = aggregateType;
-        this.aggregateId = aggregateId;
+        this.sid = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_CONFLICT";
+        this.aggregateType = aggregateType.asString();
+        this.aggregateId = aggregateId.asString();
         this.expected = expected;
         this.actual = actual;
+    }
+
+    @Override
+    public final String getShortId() {
+        return sid;
     }
 
     /**
@@ -74,7 +97,7 @@ public final class AggregateVersionConflictException extends
      * @return Type.
      */
     @NeverNull
-    public final EntityType getAggregateType() {
+    public final String getAggregateType() {
         return aggregateType;
     }
 
@@ -84,7 +107,7 @@ public final class AggregateVersionConflictException extends
      * @return Stream with version conflict.
      */
     @NeverNull
-    public final AggregateRootId getAggregateId() {
+    public final String getAggregateId() {
         return aggregateId;
     }
 

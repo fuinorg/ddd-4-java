@@ -17,23 +17,44 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.validation.constraints.NotNull;
+import static org.fuin.ddd4j.common.CommonUtils.SHORT_ID_PREFIX;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
-import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
- * Signals that an aggregate of a given type and identifier was not found in the
- * repository.
+ * Signals that an aggregate of a given type and identifier was not found in the repository.
  */
-public final class AggregateNotFoundException extends UniquelyNumberedException {
+@XmlRootElement(name = "aggregate-not-found-exception")
+@XmlAccessorType(XmlAccessType.NONE)
+public final class AggregateNotFoundException extends AbstractJaxbMarshallableException implements
+        ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
-    private final EntityType aggregateType;
+    @XmlElement(name = "sid")
+    private String sid;
 
-    private final AggregateRootId aggregateId;
+    @XmlElement(name = "aggregate-type")
+    private String aggregateType;
+
+    @XmlElement(name = "aggregate-id")
+    private String aggregateId;
+
+    /**
+     * JAX-B constructor.
+     */
+    protected AggregateNotFoundException() {
+        super();
+    }
 
     /**
      * Constructor with all data.
@@ -45,14 +66,19 @@ public final class AggregateNotFoundException extends UniquelyNumberedException 
      */
     public AggregateNotFoundException(@NotNull final EntityType aggregateType,
             @NotNull final AggregateRootId aggregateId) {
-        super(101, "Aggregate of type '" + aggregateType + "' with id "
-                + aggregateId + " not found");
+        super(aggregateType + " with id " + aggregateId + " not found");
 
         Contract.requireArgNotNull("aggregateType", aggregateType);
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        this.aggregateType = aggregateType;
-        this.aggregateId = aggregateId;
+        this.sid = SHORT_ID_PREFIX + "-AGGREGATE_NOT_FOUND";
+        this.aggregateType = aggregateType.asString();
+        this.aggregateId = aggregateId.asString();
+    }
+
+    @Override
+    public final String getShortId() {
+        return sid;
     }
 
     /**
@@ -61,7 +87,7 @@ public final class AggregateNotFoundException extends UniquelyNumberedException 
      * @return Type.
      */
     @NeverNull
-    public final EntityType getAggregateType() {
+    public final String getAggregateType() {
         return aggregateType;
     }
 
@@ -71,7 +97,7 @@ public final class AggregateNotFoundException extends UniquelyNumberedException 
      * @return Stream with version conflict.
      */
     @NeverNull
-    public final AggregateRootId getAggregateId() {
+    public final String getAggregateId() {
         return aggregateId;
     }
 

@@ -17,25 +17,44 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.validation.constraints.NotNull;
+import static org.fuin.ddd4j.common.CommonUtils.SHORT_ID_PREFIX;
 
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
-import org.fuin.objects4j.common.UniquelyNumberedException;
 
 /**
  * Signals that the requested version for an aggregate does not exist.
  */
-public final class AggregateVersionNotFoundException extends
-        UniquelyNumberedException {
+@XmlRootElement(name = "aggregate-version-not-found-exception")
+public final class AggregateVersionNotFoundException extends AbstractJaxbMarshallableException implements
+        ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
-    private final EntityType aggregateType;
+    @XmlElement(name = "sid")
+    private String sid;
 
-    private final AggregateRootId aggregateId;
+    @XmlElement(name = "aggregate-type")
+    private String aggregateType;
 
-    private final int version;
+    @XmlElement(name = "aggregate-id")
+    private String aggregateId;
+
+    @XmlElement(name = "version")
+    private int version;
+
+    /**
+     * JAX-B constructor.
+     */
+    protected AggregateVersionNotFoundException() {
+        super();
+    }
 
     /**
      * Constructor with all data.
@@ -47,18 +66,23 @@ public final class AggregateVersionNotFoundException extends
      * @param version
      *            Requested version.
      */
-    public AggregateVersionNotFoundException(
-            @NotNull final EntityType aggregateType,
+    public AggregateVersionNotFoundException(@NotNull final EntityType aggregateType,
             @NotNull final AggregateRootId aggregateId, final int version) {
-        super(104, "Requested version " + version + " for aggregate '"
-                + aggregateType + "' (" + aggregateId + ") does not exist");
+        super("Requested version " + version + " for " + aggregateType + " (" + aggregateId
+                + ") does not exist");
 
         Contract.requireArgNotNull("aggregateType", aggregateType);
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
-        this.aggregateType = aggregateType;
-        this.aggregateId = aggregateId;
+        this.sid = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_NOT_FOUND";
+        this.aggregateType = aggregateType.asString();
+        this.aggregateId = aggregateId.asString();
         this.version = version;
+    }
+
+    @Override
+    public final String getShortId() {
+        return sid;
     }
 
     /**
@@ -67,7 +91,7 @@ public final class AggregateVersionNotFoundException extends
      * @return Type.
      */
     @NeverNull
-    public final EntityType getAggregateType() {
+    public final String getAggregateType() {
         return aggregateType;
     }
 
@@ -77,7 +101,7 @@ public final class AggregateVersionNotFoundException extends
      * @return Stream with version conflict.
      */
     @NeverNull
-    public final AggregateRootId getAggregateId() {
+    public final String getAggregateId() {
         return aggregateId;
     }
 

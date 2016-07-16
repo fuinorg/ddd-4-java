@@ -52,7 +52,6 @@ public class AggregateVersionConflictExceptionTest {
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
         assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
-        assertThat(copy.getMsg()).isEqualTo(original.getMsg());
         assertThat(copy.getMessage()).isEqualTo(original.getMessage());
         assertThat(copy.getExpected()).isEqualTo(original.getExpected());
         assertThat(copy.getActual()).isEqualTo(original.getActual());
@@ -92,7 +91,6 @@ public class AggregateVersionConflictExceptionTest {
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
         assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
-        assertThat(copy.getMsg()).isEqualTo(original.getMsg());
         assertThat(copy.getMessage()).isEqualTo(original.getMessage());
         assertThat(copy.getExpected()).isEqualTo(original.getExpected());
         assertThat(copy.getActual()).isEqualTo(original.getActual());

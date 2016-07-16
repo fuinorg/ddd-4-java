@@ -52,7 +52,7 @@ public class AggregateNotFoundExceptionTest {
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
         assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
-        assertThat(copy.getMsg()).isEqualTo(original.getMsg());
+        assertThat(copy.getMessage()).isEqualTo(original.getMessage());
 
     }
 
@@ -87,7 +87,6 @@ public class AggregateNotFoundExceptionTest {
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
         assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
-        assertThat(copy.getMsg()).isEqualTo(original.getMsg());
         assertThat(copy.getMessage()).isEqualTo(original.getMessage());
         
     }

@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
-import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
 
@@ -68,11 +67,8 @@ public final class AggregateVersionNotFoundException extends AbstractJaxbMarshal
      */
     public AggregateVersionNotFoundException(@NotNull final EntityType aggregateType,
             @NotNull final AggregateRootId aggregateId, final int version) {
-        super("Requested version " + version + " for " + aggregateType + " (" + aggregateId
-                + ") does not exist");
-
-        Contract.requireArgNotNull("aggregateType", aggregateType);
-        Contract.requireArgNotNull("aggregateId", aggregateId);
+        super("Requested version " + version + " for " + aggregateType.asString() + " ("
+                + aggregateId.asString() + ") does not exist");
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_NOT_FOUND";
         this.aggregateType = aggregateType.asString();

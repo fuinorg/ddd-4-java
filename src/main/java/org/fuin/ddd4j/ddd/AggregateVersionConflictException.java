@@ -24,7 +24,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
-import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
 
@@ -73,11 +72,8 @@ public final class AggregateVersionConflictException extends AbstractJaxbMarshal
      */
     public AggregateVersionConflictException(@NotNull final EntityType aggregateType,
             @NotNull final AggregateRootId aggregateId, final int expected, final int actual) {
-        super("Expected version " + expected + " for " + aggregateType + " (" + aggregateId
-                + "), but was " + actual);
-
-        Contract.requireArgNotNull("aggregateType", aggregateType);
-        Contract.requireArgNotNull("aggregateId", aggregateId);
+        super("Expected version " + expected + " for " + aggregateType.asString() + " ("
+                + aggregateId.asString() + "), but was " + actual);
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_CONFLICT";
         this.aggregateType = aggregateType.asString();

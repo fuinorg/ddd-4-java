@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
-import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
 
@@ -66,10 +65,7 @@ public final class AggregateNotFoundException extends AbstractJaxbMarshallableEx
      */
     public AggregateNotFoundException(@NotNull final EntityType aggregateType,
             @NotNull final AggregateRootId aggregateId) {
-        super(aggregateType + " with id " + aggregateId + " not found");
-
-        Contract.requireArgNotNull("aggregateType", aggregateType);
-        Contract.requireArgNotNull("aggregateId", aggregateId);
+        super(aggregateType.asString() + " with id " + aggregateId.asString() + " not found");
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_NOT_FOUND";
         this.aggregateType = aggregateType.asString();

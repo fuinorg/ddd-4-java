@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library. If not, see http://www.gnu.org/licenses/.
  */
-package org.fuin.ddd4j.common;
+package org.fuin.ddd4j.ddd;
 
 import java.io.File;
 

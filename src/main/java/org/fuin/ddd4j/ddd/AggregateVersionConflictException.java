@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
+import org.fuin.objects4j.common.AbstractJaxbMarshallableRuntimeException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
 
@@ -31,8 +31,8 @@ import org.fuin.objects4j.common.NeverNull;
  * Signals a conflict between an expected and an actual version for an aggregate.
  */
 @XmlRootElement(name = "aggregate-version-conflict-exception")
-public final class AggregateVersionConflictException extends AbstractJaxbMarshallableException implements
-        ExceptionShortIdentifable {
+public final class AggregateVersionConflictException extends AbstractJaxbMarshallableRuntimeException
+        implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 

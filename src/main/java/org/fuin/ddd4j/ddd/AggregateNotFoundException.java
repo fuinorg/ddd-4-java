@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
+import org.fuin.objects4j.common.AbstractJaxbMarshallableRuntimeException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.NeverNull;
 
@@ -34,7 +34,7 @@ import org.fuin.objects4j.common.NeverNull;
  */
 @XmlRootElement(name = "aggregate-not-found-exception")
 @XmlAccessorType(XmlAccessType.NONE)
-public final class AggregateNotFoundException extends AbstractJaxbMarshallableException implements
+public final class AggregateNotFoundException extends AbstractJaxbMarshallableRuntimeException implements
         ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;

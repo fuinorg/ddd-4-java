@@ -23,7 +23,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.constraints.NotNull;
 
-import org.fuin.objects4j.common.ContractViolationException;
+import org.fuin.objects4j.common.ConstraintViolationException;
 
 /**
  * Check that a given string is a well-formed user id.
@@ -71,15 +71,15 @@ public final class VendorKeyStrValidator implements
      * @param value
      *            Value to check.
      * 
-     * @throws ContractViolationException
+     * @throws ConstraintViolationException
      *             The value was not valid.
      */
     // CHECKSTYLE:OFF:RedundantThrows
     public static void requireArgValid(@NotNull final String name,
-            @NotNull final String value) throws ContractViolationException {
+            @NotNull final String value) throws ConstraintViolationException {
         // CHECKSTYLE:ON
         if (!isValid(value)) {
-            throw new ContractViolationException("The argument '" + name
+            throw new ConstraintViolationException("The argument '" + name
                     + "' is not valid: '" + value + "'");
         }
     }

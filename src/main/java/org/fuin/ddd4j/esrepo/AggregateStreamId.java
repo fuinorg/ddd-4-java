@@ -53,7 +53,8 @@ public final class AggregateStreamId implements StreamId {
      * @param paramValue
      *            Aggregate id.
      */
-    public AggregateStreamId(final EntityType type, final String paramName, final AggregateRootId paramValue) {
+    public AggregateStreamId(final EntityType type, final String paramName, 
+            final AggregateRootId paramValue) {
         super();
         this.type = type;
         this.paramName = paramName;
@@ -97,7 +98,7 @@ public final class AggregateStreamId implements StreamId {
     }
 
     @Override
-    public final boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (this == obj) {
             return true;
         }

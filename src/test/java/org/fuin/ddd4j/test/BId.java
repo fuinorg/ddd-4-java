@@ -45,14 +45,14 @@ public class BId implements EntityId {
     }
 
     @Override
-    public String toString() {
-        return asString();
-    }
-
-    @Override
     public String asTypedString() {
         return "B " + toString();
     }
 
+    @Override
+    public String toString() {
+        return "BId [id=" + id + "]";
+    }
+    
 }
 // CHECKSTYLE:ON

@@ -45,14 +45,14 @@ public class AId implements AggregateRootId {
     }
 
     @Override
-    public String toString() {
-        return asString();
-    }
-
-    @Override
     public String asTypedString() {
         return "A " + toString();
     }
 
+    @Override
+    public String toString() {
+        return "AId [id=" + id + "]";
+    }
+    
 }
 // CHECKSTYLE:ON

@@ -45,14 +45,15 @@ public class CId implements EntityId {
     }
 
     @Override
-    public String toString() {
-        return asString();
-    }
-
-    @Override
     public String asTypedString() {
         return "C " + toString();
     }
 
+    @Override
+    public String toString() {
+        return "CId [id=" + id + "]";
+    }
+
+    
 }
 // CHECKSTYLE:ON

@@ -27,7 +27,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.AbstractJaxbMarshallableRuntimeException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
-import org.fuin.objects4j.common.NeverNull;
 
 /**
  * Signals that an aggregate of a given type and identifier was deleted from the repository.
@@ -82,7 +81,7 @@ public final class AggregateDeletedException extends AbstractJaxbMarshallableRun
      * 
      * @return Type.
      */
-    @NeverNull
+    @NotNull
     public final String getAggregateType() {
         return aggregateType;
     }
@@ -92,7 +91,7 @@ public final class AggregateDeletedException extends AbstractJaxbMarshallableRun
      * 
      * @return Stream with version conflict.
      */
-    @NeverNull
+    @NotNull
     public final String getAggregateId() {
         return aggregateId;
     }

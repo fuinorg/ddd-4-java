@@ -413,7 +413,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      */
     // CHECKSTYLE:OFF:DesignForExtension OK because method has no logic (just a
     // simple default impl).
-    @NeverNull
+    @NotNull
     protected AggregateCache<AGGREGATE> getAggregateCache() {
         // CHECKSTYLE:ON:DesignForExtension
         return noCache;
@@ -437,7 +437,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * 
      * @return Event store implementation.
      */
-    @NeverNull
+    @NotNull
     protected final EventStore getEventStore() {
         return eventStore;
     }
@@ -447,7 +447,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * 
      * @return Name to be used as parameter.
      */
-    @NeverNull
+    @NotNull
     protected abstract String getIdParamName();
 
 }

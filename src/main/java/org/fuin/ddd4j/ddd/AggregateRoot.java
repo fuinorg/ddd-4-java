@@ -21,8 +21,6 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
-import org.fuin.objects4j.common.NeverNull;
-
 /**
  * Dedicated entity of a group of entities (The group is called "Aggregate")
  * that guarantees the consistency of changes being made within the group by
@@ -46,7 +44,7 @@ public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
      * 
      * @return List of events that were not persisted yet.
      */
-    @NeverNull
+    @NotNull
     public List<DomainEvent<?>> getUncommittedChanges();
 
     /**

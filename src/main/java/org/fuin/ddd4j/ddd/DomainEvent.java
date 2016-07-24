@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import org.fuin.objects4j.common.NeverNull;
+import javax.validation.constraints.NotNull;
 
 /**
  * Domain event published by an entity.
@@ -33,7 +33,7 @@ public interface DomainEvent<ID extends EntityId> extends Event {
      * @return List of unique identifiers from aggregate root to the entity that
      *         emitted the event.
      */
-    @NeverNull
+    @NotNull
     public EntityIdPath getEntityIdPath();
 
     /**
@@ -42,7 +42,7 @@ public interface DomainEvent<ID extends EntityId> extends Event {
      * 
      * @return Entity identifier.
      */
-    @NeverNull
+    @NotNull
     public ID getEntityId();
 
 }

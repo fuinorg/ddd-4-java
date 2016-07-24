@@ -20,7 +20,8 @@ package org.fuin.ddd4j.ddd;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import org.fuin.objects4j.common.NeverNull;
+import javax.validation.constraints.NotNull;
+
 import org.fuin.objects4j.common.Nullable;
 
 /**
@@ -33,7 +34,7 @@ public interface Event extends Serializable {
      * 
      * @return Unique identifier event.
      */
-    @NeverNull
+    @NotNull
     public EventId getEventId();
 
     /**
@@ -41,7 +42,7 @@ public interface Event extends Serializable {
      * 
      * @return A text unique for all events of an aggregate.
      */
-    @NeverNull
+    @NotNull
     public EventType getEventType();
 
     /**
@@ -49,7 +50,7 @@ public interface Event extends Serializable {
      * 
      * @return Event creation date and time.
      */
-    @NeverNull
+    @NotNull
     public ZonedDateTime getTimestamp();
 
     /**

@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.AbstractJaxbMarshallableRuntimeException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
-import org.fuin.objects4j.common.NeverNull;
 
 /**
  * Signals that the requested version for an aggregate does not exist.
@@ -86,7 +85,7 @@ public final class AggregateVersionNotFoundException extends AbstractJaxbMarshal
      * 
      * @return Type.
      */
-    @NeverNull
+    @NotNull
     public final String getAggregateType() {
         return aggregateType;
     }
@@ -96,7 +95,7 @@ public final class AggregateVersionNotFoundException extends AbstractJaxbMarshal
      * 
      * @return Stream with version conflict.
      */
-    @NeverNull
+    @NotNull
     public final String getAggregateId() {
         return aggregateId;
     }

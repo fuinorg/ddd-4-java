@@ -24,8 +24,6 @@ import org.fuin.ddd4j.ddd.ApplyEvent;
 // CHECKSTYLE:OFF
 public class CEntity extends AbstractEntity<AId, ARoot, CId> {
 
-    private final ARoot root;
-
     private final BId parentId;
 
     private final CId id;
@@ -34,7 +32,6 @@ public class CEntity extends AbstractEntity<AId, ARoot, CId> {
 
     public CEntity(final ARoot root, final BId parentId, final CId id) {
         super(root);
-        this.root = root;
         this.parentId = parentId;
         this.id = id;
     }
@@ -50,7 +47,7 @@ public class CEntity extends AbstractEntity<AId, ARoot, CId> {
     }
 
     public void doIt() {
-        apply(new CEvent(root.getId(), parentId, id));
+        apply(new CEvent(getRoot().getId(), parentId, id));
     }
 
     @ApplyEvent

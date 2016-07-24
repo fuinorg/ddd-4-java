@@ -12,6 +12,10 @@ Base classes for Domain Driven Design (DDD) with Java
 
 <a href="https://fuin-org.ci.cloudbees.com/job/ddd-4-java"><img src="http://www.fuin.org/images/Button-Built-on-CB-1.png" width="213" height="72" border="0" alt="Built on CloudBees"/></a>
 
+Documentation
+-------------
+You can find the documentation of the project [here](https://www.gitbook.com/book/michael-schnell/ddd-4-java/) (Work in progress - Just started!).
+
 Presentation
 ------------
 http://de.slideshare.net/michael-schnell/ddd-4java/

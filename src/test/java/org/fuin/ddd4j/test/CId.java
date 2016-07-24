@@ -46,7 +46,7 @@ public class CId implements EntityId {
 
     @Override
     public String asTypedString() {
-        return "C " + toString();
+        return getType() + " " + asString();
     }
 
     @Override

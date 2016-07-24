@@ -37,7 +37,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * 
      * @return Aggregate class.
      */
-    @NeverNull
+    @NotNull
     public Class<T> getAggregateClass();
 
     /**
@@ -46,7 +46,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * 
      * @return Name of the type of the aggregate.
      */
-    @NeverNull
+    @NotNull
     public EntityType getAggregateType();
 
     /**
@@ -56,7 +56,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @return New aggregate instance that is NOT persisted. Use the
      *         {@link #update(AggregateRoot, String, Object)} method to persist this new aggregate.
      */
-    @NeverNull
+    @NotNull
     public T create();
 
     /**
@@ -72,7 +72,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateDeletedException
      *             The aggregate with the given identifier was already deleted.
      */
-    @NeverNull
+    @NotNull
     public T read(@NotNull ID id) throws AggregateNotFoundException, AggregateDeletedException;
 
     /**
@@ -92,7 +92,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateVersionNotFoundException
      *             An aggregate with the requested version does not exist.
      */
-    @NeverNull
+    @NotNull
     public T read(@NotNull ID id, int version) throws AggregateNotFoundException, AggregateDeletedException,
             AggregateVersionNotFoundException;
 
@@ -113,7 +113,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
      */
-    @NeverNull
+    @NotNull
     public void update(@NotNull T aggregate, @Nullable String metaType, @Nullable Object metaData)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException;
 
@@ -130,7 +130,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
      */
-    @NeverNull
+    @NotNull
     public void update(@NotNull T aggregate) throws AggregateVersionConflictException,
             AggregateNotFoundException, AggregateDeletedException;
 

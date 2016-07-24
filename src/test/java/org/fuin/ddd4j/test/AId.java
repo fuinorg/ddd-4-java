@@ -46,7 +46,7 @@ public class AId implements AggregateRootId {
 
     @Override
     public String asTypedString() {
-        return "A " + toString();
+        return getType() + " " + asString();
     }
 
     @Override

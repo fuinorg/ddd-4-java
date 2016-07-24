@@ -46,7 +46,7 @@ public class BId implements EntityId {
 
     @Override
     public String asTypedString() {
-        return "B " + toString();
+        return getType() + " " + asString();
     }
 
     @Override

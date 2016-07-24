@@ -65,7 +65,7 @@ public final class VendorEventId implements Serializable {
      * 
      * @return Unique vendor identifier.
      */
-    @NeverNull
+    @NotNull
     public final String getVendorId() {
         return vendorId;
     }
@@ -75,7 +75,7 @@ public final class VendorEventId implements Serializable {
      * 
      * @return Order of the event in the stream.
      */
-    @NeverNull
+    @NotNull
     public final Integer getEventNumber() {
         return eventNumber;
     }

@@ -76,7 +76,7 @@ public final class VendorRef implements ValueObject {
      * 
      * @return Vendor ID.
      */
-    @NeverNull
+    @NotNull
     public VendorId getId() {
         return vendorId;
     }
@@ -86,7 +86,7 @@ public final class VendorRef implements ValueObject {
      * 
      * @return Vendor key.
      */
-    @NeverNull
+    @NotNull
     public VendorKey getKey() {
         return vendorKey;
     }
@@ -96,7 +96,7 @@ public final class VendorRef implements ValueObject {
      * 
      * @return Vendor name.
      */
-    @NeverNull
+    @NotNull
     public VendorName getName() {
         return vendorName;
     }

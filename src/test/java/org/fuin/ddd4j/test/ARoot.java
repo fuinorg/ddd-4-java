@@ -22,9 +22,12 @@ import java.util.List;
 
 import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
-import org.fuin.ddd4j.ddd.ChildEntityLocator;
-import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.ApplyEvent;
+import org.fuin.ddd4j.ddd.ChildEntityLocator;
+import org.fuin.ddd4j.ddd.DuplicateEntityException;
+import org.fuin.ddd4j.ddd.EntityIdPath;
+import org.fuin.ddd4j.ddd.EntityNotFoundException;
+import org.fuin.ddd4j.ddd.EntityType;
 
 // CHECKSTYLE:OFF
 public class ARoot extends AbstractAggregateRoot<AId> {
@@ -64,17 +67,33 @@ public class ARoot extends AbstractAggregateRoot<AId> {
         return null;
     }
 
-    public void addB(final BId bid) {
+    public void addB(final BId bid) throws DuplicateEntityException {
+        // Verify business rules
+        final BEntity found = find(bid);
+        if (found != null) {
+            // An entity can only be added once to it's parent
+            throw new DuplicateEntityException(new EntityIdPath(id), bid);
+        }
+
+        // Apply event
         apply(new BAddedEvent(id, bid));
     }
 
-    public void addC(final BId bid, final CId cid) {
+    public void addC(final BId bid, final CId cid) throws DuplicateEntityException, EntityNotFoundException {
+        // Delegate processing to child entity
         final BEntity found = find(bid);
+        if (found == null) {
+            throw new EntityNotFoundException(new EntityIdPath(id), bid);
+        }
         found.add(cid);
     }
 
     public void doItC(final BId bid, final CId cid) {
+        // Delegate processing to child entity
         final BEntity found = find(bid);
+        if (found == null) {
+            throw new EntityNotFoundException(new EntityIdPath(id), bid);
+        }
         found.doIt(cid);
     }
 

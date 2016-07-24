@@ -95,7 +95,7 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
      * 
      * @return Person ID.
      */
-    @NeverNull
+    @NotNull
     public final PersonId getPersonId() {
         return personId;
     }
@@ -105,7 +105,7 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
      * 
      * @return Old name.
      */
-    @NeverNull
+    @NotNull
     public final PersonName getOldName() {
         return oldName;
     }
@@ -115,7 +115,7 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
      * 
      * @return New name.
      */
-    @NeverNull
+    @NotNull
     public final PersonName getNewName() {
         return newName;
     }

@@ -84,7 +84,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * 
      * @return Person ID.
      */
-    @NeverNull
+    @NotNull
     public final PersonId getPersonId() {
         return personId;
     }
@@ -94,7 +94,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * 
      * @return Person name.
      */
-    @NeverNull
+    @NotNull
     public final PersonName getPersonName() {
         return personName;
     }

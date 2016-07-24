@@ -69,7 +69,7 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
      * 
      * @return Vendor reference.
      */
-    @NeverNull
+    @NotNull
     public final VendorRef getVendorRef() {
         return vendorRef;
     }

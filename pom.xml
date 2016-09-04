@@ -40,7 +40,7 @@
 		<dependency>
 			<groupId>org.fuin</groupId>
 			<artifactId>objects4j</artifactId>
-			<version>0.6.3-SNAPSHOT</version>
+			<version>0.6.3</version>
 		</dependency>
 
 		<dependency>
@@ -68,7 +68,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.12</version>
+			<version>1.7.21</version>
 		</dependency>
 
 		<dependency>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.fuin.esc</groupId>
 			<artifactId>esc-mem</artifactId>
-			<version>0.1.0-SNAPSHOT</version>
+			<version>0.1.0</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -97,21 +97,21 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.5.1</version>
+			<version>3.5.2</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.fuin</groupId>
 			<artifactId>units4j</artifactId>
-			<version>0.8.1</version>
+			<version>0.8.2</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.1.3.Final</version>
+			<version>5.2.4.Final</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>nl.jqno.equalsverifier</groupId>
 			<artifactId>equalsverifier</artifactId>
-			<version>2.1.2</version>
+			<version>2.1.5</version>
 			<scope>test</scope>
 		</dependency>
 

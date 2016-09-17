@@ -23,14 +23,14 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.fuin.objects4j.common.AbstractJaxbMarshallableRuntimeException;
+import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 /**
  * Signals that the requested version for an aggregate does not exist.
  */
 @XmlRootElement(name = "aggregate-version-not-found-exception")
-public final class AggregateVersionNotFoundException extends AbstractJaxbMarshallableRuntimeException
+public final class AggregateVersionNotFoundException extends AbstractJaxbMarshallableException
         implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;

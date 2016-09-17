@@ -88,7 +88,7 @@ public class ARoot extends AbstractAggregateRoot<AId> {
         found.add(cid);
     }
 
-    public void doItC(final BId bid, final CId cid) {
+    public void doItC(final BId bid, final CId cid) throws EntityNotFoundException {
         // Delegate processing to child entity
         final BEntity found = find(bid);
         if (found == null) {

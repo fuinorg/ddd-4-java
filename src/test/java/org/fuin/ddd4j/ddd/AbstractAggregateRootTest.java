@@ -48,7 +48,7 @@ public class AbstractAggregateRootTest {
     }
 
     @Test
-    public void testCallAnnotatedEventHandlerMethodOnAggregateRootOrChild() {
+    public void testCallAnnotatedEventHandlerMethodOnAggregateRootOrChild() throws DuplicateEntityException {
 
 	// PREPARE
 	final AId aid = new AId(1);
@@ -88,7 +88,7 @@ public class AbstractAggregateRootTest {
     }
 
     @Test
-    public void testApplyNewChildEvent() {
+    public void testApplyNewChildEvent() throws DuplicateEntityException {
 
 	// PREPARE
 	final AId aid = new AId(1);
@@ -200,7 +200,7 @@ public class AbstractAggregateRootTest {
     }
 
     @Test
-    public void testChildEvent() {
+    public void testChildEvent() throws DuplicateEntityException, EntityNotFoundException {
 
 	// PREPARE
 	final AId aid = new AId(1);
@@ -224,7 +224,7 @@ public class AbstractAggregateRootTest {
     }
 
     @Test
-    public void testSubChildEvent() {
+    public void testSubChildEvent() throws DuplicateEntityException, EntityNotFoundException {
 
 	// PREPARE
 	final AId aid = new AId(1);
@@ -250,7 +250,7 @@ public class AbstractAggregateRootTest {
     }
 
     @Test
-    public void testMultipleEvent() {
+    public void testMultipleEvent() throws DuplicateEntityException, EntityNotFoundException {
 
 	// PREPARE
 	final AId aid = new AId(1);

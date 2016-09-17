@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.fuin.objects4j.common.AbstractJaxbMarshallableRuntimeException;
+import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 /**
@@ -33,7 +33,7 @@ import org.fuin.objects4j.common.ExceptionShortIdentifable;
  */
 @XmlRootElement(name = "duplicate-entity-exception")
 @XmlAccessorType(XmlAccessType.NONE)
-public final class DuplicateEntityException extends AbstractJaxbMarshallableRuntimeException
+public final class DuplicateEntityException extends AbstractJaxbMarshallableException
         implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;

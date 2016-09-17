@@ -30,7 +30,7 @@ import org.junit.Test;
 public class MethodExecutorTest {
 
     @Test
-    public void testFindDeclaredAnnotatedMethodAndInvoke() {
+    public void testFindDeclaredAnnotatedMethodAndInvoke() throws DuplicateEntityException {
 
 	// PREPARE
 	final MethodExecutor testee = new MethodExecutor();

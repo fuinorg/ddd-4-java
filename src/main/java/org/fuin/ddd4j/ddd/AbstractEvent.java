@@ -21,8 +21,11 @@ import java.time.ZonedDateTime;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Nullable;
+
+import com.migesok.jaxb.adapter.javatime.ZonedDateTimeXmlAdapter;
 
 /**
  * Base class for events. Equals and hash code are solely based on the event id.
@@ -31,15 +34,19 @@ public abstract class AbstractEvent implements Event {
 
     private static final long serialVersionUID = 1000L;
 
+    @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "event-id")
     private EventId eventId;
 
+    @XmlJavaTypeAdapter(ZonedDateTimeXmlAdapter.class)
     @XmlElement(name = "event-timestamp")
     private ZonedDateTime timestamp;
 
+    @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "correlation-id")
     private EventId correlationId;
 
+    @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "causation-id")
     private EventId causationId;
 

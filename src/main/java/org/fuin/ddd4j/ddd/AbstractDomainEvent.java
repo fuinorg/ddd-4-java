@@ -19,6 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Nullable;
 
@@ -33,6 +34,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
 
     private static final long serialVersionUID = 1000L;
 
+    @XmlJavaTypeAdapter(EntityIdPathConverter.class)
     @XmlElement(name = "entity-id-path")
     private EntityIdPath entityIdPath;
 

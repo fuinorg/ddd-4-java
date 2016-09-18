@@ -25,6 +25,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
@@ -33,8 +34,7 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  * entry if it's contained in the list.
  */
 @XmlJavaTypeAdapter(EntityIdPathConverter.class)
-public final class EntityIdPath implements ValueObjectWithBaseType<String>,
-        Serializable {
+public final class EntityIdPath implements ValueObjectWithBaseType<String>, Serializable {
 
     private static final long serialVersionUID = 1000L;
 
@@ -53,12 +53,11 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
         super();
         Contract.requireArgNotNull("entityIds", entityIds);
         if (entityIds.length == 0) {
-            throw new IllegalArgumentException(
-                    "Identifier array cannot be empty");
+            throw new ConstraintViolationException("Identifier array cannot be empty");
         }
         for (final EntityId entityId : entityIds) {
             if (entityId == null) {
-                throw new IllegalArgumentException("Identifiers in the array cannot be null");
+                throw new ConstraintViolationException("Identifiers in the array cannot be null");
             }
         }
         this.entityIds = new ArrayList<EntityId>();
@@ -74,12 +73,11 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
     public EntityIdPath(final List<EntityId> ids) {
         Contract.requireArgNotNull("ids", ids);
         if (ids.size() == 0) {
-            throw new IllegalArgumentException(
-                    "Identifier list cannot be empty");
+            throw new ConstraintViolationException("Identifier list cannot be empty");
         }
         for (final EntityId entityId : ids) {
             if (entityId == null) {
-                throw new IllegalArgumentException("Identifiers in the list cannot be null");
+                throw new ConstraintViolationException("Identifiers in the list cannot be null");
             }
         }
         this.entityIds = new ArrayList<EntityId>();
@@ -173,6 +171,26 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>,
     @Override
     public final Class<String> getBaseType() {
         return String.class;
+    }
+
+    @Override
+    public final int hashCode() {
+        return asBaseType().hashCode();
+    }
+
+    @Override
+    public final boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EntityIdPath other = (EntityIdPath) obj;
+        return asBaseType().equals(other.asBaseType());
     }
 
 }

@@ -24,22 +24,29 @@ import static org.fuin.utils4j.JaxbUtils.marshal;
 import static org.fuin.utils4j.JaxbUtils.unmarshal;
 import static org.junit.Assert.fail;
 
-import javax.inject.Inject;
 import javax.xml.bind.JAXBException;
 
 import org.fuin.objects4j.vo.ValueObjectConverter;
-import org.fuin.units4j.WeldJUnit4Runner;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 // CHECKSTYLE:OFF Test code
-@RunWith(WeldJUnit4Runner.class)
 public class AggregateVersionConverterTest {
 
     private static final String XML = XML_PREFIX + "<data version=\"123\"/>";
 
-    @Inject
     private ValueObjectConverter<Integer, AggregateVersion> testee;
+
+    @Before
+    public final void setup() {
+        testee = new AggregateVersionConverter();
+    }
+
+    @After
+    public final void teardown() {
+        testee = null;
+    }
 
     @Test
     public final void testFactoryInjectable() {

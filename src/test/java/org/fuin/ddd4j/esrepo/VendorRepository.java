@@ -22,6 +22,7 @@ import java.util.List;
 import org.fuin.ddd4j.ddd.DomainEvent;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.test.PersonCreatedEvent;
+import org.fuin.ddd4j.test.PersonNameChangedEvent;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.esc.api.EventStore;
@@ -65,10 +66,11 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
     protected final boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges,
             final List<DomainEvent<?>> unseenEvents) {
 
-        // Example code allows all "PersonCreatedEvent"s in parallel
+        // Example code allows only "PersonCreatedEvent" and
+        // "PersonNameChangedEvent" in parallel
         for (final DomainEvent<?> uncommitedEvent : uncommittedChanges) {
             for (final DomainEvent<?> unseenEvent : unseenEvents) {
-                if (!((uncommitedEvent instanceof PersonCreatedEvent)
+                if (!((uncommitedEvent instanceof PersonNameChangedEvent)
                         && (unseenEvent instanceof PersonCreatedEvent))) {
                     return false;
                 }
@@ -78,5 +80,5 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
         return true;
 
     }
-
+    
 }

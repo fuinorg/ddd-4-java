@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 
 import org.fuin.ddd4j.ddd.AggregateNotFoundException;
 import org.fuin.ddd4j.test.DuplicateVendorKeyException;
+import org.fuin.ddd4j.test.PersonCreatedEvent;
 import org.fuin.ddd4j.test.PersonName;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
@@ -180,17 +181,27 @@ public class EventStoreRespositoryTest {
 
             // TEST
             
-            // The first user adds a person and stores the result it in the repository
-            final Vendor vendor1 = repo.read(vendorId, 0);
-            vendor1.addPerson(new PersonName("Peter Parker"));
-            vendor1.addPerson(new PersonName("Mary Jane Watson"));
-            repo.update(vendor1);
-            assertThat(repo.read(vendorId).getVersion()).isEqualTo(2);
+            // The first user adds a person with a typo in the name
+            Vendor vendorUser1 = repo.read(vendorId, 0);
+            vendorUser1.addPerson(new PersonName("Peter Parrker"));
+            final PersonCreatedEvent pce = (PersonCreatedEvent) vendorUser1.getUncommittedChanges().get(0);
+            repo.update(vendorUser1);
+            assertThat(repo.read(vendorId).getVersion()).isEqualTo(1);
             
-            // The second user also adds a person and stores the result in the repository
-            final Vendor vendor2 = repo.read(vendorId, 0);
-            vendor2.addPerson(new PersonName("Harry Osborn"));
-            repo.update(vendor2);
+            // The second user loads the latest data an realizes the typo
+            final Vendor vendorUser2 = repo.read(vendorId);
+            
+            // The first user continues adding more persons
+            vendorUser1 = repo.read(vendorId, 1);
+            vendorUser1.addPerson(new PersonName("Mary Jane Watson"));
+            vendorUser1.addPerson(new PersonName("Harry Osborn"));
+            repo.update(vendorUser1);
+            assertThat(repo.read(vendorId).getVersion()).isEqualTo(3);
+
+            // The second user saves
+            vendorUser2.changePersonName(pce.getPersonId(), new PersonName("Peter Parker"));
+            repo.update(vendorUser2);
+            assertThat(repo.read(vendorId).getVersion()).isEqualTo(4);
             
             // VERIFY
             

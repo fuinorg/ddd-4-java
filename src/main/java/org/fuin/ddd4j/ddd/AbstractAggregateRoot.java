@@ -39,7 +39,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
 
     private static final MethodExecutor METHOD_EXECUTOR = new MethodExecutor();
 
-    private int version = 0;
+    private int version = -1;
 
     private final List<DomainEvent<?>> uncommitedChanges;
 

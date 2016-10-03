@@ -41,8 +41,9 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
     public Class<T> getAggregateClass();
 
     /**
-     * Returns a unique name for the aggregate root type. This can be used to provide a shorted name for an
-     * aggregate type. Another good choice may be the FQN of the {@link #getAggregateClass()} class.
+     * Returns a unique name for the aggregate root type. This can be used to
+     * provide a shorted name for an aggregate type. Another good choice may be
+     * the FQN of the {@link #getAggregateClass()} class.
      * 
      * @return Name of the type of the aggregate.
      */
@@ -50,11 +51,12 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
     public EntityType getAggregateType();
 
     /**
-     * Factory method to create a new aggregate. Just creates a new instance without doing anything else. The
-     * aggregate identifier will NOT be set.
+     * Factory method to create a new aggregate. Just creates a new instance
+     * without doing anything else. The aggregate identifier will NOT be set.
      * 
      * @return New aggregate instance that is NOT persisted. Use the
-     *         {@link #update(AggregateRoot, String, Object)} method to persist this new aggregate.
+     *         {@link #update(AggregateRoot, String, Object)} method to persist
+     *         this new aggregate.
      */
     @NotNull
     public T create();
@@ -93,11 +95,12 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             An aggregate with the requested version does not exist.
      */
     @NotNull
-    public T read(@NotNull ID id, int version) throws AggregateNotFoundException, AggregateDeletedException,
-            AggregateVersionNotFoundException;
+    public T read(@NotNull ID id, int version)
+            throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException;
 
     /**
-     * Saves the changes on an aggregate in the repository including some meta data.
+     * Saves the changes on an aggregate in the repository including some meta
+     * data.
      * 
      * @param aggregate
      *            Aggregate to store.
@@ -118,7 +121,8 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException;
 
     /**
-     * Saves the changes on an aggregate in the repository without any meta data.
+     * Saves the changes on an aggregate in the repository without any meta
+     * data.
      * 
      * @param aggregate
      *            Aggregate to store.
@@ -135,20 +139,17 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
             AggregateNotFoundException, AggregateDeletedException;
 
     /**
-     * Deletes an aggregate from the repository. If the aggregate was already deleted, the method will do
-     * nothing.
+     * Deletes an aggregate from the repository. If the aggregate was already
+     * deleted, the method will do nothing.
      * 
      * @param aggregateId
      *            Identifier of the aggregate to delete.
      * @param expectedVersion
      *            Expected (current) version of the aggregate.
      * 
-     * @throws AggregateNotFoundException
-     *             An aggregate with the given identifier was not found.
      * @throws AggregateVersionConflictException
      *             The expected version didn't match the actual version.
      */
-    public void delete(@NotNull ID aggregateId, int expectedVersion) throws AggregateNotFoundException,
-            AggregateVersionConflictException;
+    public void delete(@NotNull ID aggregateId, int expectedVersion) throws AggregateVersionConflictException;
 
 }

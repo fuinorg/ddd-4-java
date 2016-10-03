@@ -34,245 +34,243 @@ public class AbstractAggregateRootTest {
     @Test
     public void testCallAnnotatedEventHandlerMethod() {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot();
-	final ACreatedEvent event = new ACreatedEvent(aid);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        final ACreatedEvent event = new ACreatedEvent(aid);
 
-	// TEST
-	AbstractAggregateRoot.callAnnotatedEventHandlerMethod(a, event);
+        // TEST
+        AbstractAggregateRoot.callAnnotatedEventHandlerMethod(a, event);
 
-	// VERIFY
-	assertThat(a.getLastEvent()).isSameAs(event);
+        // VERIFY
+        assertThat(a.getLastEvent()).isSameAs(event);
 
     }
 
     @Test
     public void testCallAnnotatedEventHandlerMethodOnAggregateRootOrChild() throws DuplicateEntityException {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot(aid);
-	final BId bid = new BId(2);
-	a.addB(bid);
-	a.markChangesAsCommitted();
-	final CId cid = new CId(3);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
+        final BId bid = new BId(2);
+        a.addB(bid);
+        a.markChangesAsCommitted();
+        final CId cid = new CId(3);
 
-	final CAddedEvent event = new CAddedEvent(aid, bid, cid);
+        final CAddedEvent event = new CAddedEvent(aid, bid, cid);
 
-	// TEST
-	AbstractAggregateRoot
-		.callAnnotatedEventHandlerMethodOnAggregateRootOrChild(a, event);
+        // TEST
+        AbstractAggregateRoot.callAnnotatedEventHandlerMethodOnAggregateRootOrChild(a, event);
 
-	// VERIFY
-	assertThat(a.getFirstChild().getLastEvent()).isSameAs(event);
+        // VERIFY
+        assertThat(a.getFirstChild().getLastEvent()).isSameAs(event);
 
     }
 
     @Test
     public void testApplyRoot() {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot();
-	final ACreatedEvent event = new ACreatedEvent(aid);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        final ACreatedEvent event = new ACreatedEvent(aid);
 
-	// TEST
-	a.apply(event);
+        // TEST
+        a.apply(event);
 
-	// VERIFY
-	assertThat(a.getUncommittedChanges()).containsExactly(event);
-	assertThat(a.getVersion()).isEqualTo(-1);
-	assertThat(a.getNextVersion()).isEqualTo(0);
+        // VERIFY
+        assertThat(a.getUncommittedChanges()).containsExactly(event);
+        assertThat(a.getVersion()).isEqualTo(-1);
+        assertThat(a.getNextVersion()).isEqualTo(0);
 
     }
 
     @Test
     public void testApplyNewChildEvent() throws DuplicateEntityException {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot(aid);
-	final BId bid = new BId(2);
-	a.addB(bid);
-	final CId cid = new CId(3);
-	a.markChangesAsCommitted();
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
+        final BId bid = new BId(2);
+        a.addB(bid);
+        final CId cid = new CId(3);
+        a.markChangesAsCommitted();
 
-	final CAddedEvent event = new CAddedEvent(aid, bid, cid);
+        final CAddedEvent event = new CAddedEvent(aid, bid, cid);
 
-	// TEST
-	a.getFirstChild().apply(event);
+        // TEST
+        a.getFirstChild().apply(event);
 
-	// VERIFY
-	assertThat(a.getUncommittedChanges()).containsExactly(event);
-	assertThat(a.getVersion()).isEqualTo(1);
-	assertThat(a.getNextVersion()).isEqualTo(2);
-	assertThat(a.getFirstChild().getLastEvent()).isSameAs(event);
+        // VERIFY
+        assertThat(a.getUncommittedChanges()).containsExactly(event);
+        assertThat(a.getVersion()).isEqualTo(1);
+        assertThat(a.getNextVersion()).isEqualTo(2);
+        assertThat(a.getFirstChild().getLastEvent()).isSameAs(event);
 
     }
 
     @Test
     public void testGetNextVersion() {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot();
-	assertThat(a.getVersion()).isEqualTo(-1);
-	assertThat(a.getNextVersion()).isEqualTo(-1);
-	final ACreatedEvent event = new ACreatedEvent(aid);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        assertThat(a.getVersion()).isEqualTo(-1);
+        assertThat(a.getNextVersion()).isEqualTo(-1);
+        final ACreatedEvent event = new ACreatedEvent(aid);
 
-	// TEST
-	a.apply(event);
+        // TEST
+        a.apply(event);
 
-	// VERIFY
-	assertThat(a.getVersion()).isEqualTo(-1);
-	assertThat(a.getNextVersion()).isEqualTo(0);
+        // VERIFY
+        assertThat(a.getVersion()).isEqualTo(-1);
+        assertThat(a.getNextVersion()).isEqualTo(0);
 
     }
 
     @Test
     public void testHasUncommitedChanges() {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot();
-	assertThat(a.hasUncommitedChanges()).isFalse();
-	final ACreatedEvent event = new ACreatedEvent(aid);
-	a.apply(event);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        assertThat(a.hasUncommitedChanges()).isFalse();
+        final ACreatedEvent event = new ACreatedEvent(aid);
+        a.apply(event);
 
-	// TEST & VERIFY
-	assertThat(a.hasUncommitedChanges()).isTrue();
+        // TEST & VERIFY
+        assertThat(a.hasUncommitedChanges()).isTrue();
 
     }
 
     @Test
     public void testMarkChangesAsCommitted() {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot();
-	final ACreatedEvent event = new ACreatedEvent(aid);
-	a.apply(event);
-	assertThat(a.hasUncommitedChanges()).isTrue();
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        final ACreatedEvent event = new ACreatedEvent(aid);
+        a.apply(event);
+        assertThat(a.hasUncommitedChanges()).isTrue();
 
-	// TEST
-	a.markChangesAsCommitted();
+        // TEST
+        a.markChangesAsCommitted();
 
-	// VERIFY
-	assertThat(a.hasUncommitedChanges()).isFalse();
+        // VERIFY
+        assertThat(a.hasUncommitedChanges()).isFalse();
 
     }
 
     @Test
     public void testLoadFromHistory() {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot();
-	final ACreatedEvent event = new ACreatedEvent(aid);
-	assertThat(a.getVersion()).isEqualTo(-1);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        final ACreatedEvent event = new ACreatedEvent(aid);
+        assertThat(a.getVersion()).isEqualTo(-1);
 
-	// TEST
-	a.loadFromHistory(event);
+        // TEST
+        a.loadFromHistory(event);
 
-	// VERIFY
-	assertThat(a.getVersion()).isEqualTo(0);
-	assertThat(a.getUncommittedChanges()).isEmpty();
+        // VERIFY
+        assertThat(a.getVersion()).isEqualTo(0);
+        assertThat(a.getUncommittedChanges()).isEmpty();
 
     }
 
     @Test
     public void testAggregateRootEvent() {
 
-	// PREPARE
-	final AId aid = new AId(1);
+        // PREPARE
+        final AId aid = new AId(1);
 
-	// TEST
-	final ARoot a = new ARoot(aid);
+        // TEST
+        final ARoot a = new ARoot(aid);
 
-	// VERIFY
-	assertThat(a.getVersion()).isEqualTo(-1);
-	assertThat(a.getNextVersion()).isEqualTo(0);
-	assertThat(a.getUncommittedChanges()).hasSize(1);
-	final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
-	assertThat(ev).isSameAs(a.getLastEvent());
+        // VERIFY
+        assertThat(a.getVersion()).isEqualTo(-1);
+        assertThat(a.getNextVersion()).isEqualTo(0);
+        assertThat(a.getUncommittedChanges()).hasSize(1);
+        final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
+        assertThat(ev).isSameAs(a.getLastEvent());
 
     }
 
     @Test
     public void testChildEvent() throws DuplicateEntityException, EntityNotFoundException {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot(aid);
-	assertThat(a.getVersion()).isEqualTo(-1);
-	final BId bid = new BId(2);
-	a.addB(bid);
-	a.markChangesAsCommitted();
-	final CId cid = new CId(3);
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
+        assertThat(a.getVersion()).isEqualTo(-1);
+        final BId bid = new BId(2);
+        a.addB(bid);
+        a.markChangesAsCommitted();
+        final CId cid = new CId(3);
 
-	// TEST
-	a.addC(bid, cid);
+        // TEST
+        a.addC(bid, cid);
 
-	// VERIFY
-	assertThat(a.getVersion()).isEqualTo(1);
-	assertThat(a.getUncommittedChanges()).hasSize(1);
-	assertThat(a.getNextVersion()).isEqualTo(2);
-	final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
-	assertThat(ev).isSameAs(a.getFirstChild().getLastEvent());
+        // VERIFY
+        assertThat(a.getVersion()).isEqualTo(1);
+        assertThat(a.getUncommittedChanges()).hasSize(1);
+        assertThat(a.getNextVersion()).isEqualTo(2);
+        final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
+        assertThat(ev).isSameAs(a.getFirstChild().getLastEvent());
 
     }
 
     @Test
     public void testSubChildEvent() throws DuplicateEntityException, EntityNotFoundException {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot(aid);
-	final BId bid = new BId(2);
-	a.addB(bid);
-	final CId cid = new CId(3);
-	a.addC(bid, cid);
-	a.markChangesAsCommitted();
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
+        final BId bid = new BId(2);
+        a.addB(bid);
+        final CId cid = new CId(3);
+        a.addC(bid, cid);
+        a.markChangesAsCommitted();
 
-	final CEntity c = a.getFirstChild().getFirstChild();
+        final CEntity c = a.getFirstChild().getFirstChild();
 
-	// TEST
-	c.doIt();
+        // TEST
+        c.doIt();
 
-	// VERIFY
-	assertThat(a.getVersion()).isEqualTo(2);
-	assertThat(a.getUncommittedChanges()).hasSize(1);
-	assertThat(a.getNextVersion()).isEqualTo(3);
-	final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
-	assertThat(ev).isSameAs(c.getLastEvent());
+        // VERIFY
+        assertThat(a.getVersion()).isEqualTo(2);
+        assertThat(a.getUncommittedChanges()).hasSize(1);
+        assertThat(a.getNextVersion()).isEqualTo(3);
+        final DomainEvent<?> ev = a.getUncommittedChanges().get(0);
+        assertThat(ev).isSameAs(c.getLastEvent());
 
     }
 
     @Test
     public void testMultipleEvent() throws DuplicateEntityException, EntityNotFoundException {
 
-	// PREPARE
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot(aid);
-	final BId bid = new BId(2);
-	a.addB(bid);
-	a.markChangesAsCommitted();
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
+        final BId bid = new BId(2);
+        a.addB(bid);
+        a.markChangesAsCommitted();
 
-	// TEST
-	final CId cid = new CId(3);
-	a.addC(bid, cid);
-	a.doItC(bid, cid);
+        // TEST
+        final CId cid = new CId(3);
+        a.addC(bid, cid);
+        a.doItC(bid, cid);
 
-	// VERIFY
-	assertThat(a.getVersion()).isEqualTo(1);
-	assertThat(a.getUncommittedChanges()).hasSize(2);
-	assertThat(a.getNextVersion()).isEqualTo(3);
-	final DomainEvent<?> evB = a.getUncommittedChanges().get(0);
-	assertThat(evB).isSameAs(a.getFirstChild().getLastEvent());
-	final DomainEvent<?> evC = a.getUncommittedChanges().get(1);
-	assertThat(evC).isSameAs(
-		a.getFirstChild().getFirstChild().getLastEvent());
+        // VERIFY
+        assertThat(a.getVersion()).isEqualTo(1);
+        assertThat(a.getUncommittedChanges()).hasSize(2);
+        assertThat(a.getNextVersion()).isEqualTo(3);
+        final DomainEvent<?> evB = a.getUncommittedChanges().get(0);
+        assertThat(evB).isSameAs(a.getFirstChild().getLastEvent());
+        final DomainEvent<?> evC = a.getUncommittedChanges().get(1);
+        assertThat(evC).isSameAs(a.getFirstChild().getFirstChild().getLastEvent());
 
     }
 

@@ -30,7 +30,7 @@ import org.fuin.ddd4j.ddd.EntityNotFoundException;
 import org.fuin.ddd4j.ddd.EntityType;
 
 // CHECKSTYLE:OFF
-public class ARoot extends AbstractAggregateRoot<AId> {
+public final class ARoot extends AbstractAggregateRoot<AId> {
 
     private AId id;
 

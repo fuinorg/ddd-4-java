@@ -30,7 +30,7 @@ import org.fuin.ddd4j.ddd.EntityNotFoundException;
 import org.fuin.ddd4j.ddd.EntityType;
 
 // CHECKSTYLE:OFF
-public class BEntity extends AbstractEntity<AId, ARoot, BId> {
+public final class BEntity extends AbstractEntity<AId, ARoot, BId> {
 
     private final BId id;
 

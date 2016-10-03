@@ -22,7 +22,7 @@ import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.ApplyEvent;
 
 // CHECKSTYLE:OFF
-public class CEntity extends AbstractEntity<AId, ARoot, CId> {
+public final class CEntity extends AbstractEntity<AId, ARoot, CId> {
 
     private final BId parentId;
 

@@ -49,7 +49,6 @@ public class EntityIdPathTest {
 
     }
 
-    
     @Test
     public void testConstructorList() {
 
@@ -67,7 +66,7 @@ public class EntityIdPathTest {
         assertThat(firstId).isEqualTo(aid);
 
     }
-    
+
     @Test
     public void testConstructorArrayNull() {
 
@@ -141,7 +140,7 @@ public class EntityIdPathTest {
         }
 
     }
-    
+
     @Test
     public void testIterator() {
 
@@ -157,14 +156,14 @@ public class EntityIdPathTest {
 
         // TEST
         final Iterator<EntityId> it = testee.iterator();
-        
+
         // VERIFY
         assertThat(it.next()).isEqualTo(aid);
         assertThat(it.next()).isEqualTo(bid);
         assertThat(it.next()).isEqualTo(cid);
-        
+
     }
-    
+
     @Test
     public void testFirstLast() {
 
@@ -179,12 +178,19 @@ public class EntityIdPathTest {
         final EntityIdPath testee = new EntityIdPath(list);
 
         // TEST & VERIFY
-        assertThat((EntityId)testee.first()).isEqualTo(aid);
-        assertThat((EntityId)testee.last()).isEqualTo(cid);
-        
+        assertThat((EntityId) testee.first()).isEqualTo(aid);
+        assertThat((EntityId) testee.last()).isEqualTo(cid);
+
     }
-    
-    
+
+    @Test
+    public void testRestWithSizeOne() {
+
+        final EntityIdPath testee = new EntityIdPath(new AId(1L));
+        assertThat(testee.rest()).isNull();
+
+    }
+
     @Test
     public void testRestAndSize() {
 
@@ -198,28 +204,27 @@ public class EntityIdPathTest {
         list.add(cid);
         final EntityIdPath testee = new EntityIdPath(list);
         assertThat(testee.size()).isEqualTo(3);
-        assertThat((EntityId)testee.first()).isEqualTo(aid);
-        assertThat((EntityId)testee.last()).isEqualTo(cid);
+        assertThat((EntityId) testee.first()).isEqualTo(aid);
+        assertThat((EntityId) testee.last()).isEqualTo(cid);
 
         // TEST
         final EntityIdPath two = testee.rest();
-        
+
         // VERIFY
         assertThat(two.size()).isEqualTo(2);
-        assertThat((EntityId)two.first()).isEqualTo(bid);
-        assertThat((EntityId)two.last()).isEqualTo(cid);
+        assertThat((EntityId) two.first()).isEqualTo(bid);
+        assertThat((EntityId) two.last()).isEqualTo(cid);
 
         // TEST
         final EntityIdPath one = two.rest();
-        
+
         // VERIFY
         assertThat(one.size()).isEqualTo(1);
-        assertThat((EntityId)one.first()).isEqualTo(cid);
-        assertThat((EntityId)one.last()).isEqualTo(cid);
-        
+        assertThat((EntityId) one.first()).isEqualTo(cid);
+        assertThat((EntityId) one.last()).isEqualTo(cid);
+
     }
 
-    
     @Test
     public void testAsString() {
 
@@ -232,16 +237,14 @@ public class EntityIdPathTest {
         list.add(bid);
         list.add(cid);
         final EntityIdPath testee = new EntityIdPath(list);
-        
+
         // TEST
         final String result = testee.asString();
-        
+
         // VERIFY
         assertThat(result).isEqualTo("A 1/B 2/C 3");
-        
+
     }
-    
-    
 
 }
 // CHECKSTYLE:ON

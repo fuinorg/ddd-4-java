@@ -80,6 +80,11 @@ public final class PersonId extends AbstractIntegerValueObject implements
         return "" + value;
     }
 
+    @Override
+    public final String toString() {
+        return asString();
+    }
+    
     /**
      * Returns the information if a given string is a valid person identifier.
      * 

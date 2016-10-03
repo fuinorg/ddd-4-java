@@ -17,7 +17,11 @@
  */
 package org.fuin.ddd4j.esrepo;
 
+import java.util.List;
+
+import org.fuin.ddd4j.ddd.DomainEvent;
 import org.fuin.ddd4j.ddd.EntityType;
+import org.fuin.ddd4j.test.PersonCreatedEvent;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.esc.api.EventStore;
@@ -25,8 +29,7 @@ import org.fuin.esc.api.EventStore;
 /**
  * Implements a repository that is capable of storing vendors.
  */
-public final class VendorRepository extends
-        EventStoreRepository<VendorId, Vendor> {
+public final class VendorRepository extends EventStoreRepository<VendorId, Vendor> {
 
     /**
      * Constructor all mandatory data.
@@ -56,6 +59,24 @@ public final class VendorRepository extends
     @Override
     protected final String getIdParamName() {
         return "vendorId";
+    }
+
+    @Override
+    protected final boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges,
+            final List<DomainEvent<?>> unseenEvents) {
+
+        // Example code allows all "PersonCreatedEvent"s in parallel
+        for (final DomainEvent<?> uncommitedEvent : uncommittedChanges) {
+            for (final DomainEvent<?> unseenEvent : unseenEvents) {
+                if (!((uncommitedEvent instanceof PersonCreatedEvent)
+                        && (unseenEvent instanceof PersonCreatedEvent))) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+
     }
 
 }

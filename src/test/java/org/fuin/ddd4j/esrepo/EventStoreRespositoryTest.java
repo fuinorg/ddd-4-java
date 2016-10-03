@@ -18,10 +18,13 @@
 package org.fuin.ddd4j.esrepo;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.concurrent.Executors;
 
+import org.fuin.ddd4j.ddd.AggregateNotFoundException;
 import org.fuin.ddd4j.test.DuplicateVendorKeyException;
+import org.fuin.ddd4j.test.PersonName;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.ddd4j.test.VendorKey;
@@ -39,28 +42,164 @@ public class EventStoreRespositoryTest {
 
         // PREPARE
         final EventStore eventStore = new InMemoryEventStore(Executors.newCachedThreadPool());
+        eventStore.open();
+        try {
 
-        final VendorRepository repo = new VendorRepository(eventStore);
-
-        final VendorId vendorId = new VendorId();
-        final VendorKey vendorKey = new VendorKey("V00001");
-        final VendorName vendorName = new VendorName("Hazards International Inc.");
-        final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName, new Vendor.ConstructorService() {
-            @Override
-            public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException {
-                // Do nothing
-            }
-        });
-
-        // TEST
-        repo.update(vendor);
-
-        // VERIFY
-        final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
-        final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 1);
-        assertThat(slice.getEvents()).hasSize(1);
-
+            final VendorRepository repo = new VendorRepository(eventStore);        
+    
+            final VendorId vendorId = new VendorId();
+            final VendorKey vendorKey = new VendorKey("V00001");
+            final VendorName vendorName = new VendorName("Hazards International Inc.");
+            Vendor vendor = new Vendor(vendorId, vendorKey, vendorName, new Vendor.ConstructorService() {
+                @Override
+                public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException {
+                    // Do nothing
+                }
+            });
+    
+            // TEST
+            repo.update(vendor);
+    
+            // VERIFY
+            final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 100);
+            assertThat(slice.getEvents()).hasSize(1);
+            vendor = repo.read(vendorId, vendor.getVersion());
+            assertThat(vendor.getVersion()).isEqualTo(0);
+            vendor = repo.read(vendorId);
+            assertThat(vendor.getVersion()).isEqualTo(0);
+            
+        } finally {
+            eventStore.close();
+        }
+        
     }
 
+    @Test
+    public void testUpdateAggregate() throws Exception {
+
+        // PREPARE
+        final EventStore eventStore = new InMemoryEventStore(Executors.newCachedThreadPool());
+        eventStore.open();
+        try {
+
+            final VendorRepository repo = new VendorRepository(eventStore);        
+    
+            final VendorId vendorId = new VendorId();
+            final VendorKey vendorKey = new VendorKey("V00001");
+            final VendorName vendorName = new VendorName("Hazards International Inc.");
+            Vendor vendor = new Vendor(vendorId, vendorKey, vendorName, new Vendor.ConstructorService() {
+                @Override
+                public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException {
+                    // Do nothing
+                }
+            });
+            repo.update(vendor);
+
+            // TEST            
+            vendor.addPerson(new PersonName("Peter Parker"));
+            repo.update(vendor);
+            
+            // VERIFY
+            final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 100);
+            assertThat(slice.getEvents()).hasSize(2);
+            vendor = repo.read(vendorId, vendor.getVersion());
+            assertThat(vendor.getVersion()).isEqualTo(1);
+            vendor = repo.read(vendorId);
+            assertThat(vendor.getVersion()).isEqualTo(1);
+            
+            
+        } finally {
+            eventStore.close();
+        }
+        
+    }
+
+    @Test
+    public void testDeleteAggregate() throws Exception {
+
+        // PREPARE
+        final EventStore eventStore = new InMemoryEventStore(Executors.newCachedThreadPool());
+        eventStore.open();
+        try {
+
+            final VendorRepository repo = new VendorRepository(eventStore);        
+    
+            final VendorId vendorId = new VendorId();
+            final VendorKey vendorKey = new VendorKey("V00001");
+            final VendorName vendorName = new VendorName("Hazards International Inc.");
+            Vendor vendor = new Vendor(vendorId, vendorKey, vendorName, new Vendor.ConstructorService() {
+                @Override
+                public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException {
+                    // Do nothing
+                }
+            });
+            repo.update(vendor);
+
+            // TEST            
+            repo.delete(vendorId, vendor.getVersion());
+            
+            // VERIFY
+            final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            assertThat(eventStore.streamExists(streamId)).isFalse();
+            try {
+                repo.read(vendorId);
+                fail();
+            } catch (final AggregateNotFoundException ex) {
+                // OK
+            }
+        } finally {
+            eventStore.close();
+        }
+        
+    }
+    
+    
+    @Test
+    public void testConflictsResolved() throws Exception {
+
+        // PREPARE
+        final EventStore eventStore = new InMemoryEventStore(Executors.newCachedThreadPool());
+        eventStore.open();
+        try {
+
+            final VendorRepository repo = new VendorRepository(eventStore);        
+    
+            // Create version 0 of the vendor
+            final VendorId vendorId = new VendorId();
+            final VendorKey vendorKey = new VendorKey("V00001");
+            final VendorName vendorName = new VendorName("Hazards International Inc.");
+            final Vendor vendor = new Vendor(vendorId, vendorKey, vendorName, new Vendor.ConstructorService() {
+                @Override
+                public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException {
+                    // Do nothing
+                }
+            });
+            repo.update(vendor);
+
+            // TEST
+            
+            // The first user adds a person and stores the result it in the repository
+            final Vendor vendor1 = repo.read(vendorId, 0);
+            vendor1.addPerson(new PersonName("Peter Parker"));
+            vendor1.addPerson(new PersonName("Mary Jane Watson"));
+            repo.update(vendor1);
+            assertThat(repo.read(vendorId).getVersion()).isEqualTo(2);
+            
+            // The second user also adds a person and stores the result in the repository
+            final Vendor vendor2 = repo.read(vendorId, 0);
+            vendor2.addPerson(new PersonName("Harry Osborn"));
+            repo.update(vendor2);
+            
+            // VERIFY
+            
+            
+        } finally {
+            eventStore.close();
+        }
+        
+    }
+    
 }
 // CHECKSTYLE:ON

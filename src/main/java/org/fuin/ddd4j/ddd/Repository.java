@@ -115,8 +115,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             The aggregate with the given identifier was already deleted.
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
-     */
-    @NotNull
+     */    
     public void update(@NotNull T aggregate, @Nullable String metaType, @Nullable Object metaData)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException;
 
@@ -133,8 +132,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             The aggregate with the given identifier was already deleted.
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
-     */
-    @NotNull
+     */    
     public void update(@NotNull T aggregate) throws AggregateVersionConflictException,
             AggregateNotFoundException, AggregateDeletedException;
 

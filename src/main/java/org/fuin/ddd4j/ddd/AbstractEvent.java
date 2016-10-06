@@ -24,6 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Nullable;
+import org.fuin.objects4j.ui.Label;
+import org.fuin.objects4j.ui.Prompt;
+import org.fuin.objects4j.ui.ShortLabel;
+import org.fuin.objects4j.ui.Tooltip;
 
 import com.migesok.jaxb.adapter.javatime.ZonedDateTimeXmlAdapter;
 
@@ -38,14 +42,24 @@ public abstract class AbstractEvent implements Event {
     @XmlElement(name = "event-id")
     private EventId eventId;
 
+    @Label("Timestamp")
+    @ShortLabel("Time")
+    @Tooltip("Date/Time the event was created")
+    @Prompt("2016-12-31T23:59:59+02:00")
     @XmlJavaTypeAdapter(ZonedDateTimeXmlAdapter.class)
     @XmlElement(name = "event-timestamp")
     private ZonedDateTime timestamp;
 
+    @Label("Correlation Identifier")
+    @ShortLabel("CorrID")
+    @Tooltip("Event this one correlates to")
     @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "correlation-id")
     private EventId correlationId;
 
+    @Label("Causation Identifier")
+    @ShortLabel("CauseID")
+    @Tooltip("Event that caused this one")
     @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "causation-id")
     private EventId causationId;

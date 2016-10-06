@@ -27,14 +27,23 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.vo.ValueObjectWithBaseType;
+import org.fuin.objects4j.ui.Label;
+import org.fuin.objects4j.ui.Prompt;
+import org.fuin.objects4j.ui.ShortLabel;
+import org.fuin.objects4j.ui.Tooltip;
+import org.fuin.objects4j.vo.AbstractStringValueObject;
 
 /**
  * An ordered list of entity identifiers. An aggregate root will be the first
  * entry if it's contained in the list.
  */
+@Label("Entity identifier path")
+@ShortLabel("EntityIdPath")
+@Tooltip("An ordered list of entity identifiers that is separated by '/'. "
+        + "An aggregate root will be the first entry if it's contained in the list.")
+@Prompt("Customer deb2317d-5b3a-4d56-a9df-689f4c4ff982/Person 123")
 @XmlJavaTypeAdapter(EntityIdPathConverter.class)
-public final class EntityIdPath implements ValueObjectWithBaseType<String>, Serializable {
+public final class EntityIdPath extends AbstractStringValueObject implements Serializable {
 
     private static final long serialVersionUID = 1000L;
 
@@ -147,12 +156,8 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
         return entityIds.size();
     }
 
-    /**
-     * Returns the path as string.
-     * 
-     * @return Path.
-     */
-    public final String asString() {
+    @Override
+    public final String asBaseType() {
         final StringBuilder sb = new StringBuilder();
         for (final EntityId entityId : entityIds) {
             if (sb.length() > 0) {
@@ -161,36 +166,6 @@ public final class EntityIdPath implements ValueObjectWithBaseType<String>, Seri
             sb.append(entityId.asTypedString());
         }
         return sb.toString();
-    }
-
-    @Override
-    public final String asBaseType() {
-        return asString();
-    }
-
-    @Override
-    public final Class<String> getBaseType() {
-        return String.class;
-    }
-
-    @Override
-    public final int hashCode() {
-        return asBaseType().hashCode();
-    }
-
-    @Override
-    public final boolean equals(final Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final EntityIdPath other = (EntityIdPath) obj;
-        return asBaseType().equals(other.asBaseType());
     }
 
 }

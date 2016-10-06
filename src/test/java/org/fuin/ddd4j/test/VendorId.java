@@ -22,12 +22,12 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.fuin.ddd4j.ddd.AbstractUUIDVO;
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
+import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Immutable;
-import org.fuin.objects4j.vo.UUIDStrValidator;
+import org.fuin.objects4j.vo.AbstractUuidValueObject;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
 /**
@@ -35,20 +35,22 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  */
 @Immutable
 @XmlJavaTypeAdapter(VendorIdConverter.class)
-public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
-        ValueObjectWithBaseType<String> {
+public final class VendorId extends AbstractUuidValueObject
+        implements AggregateRootId, ValueObjectWithBaseType<UUID> {
 
     private static final long serialVersionUID = 1000L;
 
     /** Type of entity this identifier represents. */
-    public static final EntityType ENTITY_TYPE = new StringBasedEntityType(
-            "Vendor");
+    public static final EntityType ENTITY_TYPE = new StringBasedEntityType("Vendor");
+
+    private final UUID uuid;
 
     /**
      * Default constructor.
      */
     public VendorId() {
         super();
+        uuid = UUID.randomUUID();
     }
 
     /**
@@ -58,17 +60,14 @@ public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
      *            UUID.
      */
     public VendorId(@NotNull final UUID uuid) {
-        super(uuid);
+        super();
+        Contract.requireArgNotNull("uuid", uuid);
+        this.uuid = uuid;
     }
 
     @Override
-    public final Class<String> getBaseType() {
-        return String.class;
-    }
-
-    @Override
-    public final String asBaseType() {
-        return asString();
+    public final UUID asBaseType() {
+        return uuid;
     }
 
     @Override
@@ -81,33 +80,9 @@ public final class VendorId extends AbstractUUIDVO implements AggregateRootId,
         return getType() + " " + asString();
     }
 
-    /**
-     * Returns the information if a given string is a valid vendor identifier.
-     * 
-     * @param value
-     *            Value to check. A <code>null</code> value returns
-     *            <code>true</code>.
-     * 
-     * @return TRUE if it's a valid ID, else FALSE.
-     */
-    public static boolean isValid(final String value) {
-        return UUIDStrValidator.isValid(value);
-    }
-
-    /**
-     * Parses a vendor identifier.
-     * 
-     * @param value
-     *            Value to convert. A <code>null</code> value returns
-     *            <code>null</code>.
-     * 
-     * @return Converted value.
-     */
-    public static VendorId valueOf(final String value) {
-        if (value == null) {
-            return null;
-        }
-        return new VendorId(UUID.fromString(value));
+    @Override
+    public final String asString() {
+        return uuid.toString();
     }
 
 }

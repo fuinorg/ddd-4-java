@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.test;
 
+import java.util.UUID;
+
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
@@ -28,9 +30,8 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  */
 @ThreadSafe
 @Converter(autoApply = true)
-public final class VendorIdConverter extends
-        AbstractValueObjectConverter<String, VendorId> implements
-        AttributeConverter<VendorId, String> {
+public final class VendorIdConverter extends AbstractValueObjectConverter<UUID, VendorId>
+        implements AttributeConverter<VendorId, UUID> {
 
     @Override
     public Class<VendorId> getValueObjectClass() {
@@ -38,26 +39,26 @@ public final class VendorIdConverter extends
     }
 
     @Override
-    public final VendorId toVO(final String value) {
-        return VendorId.valueOf(value);
+    public final VendorId toVO(final UUID value) {
+        return new VendorId(value);
     }
 
     @Override
-    public Class<String> getBaseTypeClass() {
-        return String.class;
+    public Class<UUID> getBaseTypeClass() {
+        return UUID.class;
     }
 
     @Override
-    public final boolean isValid(final String value) {
-        return VendorId.isValid(value);
+    public final boolean isValid(final UUID value) {
+        return true;
     }
 
     @Override
-    public final String fromVO(final VendorId value) {
+    public final UUID fromVO(final VendorId value) {
         if (value == null) {
             return null;
         }
-        return value.toString();
+        return value.asBaseType();
     }
 
 }

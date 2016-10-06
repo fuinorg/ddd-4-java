@@ -194,7 +194,7 @@ public class AbstractDomainEventTest {
                 return new AId(Long.valueOf(id));
             }
             if (type.equals("Vendor")) {
-                return VendorId.valueOf(id);
+                return new VendorId(UUID.fromString(id));
             }
             throw new IllegalArgumentException("Unknown type: '" + type + "'");
         }

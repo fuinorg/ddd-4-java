@@ -22,22 +22,35 @@ import java.util.UUID;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.fuin.objects4j.vo.ValueObjectWithBaseType;
+import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.Immutable;
+import org.fuin.objects4j.ui.Label;
+import org.fuin.objects4j.ui.Prompt;
+import org.fuin.objects4j.ui.ShortLabel;
+import org.fuin.objects4j.ui.Tooltip;
+import org.fuin.objects4j.vo.AbstractUuidValueObject;
 
 /**
  * Universal unique event identifier.
  */
+@Immutable
+@Label("Event Identifier")
+@ShortLabel("EventID")
+@Tooltip("Identifies an event universally unique")
+@Prompt("bb05f34d-4eac-4f6a-b3c2-5c89269720f3")
 @XmlJavaTypeAdapter(EventIdConverter.class)
-public class EventId extends AbstractUUIDVO implements
-        ValueObjectWithBaseType<String>, TechnicalId {
+public class EventId extends AbstractUuidValueObject implements TechnicalId {
 
     private static final long serialVersionUID = 1000L;
+
+    private final UUID uuid;
 
     /**
      * Default constructor.
      */
     public EventId() {
         super();
+        uuid = UUID.randomUUID();
     }
 
     /**
@@ -47,17 +60,14 @@ public class EventId extends AbstractUUIDVO implements
      *            UUID.
      */
     public EventId(@NotNull final UUID uuid) {
-        super(uuid);
+        super();
+        Contract.requireArgNotNull("uuid", uuid);
+        this.uuid = uuid;
     }
 
     @Override
-    public final String asBaseType() {
-        return asString();
-    }
-
-    @Override
-    public final Class<String> getBaseType() {
-        return String.class;
+    public final UUID asBaseType() {
+        return uuid;
     }
 
 }

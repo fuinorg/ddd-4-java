@@ -70,4 +70,9 @@ public class EventId extends AbstractUuidValueObject implements TechnicalId {
         return uuid;
     }
 
+    @Override
+    public final String toString() {
+        return uuid.toString();
+    }
+    
 }

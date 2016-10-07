@@ -85,4 +85,9 @@ public final class VendorId extends AbstractUuidValueObject
         return uuid.toString();
     }
 
+    @Override
+    public final String toString() {
+        return uuid.toString();
+    }
+
 }

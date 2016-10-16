@@ -268,11 +268,11 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
      */
-    private int resolveConflicts(final AGGREGATE aggregate, final int actualVersion, final int retryCount)
+    private int resolveConflicts(final AGGREGATE aggregate, final Integer actualVersion, final int retryCount)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException {
 
         final int latestVersion;
-        if (actualVersion < 0) {
+        if (actualVersion == null || actualVersion < 0) {
             // TODO Remove workaround if event store returns latest version.
             // See https://github.com/EventStore/EventStore/issues/1052
             latestVersion = read(aggregate.getId()).getVersion();

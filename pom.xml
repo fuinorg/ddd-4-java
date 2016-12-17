@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>ddd-4-java</artifactId>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<packaging>bundle</packaging>
 	<name>Domain Driven Design for Java</name>
 	<description>Base classes for Domain Driven Design (DDD) with Java</description>
@@ -34,13 +34,13 @@
 		<dependency>
 			<groupId>org.fuin.esc</groupId>
 			<artifactId>esc-api</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
+			<version>0.2.0</version>
 		</dependency>
 
 		<dependency>
 			<groupId>org.fuin</groupId>
 			<artifactId>objects4j</artifactId>
-			<version>0.6.4-SNAPSHOT</version>
+			<version>0.6.4</version>
 		</dependency>
 
 		<dependency>
@@ -82,7 +82,7 @@
 		<dependency>
 			<groupId>org.fuin.esc</groupId>
 			<artifactId>esc-mem</artifactId>
-			<version>0.2.0-SNAPSHOT</version>
+			<version>0.2.0</version>
 			<scope>test</scope>
 		</dependency>
 

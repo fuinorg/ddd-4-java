@@ -40,3 +40,4 @@ Add the following to your [.m2/settings.xml](http://maven.apache.org/ref/3.2.1/m
     </snapshots>
 </repository>
 ```
+

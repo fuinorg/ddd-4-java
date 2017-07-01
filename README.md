@@ -4,7 +4,7 @@ ddd-4-java
 Domain Driven Design for Java
 -----------------------------
 
-Base classes for Domain Driven Design (DDD) with Java
+Base classes for Domain Driven Design (DDD) with Java.
 
 [![Build Status](https://fuin-org.ci.cloudbees.com/job/ddd-4-java/badge/icon)](https://fuin-org.ci.cloudbees.com/job/ddd-4-java/)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.fuin/ddd-4-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.fuin/ddd-4-java/)
@@ -19,7 +19,7 @@ You can find the [documentation](https://michael-schnell.gitbooks.io/ddd-4-java/
 
 Presentation
 ------------
-http://de.slideshare.net/michael-schnell/ddd-4java/
+http://de.slideshare.net/michael-schnell/ddd-4java/ (Rather old - The git book above is a bit more up-to-date)
 
 ###Snapshots
 

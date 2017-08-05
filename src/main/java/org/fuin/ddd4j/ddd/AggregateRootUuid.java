@@ -33,16 +33,18 @@ import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
 /**
  * UUID based aggregate root identifier.
  */
-public abstract class AggregateRootUuid implements AggregateRootId, Comparable<AggregateRootUuid> {
+public abstract class AggregateRootUuid implements AggregateRootId,
+        Comparable<AggregateRootUuid>, ValueObjectWithBaseType<UUID> {
 
     private static final long serialVersionUID = 1000L;
 
-    private static final Pattern PATTERN = Pattern
-            .compile("\\{?\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}\\}?");
+    private static final Pattern PATTERN = Pattern.compile(
+            "\\{?\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}\\}?");
 
     private final EntityType entityType;
 
@@ -66,7 +68,8 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
      * @param uuid
      *            UUID.
      */
-    public AggregateRootUuid(@NotNull final EntityType entityType, @NotNull final UUID uuid) {
+    public AggregateRootUuid(@NotNull final EntityType entityType,
+            @NotNull final UUID uuid) {
         super();
         Contract.requireArgNotNull("entityType", entityType);
         Contract.requireArgNotNull("uuid", uuid);
@@ -103,7 +106,8 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
 
     @Override
     public final int compareTo(final AggregateRootUuid other) {
-        final int c = entityType.asString().compareTo(other.entityType.asString());
+        final int c = entityType.asString()
+                .compareTo(other.entityType.asString());
         if (c != 0) {
             return c;
         }
@@ -130,12 +134,23 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
         return entityType;
     }
 
+    @Override
+    public final Class<UUID> getBaseType() {
+        return UUID.class;
+    }
+    
+    @Override
+    public final UUID asBaseType() {
+        return uuid;
+    }
+    
     // CHECKSTYLE:OFF
 
     /**
      * Ensures that the string can be converted into the type.
      */
-    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
+    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
+            ElementType.ANNOTATION_TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = { Validator.class })
     @Documented
@@ -152,7 +167,8 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
     /**
      * Validates if a string is compliant with the type.
      */
-    public static final class Validator implements ConstraintValidator<AggregateRootUuidStr, String> {
+    public static final class Validator
+            implements ConstraintValidator<AggregateRootUuidStr, String> {
 
         @Override
         public final void initialize(final AggregateRootUuidStr annotation) {
@@ -160,7 +176,8 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
         }
 
         @Override
-        public final boolean isValid(final String value, final ConstraintValidatorContext context) {
+        public final boolean isValid(final String value,
+                final ConstraintValidatorContext context) {
             return AggregateRootUuid.isValid(value);
         }
 
@@ -197,12 +214,12 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name, @NotNull final String value)
-            throws ConstraintViolationException {
+    public static void requireArgValid(@NotNull final String name,
+            @NotNull final String value) throws ConstraintViolationException {
 
         if (!isValid(value)) {
-            throw new ConstraintViolationException(
-                    "The argument '" + name + "' is not valid: '" + value + "'");
+            throw new ConstraintViolationException("The argument '" + name
+                    + "' is not valid: '" + value + "'");
         }
 
     }

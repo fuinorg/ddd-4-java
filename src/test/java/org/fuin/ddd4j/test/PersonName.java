@@ -20,7 +20,7 @@ package org.fuin.ddd4j.test;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 

@@ -19,7 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import javax.validation.constraints.NotNull;
 
-import org.fuin.objects4j.common.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Repository that supports CRUD operations for an aggregate.

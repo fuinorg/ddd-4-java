@@ -20,7 +20,7 @@ package org.fuin.ddd4j.test;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.fuin.objects4j.common.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**

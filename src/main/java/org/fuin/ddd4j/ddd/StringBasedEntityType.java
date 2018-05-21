@@ -20,8 +20,8 @@ package org.fuin.ddd4j.ddd;
 import javax.validation.constraints.Size;
 
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.Immutable;
-import org.fuin.objects4j.common.NotEmpty;
+import javax.annotation.concurrent.Immutable;
+import javax.validation.constraints.NotEmpty;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
 
 /**

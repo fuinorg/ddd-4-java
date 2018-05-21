@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.ddd4j.ddd.BusinessKey;
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;

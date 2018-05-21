@@ -22,7 +22,7 @@ import java.time.ZonedDateTime;
 
 import javax.validation.constraints.NotNull;
 
-import org.fuin.objects4j.common.Nullable;
+import javax.annotation.Nullable;
 
 /**
  * Something that happened in the system.

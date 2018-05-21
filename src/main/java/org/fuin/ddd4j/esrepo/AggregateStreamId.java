@@ -24,7 +24,7 @@ import java.util.List;
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.esc.api.StreamId;
-import org.fuin.objects4j.common.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.vo.KeyValue;
 
 /**

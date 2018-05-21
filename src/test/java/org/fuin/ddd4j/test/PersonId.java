@@ -23,7 +23,7 @@ import org.fuin.ddd4j.ddd.EntityId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.Immutable;
+import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.vo.AbstractIntegerValueObject;
 
 /**

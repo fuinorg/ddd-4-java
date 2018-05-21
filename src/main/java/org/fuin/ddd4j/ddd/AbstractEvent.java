@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.fuin.objects4j.common.Nullable;
+import javax.annotation.Nullable;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;

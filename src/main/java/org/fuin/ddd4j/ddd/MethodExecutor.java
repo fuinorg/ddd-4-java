@@ -25,7 +25,7 @@ import java.util.Arrays;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.ThreadSafe;
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Lightweight utility class to execute a method using reflection.

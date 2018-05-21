@@ -26,6 +26,10 @@
 		<system>GitHub Issues</system>
 		<url>https://github.com/fuinorg/ddd-4-java/issues</url>
 	</issueManagement>
+	
+	<properties>
+		<esc.version>0.3.1-SNAPSHOT</esc.version>
+	</properties>
 
 	<dependencies>
 
@@ -34,7 +38,7 @@
 		<dependency>
 			<groupId>org.fuin.esc</groupId>
 			<artifactId>esc-api</artifactId>
-			<version>0.3.1-SNAPSHOT</version>
+			<version>${esc.version}</version>
 		</dependency>
 
 		<dependency>
@@ -82,7 +86,7 @@
 		<dependency>
 			<groupId>org.fuin.esc</groupId>
 			<artifactId>esc-mem</artifactId>
-			<version>0.2.0</version>
+			<version>${esc.version}</version>
 			<scope>test</scope>
 		</dependency>
 

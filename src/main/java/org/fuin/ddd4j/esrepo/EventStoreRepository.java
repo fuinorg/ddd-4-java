@@ -57,6 +57,9 @@ import org.slf4j.LoggerFactory;
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
         implements Repository<ID, AGGREGATE> {
 
+    private static final String MAX_AGGREGATE_VERSION_EXCEEDED = "Exceeded maximum number of aggregate versions." 
+        + " The Event Store operates with 'long' versions but aggregates only can handle 'int' versions.";
+
     private static final Logger LOG = LoggerFactory.getLogger(EventStoreRepository.class);
 
     private final EventStore eventStore;
@@ -174,7 +177,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 aggregate.loadFromHistory(event);
             }
 
-            sliceStart = currentSlice.getNextEventNumber();
+            sliceStart = intVersion(currentSlice.getNextEventNumber());
 
         } while ((aggregate.getVersion() != targetAggregateVersion) && !currentSlice.isEndOfStream());
 
@@ -216,13 +219,13 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         final List<DomainEvent<?>> events = aggregate.getUncommittedChanges();
         final List<CommonEvent> eventDataList = asCommonEvents(events, metaType, metaData);
 
-        int expectedVersion = expectedVersion(aggregate);
+        long expectedVersion = expectedVersion(aggregate);
         int retryCount = 0;
         boolean unsaved = true;
         do {
             try {
-                final int eventStoreNextVersion = getEventStore().appendToStream(streamId, expectedVersion,
-                        eventDataList);
+                final int eventStoreNextVersion = intVersion(getEventStore().appendToStream(streamId, expectedVersion,
+                        eventDataList));
                 if ((expectedVersion + eventDataList.size()) != eventStoreNextVersion) {
                     throw new IllegalStateException("Aggregate next version is " + aggregate.getNextVersion()
                             + " but event store's is " + eventStoreNextVersion);
@@ -232,7 +235,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             } catch (final WrongExpectedVersionException ex) {
                 LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount=",
                         aggregate.getId().asTypedString(), ex.getExpected(), ex.getActual(), retryCount);
-                expectedVersion = resolveConflicts(aggregate, ex.getActual(), retryCount++);
+                expectedVersion = resolveConflicts(aggregate, integerVersion(ex.getActual()), retryCount++);
             } catch (final StreamDeletedException | StreamNotFoundException ex) {
                 throw new AggregateNotFoundException(getAggregateType(), aggregate.getId());
             }
@@ -243,7 +246,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
     private int expectedVersion(final AGGREGATE aggregate) {
         if (aggregate.getVersion() == -1) {
-            return ExpectedVersion.NO_OR_EMPTY_STREAM.getNo();
+            return intVersion(ExpectedVersion.NO_OR_EMPTY_STREAM.getNo());
         }
         return aggregate.getVersion();
     }
@@ -309,8 +312,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                     aggregateId);
             getEventStore().deleteStream(streamId, expectedVersion, false);
         } catch (final WrongExpectedVersionException ex) {
-            throw new AggregateVersionConflictException(getAggregateType(), aggregateId, ex.getExpected(),
-                    ex.getActual());
+            throw new AggregateVersionConflictException(getAggregateType(), aggregateId, integerVersion(ex.getExpected()),
+                    integerVersion(ex.getActual()));
         } catch (final StreamDeletedException ex) {
             LOG.debug("Aggregate {} was already deleted: {}", aggregateId, ex.getMessage());
         }
@@ -361,7 +364,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 list.add(event);
             }
 
-            sliceStart = currentSlice.getNextEventNumber();
+            sliceStart = intVersion(currentSlice.getNextEventNumber());
 
         } while (!currentSlice.isEndOfStream());
 
@@ -389,7 +392,24 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         }
         return list;
     }
+    
+    private int intVersion(final long version) {
+	if (version > Integer.MAX_VALUE) {
+	    throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
+	}
+	return (int) version;
+    }
 
+    private Integer integerVersion(final Long version) {
+	if (version == null) {
+	    return null;
+	}
+	if (version > Integer.MAX_VALUE) {
+	    throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
+	}
+	return version.intValue();
+    }
+    
     /**
      * Checks if the uncommitted changes conflicts with unseen changes from the
      * event store and tries to solve the problem. This method may be

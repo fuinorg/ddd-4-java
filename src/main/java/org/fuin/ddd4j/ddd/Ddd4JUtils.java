@@ -17,6 +17,9 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Utility methods and constants.
@@ -27,12 +30,12 @@ public final class Ddd4JUtils {
     public static final String SHORT_ID_PREFIX = "DDD4J";
 
     /** Classes used for JAX-B serialization. */
-    public static final Class<?>[] JAXB_CLASSES = new Class<?>[] { 
+    public static final List<Class<?>> JAXB_CLASSES = Collections.unmodifiableList(Arrays.asList( 
             AggregateDeletedException.class,
             AggregateNotFoundException.class,
             AggregateVersionConflictException.class,
             AggregateVersionNotFoundException.class
-    };
+    ));
 
     /**
      * Private by intention.

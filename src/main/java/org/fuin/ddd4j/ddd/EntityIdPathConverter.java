@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.ddd;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -68,7 +69,7 @@ public final class EntityIdPathConverter extends
             return true;
         }
         final List<Entry> entryList = entries(value);
-        if ((entryList == null) || (entryList.size() == 0)) {
+        if (entryList.size() == 0) {
             return false;
         }
         for (final Entry entry : entryList) {
@@ -85,7 +86,7 @@ public final class EntityIdPathConverter extends
             return null;
         }
         final List<Entry> entryList = entries(value);
-        if ((entryList == null) || (entryList.size() == 0)) {
+        if (entryList.size() == 0) {
             throw new IllegalArgumentException("Invalid entity path: '" + value
                     + "'");
         }
@@ -113,7 +114,7 @@ public final class EntityIdPathConverter extends
             final int p = str.indexOf(' ');
             if (p == -1) {
                 // Error
-                return null;
+                return Collections.emptyList();
             }
             final String type = str.substring(0, p);
             final String id = str.substring(p + 1);

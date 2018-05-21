@@ -19,7 +19,6 @@ package org.fuin.ddd4j.ddd;
 
 import javax.validation.constraints.NotNull;
 
-import org.fuin.objects4j.common.NeverNull;
 import org.fuin.objects4j.common.Nullable;
 
 /**

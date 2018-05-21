@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.EntityIdPath;
 import org.fuin.ddd4j.ddd.EventType;
-import org.fuin.objects4j.common.NeverNull;
 
 /**
  * A person entity was created.

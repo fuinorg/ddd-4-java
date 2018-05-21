@@ -22,7 +22,6 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.NeverNull;
 import org.fuin.objects4j.vo.ValueObject;
 
 /**

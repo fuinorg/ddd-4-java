@@ -11,7 +11,7 @@
 	</parent>
 
 	<artifactId>ddd-4-java</artifactId>
-	<version>0.2.0</version>
+	<version>0.2.1-SNAPSHOT</version>
 	<packaging>bundle</packaging>
 	<description>Base classes for Domain Driven Design (DDD) with Java</description>
 

@@ -18,8 +18,8 @@
 package org.fuin.ddd4j.test;
 
 import org.fuin.ddd4j.ddd.AbstractEntity;
-import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.ApplyEvent;
+import org.fuin.ddd4j.ddd.EntityType;
 
 // CHECKSTYLE:OFF
 public final class CEntity extends AbstractEntity<AId, ARoot, CId> {

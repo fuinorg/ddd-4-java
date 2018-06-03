@@ -33,8 +33,7 @@ import org.fuin.objects4j.common.ExceptionShortIdentifable;
  */
 @XmlRootElement(name = "entity-not-found-exception")
 @XmlAccessorType(XmlAccessType.NONE)
-public final class EntityNotFoundException extends AbstractJaxbMarshallableException
-        implements ExceptionShortIdentifable {
+public final class EntityNotFoundException extends AbstractJaxbMarshallableException implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,8 +61,7 @@ public final class EntityNotFoundException extends AbstractJaxbMarshallableExcep
      * @param entityId
      *            Unique identifier of the entity that was not found.
      */
-    public EntityNotFoundException(@NotNull final EntityIdPath parentIdPath, 
-            @NotNull final EntityId entityId) {
+    public EntityNotFoundException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
         super(entityId.asTypedString() + " not found in " + parentIdPath.asString());
 
         this.sid = SHORT_ID_PREFIX + "-ENTITY_NOT_FOUND";

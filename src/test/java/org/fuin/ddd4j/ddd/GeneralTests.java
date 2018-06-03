@@ -37,8 +37,7 @@ public class GeneralTests {
     @Test
     public final void testAssertDependencies() {
         final File classesDir = new File("target/classes");
-        AssertDependencies.assertRules(this.getClass(),
-                "/ddd4j-dependencies.xml", classesDir);
+        AssertDependencies.assertRules(this.getClass(), "/ddd4j-dependencies.xml", classesDir);
     }
 
 }

@@ -19,10 +19,10 @@ package org.fuin.ddd4j.test;
 
 import java.util.UUID;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
@@ -30,8 +30,7 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  */
 @ThreadSafe
 @Converter(autoApply = true)
-public final class VendorIdConverter extends AbstractValueObjectConverter<UUID, VendorId>
-        implements AttributeConverter<VendorId, UUID> {
+public final class VendorIdConverter extends AbstractValueObjectConverter<UUID, VendorId> implements AttributeConverter<VendorId, UUID> {
 
     @Override
     public Class<VendorId> getValueObjectClass() {

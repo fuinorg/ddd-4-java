@@ -22,10 +22,10 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Lightweight utility class to execute a method using reflection.
@@ -43,31 +43,24 @@ public final class MethodExecutor {
      * @param argumentTypes
      *            Expected argument types, empty array or <code>null</code>.
      * @param arguments
-     *            Arguments, empty array or <code>null</code>. Must be the same
-     *            size as 'argumentTypes'.
+     *            Arguments, empty array or <code>null</code>. Must be the same size as 'argumentTypes'.
      * 
      * @return Value returned by the method or <code>null</code>.
      * 
      * @param <T>
      *            Type of the return value.
      */
-    public final <T> T invokeDeclaredAnnotatedMethod(@NotNull final Object obj,
-            @NotNull final Class<? extends Annotation> annotationType,
+    public final <T> T invokeDeclaredAnnotatedMethod(@NotNull final Object obj, @NotNull final Class<? extends Annotation> annotationType,
             final Class<?>[] argumentTypes, final Object[] arguments) {
 
         Contract.requireArgNotNull("obj", obj);
         Contract.requireArgNotNull("annotationType", annotationType);
         requireValid(argumentTypes, arguments);
 
-        final Method method = findDeclaredAnnotatedMethod(obj, annotationType,
-                argumentTypes);
+        final Method method = findDeclaredAnnotatedMethod(obj, annotationType, argumentTypes);
         if (method == null) {
-            throw new IllegalArgumentException(
-                    "Cannot find a method annotated with '"
-                            + annotationType.getSimpleName()
-                            + "' and arguments '"
-                            + Arrays.asList(argumentTypes) + "' in class '"
-                            + obj.getClass().getName() + "'");
+            throw new IllegalArgumentException("Cannot find a method annotated with '" + annotationType.getSimpleName()
+                    + "' and arguments '" + Arrays.asList(argumentTypes) + "' in class '" + obj.getClass().getName() + "'");
         }
         return invoke(method, obj, arguments);
 
@@ -83,11 +76,9 @@ public final class MethodExecutor {
      * @param expectedArgumentTypes
      *            Expected argument types, empty array or <code>null</code>.
      * 
-     * @return Method or <code>null</code> if any of the expected parameters
-     *         does not match.
+     * @return Method or <code>null</code> if any of the expected parameters does not match.
      */
-    public final Method findDeclaredAnnotatedMethod(@NotNull final Object obj,
-            @NotNull final Class<? extends Annotation> annotationType,
+    public final Method findDeclaredAnnotatedMethod(@NotNull final Object obj, @NotNull final Class<? extends Annotation> annotationType,
             final Class<?>... expectedArgumentTypes) {
 
         Contract.requireArgNotNull("obj", obj);
@@ -122,8 +113,7 @@ public final class MethodExecutor {
      *            Type of the return value.
      */
     @SuppressWarnings("unchecked")
-    public final <T> T invoke(@NotNull final Method method,
-            @NotNull final Object target, final Object... args) {
+    public final <T> T invoke(@NotNull final Method method, @NotNull final Object target, final Object... args) {
 
         Contract.requireArgNotNull("method", method);
         Contract.requireArgNotNull("target", target);
@@ -133,21 +123,16 @@ public final class MethodExecutor {
                 method.setAccessible(true);
             }
             return (T) method.invoke(target, args);
-        } catch (final IllegalAccessException | IllegalArgumentException
-                | InvocationTargetException ex) {
-            throw new RuntimeException(
-                    createInvokeErrMsg(target, method, args), ex);
+        } catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            throw new RuntimeException(createInvokeErrMsg(target, method, args), ex);
         }
     }
 
-    private String createInvokeErrMsg(final Object target, final Method method,
-            final Object... args) {
+    private String createInvokeErrMsg(final Object target, final Method method, final Object... args) {
         if ((args == null) || (args.length == 0)) {
-            return "Failed to call method '" + method + "' on '"
-                    + target.getClass().getSimpleName();
+            return "Failed to call method '" + method + "' on '" + target.getClass().getSimpleName();
         }
-        return "Failed to call method '" + method + "' on '"
-                + target.getClass().getSimpleName() + "' with arguments: "
+        return "Failed to call method '" + method + "' on '" + target.getClass().getSimpleName() + "' with arguments: "
                 + Arrays.asList(args);
     }
 
@@ -182,24 +167,16 @@ public final class MethodExecutor {
         return true;
     }
 
-    private void requireValid(final Class<?>[] argumentTypes,
-            final Object[] arguments) {
+    private void requireValid(final Class<?>[] argumentTypes, final Object[] arguments) {
         if ((argumentTypes == null) && (arguments != null)) {
-            throw new IllegalArgumentException(
-                    "Argument type array is null, but arguments array is not: "
-                            + Arrays.asList(arguments));
+            throw new IllegalArgumentException("Argument type array is null, but arguments array is not: " + Arrays.asList(arguments));
         }
         if ((arguments == null) && (argumentTypes != null)) {
-            throw new IllegalArgumentException(
-                    "Arguments array is null, but argument types array is not: "
-                            + Arrays.asList(argumentTypes));
+            throw new IllegalArgumentException("Arguments array is null, but argument types array is not: " + Arrays.asList(argumentTypes));
         }
-        if ((argumentTypes != null) && (arguments != null)
-                && (argumentTypes.length != arguments.length)) {
-            throw new IllegalArgumentException(
-                    "Types and arguments have different length: Types="
-                            + Arrays.asList(argumentTypes) + ", Args="
-                            + Arrays.asList(arguments));
+        if ((argumentTypes != null) && (arguments != null) && (argumentTypes.length != arguments.length)) {
+            throw new IllegalArgumentException("Types and arguments have different length: Types=" + Arrays.asList(argumentTypes)
+                    + ", Args=" + Arrays.asList(arguments));
         }
     }
 

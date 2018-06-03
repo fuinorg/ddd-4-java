@@ -17,11 +17,11 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import javax.annotation.concurrent.Immutable;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.Immutable;
-import javax.validation.constraints.NotEmpty;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
 
 /**

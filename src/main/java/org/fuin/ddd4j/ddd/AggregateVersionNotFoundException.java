@@ -30,8 +30,7 @@ import org.fuin.objects4j.common.ExceptionShortIdentifable;
  * Signals that the requested version for an aggregate does not exist.
  */
 @XmlRootElement(name = "aggregate-version-not-found-exception")
-public final class AggregateVersionNotFoundException extends AbstractJaxbMarshallableException
-        implements ExceptionShortIdentifable {
+public final class AggregateVersionNotFoundException extends AbstractJaxbMarshallableException implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
@@ -64,10 +63,9 @@ public final class AggregateVersionNotFoundException extends AbstractJaxbMarshal
      * @param version
      *            Requested version.
      */
-    public AggregateVersionNotFoundException(@NotNull final EntityType aggregateType,
-            @NotNull final AggregateRootId aggregateId, final int version) {
-        super("Requested version " + version + " for " + aggregateType.asString() + " ("
-                + aggregateId.asString() + ") does not exist");
+    public AggregateVersionNotFoundException(@NotNull final EntityType aggregateType, @NotNull final AggregateRootId aggregateId,
+            final int version) {
+        super("Requested version " + version + " for " + aggregateType.asString() + " (" + aggregateId.asString() + ") does not exist");
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_NOT_FOUND";
         this.aggregateType = aggregateType.asString();

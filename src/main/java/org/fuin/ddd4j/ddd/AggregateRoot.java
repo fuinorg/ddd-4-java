@@ -22,9 +22,8 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 /**
- * Dedicated entity of a group of entities (The group is called "Aggregate")
- * that guarantees the consistency of changes being made within the group by
- * forbidding external objects from holding direct references to its members.
+ * Dedicated entity of a group of entities (The group is called "Aggregate") that guarantees the consistency of changes being made within
+ * the group by forbidding external objects from holding direct references to its members.
  * 
  * @param <ID>
  *            Type of the aggregate root identifier.
@@ -50,8 +49,7 @@ public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
     /**
      * Returns the information if the aggregate has uncommited changes.
      * 
-     * @return TRUE if the aggregate will return a non-empty list for
-     *         {@link #getUncommittedChanges()}, else FALSE.
+     * @return TRUE if the aggregate will return a non-empty list for {@link #getUncommittedChanges()}, else FALSE.
      */
     public boolean hasUncommitedChanges();
 

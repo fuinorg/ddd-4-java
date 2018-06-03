@@ -53,6 +53,6 @@ public class AId implements AggregateRootId {
     public String toString() {
         return "AId [id=" + id + "]";
     }
-    
+
 }
 // CHECKSTYLE:ON

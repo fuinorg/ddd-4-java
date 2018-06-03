@@ -35,8 +35,7 @@ public final class VendorEventId implements Serializable {
     private Integer eventNumber;
 
     /**
-     * Default constructor for JPA. <b><i>CAUTION:</i> DO NOT USE IN APPLICATION
-     * CODE.</b>
+     * Default constructor for JPA. <b><i>CAUTION:</i> DO NOT USE IN APPLICATION CODE.</b>
      */
     public VendorEventId() {
         super();
@@ -50,8 +49,7 @@ public final class VendorEventId implements Serializable {
      * @param eventNumber
      *            Number of the event within the stream.
      */
-    public VendorEventId(@NotNull final VendorId vendorId,
-            @NotNull final Integer eventNumber) {
+    public VendorEventId(@NotNull final VendorId vendorId, @NotNull final Integer eventNumber) {
         super();
         Contract.requireArgNotNull("vendorId", vendorId);
         Contract.requireArgNotNull("nueventNumbermber", eventNumber);
@@ -84,10 +82,8 @@ public final class VendorEventId implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result
-                + ((vendorId == null) ? 0 : vendorId.hashCode());
-        result = prime * result
-                + ((eventNumber == null) ? 0 : eventNumber.hashCode());
+        result = prime * result + ((vendorId == null) ? 0 : vendorId.hashCode());
+        result = prime * result + ((eventNumber == null) ? 0 : eventNumber.hashCode());
         return result;
     }
 

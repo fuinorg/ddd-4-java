@@ -26,13 +26,12 @@ import org.fuin.ddd4j.ddd.DomainEvent;
 import org.fuin.ddd4j.test.Vendor.ConstructorService;
 import org.junit.Test;
 
-
 //CHECKSTYLE:OFF
 public class VendorExampleTest {
 
     @Test
     public void testConstructor() throws DuplicateVendorKeyException {
-        
+
         // PREPARE
         VendorId id = new VendorId(UUID.randomUUID());
         VendorKey key = new VendorKey("V00001");
@@ -43,48 +42,48 @@ public class VendorExampleTest {
                 // Do nothing
             }
         };
-        
+
         // TEST
         Vendor vendor = new Vendor(id, key, name, service);
-        
+
         // VERIFY
         List<DomainEvent<?>> events = vendor.getUncommittedChanges();
         assertThat(events).hasSize(1);
         assertThat(events.get(0)).isInstanceOf(VendorCreatedEvent.class);
-        
+
     }
 
     @Test
     public void testAddPerson() throws DuplicateVendorKeyException {
-        
+
         // PREPARE
         Vendor vendor = createVendor();
         final PersonName personName = new PersonName("Peter Parker");
-        
+
         // TEST
         vendor.addPerson(personName);
-        
+
         // VERIFY
         List<DomainEvent<?>> events = vendor.getUncommittedChanges();
         assertThat(events).hasSize(1);
         assertThat(events.get(0)).isInstanceOf(PersonCreatedEvent.class);
-        
+
     }
 
     @Test
     public void testChangePersonName() throws DuplicateVendorKeyException, PersonNotFoundException {
-        
+
         // PREPARE
         Vendor vendor = createVendor();
         final PersonName oldName = new PersonName("Peter Parker");
-        vendor.addPerson(oldName);        
+        vendor.addPerson(oldName);
         final PersonId personId = ((PersonCreatedEvent) vendor.getUncommittedChanges().get(0)).getPersonId();
         vendor.markChangesAsCommitted();
         final PersonName newName = new PersonName("Harry Osborn");
-        
+
         // TEST
         vendor.changePersonName(personId, newName);
-        
+
         // VERIFY
         List<DomainEvent<?>> events = vendor.getUncommittedChanges();
         assertThat(events).hasSize(1);
@@ -92,10 +91,9 @@ public class VendorExampleTest {
         PersonNameChangedEvent event = (PersonNameChangedEvent) events.get(0);
         assertThat(event.getOldName()).isEqualTo(oldName);
         assertThat(event.getNewName()).isEqualTo(newName);
-        
-        
+
     }
-    
+
     private Vendor createVendor() throws DuplicateVendorKeyException {
         VendorId id = new VendorId(UUID.randomUUID());
         VendorKey key = new VendorKey("V00001");
@@ -110,6 +108,6 @@ public class VendorExampleTest {
         vendor.markChangesAsCommitted();
         return vendor;
     }
-    
+
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

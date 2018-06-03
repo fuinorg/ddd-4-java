@@ -34,8 +34,7 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
     private static final long serialVersionUID = 1000L;
 
     /** Unique name of the event used to store it - Should never change. */
-    public static final EventType TYPE = new EventType(
-            VendorCreatedEvent.class.getSimpleName());
+    public static final EventType TYPE = new EventType(VendorCreatedEvent.class.getSimpleName());
 
     @XmlElement(name = "vendor")
     private VendorRef vendorRef;

@@ -17,11 +17,11 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import javax.annotation.concurrent.Immutable;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.Immutable;
-import javax.validation.constraints.NotEmpty;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
 
 /**
@@ -40,8 +40,7 @@ public class EventType extends AbstractStringValueObject {
      * Constructor with unique name to use.
      * 
      * @param str
-     *            Type name of an aggregate that is unique within all types of
-     *            the context
+     *            Type name of an aggregate that is unique within all types of the context
      */
     public EventType(@NotEmpty @Size(max = 255) final String str) {
         Contract.requireArgNotEmpty("str", str);

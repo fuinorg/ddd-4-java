@@ -63,15 +63,13 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
     }
 
     @Override
-    protected final boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges,
-            final List<DomainEvent<?>> unseenEvents) {
+    protected final boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges, final List<DomainEvent<?>> unseenEvents) {
 
         // Example code allows only "PersonCreatedEvent" and
         // "PersonNameChangedEvent" in parallel
         for (final DomainEvent<?> uncommitedEvent : uncommittedChanges) {
             for (final DomainEvent<?> unseenEvent : unseenEvents) {
-                if (!((uncommitedEvent instanceof PersonNameChangedEvent)
-                        && (unseenEvent instanceof PersonCreatedEvent))) {
+                if (!((uncommitedEvent instanceof PersonNameChangedEvent) && (unseenEvent instanceof PersonCreatedEvent))) {
                     return false;
                 }
             }
@@ -80,5 +78,5 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
         return true;
 
     }
-    
+
 }

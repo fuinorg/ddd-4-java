@@ -20,8 +20,8 @@ package org.fuin.ddd4j.test;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.AbstractEntity;
-import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.ApplyEvent;
+import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -43,8 +43,7 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
      * @param name
      *            Name.
      */
-    public Person(@NotNull final Vendor vendor, final PersonId id,
-            @NotNull final PersonName name) {
+    public Person(@NotNull final Vendor vendor, final PersonId id, @NotNull final PersonName name) {
         super(vendor);
 
         // CHECK PRECONDITIONS
@@ -62,26 +61,27 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
     /**
      * Changes the name.
      * 
-     * @param newName New name.
+     * @param newName
+     *            New name.
      */
     public final void changeName(@NotNull final PersonName newName) {
 
         // CHECK PRECONDITIONS
         Contract.requireArgNotNull("newName", newName);
-        
+
         // VERIFY BUSINESS RULES
         // Nothing to do
-        
+
         // HANDLE EVENT
         apply(new PersonNameChangedEvent(getRoot().getRef(), id, name, newName));
-        
+
     }
-    
+
     @ApplyEvent
     private final void applyEvent(final PersonNameChangedEvent event) {
         this.name = event.getNewName();
     }
-    
+
     @Override
     public final EntityType getType() {
         return PersonId.ENTITY_TYPE;

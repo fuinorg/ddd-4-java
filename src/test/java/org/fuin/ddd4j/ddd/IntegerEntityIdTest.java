@@ -37,9 +37,8 @@ public class IntegerEntityIdTest {
 
     @Test
     public void testEqualsHashCode() {
-        EqualsVerifier
-                .forClass(IntegerEntityId.class).withPrefabValues(EntityType.class,
-                        new StringBasedEntityType("A"), new StringBasedEntityType("B"))
+        EqualsVerifier.forClass(IntegerEntityId.class)
+                .withPrefabValues(EntityType.class, new StringBasedEntityType("A"), new StringBasedEntityType("B"))
                 .suppress(Warning.NULL_FIELDS).verify();
     }
 
@@ -58,22 +57,22 @@ public class IntegerEntityIdTest {
     public void testCompareTo() {
 
         final IntegerEntityId a1 = new IntegerEntityId(new StringBasedEntityType("A"), 1) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
         final IntegerEntityId a2 = new IntegerEntityId(new StringBasedEntityType("A"), 2) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
         final IntegerEntityId a3 = new IntegerEntityId(new StringBasedEntityType("A"), 3) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
         final IntegerEntityId b1 = new IntegerEntityId(new StringBasedEntityType("B"), 1) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
         final IntegerEntityId b2 = new IntegerEntityId(new StringBasedEntityType("B"), 2) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
         final IntegerEntityId b3 = new IntegerEntityId(new StringBasedEntityType("B"), 3) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
 
         final List<IntegerEntityId> ids = new ArrayList<>();
@@ -117,7 +116,7 @@ public class IntegerEntityIdTest {
 
         final StringBasedEntityType type = new StringBasedEntityType("A");
         final IntegerEntityId a1 = new IntegerEntityId(type, 1) {
-	    private static final long serialVersionUID = 1L;
+            private static final long serialVersionUID = 1L;
         };
 
         assertThat(a1.toString()).isEqualTo("1");

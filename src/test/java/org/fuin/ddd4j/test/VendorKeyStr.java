@@ -35,8 +35,7 @@ import javax.validation.Payload;
  * <li>Rest of the characters is numeric (0-9)</li>
  * </ul>
  */
-@Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
-        ElementType.ANNOTATION_TYPE })
+@Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = { VendorKeyStrValidator.class })
 @Documented

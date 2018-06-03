@@ -19,10 +19,10 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.UUID;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
@@ -30,8 +30,7 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  */
 @ThreadSafe
 @Converter(autoApply = true)
-public final class EventIdConverter extends AbstractValueObjectConverter<UUID, EventId>
-        implements AttributeConverter<EventId, UUID> {
+public final class EventIdConverter extends AbstractValueObjectConverter<UUID, EventId> implements AttributeConverter<EventId, UUID> {
 
     @Override
     public Class<EventId> getValueObjectClass() {

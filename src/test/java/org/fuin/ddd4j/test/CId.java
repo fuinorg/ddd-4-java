@@ -54,6 +54,5 @@ public class CId implements EntityId {
         return "CId [id=" + id + "]";
     }
 
-    
 }
 // CHECKSTYLE:ON

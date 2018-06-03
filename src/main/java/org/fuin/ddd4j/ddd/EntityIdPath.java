@@ -34,8 +34,7 @@ import org.fuin.objects4j.ui.Tooltip;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
 
 /**
- * An ordered list of entity identifiers. An aggregate root will be the first
- * entry if it's contained in the list.
+ * An ordered list of entity identifiers. An aggregate root will be the first entry if it's contained in the list.
  */
 @Label("Entity identifier path")
 @ShortLabel("EntityIdPath")
@@ -94,10 +93,8 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
     }
 
     /**
-     * Creates a NEW list of the entity identifiers contained in the entity id
-     * path and returns an iterator on it. This means deleting an element using
-     * the {@link Iterator#remove()} method will NOT remove something from this
-     * entity id path.
+     * Creates a NEW list of the entity identifiers contained in the entity id path and returns an iterator on it. This means deleting an
+     * element using the {@link Iterator#remove()} method will NOT remove something from this entity id path.
      * 
      * @return Iterator on a new list instance.
      */

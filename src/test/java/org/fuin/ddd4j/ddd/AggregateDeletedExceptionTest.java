@@ -41,8 +41,7 @@ public class AggregateDeletedExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateDeletedException original = new AggregateDeletedException(VendorId.ENTITY_TYPE,
-                vendorId);
+        final AggregateDeletedException original = new AggregateDeletedException(VendorId.ENTITY_TYPE, vendorId);
 
         // TEST
         final byte[] data = serialize(original);
@@ -68,14 +67,11 @@ public class AggregateDeletedExceptionTest {
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
-                .compare(
-                        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                                + "<aggregate-deleted-exception>"
-                                + "<msg>Vendor with id 4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119 already deleted</msg>"
-                                + "<sid>DDD4J-AGGREGATE_DELETED</sid>"
-                                + "<aggregate-type>Vendor</aggregate-type>"
-                                + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>"
-                                + "</aggregate-deleted-exception>").withTest(xml).ignoreWhitespace().build();
+                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<aggregate-deleted-exception>"
+                        + "<msg>Vendor with id 4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119 already deleted</msg>"
+                        + "<sid>DDD4J-AGGREGATE_DELETED</sid>" + "<aggregate-type>Vendor</aggregate-type>"
+                        + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>" + "</aggregate-deleted-exception>")
+                .withTest(xml).ignoreWhitespace().build();
 
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 

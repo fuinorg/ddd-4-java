@@ -35,8 +35,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
     private static final long serialVersionUID = 1000L;
 
     /** Unique name of the event used to store it - Should never change. */
-    public static final EventType TYPE = new EventType(
-            PersonCreatedEvent.class.getSimpleName());
+    public static final EventType TYPE = new EventType(PersonCreatedEvent.class.getSimpleName());
 
     @XmlElement(name = "vendor-ref")
     private VendorRef vendorRef;
@@ -64,9 +63,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * @param personName
      *            Person name.
      */
-    public PersonCreatedEvent(@NotNull final VendorRef vendorRef,
-            @NotNull final PersonId personId,
-            @NotNull final PersonName personName) {
+    public PersonCreatedEvent(@NotNull final VendorRef vendorRef, @NotNull final PersonId personId, @NotNull final PersonName personName) {
         super(new EntityIdPath(vendorRef.getId()));
         this.vendorRef = vendorRef;
         this.personId = personId;
@@ -100,8 +97,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
 
     @Override
     public final String toString() {
-        return "Created person #" + personId + " with name '" + personName
-                + "' for " + vendorRef;
+        return "Created person #" + personId + " with name '" + personName + "' for " + vendorRef;
     }
 
 }

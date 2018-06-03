@@ -17,9 +17,9 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.persistence.Converter;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
@@ -27,8 +27,7 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  */
 @ThreadSafe
 @Converter(autoApply = true)
-public final class AggregateVersionConverter
-        extends AbstractValueObjectConverter<Integer, AggregateVersion> {
+public final class AggregateVersionConverter extends AbstractValueObjectConverter<Integer, AggregateVersion> {
 
     @Override
     public final Class<Integer> getBaseTypeClass() {

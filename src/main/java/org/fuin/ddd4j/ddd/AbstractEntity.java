@@ -51,8 +51,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
     }
 
     /**
-     * Applies the given new event. CAUTION: Don't use this method for applying
-     * historic events!
+     * Applies the given new event. CAUTION: Don't use this method for applying historic events!
      * 
      * @param event
      *            Event to dispatch to the appropriate event handler method.

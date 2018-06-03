@@ -18,8 +18,7 @@
 package org.fuin.ddd4j.ddd;
 
 /**
- * An object that is not defined by its attributes, but rather by a thread of
- * continuity and its identity.
+ * An object that is not defined by its attributes, but rather by a thread of continuity and its identity.
  * 
  * @param <ID>
  *            Entity ID type.

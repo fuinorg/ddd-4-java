@@ -22,10 +22,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
@@ -33,9 +33,8 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  */
 @ThreadSafe
 @Converter(autoApply = true)
-public final class EntityIdPathConverter extends
-        AbstractValueObjectConverter<String, EntityIdPath> implements
-        AttributeConverter<EntityIdPath, String> {
+public final class EntityIdPathConverter extends AbstractValueObjectConverter<String, EntityIdPath>
+        implements AttributeConverter<EntityIdPath, String> {
 
     private final EntityIdFactory factory;
 
@@ -87,8 +86,7 @@ public final class EntityIdPathConverter extends
         }
         final List<Entry> entryList = entries(value);
         if (entryList.size() == 0) {
-            throw new IllegalArgumentException("Invalid entity path: '" + value
-                    + "'");
+            throw new IllegalArgumentException("Invalid entity path: '" + value + "'");
         }
         final List<EntityId> ids = new ArrayList<EntityId>();
         for (final Entry entry : entryList) {
@@ -107,8 +105,7 @@ public final class EntityIdPathConverter extends
 
     private List<Entry> entries(final String value) {
         final List<Entry> list = new ArrayList<Entry>();
-        final StringTokenizer tok = new StringTokenizer(value,
-                EntityIdPath.PATH_SEPARATOR);
+        final StringTokenizer tok = new StringTokenizer(value, EntityIdPath.PATH_SEPARATOR);
         while (tok.hasMoreTokens()) {
             final String str = tok.nextToken();
             final int p = str.indexOf(' ');

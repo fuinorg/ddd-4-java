@@ -17,11 +17,11 @@
  */
 package org.fuin.ddd4j.test;
 
+import javax.annotation.concurrent.Immutable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
@@ -30,8 +30,7 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
  */
 @Immutable
 @XmlJavaTypeAdapter(VendorNameConverter.class)
-public final class VendorName extends AbstractStringValueObject implements
-        ValueObjectWithBaseType<String> {
+public final class VendorName extends AbstractStringValueObject implements ValueObjectWithBaseType<String> {
 
     private static final long serialVersionUID = 1000L;
 
@@ -66,8 +65,7 @@ public final class VendorName extends AbstractStringValueObject implements
      * Returns the information if a given string is a valid name.
      * 
      * @param value
-     *            Value to check. A <code>null</code> value returns
-     *            <code>true</code>.
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
      * 
      * @return TRUE if it's a valid key, else FALSE.
      */
@@ -79,8 +77,7 @@ public final class VendorName extends AbstractStringValueObject implements
      * Parses a name.
      * 
      * @param value
-     *            Value to convert. A <code>null</code> value returns
-     *            <code>null</code>.
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
      * 
      * @return Converted value.
      */

@@ -36,8 +36,7 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
     private static final long serialVersionUID = 1000L;
 
     /** Unique name of the event used to store it - Should never change. */
-    public static final EventType TYPE = new EventType(
-            PersonNameChangedEvent.class.getSimpleName());
+    public static final EventType TYPE = new EventType(PersonNameChangedEvent.class.getSimpleName());
 
     @XmlElement(name = "vendor-ref")
     private VendorRef vendorRef;
@@ -70,9 +69,8 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
      * @param newName
      *            Person name.
      */
-    public PersonNameChangedEvent(@NotNull final VendorRef vendorRef,
-            @NotNull final PersonId personId,
-            @NotNull final PersonName oldName, @NotNull final PersonName newName) {
+    public PersonNameChangedEvent(@NotNull final VendorRef vendorRef, @NotNull final PersonId personId, @NotNull final PersonName oldName,
+            @NotNull final PersonName newName) {
         super(new EntityIdPath(vendorRef.getId(), personId));
         Contract.requireArgNotNull("vendorRef", vendorRef);
         Contract.requireArgNotNull("personId", personId);
@@ -121,8 +119,7 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
 
     @Override
     public final String toString() {
-        return "Changed name of person #" + personId + " from '" + oldName
-                + "' to '" + newName + "' for " + vendorRef;
+        return "Changed name of person #" + personId + " from '" + oldName + "' to '" + newName + "' for " + vendorRef;
     }
 
 }

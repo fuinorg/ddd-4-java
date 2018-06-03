@@ -33,6 +33,6 @@ public class Data {
     @XmlAttribute
     @XmlJavaTypeAdapter(AggregateVersionConverter.class)
     public AggregateVersion version;
-    
+
 }
 // CHECKSTYLE:ON

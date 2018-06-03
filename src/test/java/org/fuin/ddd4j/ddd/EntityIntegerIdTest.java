@@ -33,12 +33,9 @@ public class EntityIntegerIdTest {
 
     @Test
     public void testEqualsHashCode() {
-        EqualsVerifier
-                .forClass(EntityIntegerId.class)
+        EqualsVerifier.forClass(EntityIntegerId.class)
                 .withPrefabValues(EntityType.class, new StringBasedEntityType("A"), new StringBasedEntityType("B"))
-                .withPrefabValues(Integer.class, 1, 2)
-                .suppress(Warning.NULL_FIELDS)                
-                .verify();
+                .withPrefabValues(Integer.class, 1, 2).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test
@@ -81,8 +78,7 @@ public class EntityIntegerIdTest {
         } catch (final ConstraintViolationException ex) {
             assertThat(ex.getMessage()).isEqualTo("The argument 'c' is not valid: '0'");
         }
-        
+
     }
-    
-    
+
 }

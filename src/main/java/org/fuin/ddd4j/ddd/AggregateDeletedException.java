@@ -33,8 +33,7 @@ import org.fuin.objects4j.common.ExceptionShortIdentifable;
  */
 @XmlRootElement(name = "aggregate-deleted-exception")
 @XmlAccessorType(XmlAccessType.NONE)
-public final class AggregateDeletedException extends AbstractJaxbMarshallableException implements
-        ExceptionShortIdentifable {
+public final class AggregateDeletedException extends AbstractJaxbMarshallableException implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,8 +61,7 @@ public final class AggregateDeletedException extends AbstractJaxbMarshallableExc
      * @param aggregateId
      *            Unique identifier of the aggregate.
      */
-    public AggregateDeletedException(@NotNull final EntityType aggregateType,
-            @NotNull final AggregateRootId aggregateId) {
+    public AggregateDeletedException(@NotNull final EntityType aggregateType, @NotNull final AggregateRootId aggregateId) {
         super(aggregateType.asString() + " with id " + aggregateId.asString() + " already deleted");
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_DELETED";

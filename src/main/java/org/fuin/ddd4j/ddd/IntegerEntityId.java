@@ -36,8 +36,7 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 /**
  * Integer based entity identifier.
  */
-public abstract class IntegerEntityId implements EntityId,
-        Comparable<IntegerEntityId>, ValueObjectWithBaseType<Integer> {
+public abstract class IntegerEntityId implements EntityId, Comparable<IntegerEntityId>, ValueObjectWithBaseType<Integer> {
 
     private static final long serialVersionUID = 1000L;
 
@@ -56,8 +55,7 @@ public abstract class IntegerEntityId implements EntityId,
      * @param id
      *            Integer.
      */
-    public IntegerEntityId(@NotNull final EntityType entityType,
-            @NotNull final Integer id) {
+    public IntegerEntityId(@NotNull final EntityType entityType, @NotNull final Integer id) {
         super();
         Contract.requireArgNotNull("entityType", entityType);
         Contract.requireArgNotNull("id", id);
@@ -94,8 +92,7 @@ public abstract class IntegerEntityId implements EntityId,
 
     @Override
     public final int compareTo(final IntegerEntityId other) {
-        final int c = entityType.asString()
-                .compareTo(other.entityType.asString());
+        final int c = entityType.asString().compareTo(other.entityType.asString());
         if (c != 0) {
             return c;
         }
@@ -137,8 +134,7 @@ public abstract class IntegerEntityId implements EntityId,
     /**
      * Ensures that the integer can be converted into the type.
      */
-    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
-            ElementType.ANNOTATION_TYPE })
+    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = { Validator.class })
     @Documented
@@ -155,8 +151,7 @@ public abstract class IntegerEntityId implements EntityId,
     /**
      * Validates if a string is compliant with the type.
      */
-    public static final class Validator
-            implements ConstraintValidator<IntegerEntityIdStr, Integer> {
+    public static final class Validator implements ConstraintValidator<IntegerEntityIdStr, Integer> {
 
         @Override
         public final void initialize(final IntegerEntityIdStr annotation) {
@@ -164,8 +159,7 @@ public abstract class IntegerEntityId implements EntityId,
         }
 
         @Override
-        public final boolean isValid(final Integer value,
-                final ConstraintValidatorContext context) {
+        public final boolean isValid(final Integer value, final ConstraintValidatorContext context) {
             return IntegerEntityId.isValid(value);
         }
 
@@ -177,8 +171,7 @@ public abstract class IntegerEntityId implements EntityId,
      * @param value
      *            Value to validate.
      * 
-     * @return Returns <code>true</code> if it's a valid type else
-     *         <code>false</code>.
+     * @return Returns <code>true</code> if it's a valid type else <code>false</code>.
      */
     public static boolean isValid(final Integer value) {
         if (value == null) {
@@ -191,8 +184,7 @@ public abstract class IntegerEntityId implements EntityId,
     }
 
     /**
-     * Verifies if the argument is valid and throws an exception if this is not
-     * the case.
+     * Verifies if the argument is valid and throws an exception if this is not the case.
      * 
      * @param name
      *            Name of the value for a possible error message.
@@ -202,12 +194,10 @@ public abstract class IntegerEntityId implements EntityId,
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name,
-            @NotNull final Integer value) throws ConstraintViolationException {
+    public static void requireArgValid(@NotNull final String name, @NotNull final Integer value) throws ConstraintViolationException {
 
         if (!isValid(value)) {
-            throw new ConstraintViolationException(
-                    "The argument '" + name + "' is not valid: " + value);
+            throw new ConstraintViolationException("The argument '" + name + "' is not valid: " + value);
         }
 
     }

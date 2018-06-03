@@ -21,10 +21,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.annotation.concurrent.Immutable;
+
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.esc.api.StreamId;
-import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.vo.KeyValue;
 
 /**
@@ -53,8 +54,7 @@ public final class AggregateStreamId implements StreamId {
      * @param paramValue
      *            Aggregate id.
      */
-    public AggregateStreamId(final EntityType type, final String paramName, 
-            final AggregateRootId paramValue) {
+    public AggregateStreamId(final EntityType type, final String paramName, final AggregateRootId paramValue) {
         super();
         this.type = type;
         this.paramName = paramName;

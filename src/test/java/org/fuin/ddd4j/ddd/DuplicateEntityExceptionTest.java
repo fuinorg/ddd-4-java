@@ -64,10 +64,9 @@ public class DuplicateEntityExceptionTest {
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
-                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                        + "<duplicate-entity-exception>" + "<msg>B 2 already exists in A 1</msg>"
-                        + "<sid>DDD4J-DUPLICATE_ENTITY</sid>" + "<parent-id-path>A 1</parent-id-path>"
-                        + "<entity-id>2</entity-id>" + "</duplicate-entity-exception>")
+                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<duplicate-entity-exception>"
+                        + "<msg>B 2 already exists in A 1</msg>" + "<sid>DDD4J-DUPLICATE_ENTITY</sid>"
+                        + "<parent-id-path>A 1</parent-id-path>" + "<entity-id>2</entity-id>" + "</duplicate-entity-exception>")
                 .withTest(xml).ignoreWhitespace().build();
 
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();

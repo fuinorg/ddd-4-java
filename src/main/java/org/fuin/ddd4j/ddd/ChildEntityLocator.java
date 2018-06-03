@@ -24,10 +24,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Method that is able to return a child entity by it's identifier. The
- * {@link EntityId} is the only argument and the return value is the
- * {@link Entity} that is identified by the given identifier. Returns
- * <code>null</code> if no entity with the ID was found.
+ * Method that is able to return a child entity by it's identifier. The {@link EntityId} is the only argument and the return value is the
+ * {@link Entity} that is identified by the given identifier. Returns <code>null</code> if no entity with the ID was found.
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

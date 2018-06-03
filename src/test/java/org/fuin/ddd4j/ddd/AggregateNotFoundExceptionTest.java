@@ -41,8 +41,7 @@ public class AggregateNotFoundExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE,
-                vendorId);
+        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE, vendorId);
 
         // TEST
         final byte[] data = serialize(original);
@@ -62,34 +61,30 @@ public class AggregateNotFoundExceptionTest {
         // PREPARE
         final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
-        
+
         // TEST
         final String xml = marshal(original, AggregateNotFoundException.class);
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
-                .compare(
-                        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                                + "<aggregate-not-found-exception>"
-                                + "<msg>Vendor with id 4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119 not found</msg>"
-                                + "<sid>DDD4J-AGGREGATE_NOT_FOUND</sid>"
-                                + "<aggregate-type>Vendor</aggregate-type>"
-                                + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>"
-                                + "</aggregate-not-found-exception>").withTest(xml).ignoreWhitespace()
-                .build();
+                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<aggregate-not-found-exception>"
+                        + "<msg>Vendor with id 4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119 not found</msg>"
+                        + "<sid>DDD4J-AGGREGATE_NOT_FOUND</sid>" + "<aggregate-type>Vendor</aggregate-type>"
+                        + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>" + "</aggregate-not-found-exception>")
+                .withTest(xml).ignoreWhitespace().build();
 
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 
         // TEST
         final AggregateNotFoundException copy = unmarshal(xml, AggregateNotFoundException.class);
-        
+
         // VERIFY
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
         assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
         assertThat(copy.getMessage()).isEqualTo(original.getMessage());
-        
+
     }
 
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

@@ -28,11 +28,11 @@ public class AggregateVersionTest {
 
     @Test
     public void testCreateValid() {
-        
+
         assertThat(new AggregateVersion(0).asBaseType()).isEqualTo(0);
         assertThat(new AggregateVersion(1).asBaseType()).isEqualTo(1);
         assertThat(new AggregateVersion(Integer.MAX_VALUE).asBaseType()).isEqualTo(Integer.MAX_VALUE);
-        
+
     }
 
     @Test
@@ -44,8 +44,7 @@ public class AggregateVersionTest {
         } catch (final ConstraintViolationException ex) {
             assertThat(ex.getMessage()).isEqualTo("The argument 'version' cannot be null");
         }
-        
-        
+
     }
 
     @Test
@@ -57,29 +56,29 @@ public class AggregateVersionTest {
         } catch (final ConstraintViolationException ex) {
             assertThat(ex.getMessage()).isEqualTo("Min value of argument 'version' is 0, but was: -1");
         }
-        
+
     }
 
     @Test
     public void testIsValid() {
-        
+
         assertThat(AggregateVersion.isValid(null)).isTrue();
         assertThat(AggregateVersion.isValid(-1)).isFalse();
         assertThat(AggregateVersion.isValid(0)).isTrue();
         assertThat(AggregateVersion.isValid(1)).isTrue();
         assertThat(AggregateVersion.isValid(Integer.MAX_VALUE)).isTrue();
-        
+
     }
 
     @Test
     public void testValueOf() {
-        
+
         assertThat(AggregateVersion.valueOf(null)).isNull();
         assertThat(AggregateVersion.valueOf(0)).isEqualTo(new AggregateVersion(0));
         assertThat(AggregateVersion.valueOf(1)).isEqualTo(new AggregateVersion(1));
         assertThat(AggregateVersion.valueOf(Integer.MAX_VALUE)).isEqualTo(new AggregateVersion(Integer.MAX_VALUE));
-        
+
     }
-    
+
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

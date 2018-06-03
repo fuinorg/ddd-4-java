@@ -18,8 +18,7 @@
 package org.fuin.ddd4j.codegen;
 
 /**
- * Value object that has only a single attribute of type <code>String</code>,
- * <code>Integer</code>, <code>Long</code> or <code>UUID</code>.
+ * Value object that has only a single attribute of type <code>String</code>, <code>Integer</code>, <code>Long</code> or <code>UUID</code>.
  */
 public @interface SimpleValueObject {
 

@@ -123,8 +123,7 @@ public class AbstractDomainEventTest {
     public final void testUnmarshal() {
 
         // PREPARE
-        final String xml = "<my-event-1>"
-                + "<entity-id-path>Vendor f6773571-f7a8-4b73-8734-e69991d58732</entity-id-path>"
+        final String xml = "<my-event-1>" + "<entity-id-path>Vendor f6773571-f7a8-4b73-8734-e69991d58732</entity-id-path>"
                 + "<event-id>f910c6d7-debc-46e1-ae02-9ca6f4658cf5</event-id>"
                 + "<event-timestamp>2016-09-18T10:38:08.0+02:00[Europe/Berlin]</event-timestamp>"
                 + "<correlation-id>2a5893a9-00da-4003-b280-98324eccdef1</correlation-id>"
@@ -135,16 +134,13 @@ public class AbstractDomainEventTest {
 
         // VERIFY
         assertThat(copy.getEntityId()).isEqualTo(new VendorId(UUID.fromString("f6773571-f7a8-4b73-8734-e69991d58732")));
-        assertThat(copy.getEntityIdPath()).isEqualTo(new EntityIdPath(new VendorId(UUID.fromString("f6773571-f7a8-4b73-8734-e69991d58732"))));
-        assertThat(copy.getCausationId())
-                .isEqualTo(new EventId(UUID.fromString("f13d3481-51b7-423f-8fe7-5c342f7d7c46")));
-        assertThat(copy.getCorrelationId())
-                .isEqualTo(new EventId(UUID.fromString("2a5893a9-00da-4003-b280-98324eccdef1")));
-        assertThat(copy.getEventId())
-                .isEqualTo(new EventId(UUID.fromString("f910c6d7-debc-46e1-ae02-9ca6f4658cf5")));
+        assertThat(copy.getEntityIdPath())
+                .isEqualTo(new EntityIdPath(new VendorId(UUID.fromString("f6773571-f7a8-4b73-8734-e69991d58732"))));
+        assertThat(copy.getCausationId()).isEqualTo(new EventId(UUID.fromString("f13d3481-51b7-423f-8fe7-5c342f7d7c46")));
+        assertThat(copy.getCorrelationId()).isEqualTo(new EventId(UUID.fromString("2a5893a9-00da-4003-b280-98324eccdef1")));
+        assertThat(copy.getEventId()).isEqualTo(new EventId(UUID.fromString("f910c6d7-debc-46e1-ae02-9ca6f4658cf5")));
         assertThat(copy.getEventType()).isEqualTo(copy.getEventType());
-        assertThat(copy.getTimestamp())
-                .isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
+        assertThat(copy.getTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
 
     }
 
@@ -216,6 +212,5 @@ public class AbstractDomainEventTest {
         return new XmlAdapter[] { new EntityIdPathConverter(new MyIdFactory()) };
     }
 
-    
 }
 // CHECKSTYLE:ON

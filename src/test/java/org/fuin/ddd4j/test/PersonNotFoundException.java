@@ -38,8 +38,7 @@ public final class PersonNotFoundException extends Exception {
      * @param personId
      *            Person identifier.
      */
-    public PersonNotFoundException(final VendorRef vendorRef,
-            final PersonId personId) {
+    public PersonNotFoundException(final VendorRef vendorRef, final PersonId personId) {
         super("No person with # " + personId + " found for: " + vendorRef);
         Contract.requireArgNotNull("vendorRef", vendorRef);
         Contract.requireArgNotNull("personId", personId);

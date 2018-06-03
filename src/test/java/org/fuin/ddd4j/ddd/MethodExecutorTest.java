@@ -32,24 +32,23 @@ public class MethodExecutorTest {
     @Test
     public void testFindDeclaredAnnotatedMethodAndInvoke() throws DuplicateEntityException {
 
-	// PREPARE
-	final MethodExecutor testee = new MethodExecutor();
+        // PREPARE
+        final MethodExecutor testee = new MethodExecutor();
 
-	final AId aid = new AId(1);
-	final ARoot a = new ARoot(aid);
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
 
-	final BId bid = new BId(2);
+        final BId bid = new BId(2);
 
-	a.addB(bid);
+        a.addB(bid);
 
-	final Method method = testee.findDeclaredAnnotatedMethod(a,
-		ChildEntityLocator.class, BId.class);
+        final Method method = testee.findDeclaredAnnotatedMethod(a, ChildEntityLocator.class, BId.class);
 
-	// TEST
-	Entity<?> found = testee.invoke(method, a, bid);
+        // TEST
+        Entity<?> found = testee.invoke(method, a, bid);
 
-	// VERIFY
-	assertThat(found.getId()).isSameAs(bid);
+        // VERIFY
+        assertThat(found.getId()).isSameAs(bid);
 
     }
 

@@ -34,8 +34,7 @@ import org.fuin.objects4j.common.Contract;
  * @param <ID>
  *            Aggregate identifier.
  */
-public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
-        implements AggregateRoot<ID> {
+public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implements AggregateRoot<ID> {
 
     private static final MethodExecutor METHOD_EXECUTOR = new MethodExecutor();
 
@@ -118,22 +117,18 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
         }
         for (final DomainEvent<?> event : history) {
             if (!getIgnoredEvents().contains(event.getClass())) {
-                final boolean applied = callAnnotatedEventHandlerMethodOnAggregateRootOrChild(
-                        this, event);
+                final boolean applied = callAnnotatedEventHandlerMethodOnAggregateRootOrChild(this, event);
                 if (applied) {
                     version++;
                 } else {
-                    throw new IllegalStateException(
-                            "Wasn't able to apply historic event '" + event
-                                    + "' to: " + this.getClass().getName());
+                    throw new IllegalStateException("Wasn't able to apply historic event '" + event + "' to: " + this.getClass().getName());
                 }
             }
         }
     }
 
     /**
-     * Tries to find recursive an annotated method on this object or one of it's
-     * child entities to apply the given event to.
+     * Tries to find recursive an annotated method on this object or one of it's child entities to apply the given event to.
      * 
      * @param aggregateRoot
      *            Aggregate root with the event handler method.
@@ -142,17 +137,14 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
      * 
      * @return TRUE if the event was successfully applied, else FALSE.
      */
-    static boolean callAnnotatedEventHandlerMethodOnAggregateRootOrChild(
-            final AggregateRoot<?> aggregateRoot, final DomainEvent<?> event) {
+    static boolean callAnnotatedEventHandlerMethodOnAggregateRootOrChild(final AggregateRoot<?> aggregateRoot, final DomainEvent<?> event) {
 
         final EntityIdPath path = event.getEntityIdPath();
         final Iterator<EntityId> idIt = path.iterator();
         final EntityId entityId = idIt.next();
         if (!(entityId instanceof AggregateRootId)) {
             throw new IllegalStateException(
-                    "The first ID in the entity identifier path was not an "
-                            + AggregateRootId.class.getSimpleName() + ": "
-                            + path);
+                    "The first ID in the entity identifier path was not an " + AggregateRootId.class.getSimpleName() + ": " + path);
         }
 
         if (!idIt.hasNext()) {
@@ -164,9 +156,8 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
         Entity<?> entity = aggregateRoot;
         while (idIt.hasNext()) {
             final EntityId id = idIt.next();
-            final Method foundChildEntityMethod = METHOD_EXECUTOR
-                    .findDeclaredAnnotatedMethod(entity,
-                            ChildEntityLocator.class, id.getClass());
+            final Method foundChildEntityMethod = METHOD_EXECUTOR.findDeclaredAnnotatedMethod(entity, ChildEntityLocator.class,
+                    id.getClass());
             if (foundChildEntityMethod == null) {
                 return false;
             }
@@ -178,8 +169,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
     }
 
     /**
-     * Returns a list of old / ignored events. Sub classes can overwrite this
-     * method to ignore historic events that are not needed any more.
+     * Returns a list of old / ignored events. Sub classes can overwrite this method to ignore historic events that are not needed any more.
      * 
      * @return Events that can be safely ignored.
      */
@@ -188,8 +178,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
     }
 
     /**
-     * Applies the given new event. CAUTION: Don't use this method for applying
-     * historic events!
+     * Applies the given new event. CAUTION: Don't use this method for applying historic events!
      * 
      * @param event
      *            Event to dispatch to the appropriate event handler method.
@@ -198,56 +187,45 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId>
         if (callAnnotatedEventHandlerMethod(this, event)) {
             uncommitedChanges.add(event);
         } else {
-            throw new IllegalStateException(
-                    "Couldn't find an event handler for: "
-                            + event.getClass().getName());
+            throw new IllegalStateException("Couldn't find an event handler for: " + event.getClass().getName());
         }
     }
 
     /**
-     * Applies the given new event. CAUTION: Don't use this method for applying
-     * historic events!
+     * Applies the given new event. CAUTION: Don't use this method for applying historic events!
      * 
      * @param entity
      *            Child entity that requested the apply operation.
      * @param event
      *            Event to dispatch to the appropriate event handler method.
      */
-    final void applyNewChildEvent(
-            @NotNull final AbstractEntity<?, ?, ?> entity,
-            @NotNull final DomainEvent<?> event) {
+    final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity, @NotNull final DomainEvent<?> event) {
 
         if (callAnnotatedEventHandlerMethod(entity, event)) {
             uncommitedChanges.add(event);
         } else {
-            throw new IllegalStateException(
-                    "Couldn't find an event handler in '"
-                            + entity.getClass().getName() + "' for: " + event);
+            throw new IllegalStateException("Couldn't find an event handler in '" + entity.getClass().getName() + "' for: " + event);
         }
 
     }
 
     /**
-     * Applies the event to the method in the entity that is annotated with
-     * {@link ApplyEvent} and has exactly one parameter with the same type as
-     * the domain event.
+     * Applies the event to the method in the entity that is annotated with {@link ApplyEvent} and has exactly one parameter with the same
+     * type as the domain event.
      * 
      * @param entity
      *            Entity to apply the event to.
      * @param event
      *            Event to apply.
      * 
-     * @return TRUE if an appropriate event handler method was found and the
-     *         event was applied, else FALSE.
+     * @return TRUE if an appropriate event handler method was found and the event was applied, else FALSE.
      */
-    static boolean callAnnotatedEventHandlerMethod(final Entity<?> entity,
-            final DomainEvent<?> event) {
+    static boolean callAnnotatedEventHandlerMethod(final Entity<?> entity, final DomainEvent<?> event) {
 
         Contract.requireArgNotNull("entity", entity);
         Contract.requireArgNotNull("event", event);
 
-        final Method method = METHOD_EXECUTOR.findDeclaredAnnotatedMethod(
-                entity, ApplyEvent.class, event.getClass());
+        final Method method = METHOD_EXECUTOR.findDeclaredAnnotatedMethod(entity, ApplyEvent.class, event.getClass());
         if (method == null) {
             return false;
         }

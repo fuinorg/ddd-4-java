@@ -35,12 +35,9 @@ public class AggregateRootUuidTest {
 
     @Test
     public void testEqualsHashCode() {
-        EqualsVerifier
-                .forClass(AggregateRootUuid.class)
+        EqualsVerifier.forClass(AggregateRootUuid.class)
                 .withPrefabValues(EntityType.class, new StringBasedEntityType("A"), new StringBasedEntityType("B"))
-                .withPrefabValues(UUID.class, UUID.randomUUID(), UUID.randomUUID())
-                .suppress(Warning.NULL_FIELDS)                
-                .verify();
+                .withPrefabValues(UUID.class, UUID.randomUUID(), UUID.randomUUID()).suppress(Warning.NULL_FIELDS).verify();
     }
 
     @Test
@@ -76,6 +73,5 @@ public class AggregateRootUuidTest {
         }
 
     }
-    
-    
+
 }

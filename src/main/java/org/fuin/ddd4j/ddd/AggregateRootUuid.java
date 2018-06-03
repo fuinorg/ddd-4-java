@@ -38,13 +38,12 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 /**
  * UUID based aggregate root identifier.
  */
-public abstract class AggregateRootUuid implements AggregateRootId,
-        Comparable<AggregateRootUuid>, ValueObjectWithBaseType<UUID> {
+public abstract class AggregateRootUuid implements AggregateRootId, Comparable<AggregateRootUuid>, ValueObjectWithBaseType<UUID> {
 
     private static final long serialVersionUID = 1000L;
 
-    private static final Pattern PATTERN = Pattern.compile(
-            "\\{?\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}\\}?");
+    private static final Pattern PATTERN = Pattern
+            .compile("\\{?\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}\\}?");
 
     private final EntityType entityType;
 
@@ -68,8 +67,7 @@ public abstract class AggregateRootUuid implements AggregateRootId,
      * @param uuid
      *            UUID.
      */
-    public AggregateRootUuid(@NotNull final EntityType entityType,
-            @NotNull final UUID uuid) {
+    public AggregateRootUuid(@NotNull final EntityType entityType, @NotNull final UUID uuid) {
         super();
         Contract.requireArgNotNull("entityType", entityType);
         Contract.requireArgNotNull("uuid", uuid);
@@ -106,8 +104,7 @@ public abstract class AggregateRootUuid implements AggregateRootId,
 
     @Override
     public final int compareTo(final AggregateRootUuid other) {
-        final int c = entityType.asString()
-                .compareTo(other.entityType.asString());
+        final int c = entityType.asString().compareTo(other.entityType.asString());
         if (c != 0) {
             return c;
         }
@@ -138,19 +135,18 @@ public abstract class AggregateRootUuid implements AggregateRootId,
     public final Class<UUID> getBaseType() {
         return UUID.class;
     }
-    
+
     @Override
     public final UUID asBaseType() {
         return uuid;
     }
-    
+
     // CHECKSTYLE:OFF
 
     /**
      * Ensures that the string can be converted into the type.
      */
-    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD,
-            ElementType.ANNOTATION_TYPE })
+    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = { Validator.class })
     @Documented
@@ -167,8 +163,7 @@ public abstract class AggregateRootUuid implements AggregateRootId,
     /**
      * Validates if a string is compliant with the type.
      */
-    public static final class Validator
-            implements ConstraintValidator<AggregateRootUuidStr, String> {
+    public static final class Validator implements ConstraintValidator<AggregateRootUuidStr, String> {
 
         @Override
         public final void initialize(final AggregateRootUuidStr annotation) {
@@ -176,8 +171,7 @@ public abstract class AggregateRootUuid implements AggregateRootId,
         }
 
         @Override
-        public final boolean isValid(final String value,
-                final ConstraintValidatorContext context) {
+        public final boolean isValid(final String value, final ConstraintValidatorContext context) {
             return AggregateRootUuid.isValid(value);
         }
 
@@ -189,8 +183,7 @@ public abstract class AggregateRootUuid implements AggregateRootId,
      * @param value
      *            Value to validate.
      * 
-     * @return Returns <code>true</code> if it's a valid type else
-     *         <code>false</code>.
+     * @return Returns <code>true</code> if it's a valid type else <code>false</code>.
      */
     public static boolean isValid(final String value) {
         if (value == null) {
@@ -203,8 +196,7 @@ public abstract class AggregateRootUuid implements AggregateRootId,
     }
 
     /**
-     * Verifies if the argument is valid and throws an exception if this is not
-     * the case.
+     * Verifies if the argument is valid and throws an exception if this is not the case.
      * 
      * @param name
      *            Name of the value for a possible error message.
@@ -214,12 +206,10 @@ public abstract class AggregateRootUuid implements AggregateRootId,
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name,
-            @NotNull final String value) throws ConstraintViolationException {
+    public static void requireArgValid(@NotNull final String name, @NotNull final String value) throws ConstraintViolationException {
 
         if (!isValid(value)) {
-            throw new ConstraintViolationException("The argument '" + name
-                    + "' is not valid: '" + value + "'");
+            throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");
         }
 
     }

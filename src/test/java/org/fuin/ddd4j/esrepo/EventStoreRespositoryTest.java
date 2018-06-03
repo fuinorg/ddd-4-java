@@ -46,8 +46,8 @@ public class EventStoreRespositoryTest {
         eventStore.open();
         try {
 
-            final VendorRepository repo = new VendorRepository(eventStore);        
-    
+            final VendorRepository repo = new VendorRepository(eventStore);
+
             final VendorId vendorId = new VendorId();
             final VendorKey vendorKey = new VendorKey("V00001");
             final VendorName vendorName = new VendorName("Hazards International Inc.");
@@ -57,10 +57,10 @@ public class EventStoreRespositoryTest {
                     // Do nothing
                 }
             });
-    
+
             // TEST
             repo.update(vendor);
-    
+
             // VERIFY
             final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
             final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 100);
@@ -69,11 +69,11 @@ public class EventStoreRespositoryTest {
             assertThat(vendor.getVersion()).isEqualTo(0);
             vendor = repo.read(vendorId);
             assertThat(vendor.getVersion()).isEqualTo(0);
-            
+
         } finally {
             eventStore.close();
         }
-        
+
     }
 
     @Test
@@ -84,8 +84,8 @@ public class EventStoreRespositoryTest {
         eventStore.open();
         try {
 
-            final VendorRepository repo = new VendorRepository(eventStore);        
-    
+            final VendorRepository repo = new VendorRepository(eventStore);
+
             final VendorId vendorId = new VendorId();
             final VendorKey vendorKey = new VendorKey("V00001");
             final VendorName vendorName = new VendorName("Hazards International Inc.");
@@ -97,10 +97,10 @@ public class EventStoreRespositoryTest {
             });
             repo.update(vendor);
 
-            // TEST            
+            // TEST
             vendor.addPerson(new PersonName("Peter Parker"));
             repo.update(vendor);
-            
+
             // VERIFY
             final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
             final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 100);
@@ -109,12 +109,11 @@ public class EventStoreRespositoryTest {
             assertThat(vendor.getVersion()).isEqualTo(1);
             vendor = repo.read(vendorId);
             assertThat(vendor.getVersion()).isEqualTo(1);
-            
-            
+
         } finally {
             eventStore.close();
         }
-        
+
     }
 
     @Test
@@ -125,8 +124,8 @@ public class EventStoreRespositoryTest {
         eventStore.open();
         try {
 
-            final VendorRepository repo = new VendorRepository(eventStore);        
-    
+            final VendorRepository repo = new VendorRepository(eventStore);
+
             final VendorId vendorId = new VendorId();
             final VendorKey vendorKey = new VendorKey("V00001");
             final VendorName vendorName = new VendorName("Hazards International Inc.");
@@ -138,9 +137,9 @@ public class EventStoreRespositoryTest {
             });
             repo.update(vendor);
 
-            // TEST            
+            // TEST
             repo.delete(vendorId, vendor.getVersion());
-            
+
             // VERIFY
             final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
             assertThat(eventStore.streamExists(streamId)).isFalse();
@@ -153,10 +152,9 @@ public class EventStoreRespositoryTest {
         } finally {
             eventStore.close();
         }
-        
+
     }
-    
-    
+
     @Test
     public void testConflictsResolved() throws Exception {
 
@@ -165,8 +163,8 @@ public class EventStoreRespositoryTest {
         eventStore.open();
         try {
 
-            final VendorRepository repo = new VendorRepository(eventStore);        
-    
+            final VendorRepository repo = new VendorRepository(eventStore);
+
             // Create version 0 of the vendor
             final VendorId vendorId = new VendorId();
             final VendorKey vendorKey = new VendorKey("V00001");
@@ -180,17 +178,17 @@ public class EventStoreRespositoryTest {
             repo.update(vendor); // VERSION 0
 
             // TEST
-            
+
             // The first user adds a person with a typo in the name
             Vendor vendorUser1 = repo.read(vendorId, 0);
             vendorUser1.addPerson(new PersonName("Peter Parrker"));
             final PersonCreatedEvent pce = (PersonCreatedEvent) vendorUser1.getUncommittedChanges().get(0);
             repo.update(vendorUser1); // VERSION 1
             assertThat(repo.read(vendorId).getVersion()).isEqualTo(1);
-            
+
             // The second user loads the data an realizes the typo
             final Vendor vendorUser2 = repo.read(vendorId, 1);
-            
+
             // The first user continues adding more persons
             vendorUser1 = repo.read(vendorId, 1);
             vendorUser1.addPerson(new PersonName("Mary Jane Watson"));
@@ -202,15 +200,14 @@ public class EventStoreRespositoryTest {
             vendorUser2.changePersonName(pce.getPersonId(), new PersonName("Peter Parker"));
             repo.update(vendorUser2); // VERSION 4
             assertThat(repo.read(vendorId).getVersion()).isEqualTo(4);
-            
+
             // VERIFY
-            
-            
+
         } finally {
             eventStore.close();
         }
-        
+
     }
-    
+
 }
 // CHECKSTYLE:ON

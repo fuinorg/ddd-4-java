@@ -33,8 +33,7 @@ import org.fuin.objects4j.common.ExceptionShortIdentifable;
  */
 @XmlRootElement(name = "duplicate-entity-exception")
 @XmlAccessorType(XmlAccessType.NONE)
-public final class DuplicateEntityException extends AbstractJaxbMarshallableException
-        implements ExceptionShortIdentifable {
+public final class DuplicateEntityException extends AbstractJaxbMarshallableException implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
@@ -62,8 +61,7 @@ public final class DuplicateEntityException extends AbstractJaxbMarshallableExce
      * @param entityId
      *            Unique identifier of the entity that already existed.
      */
-    public DuplicateEntityException(@NotNull final EntityIdPath parentIdPath, 
-            @NotNull final EntityId entityId) {
+    public DuplicateEntityException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
         super(entityId.asTypedString() + " already exists in " + parentIdPath.asString());
 
         this.sid = SHORT_ID_PREFIX + "-DUPLICATE_ENTITY";

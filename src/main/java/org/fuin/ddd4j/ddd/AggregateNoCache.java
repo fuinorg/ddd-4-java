@@ -23,8 +23,7 @@ package org.fuin.ddd4j.ddd;
  * @param <AGGREGATE>
  *            Type of the aggregate.
  */
-public final class AggregateNoCache<AGGREGATE> implements
-        AggregateCache<AGGREGATE> {
+public final class AggregateNoCache<AGGREGATE> implements AggregateCache<AGGREGATE> {
 
     @Override
     public final AGGREGATE get(final AggregateRootId aggregateId, final Integer version) {

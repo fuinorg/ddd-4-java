@@ -23,13 +23,14 @@ package org.fuin.ddd4j.test;
 public final class DuplicateVendorKeyException extends Exception {
 
     private static final long serialVersionUID = 1L;
-    
+
     private final VendorKey key;
-    
+
     /**
      * Constructor with key.
      * 
-     * @param key Key.
+     * @param key
+     *            Key.
      */
     public DuplicateVendorKeyException(final VendorKey key) {
         super("The vendor key already exists: " + key);
@@ -44,5 +45,5 @@ public final class DuplicateVendorKeyException extends Exception {
     public final VendorKey getKey() {
         return key;
     }
-    
+
 }

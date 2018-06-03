@@ -17,27 +17,25 @@
  */
 package org.fuin.ddd4j.test;
 
+import javax.annotation.concurrent.Immutable;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.EntityId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.vo.AbstractIntegerValueObject;
 
 /**
  * Unique identifier of a person.
  */
 @Immutable
-public final class PersonId extends AbstractIntegerValueObject implements
-        EntityId {
+public final class PersonId extends AbstractIntegerValueObject implements EntityId {
 
     private static final long serialVersionUID = 1000L;
 
     /** Type of entity this identifier represents. */
-    public static final EntityType ENTITY_TYPE = new StringBasedEntityType(
-            "Person");
+    public static final EntityType ENTITY_TYPE = new StringBasedEntityType("Person");
 
     private Integer value;
 
@@ -84,13 +82,12 @@ public final class PersonId extends AbstractIntegerValueObject implements
     public final String toString() {
         return asString();
     }
-    
+
     /**
      * Returns the information if a given string is a valid person identifier.
      * 
      * @param value
-     *            Value to check. A <code>null</code> value returns
-     *            <code>true</code>.
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
      * 
      * @return TRUE if it's a valid ID, else FALSE.
      */
@@ -111,8 +108,7 @@ public final class PersonId extends AbstractIntegerValueObject implements
      * Parses a person identifier.
      * 
      * @param value
-     *            Value to convert. A <code>null</code> value returns
-     *            <code>null</code>.
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
      * 
      * @return Converted value.
      */

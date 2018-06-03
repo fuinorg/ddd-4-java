@@ -54,8 +54,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      * Returns the information if a given string is a valid version.
      * 
      * @param value
-     *            Value to check. A <code>null</code> value returns
-     *            <code>true</code>.
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
      * 
      * @return TRUE if it's a valid version, else FALSE.
      */
@@ -70,8 +69,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      * Parses a version identifier.
      * 
      * @param value
-     *            Value to convert. A <code>null</code> value returns
-     *            <code>null</code>.
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
      * 
      * @return Converted value.
      */

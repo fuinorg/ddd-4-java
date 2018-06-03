@@ -57,8 +57,8 @@ import org.slf4j.LoggerFactory;
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
         implements Repository<ID, AGGREGATE> {
 
-    private static final String MAX_AGGREGATE_VERSION_EXCEEDED = "Exceeded maximum number of aggregate versions." 
-        + " The Event Store operates with 'long' versions but aggregates only can handle 'int' versions.";
+    private static final String MAX_AGGREGATE_VERSION_EXCEEDED = "Exceeded maximum number of aggregate versions."
+            + " The Event Store operates with 'long' versions but aggregates only can handle 'int' versions.";
 
     private static final Logger LOG = LoggerFactory.getLogger(EventStoreRepository.class);
 
@@ -82,8 +82,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final AGGREGATE read(final ID aggregateId)
-            throws AggregateNotFoundException, AggregateDeletedException {
+    public final AGGREGATE read(final ID aggregateId) throws AggregateNotFoundException, AggregateDeletedException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
         try {
@@ -110,12 +109,11 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             LOG.debug("Aggregate {} not found in cache", aggregateId.asTypedString());
             aggregate = create();
         } else if (aggregate.getVersion() > version) {
-            LOG.debug("Aggregate {} found in cache - Requested version {}, but found: {}",
-                    aggregateId.asTypedString(), version, aggregate.getVersion());
+            LOG.debug("Aggregate {} found in cache - Requested version {}, but found: {}", aggregateId.asTypedString(), version,
+                    aggregate.getVersion());
             aggregate = create();
         } else if (aggregate.getVersion() == version) {
-            LOG.debug("Aggregate {} found in cache with requested version: {}", aggregateId.asTypedString(),
-                    version);
+            LOG.debug("Aggregate {} found in cache with requested version: {}", aggregateId.asTypedString(), version);
             return aggregate;
         }
         return read(aggregate, aggregateId, version);
@@ -129,8 +127,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @param id
      *            Unique identifier of the aggregate.
      * @param targetVersion
-     *            Version of the aggregate to load or {@link Integer#MAX_VALUE}
-     *            to read the latest version.
+     *            Version of the aggregate to load or {@link Integer#MAX_VALUE} to read the latest version.
      * 
      * @return Aggregate in target version.
      * 
@@ -162,8 +159,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             }
 
             try {
-                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart,
-                        sliceCount);
+                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart, sliceCount);
                 currentSlice = getEventStore().readEventsForward(streamId, sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
@@ -181,8 +177,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
         } while ((aggregate.getVersion() != targetAggregateVersion) && !currentSlice.isEndOfStream());
 
-        if ((aggregate.getVersion() != targetAggregateVersion)
-                && (targetAggregateVersion < Integer.MAX_VALUE)) {
+        if ((aggregate.getVersion() != targetAggregateVersion) && (targetAggregateVersion < Integer.MAX_VALUE)) {
             throw new AggregateVersionNotFoundException(getAggregateType(), id, targetAggregateVersion);
         }
 
@@ -193,8 +188,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
     private void requireNoUncommittedChanges(final AGGREGATE aggregate) {
         if (aggregate.hasUncommitedChanges()) {
-            throw new IllegalArgumentException("The aggregate '" + getAggregateType() + "' ("
-                    + aggregate.getId() + ") has uncommitted changes");
+            throw new IllegalArgumentException(
+                    "The aggregate '" + getAggregateType() + "' (" + aggregate.getId() + ") has uncommitted changes");
         }
     }
 
@@ -210,11 +205,10 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
         Contract.requireArgNotNull("aggregate", aggregate);
 
-        LOG.info("Update aggregate: id={}, version={}, nextVersion={}", aggregate.getId().asTypedString(),
-                aggregate.getVersion(), aggregate.getNextVersion());
+        LOG.info("Update aggregate: id={}, version={}, nextVersion={}", aggregate.getId().asTypedString(), aggregate.getVersion(),
+                aggregate.getNextVersion());
 
-        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(),
-                aggregate.getId());
+        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(), aggregate.getId());
 
         final List<DomainEvent<?>> events = aggregate.getUncommittedChanges();
         final List<CommonEvent> eventDataList = asCommonEvents(events, metaType, metaData);
@@ -224,17 +218,16 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         boolean unsaved = true;
         do {
             try {
-                final int eventStoreNextVersion = intVersion(getEventStore().appendToStream(streamId, expectedVersion,
-                        eventDataList));
+                final int eventStoreNextVersion = intVersion(getEventStore().appendToStream(streamId, expectedVersion, eventDataList));
                 if ((expectedVersion + eventDataList.size()) != eventStoreNextVersion) {
-                    throw new IllegalStateException("Aggregate next version is " + aggregate.getNextVersion()
-                            + " but event store's is " + eventStoreNextVersion);
+                    throw new IllegalStateException(
+                            "Aggregate next version is " + aggregate.getNextVersion() + " but event store's is " + eventStoreNextVersion);
                 }
                 aggregate.markChangesAsCommitted();
                 unsaved = false;
             } catch (final WrongExpectedVersionException ex) {
-                LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount=",
-                        aggregate.getId().asTypedString(), ex.getExpected(), ex.getActual(), retryCount);
+                LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount=", aggregate.getId().asTypedString(),
+                        ex.getExpected(), ex.getActual(), retryCount);
                 expectedVersion = resolveConflicts(aggregate, integerVersion(ex.getActual()), retryCount++);
             } catch (final StreamDeletedException | StreamNotFoundException ex) {
                 throw new AggregateNotFoundException(getAggregateType(), aggregate.getId());
@@ -252,8 +245,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     /**
-     * Verifies if the changes conflict and returns a new expected number if
-     * not.
+     * Verifies if the changes conflict and returns a new expected number if not.
      * 
      * @param aggregate
      *            Aggregate to failed to be saved.
@@ -285,8 +277,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
         // Check how many times we should try
         if (retryCount == getMaxTryCount()) {
-            throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(),
-                    aggregate.getVersion(), latestVersion);
+            throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(), aggregate.getVersion(), latestVersion);
         }
 
         // Load unseen events and try to resolve the conflict
@@ -294,22 +285,19 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         if (conflictsResolved(aggregate.getUncommittedChanges(), unseenEvents)) {
             return latestVersion;
         }
-        throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(),
-                aggregate.getVersion(), latestVersion);
+        throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(), aggregate.getVersion(), latestVersion);
 
     }
 
     @Override
-    public final void delete(final ID aggregateId, final int expectedVersion)
-            throws AggregateVersionConflictException {
+    public final void delete(final ID aggregateId, final int expectedVersion) throws AggregateVersionConflictException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
         LOG.info("Delete aggregate: id={}, expectedVersion={}", aggregateId.asTypedString(), expectedVersion);
 
         try {
-            final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(),
-                    aggregateId);
+            final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(), aggregateId);
             getEventStore().deleteStream(streamId, expectedVersion, false);
         } catch (final WrongExpectedVersionException ex) {
             throw new AggregateVersionConflictException(getAggregateType(), aggregateId, integerVersion(ex.getExpected()),
@@ -340,8 +328,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         LOG.info("Read events: id={}, startVersion={}", aggregateId.asTypedString(), startVersion);
 
         final List<DomainEvent<?>> list = new ArrayList<DomainEvent<?>>();
-        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(),
-                aggregateId);
+        final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(), aggregateId);
         final int sliceCount = getReadPageSize();
 
         int sliceStart = startVersion;
@@ -349,8 +336,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         do {
 
             try {
-                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart,
-                        sliceCount);
+                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart, sliceCount);
                 currentSlice = getEventStore().readEventsForward(streamId, sliceStart, sliceCount);
                 LOG.debug("Result slice: {}", currentSlice);
             } catch (final StreamNotFoundException ex) {
@@ -371,71 +357,63 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         return list;
     }
 
-    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events, final String metaType,
-            final Object metaData) {
+    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events, final String metaType, final Object metaData) {
         final List<CommonEvent> list = new ArrayList<>();
         for (final DomainEvent<?> event : events) {
             final SimpleCommonEvent sce;
             if (metaData == null) {
-                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()),
-                        new TypeName(event.getEventType().asBaseType()), event);
+                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
+                        event);
             } else {
                 if (metaType == null) {
-                    throw new IllegalArgumentException(
-                            "Argument 'metaType' cannot be null if 'metaData' is provided (non-null)");
+                    throw new IllegalArgumentException("Argument 'metaType' cannot be null if 'metaData' is provided (non-null)");
                 }
-                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()),
-                        new TypeName(event.getEventType().asBaseType()), event, new TypeName(metaType),
-                        metaData);
+                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
+                        event, new TypeName(metaType), metaData);
             }
             list.add(sce);
         }
         return list;
     }
-    
+
     private int intVersion(final long version) {
-	if (version > Integer.MAX_VALUE) {
-	    throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
-	}
-	return (int) version;
+        if (version > Integer.MAX_VALUE) {
+            throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
+        }
+        return (int) version;
     }
 
     private Integer integerVersion(final Long version) {
-	if (version == null) {
-	    return null;
-	}
-	if (version > Integer.MAX_VALUE) {
-	    throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
-	}
-	return version.intValue();
+        if (version == null) {
+            return null;
+        }
+        if (version > Integer.MAX_VALUE) {
+            throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
+        }
+        return version.intValue();
     }
-    
+
     /**
-     * Checks if the uncommitted changes conflicts with unseen changes from the
-     * event store and tries to solve the problem. This method may be
-     * overwritten by concrete implementation. Returns FALSE as default if not
-     * overwritten in subclasses.
+     * Checks if the uncommitted changes conflicts with unseen changes from the event store and tries to solve the problem. This method may
+     * be overwritten by concrete implementation. Returns FALSE as default if not overwritten in subclasses.
      * 
      * @param uncommittedChanges
      *            Uncommitted changes.
      * @param unseenEvents
      *            Unseen changes from the event store.
      * 
-     * @return TRUE if there are no conflicting changes, else FALSE (conflict
-     *         couldn't be resolved).
+     * @return TRUE if there are no conflicting changes, else FALSE (conflict couldn't be resolved).
      */
     // CHECKSTYLE:OFF:DesignForExtension OK because method has no logic (just a
     // boolean).
-    protected boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges,
-            final List<DomainEvent<?>> unseenEvents) {
+    protected boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges, final List<DomainEvent<?>> unseenEvents) {
         // CHECKSTYLE:ON:DesignForExtension
         return false;
     }
 
     /**
-     * Returns the number of tries that should be done to resolve a version
-     * conflict. This method may be overwritten by concrete implementation.
-     * Returns <code>3</code> as default if not overwritten in subclasses.
+     * Returns the number of tries that should be done to resolve a version conflict. This method may be overwritten by concrete
+     * implementation. Returns <code>3</code> as default if not overwritten in subclasses.
      * 
      * @return Number of tries.
      */
@@ -447,9 +425,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     /**
-     * Returns the aggregate cache. This method may be overwritten by concrete
-     * implementation. Returns no cache as default if not overwritten in
-     * subclasses.
+     * Returns the aggregate cache. This method may be overwritten by concrete implementation. Returns no cache as default if not
+     * overwritten in subclasses.
      * 
      * @return Cache.
      */
@@ -462,9 +439,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     /**
-     * Returns the number of events to read in a slice. This method may be
-     * overwritten by concrete implementation. Returns <code>100</code> as
-     * default if not overwritten in subclasses.
+     * Returns the number of events to read in a slice. This method may be overwritten by concrete implementation. Returns <code>100</code>
+     * as default if not overwritten in subclasses.
      * 
      * @return Page size.
      */

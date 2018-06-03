@@ -30,8 +30,7 @@ import org.fuin.objects4j.common.ExceptionShortIdentifable;
  * Signals a conflict between an expected and an actual version for an aggregate.
  */
 @XmlRootElement(name = "aggregate-version-conflict-exception")
-public final class AggregateVersionConflictException extends AbstractJaxbMarshallableException
-        implements ExceptionShortIdentifable {
+public final class AggregateVersionConflictException extends AbstractJaxbMarshallableException implements ExceptionShortIdentifable {
 
     private static final long serialVersionUID = 1L;
 
@@ -69,10 +68,9 @@ public final class AggregateVersionConflictException extends AbstractJaxbMarshal
      * @param actual
      *            Actual version.
      */
-    public AggregateVersionConflictException(@NotNull final EntityType aggregateType,
-            @NotNull final AggregateRootId aggregateId, final int expected, final int actual) {
-        super("Expected version " + expected + " for " + aggregateType.asString() + " ("
-                + aggregateId.asString() + "), but was " + actual);
+    public AggregateVersionConflictException(@NotNull final EntityType aggregateType, @NotNull final AggregateRootId aggregateId,
+            final int expected, final int actual) {
+        super("Expected version " + expected + " for " + aggregateType.asString() + " (" + aggregateId.asString() + "), but was " + actual);
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_CONFLICT";
         this.aggregateType = aggregateType.asString();

@@ -30,12 +30,8 @@ public final class Ddd4JUtils {
     public static final String SHORT_ID_PREFIX = "DDD4J";
 
     /** Classes used for JAX-B serialization. */
-    public static final List<Class<?>> JAXB_CLASSES = Collections.unmodifiableList(Arrays.asList( 
-            AggregateDeletedException.class,
-            AggregateNotFoundException.class,
-            AggregateVersionConflictException.class,
-            AggregateVersionNotFoundException.class
-    ));
+    public static final List<Class<?>> JAXB_CLASSES = Collections.unmodifiableList(Arrays.asList(AggregateDeletedException.class,
+            AggregateNotFoundException.class, AggregateVersionConflictException.class, AggregateVersionNotFoundException.class));
 
     /**
      * Private by intention.

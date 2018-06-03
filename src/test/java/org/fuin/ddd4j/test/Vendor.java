@@ -23,9 +23,9 @@ import java.util.List;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
+import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.ddd4j.ddd.ChildEntityLocator;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -40,8 +40,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
     private List<Person> persons;
 
     /**
-     * Default constructor used by the repositories. NEVER use in your
-     * application code!
+     * Default constructor used by the repositories. NEVER use in your application code!
      */
     public Vendor() {
         super();
@@ -62,10 +61,8 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      * @throws DuplicateVendorKeyException
      *             The given key already exists.
      */
-    public Vendor(@NotNull final VendorId id, @NotNull final VendorKey key,
-            @NotNull final VendorName name,
-            @NotNull final ConstructorService service)
-            throws DuplicateVendorKeyException {
+    public Vendor(@NotNull final VendorId id, @NotNull final VendorKey key, @NotNull final VendorName name,
+            @NotNull final ConstructorService service) throws DuplicateVendorKeyException {
         super();
 
         // CHECK PRECONDITIONS
@@ -132,8 +129,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      * @throws PersonNotFoundException
      *             No person with teh given ID was found.
      */
-    public final void changePersonName(@NotNull final PersonId personId,
-            @NotNull final PersonName newName) throws PersonNotFoundException {
+    public final void changePersonName(@NotNull final PersonId personId, @NotNull final PersonName newName) throws PersonNotFoundException {
 
         // CHECK PRECONDITIONS
         Contract.requireArgNotNull("personId", personId);
@@ -185,8 +181,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
     public interface ConstructorService {
 
         /**
-         * Adds a new vendor key to the context. The key will be persisted or an
-         * exception will be thrown if it already exists.
+         * Adds a new vendor key to the context. The key will be persisted or an exception will be thrown if it already exists.
          * 
          * @param key
          *            Key to verify and persist.
@@ -194,8 +189,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
          * @throws DuplicateVendorKeyException
          *             The given key already exists.
          */
-        public void addVendorKey(VendorKey key)
-                throws DuplicateVendorKeyException;
+        public void addVendorKey(VendorKey key) throws DuplicateVendorKeyException;
 
     }
 

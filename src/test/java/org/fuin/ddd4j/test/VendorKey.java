@@ -17,12 +17,12 @@
  */
 package org.fuin.ddd4j.test;
 
+import javax.annotation.concurrent.Immutable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.ddd4j.ddd.BusinessKey;
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;
@@ -33,8 +33,7 @@ import org.fuin.objects4j.vo.AbstractStringValueObject;
  */
 @Label(value = "Vendor number")
 @ShortLabel(value = "VN")
-@Tooltip("A human readable unique identifier for a vendor. "
-        + "Used for example in mails or contracts as a reference.")
+@Tooltip("A human readable unique identifier for a vendor. " + "Used for example in mails or contracts as a reference.")
 @Immutable
 @XmlJavaTypeAdapter(VendorKeyConverter.class)
 public final class VendorKey extends AbstractStringValueObject implements BusinessKey {

@@ -19,11 +19,11 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.UUID;
 
+import javax.annotation.concurrent.Immutable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.Immutable;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
@@ -74,5 +74,5 @@ public class EventId extends AbstractUuidValueObject implements TechnicalId {
     public final String toString() {
         return uuid.toString();
     }
-    
+
 }

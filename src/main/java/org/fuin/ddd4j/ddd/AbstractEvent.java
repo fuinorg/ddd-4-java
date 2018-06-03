@@ -19,11 +19,11 @@ package org.fuin.ddd4j.ddd;
 
 import java.time.ZonedDateTime;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import javax.annotation.Nullable;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
@@ -72,8 +72,7 @@ public abstract class AbstractEvent implements Event {
     }
 
     /**
-     * Constructor with event this one responds to. Convenience method to set the correlation and causation
-     * identifiers correctly.
+     * Constructor with event this one responds to. Convenience method to set the correlation and causation identifiers correctly.
      * 
      * @param respondTo
      *            Causing event.

@@ -35,8 +35,7 @@ public interface AggregateCache<AGGREGATE> {
      * @param version
      *            Version to load or <code>null</code> for latest.
      * 
-     * @return Cached aggregate or <code>null</code> if it was not found in the
-     *         cache.
+     * @return Cached aggregate or <code>null</code> if it was not found in the cache.
      */
     public AGGREGATE get(@NotNull AggregateRootId aggregateId, Integer version);
 
@@ -48,8 +47,7 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregate
      *            Aggregate to cache.
      */
-    public void put(@NotNull AggregateRootId aggregateId,
-            @NotNull AGGREGATE aggregate);
+    public void put(@NotNull AggregateRootId aggregateId, @NotNull AGGREGATE aggregate);
 
     /**
      * Removes the aggregate with the given identifier from the cache.

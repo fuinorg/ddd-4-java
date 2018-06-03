@@ -33,11 +33,8 @@ public class AbstractEntityTest {
 
     @Test
     public void testEqualsHashCode() {
-        EqualsVerifier.forClass(BEntity.class)
-                .withPrefabValues(AbstractAggregateRoot.class, new ARoot(new AId(1)), new ARoot(new AId(2)))
-                .suppress(Warning.NULL_FIELDS, Warning.ALL_FIELDS_SHOULD_BE_USED)
-                .withRedefinedSuperclass()
-                .verify();
+        EqualsVerifier.forClass(BEntity.class).withPrefabValues(AbstractAggregateRoot.class, new ARoot(new AId(1)), new ARoot(new AId(2)))
+                .suppress(Warning.NULL_FIELDS, Warning.ALL_FIELDS_SHOULD_BE_USED).withRedefinedSuperclass().verify();
     }
 
     @Test

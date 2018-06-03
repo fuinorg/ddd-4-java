@@ -41,8 +41,7 @@ public class AggregateVersionNotFoundExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateVersionNotFoundException original = new AggregateVersionNotFoundException(VendorId.ENTITY_TYPE,
-                vendorId, 47);
+        final AggregateVersionNotFoundException original = new AggregateVersionNotFoundException(VendorId.ENTITY_TYPE, vendorId, 47);
 
         // TEST
         final byte[] data = serialize(original);
@@ -63,36 +62,32 @@ public class AggregateVersionNotFoundExceptionTest {
         // PREPARE
         final AggregateVersionNotFoundException original = new AggregateVersionNotFoundException(VendorId.ENTITY_TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")), 47);
-        
+
         // TEST
         final String xml = marshal(original, AggregateVersionNotFoundException.class);
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
-                .compare(
-                        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                                + "<aggregate-version-not-found-exception>"
-                                + "<msg>Requested version 47 for Vendor (4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119) does not exist</msg>"
-                                + "<sid>DDD4J-AGGREGATE_VERSION_NOT_FOUND</sid>"
-                                + "<aggregate-type>Vendor</aggregate-type>"
-                                + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>"
-                                + "<version>47</version>"
-                                + "</aggregate-version-not-found-exception>").withTest(xml).ignoreWhitespace()
-                .build();
+                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<aggregate-version-not-found-exception>"
+                        + "<msg>Requested version 47 for Vendor (4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119) does not exist</msg>"
+                        + "<sid>DDD4J-AGGREGATE_VERSION_NOT_FOUND</sid>" + "<aggregate-type>Vendor</aggregate-type>"
+                        + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>" + "<version>47</version>"
+                        + "</aggregate-version-not-found-exception>")
+                .withTest(xml).ignoreWhitespace().build();
 
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 
         // TEST
         final AggregateVersionNotFoundException copy = unmarshal(xml, AggregateVersionNotFoundException.class);
-        
+
         // VERIFY
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
         assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
         assertThat(copy.getMessage()).isEqualTo(original.getMessage());
         assertThat(copy.getVersion()).isEqualTo(original.getVersion());
-        
+
     }
 
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

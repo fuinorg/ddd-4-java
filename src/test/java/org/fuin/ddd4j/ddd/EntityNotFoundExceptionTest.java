@@ -63,12 +63,10 @@ public class EntityNotFoundExceptionTest {
         final String xml = marshal(original, EntityNotFoundException.class);
 
         // VERIFY
-        final Diff documentDiff = DiffBuilder
-                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                        + "<entity-not-found-exception>" + "<msg>B 2 not found in A 1</msg>"
-                        + "<sid>DDD4J-ENTITY_NOT_FOUND</sid>" + "<parent-id-path>A 1</parent-id-path>"
-                        + "<entity-id>2</entity-id>" + "</entity-not-found-exception>")
-                .withTest(xml).ignoreWhitespace().build();
+        final Diff documentDiff = DiffBuilder.compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+                + "<entity-not-found-exception>" + "<msg>B 2 not found in A 1</msg>" + "<sid>DDD4J-ENTITY_NOT_FOUND</sid>"
+                + "<parent-id-path>A 1</parent-id-path>" + "<entity-id>2</entity-id>" + "</entity-not-found-exception>").withTest(xml)
+                .ignoreWhitespace().build();
 
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 

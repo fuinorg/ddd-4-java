@@ -53,6 +53,6 @@ public class BId implements EntityId {
     public String toString() {
         return "BId [id=" + id + "]";
     }
-    
+
 }
 // CHECKSTYLE:ON

@@ -20,9 +20,8 @@ package org.fuin.ddd4j.ddd;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import javax.validation.constraints.NotNull;
-
 import javax.annotation.Nullable;
+import javax.validation.constraints.NotNull;
 
 /**
  * Something that happened in the system.
@@ -54,19 +53,19 @@ public interface Event extends Serializable {
     public ZonedDateTime getTimestamp();
 
     /**
-     * Correlation identifier. 
-     *  
+     * Correlation identifier.
+     * 
      * @return Context of the event.
      */
     @Nullable
     public EventId getCorrelationId();
 
     /**
-     * Causation identifier. 
-     *  
+     * Causation identifier.
+     * 
      * @return Identifier of the evtn that caused this one.
      */
     @Nullable
     public EventId getCausationId();
-    
+
 }

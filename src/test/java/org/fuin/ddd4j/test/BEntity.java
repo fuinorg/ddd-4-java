@@ -89,8 +89,9 @@ public final class BEntity extends AbstractEntity<AId, ARoot, BId> {
     /**
      * Method that calls a child entity.
      * 
-     * @param cid Child entity to call the doIt() method on.
-     * @throws EntityNotFoundException 
+     * @param cid
+     *            Child entity to call the doIt() method on.
+     * @throws EntityNotFoundException
      */
     public void doIt(final CId cid) throws EntityNotFoundException {
         final CEntity found = find(cid);
@@ -119,6 +120,6 @@ public final class BEntity extends AbstractEntity<AId, ARoot, BId> {
     private EntityIdPath getEntityIdPath() {
         return new EntityIdPath(getRootId(), id);
     }
-    
+
 }
 // CHECKSTYLE:ON

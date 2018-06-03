@@ -41,8 +41,7 @@ public class AggregateVersionConflictExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateVersionConflictException original = new AggregateVersionConflictException(VendorId.ENTITY_TYPE,
-                vendorId, 47, 102);
+        final AggregateVersionConflictException original = new AggregateVersionConflictException(VendorId.ENTITY_TYPE, vendorId, 47, 102);
 
         // TEST
         final byte[] data = serialize(original);
@@ -64,29 +63,24 @@ public class AggregateVersionConflictExceptionTest {
         // PREPARE
         final AggregateVersionConflictException original = new AggregateVersionConflictException(VendorId.ENTITY_TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")), 47, 102);
-        
+
         // TEST
         final String xml = marshal(original, AggregateVersionConflictException.class);
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
-                .compare(
-                        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                                + "<aggregate-version-conflict-exception>"
-                                + "<msg>Expected version 47 for Vendor (4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119), but was 102</msg>"
-                                + "<sid>DDD4J-AGGREGATE_VERSION_CONFLICT</sid>"
-                                + "<aggregate-type>Vendor</aggregate-type>"
-                                + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>"
-                                + "<expected>47</expected>"
-                                + "<actual>102</actual>"
-                                + "</aggregate-version-conflict-exception>").withTest(xml).ignoreWhitespace()
-                .build();
+                .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<aggregate-version-conflict-exception>"
+                        + "<msg>Expected version 47 for Vendor (4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119), but was 102</msg>"
+                        + "<sid>DDD4J-AGGREGATE_VERSION_CONFLICT</sid>" + "<aggregate-type>Vendor</aggregate-type>"
+                        + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>" + "<expected>47</expected>"
+                        + "<actual>102</actual>" + "</aggregate-version-conflict-exception>")
+                .withTest(xml).ignoreWhitespace().build();
 
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 
         // TEST
         final AggregateVersionConflictException copy = unmarshal(xml, AggregateVersionConflictException.class);
-        
+
         // VERIFY
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
@@ -94,8 +88,8 @@ public class AggregateVersionConflictExceptionTest {
         assertThat(copy.getMessage()).isEqualTo(original.getMessage());
         assertThat(copy.getExpected()).isEqualTo(original.getExpected());
         assertThat(copy.getActual()).isEqualTo(original.getActual());
-        
+
     }
 
 }
-//CHECKSTYLE:ON
+// CHECKSTYLE:ON

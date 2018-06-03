@@ -26,16 +26,14 @@ import org.fuin.objects4j.common.ConstraintViolationException;
 /**
  * Check that a given string is a valid vendor name.
  */
-public final class VendorNameStrValidator implements
-        ConstraintValidator<VendorNameStr, String> {
+public final class VendorNameStrValidator implements ConstraintValidator<VendorNameStr, String> {
 
     @Override
     public final void initialize(final VendorNameStr constraintAnnotation) {
     }
 
     @Override
-    public final boolean isValid(final String value,
-            final ConstraintValidatorContext context) {
+    public final boolean isValid(final String value, final ConstraintValidatorContext context) {
         return isValid(value);
     }
 
@@ -45,8 +43,7 @@ public final class VendorNameStrValidator implements
      * @param value
      *            Value to check.
      * 
-     * @return Returns <code>true</code> if it's a valid user id else
-     *         <code>false</code> is returned.
+     * @return Returns <code>true</code> if it's a valid user id else <code>false</code> is returned.
      */
     public static final boolean isValid(final String value) {
         if (value == null) {
@@ -71,12 +68,10 @@ public final class VendorNameStrValidator implements
      *             The value was not valid.
      */
     // CHECKSTYLE:OFF:RedundantThrows
-    public static void requireArgValid(@NotNull final String name,
-            @NotNull final String value) throws ConstraintViolationException {
+    public static void requireArgValid(@NotNull final String name, @NotNull final String value) throws ConstraintViolationException {
         // CHECKSTYLE:ON
         if (!isValid(value)) {
-            throw new ConstraintViolationException("The argument '" + name
-                    + "' is not valid: '" + value + "'");
+            throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");
         }
     }
 

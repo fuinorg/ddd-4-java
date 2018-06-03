@@ -56,9 +56,7 @@ public final class VendorRef implements ValueObject {
      * @param vendorName
      *            Vendor name.
      */
-    public VendorRef(@NotNull final VendorId vendorId,
-            @NotNull final VendorKey vendorKey,
-            @NotNull final VendorName vendorName) {
+    public VendorRef(@NotNull final VendorId vendorId, @NotNull final VendorKey vendorKey, @NotNull final VendorName vendorName) {
         super();
 
         Contract.requireArgNotNull("vendorId", vendorId);

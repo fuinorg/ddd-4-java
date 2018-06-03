@@ -17,10 +17,10 @@
  */
 package org.fuin.ddd4j.test;
 
+import javax.annotation.concurrent.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
@@ -28,9 +28,8 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
  */
 @ThreadSafe
 @Converter(autoApply = true)
-public final class VendorKeyConverter extends
-        AbstractValueObjectConverter<String, VendorKey> implements
-        AttributeConverter<VendorKey, String> {
+public final class VendorKeyConverter extends AbstractValueObjectConverter<String, VendorKey>
+        implements AttributeConverter<VendorKey, String> {
 
     @Override
     public Class<String> getBaseTypeClass() {

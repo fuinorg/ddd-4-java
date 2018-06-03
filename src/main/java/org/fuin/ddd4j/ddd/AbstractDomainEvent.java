@@ -17,11 +17,10 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import javax.annotation.Nullable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import javax.annotation.Nullable;
 
 /**
  * Base class for domain events.
@@ -29,8 +28,7 @@ import javax.annotation.Nullable;
  * @param <ID>
  *            Type of the entity identifier.
  */
-public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractEvent
-        implements DomainEvent<ID> {
+public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractEvent implements DomainEvent<ID> {
 
     private static final long serialVersionUID = 1000L;
 
@@ -49,8 +47,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      * Constructor with entity identifier path.
      * 
      * @param entityIdPath
-     *            Identifier path from aggregate root to the entity that emitted
-     *            the event.
+     *            Identifier path from aggregate root to the entity that emitted the event.
      */
     public AbstractDomainEvent(final EntityIdPath entityIdPath) {
         super();
@@ -58,13 +55,11 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
     }
 
     /**
-     * Constructor with entity identifier path and event this one responds to.
-     * Convenience method to set the correlation and causation identifiers
-     * correctly.
+     * Constructor with entity identifier path and event this one responds to. Convenience method to set the correlation and causation
+     * identifiers correctly.
      * 
      * @param entityIdPath
-     *            Identifier path from aggregate root to the entity that emitted
-     *            the event.
+     *            Identifier path from aggregate root to the entity that emitted the event.
      * @param respondTo
      *            Causing event.
      */
@@ -74,12 +69,10 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
     }
 
     /**
-     * Constructor with entity identifier path, correlation and causation
-     * identifiers.
+     * Constructor with entity identifier path, correlation and causation identifiers.
      * 
      * @param entityIdPath
-     *            Identifier path from aggregate root to the entity that emitted
-     *            the event.
+     *            Identifier path from aggregate root to the entity that emitted the event.
      * @param correlationId
      *            Correlation ID.
      * @param causationId

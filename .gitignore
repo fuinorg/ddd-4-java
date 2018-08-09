@@ -2,6 +2,7 @@
 !.gitignore
 !.gitkeep
 !.checkstyle
+!.mvn
 target
 META-INF
 *.log

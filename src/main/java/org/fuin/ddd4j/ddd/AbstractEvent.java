@@ -20,6 +20,8 @@ package org.fuin.ddd4j.ddd;
 import java.time.ZonedDateTime;
 
 import javax.annotation.Nullable;
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -38,6 +40,9 @@ public abstract class AbstractEvent implements Event {
 
     private static final long serialVersionUID = 1000L;
 
+    @NotNull(message = "event-id must not be null")
+    @JsonbTypeAdapter(EventIdConverter.class)
+    @JsonbProperty("event-id")
     @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "event-id")
     private EventId eventId;
@@ -46,6 +51,8 @@ public abstract class AbstractEvent implements Event {
     @ShortLabel("Time")
     @Tooltip("Date/Time the event was created")
     @Prompt("2016-12-31T23:59:59+02:00")
+    @NotNull(message = "event-timestamp must not be null")
+    @JsonbProperty("event-timestamp")
     @XmlJavaTypeAdapter(ZonedDateTimeXmlAdapter.class)
     @XmlElement(name = "event-timestamp")
     private ZonedDateTime timestamp;
@@ -53,6 +60,9 @@ public abstract class AbstractEvent implements Event {
     @Label("Correlation Identifier")
     @ShortLabel("CorrID")
     @Tooltip("Event this one correlates to")
+    @Nullable
+    @JsonbTypeAdapter(EventIdConverter.class)
+    @JsonbProperty("correlation-id")
     @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "correlation-id")
     private EventId correlationId;
@@ -60,6 +70,9 @@ public abstract class AbstractEvent implements Event {
     @Label("Causation Identifier")
     @ShortLabel("CauseID")
     @Tooltip("Event that caused this one")
+    @Nullable
+    @JsonbTypeAdapter(EventIdConverter.class)
+    @JsonbProperty("causation-id")
     @XmlJavaTypeAdapter(EventIdConverter.class)
     @XmlElement(name = "causation-id")
     private EventId causationId;

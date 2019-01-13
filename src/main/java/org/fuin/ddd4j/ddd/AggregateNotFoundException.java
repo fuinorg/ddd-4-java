@@ -19,6 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 
+import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,12 +38,15 @@ public final class AggregateNotFoundException extends AbstractJaxbMarshallableEx
 
     private static final long serialVersionUID = 1L;
 
+    @JsonbProperty("sid")
     @XmlElement(name = "sid")
     private String sid;
 
+    @JsonbProperty("aggregate-type")
     @XmlElement(name = "aggregate-type")
     private String aggregateType;
 
+    @JsonbProperty("aggregate-id")
     @XmlElement(name = "aggregate-id")
     private String aggregateId;
 

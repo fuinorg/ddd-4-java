@@ -18,6 +18,8 @@
 package org.fuin.ddd4j.ddd;
 
 import javax.annotation.Nullable;
+import javax.json.bind.annotation.JsonbProperty;
+import javax.json.bind.annotation.JsonbTypeAdapter;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -32,6 +34,9 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
 
     private static final long serialVersionUID = 1000L;
 
+    @NotNull
+    @JsonbTypeAdapter(EntityIdPathConverter.class)
+    @JsonbProperty("entity-id-path")
     @XmlJavaTypeAdapter(EntityIdPathConverter.class)
     @XmlElement(name = "entity-id-path")
     private EntityIdPath entityIdPath;
@@ -49,7 +54,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      * @param entityIdPath
      *            Identifier path from aggregate root to the entity that emitted the event.
      */
-    public AbstractDomainEvent(final EntityIdPath entityIdPath) {
+    public AbstractDomainEvent(@NotNull final EntityIdPath entityIdPath) {
         super();
         this.entityIdPath = entityIdPath;
     }
@@ -63,7 +68,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      * @param respondTo
      *            Causing event.
      */
-    public AbstractDomainEvent(final EntityIdPath entityIdPath, @NotNull final Event respondTo) {
+    public AbstractDomainEvent(@NotNull final EntityIdPath entityIdPath, @NotNull final Event respondTo) {
         super(respondTo);
         this.entityIdPath = entityIdPath;
     }
@@ -78,7 +83,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      * @param causationId
      *            ID of the event that caused this one.
      */
-    public AbstractDomainEvent(final EntityIdPath entityIdPath, @Nullable final EventId correlationId,
+    public AbstractDomainEvent(@NotNull final EntityIdPath entityIdPath, @Nullable final EventId correlationId,
             @Nullable final EventId causationId) {
         super(correlationId, causationId);
         this.entityIdPath = entityIdPath;

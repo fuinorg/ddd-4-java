@@ -32,22 +32,28 @@ import org.fuin.objects4j.common.Contract;
  *            Type of the entity identifier.
  */
 // CHECKSTYLE:OFF:LineLength
-public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId>
+public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT extends AggregateRoot<ROOT_ID>, ID extends EntityId>
         implements Entity<ID> {
     // CHECKSTYLE:ON:LineLength
 
     private final ROOT root;
+
+    private final AggregateRootImpl impl;
 
     /**
      * Constructor with root aggregate.
      * 
      * @param root
      *            Root aggregate.
+     * @param impl
+     *            Additional functionality the root aggregate implementation has to provide.
      */
-    public AbstractEntity(@NotNull final ROOT root) {
+    public AbstractEntity(@NotNull final ROOT root, final AggregateRootImpl impl) {
         super();
         Contract.requireArgNotNull("root", root);
+        Contract.requireArgNotNull("impl", impl);
         this.root = root;
+        this.impl = impl;
     }
 
     /**
@@ -57,7 +63,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      *            Event to dispatch to the appropriate event handler method.
      */
     protected final void apply(@NotNull final DomainEvent<?> event) {
-        root.applyNewChildEvent(this, event);
+        impl.applyNewChildEvent(this, event);
     }
 
     @Override
@@ -102,6 +108,32 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      */
     protected final ROOT_ID getRootId() {
         return root.getId();
+    }
+    
+    /**
+     * Returns the aggregate root implementation.
+     * 
+     * @return Implementation reference.
+     */
+    protected final AggregateRootImpl getAggregateRootImpl() {
+        return impl;
+    }
+
+    /**
+     * Aggregate root functionality that is not part of the public API but is required by this class.
+     */
+    public static interface AggregateRootImpl {
+
+        /**
+         * Applies the given new event. CAUTION: Don't use this method for applying historic events!
+         * 
+         * @param entity
+         *            Child entity that requested the apply operation.
+         * @param event
+         *            Event to dispatch to the appropriate event handler method.
+         */
+        public void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity, @NotNull final DomainEvent<?> event);
+
     }
 
 }

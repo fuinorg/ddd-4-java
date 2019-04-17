@@ -108,7 +108,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
         if (persons == null) {
             persons = new ArrayList<Person>();
         }
-        persons.add(new Person(this, event.getPersonId(), event.getPersonName()));
+        persons.add(new Person(this, this::applyNewChildEvent, event.getPersonId(), event.getPersonName()));
     }
 
     private int nextId() {

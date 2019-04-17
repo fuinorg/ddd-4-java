@@ -106,7 +106,7 @@ public final class ARoot extends AbstractAggregateRoot<AId> {
 
     @ApplyEvent
     public void applyEvent(final BAddedEvent event) {
-        childs.add(new BEntity(this, event.getBId()));
+        childs.add(new BEntity(this, this::applyNewChildEvent, event.getBId()));
         lastEvent = event;
     }
 

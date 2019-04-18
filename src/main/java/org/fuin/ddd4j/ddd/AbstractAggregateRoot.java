@@ -192,18 +192,14 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
     }
 
     /**
-     * Applies the given new event.<br>
-     * <br>
-     * <b>This method should NOT be used in your concrete aggregate root implementation!</b><br>
-     * <br>
-     * <b>CAUTION:</b> Don't use this method for applying historic events!
+     * Applies the given new event. CAUTION: Don't use this method for applying historic events!
      * 
      * @param entity
      *            Child entity that requested the apply operation.
      * @param event
      *            Event to dispatch to the appropriate event handler method.
      */
-    protected final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity, @NotNull final DomainEvent<?> event) {
+    final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity, @NotNull final DomainEvent<?> event) {
 
         if (callAnnotatedEventHandlerMethod(entity, event)) {
             uncommitedChanges.add(event);

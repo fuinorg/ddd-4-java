@@ -38,15 +38,13 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
      * 
      * @param vendor
      *            Aggregate root.
-     * @param impl
-     *            Aggregate root functionality that is not part of the public API.
      * @param id
      *            Unique identifier.
      * @param name
      *            Name.
      */
-    public Person(@NotNull final Vendor vendor, final AggregateRootImpl impl, final PersonId id, @NotNull final PersonName name) {
-        super(vendor, impl);
+    public Person(@NotNull final Vendor vendor, final PersonId id, @NotNull final PersonName name) {
+        super(vendor);
 
         // CHECK PRECONDITIONS
         Contract.requireArgNotNull("vendor", vendor);

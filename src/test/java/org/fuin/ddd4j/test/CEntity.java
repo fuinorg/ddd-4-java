@@ -20,7 +20,6 @@ package org.fuin.ddd4j.test;
 import org.fuin.ddd4j.ddd.AbstractEntity;
 import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.AbstractEntity.AggregateRootImpl;
 
 // CHECKSTYLE:OFF
 public final class CEntity extends AbstractEntity<AId, ARoot, CId> {
@@ -31,8 +30,8 @@ public final class CEntity extends AbstractEntity<AId, ARoot, CId> {
 
     private CEvent lastEvent;
 
-    public CEntity(final ARoot root, final AggregateRootImpl impl, final BId parentId, final CId id) {
-        super(root, impl);
+    public CEntity(final ARoot root, final BId parentId, final CId id) {
+        super(root);
         this.parentId = parentId;
         this.id = id;
     }

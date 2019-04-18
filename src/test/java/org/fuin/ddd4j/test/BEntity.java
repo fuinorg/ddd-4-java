@@ -38,8 +38,8 @@ public final class BEntity extends AbstractEntity<AId, ARoot, BId> {
 
     private AbstractDomainEvent<?> lastEvent;
 
-    public BEntity(final ARoot root, final AggregateRootImpl impl, final BId id) {
-        super(root, impl);
+    public BEntity(final ARoot root, final BId id) {
+        super(root);
         this.id = id;
         this.childs = new ArrayList<CEntity>();
     }
@@ -103,7 +103,7 @@ public final class BEntity extends AbstractEntity<AId, ARoot, BId> {
 
     @ApplyEvent
     public void applyEvent(final CAddedEvent event) {
-        childs.add(new CEntity(getRoot(), getAggregateRootImpl(), id, event.getCId()));
+        childs.add(new CEntity(getRoot(), id, event.getCId()));
         lastEvent = event;
     }
 

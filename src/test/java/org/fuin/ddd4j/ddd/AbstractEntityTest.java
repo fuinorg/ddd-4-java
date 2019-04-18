@@ -44,7 +44,7 @@ public class AbstractEntityTest {
         final AId aid = new AId(1);
         final ARoot a = new ARoot(aid);
         final BId bid = new BId(2);
-        final BEntity testee = new BEntity(a, a::applyNewChildEvent, bid);
+        final BEntity testee = new BEntity(a, bid);
 
         // TEST & VERIFY
         assertThat(testee.getRoot()).isEqualTo(a);

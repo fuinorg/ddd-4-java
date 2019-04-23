@@ -27,7 +27,7 @@
 	</issueManagement>
 
 	<properties>
-		<esc.version>0.3.0</esc.version>
+		<esc.version>0.3.1-SNAPSHOT</esc.version>
 	</properties>
 
 	<dependencies>

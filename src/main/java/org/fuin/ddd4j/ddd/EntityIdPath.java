@@ -164,5 +164,10 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
         }
         return sb.toString();
     }
+    
+    @Override
+    public final String toString() {
+        return asBaseType();
+    }
 
 }

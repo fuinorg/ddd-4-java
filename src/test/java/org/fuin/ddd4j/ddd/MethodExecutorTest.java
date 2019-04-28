@@ -20,10 +20,14 @@ package org.fuin.ddd4j.ddd;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.ARoot;
+import org.fuin.ddd4j.test.BAddedEvent;
 import org.fuin.ddd4j.test.BId;
+import org.fuin.ddd4j.test.BaseRoot;
+import org.fuin.ddd4j.test.DEvent;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF
@@ -50,6 +54,48 @@ public class MethodExecutorTest {
         // VERIFY
         assertThat(found.getId()).isSameAs(bid);
 
+    }
+
+    @Test
+    public void testFindAnnotatedMethodInBaseClassAndInvoke() throws DuplicateEntityException {
+
+        // PREPARE
+        final MethodExecutor testee = new MethodExecutor();
+
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot(aid);
+        final DEvent event = new DEvent(aid);
+
+        final Method method = testee.findDeclaredAnnotatedMethod(a, ApplyEvent.class, DEvent.class);
+
+        // TEST
+        testee.invoke(method, a, event);
+
+        // VERIFY
+        assertThat(a.getStored()).isSameAs(event);
+
+    }
+
+    @Test
+    public void testGetDeclaredMethodsIncludingSuperClasses() throws NoSuchMethodException, SecurityException {
+
+        // PREPARE
+        final MethodExecutor testee = new MethodExecutor();
+        final Method applyEventB = ARoot.class.getDeclaredMethod("applyEvent", new Class[] { BAddedEvent.class });
+        final Method applyEventD = BaseRoot.class.getDeclaredMethod("applyEvent", new Class[] { DEvent.class });
+
+        // TEST
+        final List<Method> methods1 = testee.getDeclaredMethodsIncludingSuperClasses(ARoot.class, AbstractAggregateRoot.class);
+
+        // VERIFY
+        assertThat(methods1).contains(applyEventB, applyEventD);
+
+        // TEST
+        final List<Method> methods2 = testee.getDeclaredMethodsIncludingSuperClasses(ARoot.class);
+
+        // VERIFY
+        assertThat(methods2).contains(applyEventB, applyEventD);
+        
     }
 
 }

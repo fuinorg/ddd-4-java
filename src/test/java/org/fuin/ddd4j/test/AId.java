@@ -17,12 +17,11 @@
  */
 package org.fuin.ddd4j.test;
 
-import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
 
 //CHECKSTYLE:OFF
-public class AId implements AggregateRootId {
+public class AId implements ImplRootId {
 
     private static final long serialVersionUID = 1L;
 

@@ -26,6 +26,7 @@ import org.fuin.ddd4j.test.BId;
 import org.fuin.ddd4j.test.CAddedEvent;
 import org.fuin.ddd4j.test.CEntity;
 import org.fuin.ddd4j.test.CId;
+import org.fuin.ddd4j.test.DEvent;
 import org.junit.Test;
 
 // CHECKSTYLE:OFF
@@ -68,6 +69,24 @@ public class AbstractAggregateRootTest {
 
     }
 
+    @Test
+    public void testApplyBaseMethod() {
+
+        // PREPARE
+        final AId aid = new AId(1);
+        final ARoot a = new ARoot();
+        final DEvent event = new DEvent(aid);
+
+        // TEST
+        a.apply(event);
+
+        // VERIFY
+        assertThat(a.getUncommittedChanges()).containsExactly(event);
+        assertThat(a.getVersion()).isEqualTo(-1);
+        assertThat(a.getNextVersion()).isEqualTo(0);
+
+    }
+    
     @Test
     public void testApplyRoot() {
 

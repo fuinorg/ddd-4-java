@@ -20,7 +20,6 @@ package org.fuin.ddd4j.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.ddd4j.ddd.ChildEntityLocator;
@@ -30,7 +29,7 @@ import org.fuin.ddd4j.ddd.EntityNotFoundException;
 import org.fuin.ddd4j.ddd.EntityType;
 
 // CHECKSTYLE:OFF
-public final class ARoot extends AbstractAggregateRoot<AId> {
+public final class ARoot extends BaseRoot<AId, ARoot> {
 
     private AId id;
 

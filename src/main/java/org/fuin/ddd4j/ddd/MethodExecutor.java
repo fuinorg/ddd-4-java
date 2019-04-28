@@ -20,7 +20,9 @@ package org.fuin.ddd4j.ddd;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.annotation.concurrent.ThreadSafe;
 import javax.validation.constraints.NotNull;
@@ -67,7 +69,7 @@ public final class MethodExecutor {
     }
 
     /**
-     * Finds a declared method that has an annotation and optional parameters.
+     * Finds a declared method on the instance or it's parents that has an annotation and optional parameters. The class
      * 
      * @param obj
      *            Object to inspect.
@@ -84,7 +86,7 @@ public final class MethodExecutor {
         Contract.requireArgNotNull("obj", obj);
         Contract.requireArgNotNull("annotationType", annotationType);
 
-        final Method[] methods = obj.getClass().getDeclaredMethods();
+        final List<Method> methods = getDeclaredMethodsIncludingSuperClasses(obj.getClass(), AbstractAggregateRoot.class);
         for (final Method method : methods) {
             if (method.getAnnotation(annotationType) != null) {
                 final Class<?>[] types = method.getParameterTypes();
@@ -95,6 +97,38 @@ public final class MethodExecutor {
         }
         return null;
 
+    }
+
+    /**
+     * Returns a list of declared methods from classes and super classes. The given stop classes will not be inspected.
+     * 
+     * @param clasz
+     *            Class to inspect.
+     * @param stopParent
+     *            Parent classes to stop inspection or {@literal null} to stop at {@link Object.class}.
+     * 
+     * @return List of methods.
+     */
+    public final List<Method> getDeclaredMethodsIncludingSuperClasses(@NotNull final Class<?> clasz,
+            @NotNull final Class<?>... stopParents) {
+        Contract.requireArgNotNull("clasz", clasz);
+        Contract.requireArgNotNull("stopParents", stopParents);
+
+        final List<Class<?>> stopList = new ArrayList<>(Arrays.asList(stopParents));
+        if (!stopList.contains(Object.class)) {
+            stopList.add(Object.class);
+        }
+
+        final List<Method> list = new ArrayList<>();
+        Class<?> toInspect = clasz;
+        while (!stopList.contains(toInspect)) {
+            final Method[] methods = toInspect.getDeclaredMethods();
+            for (final Method method : methods) {
+                list.add(method);
+            }
+            toInspect = toInspect.getSuperclass();
+        }
+        return list;
     }
 
     /**

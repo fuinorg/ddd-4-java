@@ -105,7 +105,7 @@ public final class MethodExecutor {
      * @param clasz
      *            Class to inspect.
      * @param stopParents
-     *            Parent classes to stop inspection or {@literal null} to stop at {@link Object.class}.
+     *            Parent classes to stop inspection or {@literal null} to stop at {@link Object}.
      * 
      * @return List of methods.
      */

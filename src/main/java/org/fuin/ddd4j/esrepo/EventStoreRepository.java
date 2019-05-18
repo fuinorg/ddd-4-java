@@ -22,6 +22,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.fuin.ddd4j.ddd.AggregateAlreadyExistsException;
 import org.fuin.ddd4j.ddd.AggregateCache;
 import org.fuin.ddd4j.ddd.AggregateDeletedException;
 import org.fuin.ddd4j.ddd.AggregateNoCache;
@@ -234,6 +235,25 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             }
 
         } while (unsaved);
+
+    }
+
+    @Override
+    public void add(final AGGREGATE aggregate) throws AggregateAlreadyExistsException, AggregateDeletedException {
+        add(aggregate, null, null);
+    }
+
+    @Override
+    public void add(final AGGREGATE aggregate, final String metaType, final Object metaData)
+            throws AggregateAlreadyExistsException, AggregateDeletedException {
+
+        try {
+            update(aggregate, metaType, metaData);
+        } catch (final AggregateVersionConflictException ex) {
+            throw new AggregateAlreadyExistsException(getAggregateType(), aggregate.getId(), ex.getActual());
+        } catch (final AggregateNotFoundException ex) {
+            throw new IllegalStateException(ex);
+        }
 
     }
 

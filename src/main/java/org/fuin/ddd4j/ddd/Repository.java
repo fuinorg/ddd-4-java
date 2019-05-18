@@ -115,6 +115,37 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException;
 
     /**
+     * Adds a new aggregate to the repository without any meta data. The method will fail if an aggregate with the same ID already exists.
+     * 
+     * @param aggregate
+     *            Aggregate to add.
+     * 
+     * @throws AggregateAlreadyExistsException
+     *             The aggregate with the given version could not be created because it already exists.
+     * @throws AggregateDeletedException
+     *             The aggregate with the given identifier was already deleted.
+     */
+    public void add(@NotNull T aggregate) throws AggregateAlreadyExistsException, AggregateDeletedException;
+
+    /**
+     * Adds a new aggregate to the repository with some meta data. The method will fail if an aggregate with the same ID already exists.
+     * 
+     * @param aggregate
+     *            Aggregate to add.
+     * @param metaType
+     *            Optional unique name that identifies the type of meta data.
+     * @param metaData
+     *            Optional information that is not directly available in the event.
+     * 
+     * @throws AggregateAlreadyExistsException
+     *             The aggregate with the given version could not be created because it already exists.
+     * @throws AggregateDeletedException
+     *             The aggregate with the given identifier was already deleted.
+     */
+    public void add(@NotNull T aggregate, @Nullable String metaType, @Nullable Object metaData)
+            throws AggregateAlreadyExistsException, AggregateDeletedException;
+
+    /**
      * Saves the changes on an aggregate in the repository without any meta data.
      * 
      * @param aggregate

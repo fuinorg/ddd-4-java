@@ -19,6 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 
+import javax.annotation.Nullable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -61,12 +62,13 @@ public final class EntityNotFoundException extends AbstractJaxbMarshallableExcep
      * Constructor with all data.
      * 
      * @param parentIdPath
-     *            Path from root to parent.
+     *            Path from root to parent or {@literal null} if the entity identifier is a root aggregate ID.
      * @param entityId
      *            Unique identifier of the entity that was not found.
      */
-    public EntityNotFoundException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
-        super(entityId.asTypedString() + " not found in " + parentIdPath.asString());
+    public EntityNotFoundException(@Nullable final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
+        super(parentIdPath == null ? entityId.asTypedString() + " not found"
+                : entityId.asTypedString() + " not found in " + parentIdPath.asString());
 
         this.sid = SHORT_ID_PREFIX + "-ENTITY_NOT_FOUND";
         this.parentIdPath = parentIdPath.asString();

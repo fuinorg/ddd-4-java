@@ -73,6 +73,16 @@ public final class EntityNotFoundException extends AbstractJaxbMarshallableExcep
         this.entityId = entityId.asString();
     }
 
+    /**
+     * Constructor with entity identifier path.
+     * 
+     * @param entityIdPath
+     *            Entity identifier path (from root to entity).
+     */
+    public EntityNotFoundException(@NotNull final EntityIdPath entityIdPath) {
+        this(entityIdPath.parent(), entityIdPath.last());
+    }
+
     @Override
     public final String getShortId() {
         return sid;

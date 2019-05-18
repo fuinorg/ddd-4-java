@@ -226,6 +226,45 @@ public class EntityIdPathTest {
     }
 
     @Test
+    public void testParentWithSizeOne() {
+
+        final EntityIdPath testee = new EntityIdPath(new AId(1L));
+        assertThat(testee.parent()).isNull();
+
+    }
+
+    @Test
+    public void testParent() {
+
+        // PREPARE
+        final AId aid = new AId(1L);
+        final BId bid = new BId(2L);
+        final CId cid = new CId(3L);
+        final List<EntityId> list = new ArrayList<>();
+        list.add(aid);
+        list.add(bid);
+        list.add(cid);
+        final EntityIdPath testee = new EntityIdPath(list);
+
+        // TEST
+        final EntityIdPath parent = testee.parent();
+
+        // VERIFY
+        assertThat(parent.size()).isEqualTo(2);
+        assertThat((EntityId) parent.first()).isEqualTo(aid);
+        assertThat((EntityId) parent.last()).isEqualTo(bid);
+
+        // TEST
+        final EntityIdPath parentParent = parent.parent();
+
+        // VERIFY
+        assertThat(parentParent.size()).isEqualTo(1);
+        assertThat((EntityId) parentParent.first()).isEqualTo(aid);
+        assertThat((EntityId) parentParent.last()).isEqualTo(aid);
+
+    }
+
+    @Test
     public void testAsString() {
 
         // PREPARE

@@ -145,6 +145,22 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
     }
 
     /**
+     * Returns the parent path without the last entry.
+     * 
+     * @return Parent identifier path or NULL if this is an aggregate root ID.
+     */
+    public EntityIdPath parent() {
+        if (entityIds.size() == 1) {
+            return null;
+        }
+        final List<EntityId> list = new ArrayList<EntityId>();
+        for (int i = 0; i < entityIds.size() - 1; i++) {
+            list.add(entityIds.get(i));
+        }
+        return new EntityIdPath(list);
+    }
+
+    /**
      * Returns the number of elements in the path.
      * 
      * @return Number of identifiers contained in the path.
@@ -164,7 +180,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
         }
         return sb.toString();
     }
-    
+
     @Override
     public final String toString() {
         return asBaseType();

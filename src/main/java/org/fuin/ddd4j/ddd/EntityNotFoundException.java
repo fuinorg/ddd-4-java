@@ -71,7 +71,7 @@ public final class EntityNotFoundException extends AbstractJaxbMarshallableExcep
                 : entityId.asTypedString() + " not found in " + parentIdPath.asString());
 
         this.sid = SHORT_ID_PREFIX + "-ENTITY_NOT_FOUND";
-        this.parentIdPath = parentIdPath.asString();
+        this.parentIdPath = parentIdPath == null ? null : parentIdPath.asString();
         this.entityId = entityId.asString();
     }
 

@@ -69,7 +69,7 @@ public class AggregateAlreadyExistsExceptionTest {
         // VERIFY
         final Diff documentDiff = DiffBuilder
                 .compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" + "<aggregate-already-exists-exception>"
-                        + "<msg>Aggregate Vendor (4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119) already exists (version=102)</msg>"
+                        + "<msg>Vendor 4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119 already exists (version=102)</msg>"
                         + "<sid>DDD4J-AGGREGATE_ALREADY_EXISTS</sid>" + "<aggregate-type>Vendor</aggregate-type>"
                         + "<aggregate-id>4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119</aggregate-id>" + "<version>102</version>"
                         + "</aggregate-already-exists-exception>")

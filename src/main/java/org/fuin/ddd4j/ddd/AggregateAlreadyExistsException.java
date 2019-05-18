@@ -70,7 +70,7 @@ public final class AggregateAlreadyExistsException extends AbstractJaxbMarshalla
      */
     public AggregateAlreadyExistsException(@NotNull final EntityType aggregateType, @NotNull final AggregateRootId aggregateId,
             final int version) {
-        super("Aggregate " + aggregateType.asString() + " (" + aggregateId.asString() + ") already exists (version=" + version + ")");
+        super(aggregateType.asString() + " " + aggregateId.asString() + " already exists (version=" + version + ")");
 
         this.sid = SHORT_ID_PREFIX + "-AGGREGATE_ALREADY_EXISTS";
         this.aggregateType = aggregateType.asString();

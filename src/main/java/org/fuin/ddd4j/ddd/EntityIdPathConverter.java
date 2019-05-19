@@ -25,7 +25,9 @@ import java.util.StringTokenizer;
 import javax.annotation.concurrent.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+import javax.validation.constraints.NotNull;
 
+import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**
@@ -77,6 +79,25 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
             }
         }
         return true;
+    }
+
+    /**
+     * Verifies if the argument is valid and throws an exception if this is not the case.
+     * 
+     * @param name
+     *            Name of the value for a possible error message.
+     * @param value
+     *            Value to check.
+     * 
+     * @throws ConstraintViolationException
+     *             The value was not valid.
+     */
+    public final void requireArgValid(@NotNull final String name, @NotNull final String value) throws ConstraintViolationException {
+
+        if (!isValid(value)) {
+            throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");
+        }
+
     }
 
     @Override

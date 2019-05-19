@@ -18,12 +18,14 @@
 package org.fuin.ddd4j.ddd;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 import java.util.Iterator;
 
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.BId;
 import org.fuin.ddd4j.test.CId;
+import org.fuin.objects4j.common.ConstraintViolationException;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF
@@ -43,10 +45,40 @@ public class EntityIdPathConverterTest {
 
         assertThat(testee.isValid("X 1")).isFalse();
         assertThat(testee.isValid("X x")).isFalse();
+        assertThat(testee.isValid("A 1/X 2")).isFalse();
+        assertThat(testee.isValid("A 1/B 2/X 3")).isFalse();
         assertThat(testee.isValid("")).isFalse();
 
     }
 
+    @Test
+    public void testRequireArgValid() {
+
+        // PREPARE
+        final EntityIdPathConverter testee = new EntityIdPathConverter(new MyIdFactory());
+
+        // TEST & VERIFY
+        
+        testee.requireArgValid("a", null);
+        testee.requireArgValid("x", "A 1");
+        
+        try {
+            testee.requireArgValid("a", "X 1");
+            fail("Expected exception");
+        } catch (final ConstraintViolationException ex) {
+            assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: 'X 1'");
+        }
+        
+        try {
+            testee.requireArgValid("a", "");
+            fail("Expected exception");
+        } catch (final ConstraintViolationException ex) {
+            assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: ''");
+        }
+        
+    }
+    
+    
     @Test
     public void testToVOSingle() {
 

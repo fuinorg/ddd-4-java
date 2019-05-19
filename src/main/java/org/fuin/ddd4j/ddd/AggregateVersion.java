@@ -17,9 +17,13 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import java.util.Scanner;
+
+import javax.annotation.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.vo.AbstractIntegerValueObject;
 
@@ -51,7 +55,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
     }
 
     /**
-     * Returns the information if a given string is a valid version.
+     * Returns the information if a given integer is a valid version.
      * 
      * @param value
      *            Value to check. A <code>null</code> value returns <code>true</code>.
@@ -63,6 +67,26 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
             return true;
         }
         return value >= 0;
+    }
+
+    /**
+     * Returns the information if a given string is a valid version.
+     * 
+     * @param value
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
+     * 
+     * @return TRUE if it's a valid version, else FALSE.
+     */
+    public static boolean isValid(final String value) {
+        if (value == null) {
+            return true;
+        }
+        try (Scanner scanner = new Scanner(value)) {
+            if (!scanner.hasNextInt()) {
+                return false;
+            }
+        }
+        return isValid(Integer.valueOf(value));
     }
 
     /**
@@ -78,6 +102,59 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
             return null;
         }
         return new AggregateVersion(value);
+    }
+
+    /**
+     * Parses a version identifier.
+     * 
+     * @param value
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
+     * 
+     * @return Converted value.
+     */
+    public static AggregateVersion valueOf(final String value) {
+        if (value == null) {
+            return null;
+        }
+        return valueOf(Integer.valueOf(value));
+    }
+
+    /**
+     * Verifies if the argument is valid and throws an exception if this is not the case.
+     * 
+     * @param name
+     *            Name of the value for a possible error message.
+     * @param value
+     *            Value to check.
+     * 
+     * @throws ConstraintViolationException
+     *             The value was not valid.
+     */
+    public static void requireArgValid(@NotNull final String name, @Nullable final Integer value) throws ConstraintViolationException {
+
+        if (!isValid(value)) {
+            throw new ConstraintViolationException("The argument '" + name + "' is not valid: " + value);
+        }
+
+    }
+
+    /**
+     * Verifies if the argument is valid and throws an exception if this is not the case.
+     * 
+     * @param name
+     *            Name of the value for a possible error message.
+     * @param value
+     *            Value to check.
+     * 
+     * @throws ConstraintViolationException
+     *             The value was not valid.
+     */
+    public static void requireArgValid(@NotNull final String name, @Nullable final String value) throws ConstraintViolationException {
+
+        if (!isValid(value)) {
+            throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");
+        }
+
     }
 
 }

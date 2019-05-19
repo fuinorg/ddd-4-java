@@ -62,23 +62,51 @@ public class AggregateVersionTest {
     @Test
     public void testIsValid() {
 
-        assertThat(AggregateVersion.isValid(null)).isTrue();
+        assertThat(AggregateVersion.isValid((Integer) null)).isTrue();
+        assertThat(AggregateVersion.isValid((String) null)).isTrue();
         assertThat(AggregateVersion.isValid(-1)).isFalse();
+        assertThat(AggregateVersion.isValid("-1")).isFalse();
         assertThat(AggregateVersion.isValid(0)).isTrue();
+        assertThat(AggregateVersion.isValid("0")).isTrue();
         assertThat(AggregateVersion.isValid(1)).isTrue();
+        assertThat(AggregateVersion.isValid("1")).isTrue();
         assertThat(AggregateVersion.isValid(Integer.MAX_VALUE)).isTrue();
+        assertThat(AggregateVersion.isValid("" + Integer.MAX_VALUE)).isTrue();
 
     }
 
     @Test
     public void testValueOf() {
 
-        assertThat(AggregateVersion.valueOf(null)).isNull();
+        assertThat(AggregateVersion.valueOf((Integer) null)).isNull();
+        assertThat(AggregateVersion.valueOf((String) null)).isNull();
         assertThat(AggregateVersion.valueOf(0)).isEqualTo(new AggregateVersion(0));
+        assertThat(AggregateVersion.valueOf("0")).isEqualTo(new AggregateVersion(0));
         assertThat(AggregateVersion.valueOf(1)).isEqualTo(new AggregateVersion(1));
+        assertThat(AggregateVersion.valueOf("1")).isEqualTo(new AggregateVersion(1));
         assertThat(AggregateVersion.valueOf(Integer.MAX_VALUE)).isEqualTo(new AggregateVersion(Integer.MAX_VALUE));
+        assertThat(AggregateVersion.valueOf("" + Integer.MAX_VALUE)).isEqualTo(new AggregateVersion(Integer.MAX_VALUE));
 
     }
 
+    @Test
+    public void testRequireArgValid() {
+
+        try {
+            AggregateVersion.requireArgValid("a", -1);
+            fail("Expected exception");
+        } catch (final ConstraintViolationException ex) {
+            assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: -1");
+        }
+
+        try {
+            AggregateVersion.requireArgValid("a", "-1");
+            fail("Expected exception");
+        } catch (final ConstraintViolationException ex) {
+            assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: '-1'");
+        }
+        
+    }
+    
 }
 // CHECKSTYLE:ON

@@ -33,6 +33,18 @@ public interface EntityIdFactory {
     public boolean containsType(String type);
 
     /**
+     * Determines if an identifier of the given type is valid.
+     * 
+     * @param type
+     *            Type of the identifier.
+     * @param id
+     *            Identifier to be verified.
+     * 
+     * @return TRUE if the factory can create and identifier for the given type and value.
+     */
+    public boolean isValid(String type, String id);
+
+    /**
      * Creates an entity id by type and string identifier.
      * 
      * @param type

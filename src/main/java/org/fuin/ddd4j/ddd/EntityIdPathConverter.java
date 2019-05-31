@@ -18,7 +18,6 @@
 package org.fuin.ddd4j.ddd;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -38,7 +37,7 @@ import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 public final class EntityIdPathConverter extends AbstractValueObjectConverter<String, EntityIdPath>
         implements AttributeConverter<EntityIdPath, String> {
 
-    private final EntityIdFactory factory;
+    private final EntityIdConverter converter;
 
     /**
      * Constructor with factory.
@@ -51,7 +50,7 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
         if (factory == null) {
             throw new IllegalStateException("Factory cannot be null");
         }
-        this.factory = factory;
+        this.converter = new EntityIdConverter(factory);
     }
 
     @Override
@@ -69,12 +68,12 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
         if (value == null) {
             return true;
         }
-        final List<Entry> entryList = entries(value);
+        final List<String> entryList = entries(value);
         if (entryList.size() == 0) {
             return false;
         }
-        for (final Entry entry : entryList) {
-            if (!factory.containsType(entry.type)) {
+        for (final String entry : entryList) {
+            if (!converter.isValid(entry)) {
                 return false;
             }
         }
@@ -105,13 +104,13 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
         if (value == null) {
             return null;
         }
-        final List<Entry> entryList = entries(value);
+        final List<String> entryList = entries(value);
         if (entryList.size() == 0) {
             throw new IllegalArgumentException("Invalid entity path: '" + value + "'");
         }
-        final List<EntityId> ids = new ArrayList<EntityId>();
-        for (final Entry entry : entryList) {
-            ids.add(factory.createEntityId(entry.type, entry.id));
+        final List<EntityId> ids = new ArrayList<>();
+        for (final String entry : entryList) {
+            ids.add(converter.toVO(entry));
         }
         return new EntityIdPath(ids);
     }
@@ -124,36 +123,14 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
         return value.asString();
     }
 
-    private List<Entry> entries(final String value) {
-        final List<Entry> list = new ArrayList<Entry>();
+    private List<String> entries(final String value) {
+        final List<String> list = new ArrayList<>();
         final StringTokenizer tok = new StringTokenizer(value, EntityIdPath.PATH_SEPARATOR);
         while (tok.hasMoreTokens()) {
             final String str = tok.nextToken();
-            final int p = str.indexOf(' ');
-            if (p == -1) {
-                // Error
-                return Collections.emptyList();
-            }
-            final String type = str.substring(0, p);
-            final String id = str.substring(p + 1);
-            list.add(new Entry(type, id));
+            list.add(str);
         }
         return list;
-    }
-
-    /**
-     * Maps type and identifer as pair.
-     */
-    private static final class Entry {
-
-        private String type;
-        private String id;
-
-        public Entry(final String type, final String id) {
-            this.type = type;
-            this.id = id;
-        }
-
     }
 
 }

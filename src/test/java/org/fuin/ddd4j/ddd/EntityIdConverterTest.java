@@ -20,33 +20,29 @@ package org.fuin.ddd4j.ddd;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.fail;
 
-import java.util.Iterator;
-
 import org.fuin.ddd4j.test.AId;
-import org.fuin.ddd4j.test.BId;
-import org.fuin.ddd4j.test.CId;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.junit.Test;
 
 //CHECKSTYLE:OFF
-public class EntityIdPathConverterTest {
+public class EntityIdConverterTest {
 
     @Test
     public void testIsValid() {
 
         // PREPARE
-        final EntityIdPathConverter testee = new EntityIdPathConverter(new MyIdFactory());
+        final EntityIdConverter testee = new EntityIdConverter(new MyIdFactory());
 
         // TEST & VERIFY
         assertThat(testee.isValid(null)).isTrue();
         assertThat(testee.isValid("A 1")).isTrue();
-        assertThat(testee.isValid("A 1/B 2")).isTrue();
-        assertThat(testee.isValid("A 1/B 2/C 3")).isTrue();
 
+        assertThat(testee.isValid("A ")).isFalse();
+        assertThat(testee.isValid("A 1 ")).isFalse();
+        assertThat(testee.isValid(" A 1")).isFalse();
+        assertThat(testee.isValid("A  1")).isFalse();
         assertThat(testee.isValid("X 1")).isFalse();
         assertThat(testee.isValid("X x")).isFalse();
-        assertThat(testee.isValid("A 1/X 2")).isFalse();
-        assertThat(testee.isValid("A 1/B 2/X 3")).isFalse();
         assertThat(testee.isValid("")).isFalse();
 
     }
@@ -55,7 +51,7 @@ public class EntityIdPathConverterTest {
     public void testRequireArgValid() {
 
         // PREPARE
-        final EntityIdPathConverter testee = new EntityIdPathConverter(new MyIdFactory());
+        final EntityIdConverter testee = new EntityIdConverter(new MyIdFactory());
 
         // TEST & VERIFY
 
@@ -79,57 +75,17 @@ public class EntityIdPathConverterTest {
     }
 
     @Test
-    public void testToVOSingle() {
+    public void testToVO() {
 
         // PREPARE
-        final EntityIdPathConverter testee = new EntityIdPathConverter(new MyIdFactory());
-        EntityIdPath path;
-        Iterator<EntityId> it;
-        EntityId first;
-        EntityId last;
+        final EntityIdConverter testee = new EntityIdConverter(new MyIdFactory());
+        EntityId entityId = testee.toVO("A 1");
 
         // TEST & VERIFY
+        assertThat(entityId).isInstanceOf(AId.class);
+        assertThat(entityId.getType().asString()).isEqualTo("A");
+        assertThat(entityId.asString()).isEqualTo("" + 1L);
 
-        // Single
-        path = testee.toVO("A 1");
-        first = path.first();
-        last = path.last();
-        assertValues(first, AId.class, "A", 1L);
-        assertValues(last, AId.class, "A", 1L);
-        assertThat(first).isSameAs(last);
-        it = path.iterator();
-        assertValues(it.next(), AId.class, "A", 1L);
-        assertThat(it.hasNext()).isFalse();
-
-        // Two
-        path = testee.toVO("A 1/B 2");
-        first = path.first();
-        last = path.last();
-        assertValues(first, AId.class, "A", 1L);
-        assertValues(last, BId.class, "B", 2L);
-        it = path.iterator();
-        assertValues(it.next(), AId.class, "A", 1L);
-        assertValues(it.next(), BId.class, "B", 2L);
-        assertThat(it.hasNext()).isFalse();
-
-        // Three
-        path = testee.toVO("A 1/B 2/C 3");
-        first = path.first();
-        last = path.last();
-        assertValues(first, AId.class, "A", 1L);
-        assertValues(last, CId.class, "C", 3L);
-        it = path.iterator();
-        assertValues(it.next(), AId.class, "A", 1L);
-        assertValues(it.next(), BId.class, "B", 2L);
-        assertValues(it.next(), CId.class, "C", 3L);
-        assertThat(it.hasNext()).isFalse();
-
-    }
-
-    private void assertValues(EntityId entityId, Class<?> typeClass, String type, long id) {
-        assertThat(entityId).isInstanceOf(typeClass);
-        assertThat(entityId.getType().asString()).isEqualTo(type);
-        assertThat(entityId.asString()).isEqualTo("" + id);
     }
 
     private static final class MyIdFactory implements EntityIdFactory {
@@ -139,24 +95,12 @@ public class EntityIdPathConverterTest {
             if (type.equals("A")) {
                 return new AId(Long.valueOf(id));
             }
-            if (type.equals("B")) {
-                return new BId(Long.valueOf(id));
-            }
-            if (type.equals("C")) {
-                return new CId(Long.valueOf(id));
-            }
             throw new IllegalArgumentException("Unknown type: '" + type + "'");
         }
 
         @Override
         public boolean containsType(final String type) {
             if (type.equals("A")) {
-                return true;
-            }
-            if (type.equals("B")) {
-                return true;
-            }
-            if (type.equals("C")) {
                 return true;
             }
             return false;
@@ -166,14 +110,6 @@ public class EntityIdPathConverterTest {
         public boolean isValid(String type, String id) {
             try {
                 if (type.equals("A")) {
-                    Long.parseLong(id);
-                    return true;
-                }
-                if (type.equals("B")) {
-                    Long.parseLong(id);
-                    return true;
-                }
-                if (type.equals("C")) {
                     Long.parseLong(id);
                     return true;
                 }

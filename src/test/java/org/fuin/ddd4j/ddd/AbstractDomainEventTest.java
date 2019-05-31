@@ -205,6 +205,27 @@ public class AbstractDomainEventTest {
             }
             return false;
         }
+
+        @Override
+        public boolean isValid(String type, String id) {
+            if (type.equals("A")) {
+                try {
+                    Long.valueOf(id);
+                    return true;
+                } catch (final NumberFormatException ex) {
+                    return false;
+                }
+            }
+            if (type.equals("Vendor")) {
+                try {
+                    UUID.fromString(id);
+                    return true;
+                } catch (final IllegalArgumentException ex) {
+                    return false;
+                }
+            }
+            return false;
+        }
     }
 
     @SuppressWarnings("rawtypes")

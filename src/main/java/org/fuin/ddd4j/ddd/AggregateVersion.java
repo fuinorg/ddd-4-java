@@ -34,6 +34,9 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
 
     private static final long serialVersionUID = 1000L;
 
+    /** This disables the optimistic concurrency check. */
+    public static AggregateVersion ANY = new AggregateVersion(-2);
+
     private Integer value;
 
     /**

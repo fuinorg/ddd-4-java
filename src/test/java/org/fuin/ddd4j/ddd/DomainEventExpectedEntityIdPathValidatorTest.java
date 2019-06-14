@@ -38,7 +38,7 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
     public void testIsValidNull() {
 
         // PREPARE
-        final DomainEventExpectedEntityIdPath anno = createAnnotation(AId.TYPE.asString());
+        final DomainEventExpectedEntityIdPath anno = createAnnotation(AId.class);
         final DomainEventExpectedEntityIdPathValidator testee = new DomainEventExpectedEntityIdPathValidator();
         testee.initialize(anno);
 
@@ -53,7 +53,7 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
         final AId aid = new AId(1L);
         final BId bid = new BId(2L);
         final CId cid = new CId(3L);
-        final DomainEventExpectedEntityIdPath anno = createAnnotation(AId.TYPE.asString());
+        final DomainEventExpectedEntityIdPath anno = createAnnotation(AId.class);
         final DomainEventExpectedEntityIdPathValidator testee = new DomainEventExpectedEntityIdPathValidator();
         testee.initialize(anno);
 
@@ -65,10 +65,11 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
     }
 
 
-    private static DomainEventExpectedEntityIdPath createAnnotation(final String... expectedValues) {
+    @SafeVarargs
+    private static DomainEventExpectedEntityIdPath createAnnotation(final Class<? extends EntityId>... expectedValues) {
         return new DomainEventExpectedEntityIdPath() {
             @Override
-            public String[] value() {
+            public Class<? extends EntityId>[] value() {
                 return expectedValues;
             }
 

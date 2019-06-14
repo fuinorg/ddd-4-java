@@ -12,7 +12,7 @@ import javax.validation.ConstraintValidatorContext;
  */
 public final class ExpectedEntityIdPathValidator implements ConstraintValidator<ExpectedEntityIdPath, EntityIdPath> {
 
-    private List<String> annotations;
+    private List<Class<? extends EntityId>> annotations;
 
     @Override
     public void initialize(final ExpectedEntityIdPath annotation) {
@@ -25,7 +25,7 @@ public final class ExpectedEntityIdPathValidator implements ConstraintValidator<
      * @param annotation
      *            Expected annotation names.
      */
-    protected void initialize(final String[] annotation) {
+    protected void initialize(final Class<? extends EntityId>[] annotation) {
         annotations = Arrays.asList(annotation);
     }
 
@@ -37,12 +37,12 @@ public final class ExpectedEntityIdPathValidator implements ConstraintValidator<
         if (value.size() != annotations.size()) {
             return false;
         }
-        final Iterator<String> expected = annotations.iterator();
+        final Iterator<Class<? extends EntityId>> expected = annotations.iterator();
         final Iterator<EntityId> actual = value.iterator();
         while (actual.hasNext()) {
-            final String actualName = actual.next().getType().asString();
-            final String expectedName = expected.next();
-            if (!actualName.equals(expectedName)) {
+            final EntityId actualId = actual.next();
+            final Class<? extends EntityId> expectedIdType = expected.next();
+            if (!expectedIdType.isAssignableFrom(actualId.getClass())) {
                 return false;
             }
         }

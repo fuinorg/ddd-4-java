@@ -39,11 +39,11 @@ public @interface DomainEventExpectedEntityIdPath {
     String message() default "{org.fuin.ddd4j.ddd.DomainEventExpectedEntityIdPath.message}";
 
     /**
-     * Unique names of the entity types.
+     * Expected ID types.
      * 
      * @return Ordered list of expected types.
      */
-    String[] value();
+    Class<? extends EntityId>[] value();
 
     Class<?>[] groups() default {};
 

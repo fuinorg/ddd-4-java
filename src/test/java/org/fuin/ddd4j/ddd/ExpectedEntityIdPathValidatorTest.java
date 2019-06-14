@@ -35,7 +35,7 @@ public class ExpectedEntityIdPathValidatorTest {
     public void testIsValidNull() {
 
         // PREPARE
-        final ExpectedEntityIdPath anno = createAnnotation(AId.TYPE.asString());
+        final ExpectedEntityIdPath anno = createAnnotation(AId.class);
         final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
         testee.initialize(anno);
 
@@ -49,7 +49,7 @@ public class ExpectedEntityIdPathValidatorTest {
         // PREPARE
         final AId aid = new AId(1L);
         final BId bid = new BId(2L);
-        final ExpectedEntityIdPath anno = createAnnotation(AId.TYPE.asString());
+        final ExpectedEntityIdPath anno = createAnnotation(AId.class);
         final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
         testee.initialize(anno);
 
@@ -67,7 +67,7 @@ public class ExpectedEntityIdPathValidatorTest {
         final AId aid = new AId(1L);
         final BId bid = new BId(2L);
         final CId cid = new CId(3L);
-        final ExpectedEntityIdPath anno = createAnnotation(AId.TYPE.asString(), BId.TYPE.asString());
+        final ExpectedEntityIdPath anno = createAnnotation(AId.class, BId.class);
         final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
         testee.initialize(anno);
 
@@ -87,7 +87,7 @@ public class ExpectedEntityIdPathValidatorTest {
         final BId bid = new BId(2L);
         final CId cid = new CId(3L);
         final CId cid2 = new CId(123L);
-        final ExpectedEntityIdPath anno = createAnnotation(AId.TYPE.asString(), BId.TYPE.asString(), CId.TYPE.asString());
+        final ExpectedEntityIdPath anno = createAnnotation(AId.class, BId.class, CId.class);
         final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
         testee.initialize(anno);
 
@@ -100,10 +100,11 @@ public class ExpectedEntityIdPathValidatorTest {
 
     }
 
-    private static ExpectedEntityIdPath createAnnotation(final String... expectedValues) {
+    @SafeVarargs
+    private static ExpectedEntityIdPath createAnnotation(final Class<? extends EntityId>... expectedValues) {
         return new ExpectedEntityIdPath() {
             @Override
-            public String[] value() {
+            public Class<? extends EntityId>[] value() {
                 return expectedValues;
             }
 

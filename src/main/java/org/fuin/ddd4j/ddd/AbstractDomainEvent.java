@@ -44,7 +44,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
     /**
      * Protected default constructor for deserialization.
      */
-    protected AbstractDomainEvent() {
+    protected AbstractDomainEvent() { // NOSONAR Default constructor
         super();
     }
 

@@ -20,6 +20,7 @@ package org.fuin.ddd4j.ddd;
 import java.io.Serializable;
 import java.util.Arrays;
 
+import javax.annotation.Nullable;
 import javax.annotation.concurrent.Immutable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotEmpty;
@@ -45,13 +46,15 @@ public final class EncryptedData implements ValueObject, Serializable {
     @XmlElement(name = "key-id")
     private String keyId;
 
+    @NotEmpty
     @JsonbProperty("key-version")
     @XmlElement(name = "key-version")
-    private int keyVersion;
+    private String keyVersion;
 
+    @Nullable
     @JsonbProperty("iv-version")
     @XmlElement(name = "iv-version")
-    private int ivVersion;
+    private String ivVersion;
 
     @NotEmpty
     @JsonbProperty("data-type")
@@ -83,7 +86,7 @@ public final class EncryptedData implements ValueObject, Serializable {
      * @param keyVersion
      *            Version of the private key used.
      * @param ivVersion
-     *            Version of the initialization vector.
+     *            Version of the initialization vector (optional).
      * @param dataType
      *            Unique type of the data like "UserPersonalData" or even a fully qualified class name.
      * @param contentType
@@ -91,8 +94,8 @@ public final class EncryptedData implements ValueObject, Serializable {
      * @param encryptedData
      *            Encrypted data.
      */
-    public EncryptedData(@NotEmpty final String keyId, final int keyVersion, final int ivVersion, @NotEmpty final String dataType,
-            @NotEmpty final String contentType, @NotEmpty final byte[] encryptedData) {
+    public EncryptedData(@NotEmpty final String keyId, @NotEmpty final String keyVersion, @Nullable final String ivVersion,
+            @NotEmpty final String dataType, @NotEmpty final String contentType, @NotEmpty final byte[] encryptedData) {
         super();
         this.keyId = keyId;
         this.keyVersion = keyVersion;
@@ -107,6 +110,7 @@ public final class EncryptedData implements ValueObject, Serializable {
      * 
      * @return Private key name.
      */
+    @NotEmpty
     public final String getKeyId() {
         return keyId;
     }
@@ -116,16 +120,18 @@ public final class EncryptedData implements ValueObject, Serializable {
      * 
      * @return Version.
      */
-    public final int getKeyVersion() {
+    @NotEmpty
+    public final String getKeyVersion() {
         return keyVersion;
     }
 
     /**
-     * Returns the version of the initialization vector.
+     * Returns the optional version of the initialization vector.
      * 
-     * @return Version.
+     * @return Version or {@literal null}.
      */
-    public final int getIvVersion() {
+    @Nullable
+    public final String getIvVersion() {
         return ivVersion;
     }
 
@@ -134,6 +140,7 @@ public final class EncryptedData implements ValueObject, Serializable {
      * 
      * @return Unique type name.
      */
+    @NotEmpty
     public final String getDataType() {
         return dataType;
     }
@@ -143,6 +150,7 @@ public final class EncryptedData implements ValueObject, Serializable {
      * 
      * @return Mime type.
      */
+    @NotEmpty
     public final String getContentType() {
         return contentType;
     }
@@ -152,6 +160,7 @@ public final class EncryptedData implements ValueObject, Serializable {
      * 
      * @return Data.
      */
+    @NotEmpty
     public final byte[] getEncryptedData() {
         return encryptedData;
     }
@@ -163,9 +172,9 @@ public final class EncryptedData implements ValueObject, Serializable {
         result = prime * result + ((contentType == null) ? 0 : contentType.hashCode());
         result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
         result = prime * result + Arrays.hashCode(encryptedData);
-        result = prime * result + ivVersion;
+        result = prime * result + ((ivVersion == null) ? 0 : ivVersion.hashCode());
         result = prime * result + ((keyId == null) ? 0 : keyId.hashCode());
-        result = prime * result + keyVersion;
+        result = prime * result + ((keyVersion == null) ? 0 : keyVersion.hashCode());
         return result;
     }
 
@@ -198,7 +207,11 @@ public final class EncryptedData implements ValueObject, Serializable {
         if (!Arrays.equals(encryptedData, other.encryptedData)) {
             return false;
         }
-        if (ivVersion != other.ivVersion) {
+        if (ivVersion == null) {
+            if (other.ivVersion != null) {
+                return false;
+            }
+        } else if (!ivVersion.equals(other.ivVersion)) {
             return false;
         }
         if (keyId == null) {
@@ -208,7 +221,11 @@ public final class EncryptedData implements ValueObject, Serializable {
         } else if (!keyId.equals(other.keyId)) {
             return false;
         }
-        if (keyVersion != other.keyVersion) {
+        if (keyVersion == null) {
+            if (other.keyVersion != null) {
+                return false;
+            }
+        } else if (!keyVersion.equals(other.keyVersion)) {
             return false;
         }
         return true;
@@ -239,10 +256,13 @@ public final class EncryptedData implements ValueObject, Serializable {
          * @param data
          *            Data to encrypt.
          * 
-         * @return
+         * @return Encrypted data.
+         * 
+         * @throws EncryptionKeyIdUnknownException
+         *             The given key identifier is unknown.
          */
         public EncryptedData encrypt(@NotEmpty final String keyId, @NotEmpty final String dataType, @NotEmpty final String contentType,
-                @NotEmpty final byte[] data);
+                @NotEmpty final byte[] data) throws EncryptionKeyIdUnknownException;
 
     }
 
@@ -260,9 +280,19 @@ public final class EncryptedData implements ValueObject, Serializable {
          *            Encrypted data and meta information about it.
          * 
          * @return Decrypted data.
+         * 
+         * @throws EncryptionKeyIdUnknownException
+         *             The given key identifier is unknown.
+         * @throws EncryptionKeyVersionUnknownException
+         *             The given version of the key is unknown.
+         * @throws EncryptionIvVersionUnknownException
+         *             The given initialization vector version is unknown.
+         * @throws DecryptionFailedException
+         *             Decrypting the data using they key, version and (optional) IV version failed.
          */
         @NotEmpty
-        public byte[] decrypt(@NotNull EncryptedData encryptedData);
+        public byte[] decrypt(@NotNull EncryptedData encryptedData) throws EncryptionKeyIdUnknownException,
+                EncryptionKeyVersionUnknownException, EncryptionIvVersionUnknownException, DecryptionFailedException;
 
     }
 

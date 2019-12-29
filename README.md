@@ -22,7 +22,7 @@ http://de.slideshare.net/michael-schnell/ddd-4java/ (Rather old - The git book a
 
 Example
 -------
-See [ddd-cqrs-4-java-example](https://github.com/fuinorg/ddd-cqrs-4-java-example) for a minimal command line application that uses the classes of this library.
+See [ddd-cqrs-4-java-example](https://github.com/fuinorg/ddd-cqrs-4-java-example) for example microservices using the classes of this library.
 
 ### Snapshots
 

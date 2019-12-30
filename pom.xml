@@ -27,7 +27,7 @@
 	</issueManagement>
 
 	<properties>
-		<esc.version>0.3.1-SNAPSHOT</esc.version>
+		<esc.version>0.3.1</esc.version>
 	</properties>
 
 	<dependencies>
@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>org.fuin</groupId>
 			<artifactId>objects4j</artifactId>
-			<version>0.6.9-SNAPSHOT</version>
+			<version>0.6.9</version>
 		</dependency>
 
 		<dependency>
@@ -71,7 +71,7 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.25</version>
+			<version>1.7.30</version>
 		</dependency>
 
 		<dependency>
@@ -118,14 +118,14 @@
 		<dependency>
 			<groupId>org.fuin</groupId>
 			<artifactId>units4j</artifactId>
-			<version>0.8.4-SNAPSHOT</version>
+			<version>0.8.4</version>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>6.0.10.Final</version>
+			<version>6.0.18.Final</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -149,7 +149,7 @@
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
             <artifactId>equalsverifier</artifactId>
-            <version>3.1.9</version>
+            <version> 3.1.11</version>
             <scope>test</scope>
         </dependency>
 
@@ -163,7 +163,7 @@
         <dependency>
             <groupId>org.eclipse</groupId>
             <artifactId>yasson</artifactId>
-            <version>1.0.4</version>
+            <version>1.0.5</version>
             <scope>test</scope>
         </dependency>
 

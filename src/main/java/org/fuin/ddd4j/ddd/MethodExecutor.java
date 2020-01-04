@@ -153,7 +153,8 @@ public final class MethodExecutor {
         Contract.requireArgNotNull("target", target);
 
         try {
-            if (!method.isAccessible()) {
+             
+            if (!method.canAccess(target)) {
                 method.setAccessible(true);
             }
             return (T) method.invoke(target, args);

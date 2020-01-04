@@ -1,7 +1,7 @@
 pipeline {
     agent any 
     tools { 
-        jdk 'Oracle JDK 8 (latest)'
+        jdk 'OpenJDK 11 (latest)'
     }
     stages {
         stage ('Initialize') {

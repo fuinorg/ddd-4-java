@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.annotation.Nullable;
+import org.fuin.objects4j.common.Nullable;
 import javax.validation.constraints.NotNull;
 
 /**

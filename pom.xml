@@ -13,7 +13,7 @@
 
     <artifactId>ddd-4-java</artifactId>
     <version>0.3.0-SNAPSHOT</version>
-    <packaging>bundle</packaging>
+    <packaging>jar</packaging>
     <description>Base classes for Domain Driven Design (DDD) with Java</description>
 
     <scm>
@@ -77,12 +77,6 @@
             <groupId>com.migesok</groupId>
             <artifactId>jaxb-java-time-adapters</artifactId>
             <version>1.1.3</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>3.0.2</version>
         </dependency>
 
         <dependency>
@@ -170,29 +164,19 @@
         <plugins>
 
             <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <version>4.2.1</version>
-                <extensions>true</extensions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
-                    <manifestLocation>${manifest-location}</manifestLocation>
-                    <instructions>
-                        <Automatic-Module-Name>org.fuin.ddd4j</Automatic-Module-Name>
-                        <_removeheaders>
-                            Built-By,Tool,Build-Jdk,Created-By,
-                            Bnd-LastModified, Private-Package
-                        </_removeheaders>
-                    </instructions>
+                    <includes>
+                        <include>**/*</include>
+                    </includes>
+                    <archive>
+                        <manifestEntries>
+                            <Automatic-Module-Name>org.fuin.ddd4j</Automatic-Module-Name>
+                        </manifestEntries>
+                    </archive>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>create-manifest</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>bundle</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
             <plugin>

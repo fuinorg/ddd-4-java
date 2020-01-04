@@ -19,7 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.Scanner;
 
-import javax.annotation.Nullable;
+import org.fuin.objects4j.common.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 

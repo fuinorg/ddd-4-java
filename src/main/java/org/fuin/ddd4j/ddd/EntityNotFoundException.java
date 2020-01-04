@@ -19,7 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 
-import javax.annotation.Nullable;
+import org.fuin.objects4j.common.Nullable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;

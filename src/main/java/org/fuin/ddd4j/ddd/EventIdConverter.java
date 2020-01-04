@@ -19,7 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.UUID;
 
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 

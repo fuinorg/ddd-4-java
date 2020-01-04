@@ -19,7 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.UUID;
 
-import javax.annotation.concurrent.Immutable;
+import org.fuin.objects4j.common.Immutable;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 

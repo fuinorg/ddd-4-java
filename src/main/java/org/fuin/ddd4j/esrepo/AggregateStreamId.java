@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import javax.annotation.concurrent.Immutable;
+import org.fuin.objects4j.common.Immutable;
 
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;

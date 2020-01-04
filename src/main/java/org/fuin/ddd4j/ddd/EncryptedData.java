@@ -20,8 +20,8 @@ package org.fuin.ddd4j.ddd;
 import java.io.Serializable;
 import java.util.Arrays;
 
-import javax.annotation.Nullable;
-import javax.annotation.concurrent.Immutable;
+import org.fuin.objects4j.common.Nullable;
+import org.fuin.objects4j.common.Immutable;
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

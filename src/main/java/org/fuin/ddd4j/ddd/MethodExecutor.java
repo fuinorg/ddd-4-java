@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;

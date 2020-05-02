@@ -17,12 +17,12 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import org.fuin.objects4j.common.ThreadSafe;
 import javax.json.bind.adapter.JsonbAdapter;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * JAXB and JSON converter for an entity identifier.

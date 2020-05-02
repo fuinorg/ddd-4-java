@@ -64,7 +64,6 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
 
     }
 
-
     @SafeVarargs
     private static DomainEventExpectedEntityIdPath createAnnotation(final Class<? extends EntityId>... expectedValues) {
         return new DomainEventExpectedEntityIdPath() {

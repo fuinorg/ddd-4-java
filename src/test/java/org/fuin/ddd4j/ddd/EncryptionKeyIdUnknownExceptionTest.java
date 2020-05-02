@@ -25,9 +25,17 @@ import static org.fuin.utils4j.Utils4J.serialize;
 
 import java.util.UUID;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
+
+import org.eclipse.yasson.FieldAccessStrategy;
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 /**
  * Tests for {@link EncryptionKeyIdUnknownException}.
@@ -54,6 +62,11 @@ public class EncryptionKeyIdUnknownExceptionTest {
     }
 
     @Test
+    public void testHashCodeEquals() {
+        EqualsVerifier.forClass(EncryptionKeyIdUnknownException.Data.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    }
+    
+    @Test
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
@@ -61,7 +74,7 @@ public class EncryptionKeyIdUnknownExceptionTest {
         final EncryptionKeyIdUnknownException original = new EncryptionKeyIdUnknownException(keyId);
 
         // TEST
-        final String xml = marshal(original, EncryptionKeyIdUnknownException.class);
+        final String xml = marshal(original.getData(), EncryptionKeyIdUnknownException.Data.class);
 
         // VERIFY
         final Diff documentDiff = DiffBuilder.compare("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
@@ -72,12 +85,38 @@ public class EncryptionKeyIdUnknownExceptionTest {
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 
         // TEST
-        final EncryptionKeyIdUnknownException copy = unmarshal(xml, EncryptionKeyIdUnknownException.class);
+        final EncryptionKeyIdUnknownException.Data data = unmarshal(xml, EncryptionKeyIdUnknownException.Data.class);
+        final EncryptionKeyIdUnknownException copy = data.toException();
 
         // VERIFY
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getKeyId()).isEqualTo(original.getKeyId());
+        assertThat(copy.getMessage()).isEqualTo(original.getMessage());
 
+    }
+
+    @Test
+    public final void testMarshalUnmarshalJSON() throws Exception {
+
+        // PREPARE
+        final String keyId = "CUSTOMER " + UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119");
+        final EncryptionKeyIdUnknownException original = new EncryptionKeyIdUnknownException(keyId);
+
+        // TEST
+        final String json = jsonb().toJson(original.getData());
+        final EncryptionKeyIdUnknownException.Data data = jsonb().fromJson(json, EncryptionKeyIdUnknownException.Data.class);
+        final EncryptionKeyIdUnknownException copy = data.toException();
+
+        // VERIFY
+        assertThat(copy.getShortId()).isEqualTo(original.getShortId());
+        assertThat(copy.getKeyId()).isEqualTo(original.getKeyId());
+        assertThat(copy.getMessage()).isEqualTo(original.getMessage());
+
+    }
+    
+    private static Jsonb jsonb() {
+        final JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new FieldAccessStrategy());
+        return JsonbBuilder.create(config);
     }
 
 }

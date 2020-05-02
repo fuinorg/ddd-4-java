@@ -23,9 +23,17 @@ import static org.fuin.utils4j.JaxbUtils.unmarshal;
 import static org.fuin.utils4j.Utils4J.deserialize;
 import static org.fuin.utils4j.Utils4J.serialize;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
+
+import org.eclipse.yasson.FieldAccessStrategy;
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 /**
  * Tests for {@link EncryptionKeyVersionUnknownException}.
@@ -52,6 +60,11 @@ public class EncryptionKeyVersionUnknownExceptionTest {
     }
 
     @Test
+    public void testHashCodeEquals() {
+        EqualsVerifier.forClass(EncryptionKeyVersionUnknownException.Data.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    }
+    
+    @Test
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
@@ -59,7 +72,7 @@ public class EncryptionKeyVersionUnknownExceptionTest {
         final EncryptionKeyVersionUnknownException original = new EncryptionKeyVersionUnknownException(keyVersion);
 
         // TEST
-        final String xml = marshal(original, EncryptionKeyVersionUnknownException.class);
+        final String xml = marshal(original.getData(), EncryptionKeyVersionUnknownException.Data.class);
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
@@ -71,12 +84,38 @@ public class EncryptionKeyVersionUnknownExceptionTest {
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 
         // TEST
-        final EncryptionKeyVersionUnknownException copy = unmarshal(xml, EncryptionKeyVersionUnknownException.class);
+        final EncryptionKeyVersionUnknownException.Data data = unmarshal(xml, EncryptionKeyVersionUnknownException.Data.class);
+        final EncryptionKeyVersionUnknownException copy = data.toException();
 
         // VERIFY
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
         assertThat(copy.getKeyVersion()).isEqualTo(original.getKeyVersion());
+        assertThat(copy.getMessage()).isEqualTo(original.getMessage());
 
+    }
+
+    @Test
+    public final void testMarshalUnmarshalJSON() throws Exception {
+
+        // PREPARE
+        final String keyVersion = "v3";
+        final EncryptionKeyVersionUnknownException original = new EncryptionKeyVersionUnknownException(keyVersion);
+
+        // TEST
+        final String json = jsonb().toJson(original.getData());
+        final EncryptionKeyVersionUnknownException.Data data = jsonb().fromJson(json, EncryptionKeyVersionUnknownException.Data.class);
+        final EncryptionKeyVersionUnknownException copy = data.toException();
+
+        // VERIFY
+        assertThat(copy.getShortId()).isEqualTo(original.getShortId());
+        assertThat(copy.getKeyVersion()).isEqualTo(original.getKeyVersion());
+        assertThat(copy.getMessage()).isEqualTo(original.getMessage());
+
+    }
+    
+    private static Jsonb jsonb() {
+        final JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new FieldAccessStrategy());
+        return JsonbBuilder.create(config);
     }
 
 }

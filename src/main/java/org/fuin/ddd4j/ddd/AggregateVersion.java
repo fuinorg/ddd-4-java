@@ -19,12 +19,12 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.Scanner;
 
-import org.fuin.objects4j.common.Nullable;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.Nullable;
 import org.fuin.objects4j.vo.AbstractIntegerValueObject;
 
 /**

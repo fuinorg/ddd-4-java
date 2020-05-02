@@ -19,6 +19,8 @@ package org.fuin.ddd4j.ddd;
 
 import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 
+import java.io.Serializable;
+
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -26,36 +28,25 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.fuin.objects4j.common.AbstractJaxbMarshallableException;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
+import org.fuin.objects4j.common.MarshalUnmarshalInformation;
+import org.fuin.objects4j.vo.ValueObject;
 
 /**
  * Signals that an entity already existed in it's parent.
  */
-@XmlRootElement(name = "duplicate-entity-exception")
-@XmlAccessorType(XmlAccessType.NONE)
-public final class DuplicateEntityException extends AbstractJaxbMarshallableException implements ExceptionShortIdentifable {
+public final class DuplicateEntityException extends Exception
+        implements ExceptionShortIdentifable, MarshalUnmarshalInformation<DuplicateEntityException.Data> {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonbProperty("sid")
-    @XmlElement(name = "sid")
-    private String sid;
+    /** Unique short identifier of this exception. */
+    public static final String SHORT_ID = SHORT_ID_PREFIX + "-DUPLICATE_ENTITY";
 
-    @JsonbProperty("parent-id-path")
-    @XmlElement(name = "parent-id-path")
-    private String parentIdPath;
+    /** Unique name of the element to use for XML and JSON marshalling/unmarshalling. */
+    public static final String ELEMENT_NAME = "duplicate-entity-exception";
 
-    @JsonbProperty("entity-id")
-    @XmlElement(name = "entity-id")
-    private String entityId;
-
-    /**
-     * JAX-B constructor.
-     */
-    protected DuplicateEntityException() {
-        super();
-    }
+    private final Data data;
 
     /**
      * Constructor with all data.
@@ -67,15 +58,34 @@ public final class DuplicateEntityException extends AbstractJaxbMarshallableExce
      */
     public DuplicateEntityException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
         super(entityId.asTypedString() + " already exists in " + parentIdPath.asString());
+        final String pidp = parentIdPath == null ? null : parentIdPath.asString();
+        this.data = new Data(getMessage(), SHORT_ID, pidp, entityId.asString());
+    }
 
-        this.sid = SHORT_ID_PREFIX + "-DUPLICATE_ENTITY";
-        this.parentIdPath = parentIdPath.asString();
-        this.entityId = entityId.asString();
+    /**
+     * Constructor with entity identifier path.
+     * 
+     * @param entityIdPath
+     *            Entity identifier path (from root to entity).
+     */
+    public DuplicateEntityException(@NotNull final EntityIdPath entityIdPath) {
+        this(entityIdPath.parent(), entityIdPath.last());
+    }
+
+    /**
+     * Constructor used by the {@link Data} class.
+     * 
+     * @param data
+     *            Data to use for reconstructing the exception.
+     */
+    private DuplicateEntityException(final Data data) {
+        super(data.message);
+        this.data = data;
     }
 
     @Override
     public final String getShortId() {
-        return sid;
+        return data.sid;
     }
 
     /**
@@ -85,17 +95,142 @@ public final class DuplicateEntityException extends AbstractJaxbMarshallableExce
      */
     @NotNull
     public final String getParentIdPath() {
-        return parentIdPath;
+        return data.parentIdPath;
     }
 
     /**
      * Returns the unique identifier of the entity.
      * 
-     * @return Duplicate entity identifier.
+     * @return Unknown entity identifier.
      */
     @NotNull
     public final String getEntityId() {
-        return entityId;
+        return data.entityId;
+    }
+
+    /**
+     * Returns the exception specific data.
+     * 
+     * @return Data structure that can be marshalled/unmarshalled.
+     */
+    public final Data getData() {
+        return data;
+    }
+
+    @Override
+    public Class<Data> getDataClass() {
+        return Data.class;
+    }
+
+    @Override
+    public String getDataElement() {
+        return ELEMENT_NAME;
+    }
+
+    /**
+     * Specific exception data.
+     */
+    @XmlRootElement(name = ELEMENT_NAME)
+    @XmlAccessorType(XmlAccessType.NONE)
+    public static final class Data implements Serializable, ValueObject {
+
+        private static final long serialVersionUID = 1000L;
+
+        @JsonbProperty("msg")
+        @XmlElement(name = "msg")
+        private String message;
+
+        @JsonbProperty("sid")
+        @XmlElement(name = "sid")
+        private String sid;
+
+        @JsonbProperty("parent-id-path")
+        @XmlElement(name = "parent-id-path")
+        private String parentIdPath;
+
+        @JsonbProperty("entity-id")
+        @XmlElement(name = "entity-id")
+        private String entityId;
+
+        /**
+         * Constructor only for marshalling/unmarshalling.
+         */
+        protected Data() {
+            super();
+        }
+
+        /**
+         * Constructor with all data.
+         * 
+         * @param message
+         *            Exception message.
+         * @param sid
+         *            Unique short identifier of this exception.
+         * @param aggregateType
+         *            Type of the aggregate.
+         * @param aggregateId
+         *            Unique identifier of the aggregate.
+         */
+        private Data(final String message, final String sid, final String parentIdPath, final String entityId) {
+            super();
+            this.message = message;
+            this.sid = sid;
+            this.parentIdPath = parentIdPath;
+            this.entityId = entityId;
+        }
+
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((entityId == null) ? 0 : entityId.hashCode());
+            result = prime * result + ((message == null) ? 0 : message.hashCode());
+            result = prime * result + ((parentIdPath == null) ? 0 : parentIdPath.hashCode());
+            result = prime * result + ((sid == null) ? 0 : sid.hashCode());
+            return result;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (this == obj)
+                return true;
+            if (obj == null)
+                return false;
+            if (getClass() != obj.getClass())
+                return false;
+            Data other = (Data) obj;
+            if (entityId == null) {
+                if (other.entityId != null)
+                    return false;
+            } else if (!entityId.equals(other.entityId))
+                return false;
+            if (message == null) {
+                if (other.message != null)
+                    return false;
+            } else if (!message.equals(other.message))
+                return false;
+            if (parentIdPath == null) {
+                if (other.parentIdPath != null)
+                    return false;
+            } else if (!parentIdPath.equals(other.parentIdPath))
+                return false;
+            if (sid == null) {
+                if (other.sid != null)
+                    return false;
+            } else if (!sid.equals(other.sid))
+                return false;
+            return true;
+        }
+
+        @Override
+        public String toString() {
+            return "Data [message=" + message + ", sid=" + sid + ", parentIdPath=" + parentIdPath + ", entityId=" + entityId + "]";
+        }
+
+        public DuplicateEntityException toException() {
+            return new DuplicateEntityException(this);
+        }
+
     }
 
 }

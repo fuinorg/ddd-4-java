@@ -24,10 +24,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.fuin.objects4j.common.ThreadSafe;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Lightweight utility class to execute a method using reflection.
@@ -153,7 +153,7 @@ public final class MethodExecutor {
         Contract.requireArgNotNull("target", target);
 
         try {
-             
+
             if (!method.canAccess(target)) {
                 method.setAccessible(true);
             }

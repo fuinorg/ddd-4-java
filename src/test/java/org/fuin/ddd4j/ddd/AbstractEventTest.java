@@ -87,7 +87,6 @@ public class AbstractEventTest {
 
         // TEST
         final String xml = marshal(original, MyEvent1.class);
-        System.out.println(xml);
         final MyEvent1 copy = unmarshal(xml, MyEvent1.class);
 
         // VERIFY

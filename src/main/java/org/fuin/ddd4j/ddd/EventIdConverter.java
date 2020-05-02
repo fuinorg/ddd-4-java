@@ -19,10 +19,10 @@ package org.fuin.ddd4j.ddd;
 
 import java.util.UUID;
 
-import org.fuin.objects4j.common.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**

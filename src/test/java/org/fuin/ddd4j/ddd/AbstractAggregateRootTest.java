@@ -86,7 +86,7 @@ public class AbstractAggregateRootTest {
         assertThat(a.getNextVersion()).isEqualTo(0);
 
     }
-    
+
     @Test
     public void testApplyRoot() {
 

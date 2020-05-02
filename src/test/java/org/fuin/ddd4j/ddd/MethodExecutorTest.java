@@ -95,7 +95,7 @@ public class MethodExecutorTest {
 
         // VERIFY
         assertThat(methods2).contains(applyEventB, applyEventD);
-        
+
     }
 
 }

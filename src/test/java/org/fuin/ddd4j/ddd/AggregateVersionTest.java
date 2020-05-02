@@ -105,8 +105,8 @@ public class AggregateVersionTest {
         } catch (final ConstraintViolationException ex) {
             assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: '-1'");
         }
-        
+
     }
-    
+
 }
 // CHECKSTYLE:ON

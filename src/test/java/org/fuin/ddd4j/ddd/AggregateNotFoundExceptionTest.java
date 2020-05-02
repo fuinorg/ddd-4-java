@@ -25,10 +25,18 @@ import static org.fuin.utils4j.Utils4J.serialize;
 
 import java.util.UUID;
 
+import javax.json.bind.Jsonb;
+import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
+
+import org.eclipse.yasson.FieldAccessStrategy;
 import org.fuin.ddd4j.test.VendorId;
 import org.junit.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
+
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 
 /**
  * Tests for {@link AggregateNotFoundException}.
@@ -56,6 +64,11 @@ public class AggregateNotFoundExceptionTest {
     }
 
     @Test
+    public void testHashCodeEquals() {
+        EqualsVerifier.forClass(AggregateNotFoundException.Data.class).suppress(Warning.NONFINAL_FIELDS).verify();
+    }
+    
+    @Test
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
@@ -63,7 +76,7 @@ public class AggregateNotFoundExceptionTest {
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
 
         // TEST
-        final String xml = marshal(original, AggregateNotFoundException.class);
+        final String xml = marshal(original.getData(), AggregateNotFoundException.Data.class);
 
         // VERIFY
         final Diff documentDiff = DiffBuilder
@@ -76,7 +89,8 @@ public class AggregateNotFoundExceptionTest {
         assertThat(documentDiff.hasDifferences()).describedAs(documentDiff.toString()).isFalse();
 
         // TEST
-        final AggregateNotFoundException copy = unmarshal(xml, AggregateNotFoundException.class);
+        final AggregateNotFoundException.Data data = unmarshal(xml, AggregateNotFoundException.Data.class);
+        final AggregateNotFoundException copy = data.toException();
 
         // VERIFY
         assertThat(copy.getShortId()).isEqualTo(original.getShortId());
@@ -86,5 +100,31 @@ public class AggregateNotFoundExceptionTest {
 
     }
 
+    @Test
+    public final void testMarshalUnmarshalJSON() throws Exception {
+
+        // PREPARE
+        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE,
+                new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
+
+        // TEST
+        final String json = jsonb().toJson(original.getData());
+        final AggregateNotFoundException.Data data = jsonb().fromJson(json, AggregateNotFoundException.Data.class);
+        final AggregateNotFoundException copy = data.toException();
+
+        // VERIFY
+        assertThat(copy.getShortId()).isEqualTo(original.getShortId());
+        assertThat(copy.getAggregateType()).isEqualTo(original.getAggregateType());
+        assertThat(copy.getAggregateId()).isEqualTo(original.getAggregateId());
+        assertThat(copy.getMessage()).isEqualTo(original.getMessage());
+
+    }
+    
+    private static Jsonb jsonb() {
+        final JsonbConfig config = new JsonbConfig().withPropertyVisibilityStrategy(new FieldAccessStrategy());
+        return JsonbBuilder.create(config);
+    }
+
+    
 }
 // CHECKSTYLE:ON

@@ -21,12 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.fuin.objects4j.common.ThreadSafe;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**

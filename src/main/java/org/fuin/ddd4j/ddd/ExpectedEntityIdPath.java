@@ -38,13 +38,13 @@ public @interface ExpectedEntityIdPath {
 
     String message() default "{org.fuin.ddd4j.ddd.ExpectedEntityIdPath.message}";
 
-    /** 
+    /**
      * Expected identifier types.
      * 
      * @return Ordered list of expected types.
      */
     Class<? extends EntityId>[] value();
-    
+
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};

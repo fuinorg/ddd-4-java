@@ -30,14 +30,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
-import org.fuin.objects4j.common.MarshalUnmarshalInformation;
+import org.fuin.objects4j.common.MarshalInformation;
+import org.fuin.objects4j.common.ToExceptionCapable;
 import org.fuin.objects4j.vo.ValueObject;
 
 /**
  * Signals that an aggregate of a given type and identifier was deleted from the repository.
  */
 public final class AggregateDeletedException extends Exception
-        implements ExceptionShortIdentifable, MarshalUnmarshalInformation<AggregateDeletedException.Data> {
+        implements ExceptionShortIdentifable, MarshalInformation<AggregateDeletedException.Data> {
 
     private static final long serialVersionUID = 1L;
 
@@ -124,7 +125,7 @@ public final class AggregateDeletedException extends Exception
      */
     @XmlRootElement(name = ELEMENT_NAME)
     @XmlAccessorType(XmlAccessType.NONE)
-    public static final class Data implements Serializable, ValueObject {
+    public static final class Data implements Serializable, ValueObject, ToExceptionCapable<AggregateDeletedException> {
 
         private static final long serialVersionUID = 1000L;
 

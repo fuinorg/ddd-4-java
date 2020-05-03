@@ -29,15 +29,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
-import org.fuin.objects4j.common.MarshalUnmarshalInformation;
+import org.fuin.objects4j.common.MarshalInformation;
 import org.fuin.objects4j.common.Nullable;
+import org.fuin.objects4j.common.ToExceptionCapable;
 import org.fuin.objects4j.vo.ValueObject;
 
 /**
  * Signals that an entity was not found.
  */
 public final class EntityNotFoundException extends Exception
-        implements ExceptionShortIdentifable, MarshalUnmarshalInformation<EntityNotFoundException.Data> {
+        implements ExceptionShortIdentifable, MarshalInformation<EntityNotFoundException.Data> {
 
     private static final long serialVersionUID = 1L;
 
@@ -134,7 +135,7 @@ public final class EntityNotFoundException extends Exception
      */
     @XmlRootElement(name = ELEMENT_NAME)
     @XmlAccessorType(XmlAccessType.NONE)
-    public static final class Data implements Serializable, ValueObject {
+    public static final class Data implements Serializable, ValueObject, ToExceptionCapable<EntityNotFoundException> {
 
         private static final long serialVersionUID = 1000L;
 

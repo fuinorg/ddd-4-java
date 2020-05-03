@@ -30,14 +30,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
-import org.fuin.objects4j.common.MarshalUnmarshalInformation;
+import org.fuin.objects4j.common.MarshalInformation;
+import org.fuin.objects4j.common.ToExceptionCapable;
 import org.fuin.objects4j.vo.ValueObject;
 
 /**
  * Signals a conflict between an expected and an actual version for an aggregate.
  */
 public final class AggregateVersionConflictException extends Exception
-        implements ExceptionShortIdentifable, MarshalUnmarshalInformation<AggregateVersionConflictException.Data> {
+        implements ExceptionShortIdentifable, MarshalInformation<AggregateVersionConflictException.Data> {
 
     private static final long serialVersionUID = 1L;
 
@@ -148,7 +149,7 @@ public final class AggregateVersionConflictException extends Exception
      */
     @XmlRootElement(name = ELEMENT_NAME)
     @XmlAccessorType(XmlAccessType.NONE)
-    public static final class Data implements Serializable, ValueObject {
+    public static final class Data implements Serializable, ValueObject, ToExceptionCapable<AggregateVersionConflictException> {
 
         private static final long serialVersionUID = 1000L;
 

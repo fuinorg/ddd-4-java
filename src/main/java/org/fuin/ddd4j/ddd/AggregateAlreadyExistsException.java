@@ -30,14 +30,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
-import org.fuin.objects4j.common.MarshalUnmarshalInformation;
+import org.fuin.objects4j.common.MarshalInformation;
+import org.fuin.objects4j.common.ToExceptionCapable;
 import org.fuin.objects4j.vo.ValueObject;
 
 /**
  * An aggregate already exists when trying to create it.
  */
 public final class AggregateAlreadyExistsException extends Exception
-        implements ExceptionShortIdentifable, MarshalUnmarshalInformation<AggregateAlreadyExistsException.Data> {
+        implements ExceptionShortIdentifable, MarshalInformation<AggregateAlreadyExistsException.Data> {
 
     private static final long serialVersionUID = 1L;
 
@@ -136,7 +137,7 @@ public final class AggregateAlreadyExistsException extends Exception
      */
     @XmlRootElement(name = ELEMENT_NAME)
     @XmlAccessorType(XmlAccessType.NONE)
-    public static final class Data implements Serializable, ValueObject {
+    public static final class Data implements Serializable, ValueObject, ToExceptionCapable<AggregateAlreadyExistsException> {
 
         private static final long serialVersionUID = 1000L;
 

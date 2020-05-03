@@ -103,6 +103,11 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
     }
 
     @Override
+    public final AggregateVersion getNextApplyVersion() {
+        return AggregateVersion.valueOf(getNextVersion() + 1);
+    }
+
+    @Override
     public final void loadFromHistory(final DomainEvent<?>... history) {
         if (history == null) {
             return;

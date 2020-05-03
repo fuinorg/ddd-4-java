@@ -61,17 +61,27 @@ public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
     /**
      * Returns the current version of the aggregate.
      * 
-     * @return Current version that does NOT included uncommited changes.
+     * @return Current version that does NOT included uncommitted changes.
      */
     public int getVersion();
 
     /**
      * Returns the next version of the aggregate.
      * 
-     * @return Next version that includes all currently uncommited changes.
+     * @return Next version that includes all currently uncommitted changes.
      */
     public int getNextVersion();
 
+    
+    /**
+     * Returns the next version useful when creating an event for being applied:<br>
+     * <code>apply(new MyEvent( ... , getNextApplyVersion()))</code>.
+     * 
+     * @return Version for the event.
+     */
+    public AggregateVersion getNextApplyVersion();
+    
+    
     /**
      * Loads the aggregate with historic events.
      * 

@@ -16,7 +16,7 @@ Base classes for Domain Driven Design (DDD) with Java.
 
 Documentation
 -------------
-You can find the [documentation](https://michael-schnell.gitbooks.io/ddd-4-java/content/) of the project at [gitbook](https://www.gitbook.com/book/michael-schnell/ddd-4-java/) (*Work in progress* - Just started!).
+You can find the [documentation](https://app.gitbook.com/@fuinorg/s/ddd-4-java/) of the project at [gitbook](https://app.gitbook.com/@fuinorg/spaces/) (*Work in progress* - Just started!).
 
 Presentation
 ------------

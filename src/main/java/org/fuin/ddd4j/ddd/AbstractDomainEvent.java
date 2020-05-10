@@ -141,7 +141,22 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
             delegate.entityIdPath = entityIdPath;
             return (BUILDER) this;
         }
-        
+
+        /**
+         * Convenience method to set the entity identifier path if the path has only the aggregate root identifer.
+         * 
+         * @param id
+         *            Aggregate root identifier that will be used to create the entity id path.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER entityIdPath(@NotNull AggregateRootId id) {
+            Contract.requireArgNotNull("id", id);
+            delegate.entityIdPath = new EntityIdPath(id);
+            return (BUILDER) this;
+        }
+
         /**
          * Ensures that everything is setup for building the object or throws a runtime exception otherwise.
          */

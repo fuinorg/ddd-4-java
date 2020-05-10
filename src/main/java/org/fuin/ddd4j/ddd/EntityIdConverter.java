@@ -124,7 +124,7 @@ public final class EntityIdConverter extends XmlAdapter<String, EntityId> implem
         if (value == null) {
             return null;
         }
-        return value.asString();
+        return value.asTypedString();
     }
 
     // XML Adapter

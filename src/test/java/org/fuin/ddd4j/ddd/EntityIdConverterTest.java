@@ -79,12 +79,24 @@ public class EntityIdConverterTest {
 
         // PREPARE
         final EntityIdConverter testee = new EntityIdConverter(new MyIdFactory());
-        EntityId entityId = testee.toVO("A 1");
+        final EntityId entityId = testee.toVO("A 1");
 
         // TEST & VERIFY
         assertThat(entityId).isInstanceOf(AId.class);
         assertThat(entityId.getType().asString()).isEqualTo("A");
         assertThat(entityId.asString()).isEqualTo("" + 1L);
+
+    }
+
+    @Test
+    public void testFromVO() {
+
+        // PREPARE
+        final EntityIdConverter testee = new EntityIdConverter(new MyIdFactory());
+        final EntityId entityId = testee.toVO("A 1");
+
+        // TEST & VERIFY
+        assertThat(testee.fromVO(entityId)).isEqualTo("A 1");
 
     }
 

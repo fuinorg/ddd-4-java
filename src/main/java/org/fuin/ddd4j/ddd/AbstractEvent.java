@@ -25,6 +25,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Nullable;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
@@ -130,7 +131,6 @@ public abstract class AbstractEvent implements Event {
         return causationId;
     }
 
-    // CHECKSTYLE:OFF Generated code
     @Override
     public final int hashCode() {
         final int prime = 31;
@@ -160,6 +160,145 @@ public abstract class AbstractEvent implements Event {
         }
         return true;
     }
-    // CHECKSTYLE:ON
+
+    /**
+     * Base class for event builders.
+     * 
+     * @param <TYPE>
+     *            Type of the event.
+     * @param <BUILDER>
+     *            Type of the builder.
+     */
+    protected abstract static class Builder<TYPE extends AbstractEvent, BUILDER extends Builder<TYPE, BUILDER>> {
+
+        private AbstractEvent delegate;
+
+        /**
+         * Constructor with event.
+         * 
+         * @param delegate
+         *            Event to populate with data.
+         */
+        public Builder(final TYPE delegate) {
+            super();
+            this.delegate = delegate;
+        }
+
+        /**
+         * Sets the unique identifier of the event.
+         * 
+         * @param eventId
+         *            Unique event id.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER eventId(@NotNull final EventId eventId) {
+            Contract.requireArgNotNull("eventId", eventId);
+            delegate.eventId = eventId;
+            return (BUILDER) this;
+        }
+
+        /**
+         * Sets the date/Time the event was created.
+         * 
+         * @param timestamp
+         *            Date/Time the event was created.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER timestamp(@NotNull final ZonedDateTime timestamp) {
+            Contract.requireArgNotNull("timestamp", timestamp);
+            delegate.timestamp = timestamp;
+            return (BUILDER) this;
+        }
+
+        /**
+         * Sets the event this one correlates to.
+         * 
+         * @param correlationId
+         *            Identifier of the event this one correlates to.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER correlationId(final EventId correlationId) {
+            delegate.correlationId = correlationId;
+            return (BUILDER) this;
+        }
+
+        /**
+         * Sets the event that caused this one.
+         * 
+         * @param causationId
+         *            Identifier of the event that caused this one.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER causationId(final EventId causationId) {
+            delegate.causationId = causationId;
+            return (BUILDER) this;
+        }
+
+        /**
+         * Takes the id of the event as causation id and copies the correlation id.
+         * 
+         * @param event
+         *            Event that caused the one that is being build.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER causingEvent(final Event event) {
+            delegate.causationId = event.getEventId();
+            delegate.correlationId = event.getCausationId();
+            return (BUILDER) this;
+        }
+
+        /**
+         * Ensures that everything is setup for building the object or throws a runtime exception otherwise.
+         */
+        protected final void ensureBuildableAbstractEvent() {
+            ensureNotNull("eventId", delegate.eventId);
+            ensureNotNull("timestamp", delegate.timestamp);
+        }
+
+        /**
+         * Sets the internal instance to a new one. This must be called within the build method.
+         * 
+         * @param delegate
+         *            Delegate to use.
+         */
+        protected final void resetAbstractEvent(final TYPE delegate) {
+            this.delegate = delegate;
+        }
+
+        /**
+         * Returns the delegate.
+         * 
+         * @return Delegate.
+         */
+        @SuppressWarnings("unchecked")
+        protected final TYPE delegate() {
+            return (TYPE) delegate;
+        }
+
+        /**
+         * Ensures that a filed is set or throws a runtime exception otherwise.
+         * 
+         * @param name
+         *            Name of the field.
+         * @param value
+         *            Value to test for {@literal null}.
+         */
+        protected final void ensureNotNull(final String name, final Object value) {
+            if (value == null) {
+                throw new RuntimeException("The value of '" + name + "' has not been set");
+            }
+        }
+
+    }
 
 }

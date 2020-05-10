@@ -23,6 +23,7 @@ import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Nullable;
 
 /**
@@ -98,6 +99,68 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
     @Override
     public final ID getEntityId() {
         return entityIdPath.last();
+    }
+
+    /**
+     * Base class for event builders.
+     * 
+     * @param <ID>
+     *            Type of the entity identifier.
+     * @param <TYPE>
+     *            Type of the event.
+     * @param <BUILDER>
+     *            Type of the builder.
+     */
+    protected abstract static class Builder<ID extends EntityId, TYPE extends AbstractDomainEvent<ID>, BUILDER extends Builder<ID, TYPE, BUILDER>>
+            extends AbstractEvent.Builder<TYPE, BUILDER> {
+
+        private AbstractDomainEvent<ID> delegate;
+
+        /**
+         * Constructor with event.
+         * 
+         * @param delegate
+         *            Event to populate with data.
+         */
+        public Builder(final TYPE delegate) {
+            super(delegate);
+            this.delegate = delegate;
+        }
+
+        /**
+         * Sets the identifier path from aggregate root to the entity that emitted the event.
+         * 
+         * @param entityIdPath
+         *            Path of entity identifiers.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER entityIdPath(@NotNull final EntityIdPath entityIdPath) {
+            Contract.requireArgNotNull("entityIdPath", entityIdPath);
+            delegate.entityIdPath = entityIdPath;
+            return (BUILDER) this;
+        }
+        
+        /**
+         * Ensures that everything is setup for building the object or throws a runtime exception otherwise.
+         */
+        protected final void ensureBuildableAbstractDomainEvent() {
+            ensureBuildableAbstractEvent();
+            ensureNotNull("entityIdPath", delegate.entityIdPath);
+        }
+
+        /**
+         * Sets the internal instance to a new one. This must be called within the build method.
+         * 
+         * @param delegate
+         *            Delegate to use.
+         */
+        protected final void resetAbstractDomainEvent(final TYPE delegate) {
+            resetAbstractEvent(delegate);
+            this.delegate = delegate;
+        }
+
     }
 
 }

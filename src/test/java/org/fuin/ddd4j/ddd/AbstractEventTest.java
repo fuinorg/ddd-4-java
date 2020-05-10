@@ -57,6 +57,27 @@ public class AbstractEventTest {
     }
 
     @Test
+    public final void testBuilder() {
+
+        // PREPARE
+        final MyEvent1.Builder testee = new MyEvent1.Builder();
+        final EventId eventId = new EventId();
+        final ZonedDateTime timestamp = ZonedDateTime.now();
+        final EventId causationId = new EventId();
+        final EventId correlationId = new EventId();
+
+        // TEST
+        final MyEvent1 event = testee.eventId(eventId).timestamp(timestamp).causationId(causationId).correlationId(correlationId).build();
+
+        // VERIFY
+        assertThat(event.getEventId()).isEqualTo(eventId);
+        assertThat(event.getTimestamp()).isEqualTo(timestamp);
+        assertThat(event.getCausationId()).isEqualTo(causationId);
+        assertThat(event.getCorrelationId()).isEqualTo(correlationId);
+
+    }
+
+    @Test
     public final void testSerializeDeserialize() {
 
         // PREPARE
@@ -140,6 +161,24 @@ public class AbstractEventTest {
         @Override
         public EventType getEventType() {
             return MY_EVENT_1_TYPE;
+        }
+
+        private static class Builder extends AbstractEvent.Builder<MyEvent1, Builder> {
+
+            private MyEvent1 delegate;
+
+            public Builder() {
+                super(new MyEvent1());
+                delegate = delegate();
+            }
+
+            public MyEvent1 build() {
+                final MyEvent1 result = delegate;
+                delegate = new MyEvent1();
+                resetAbstractEvent(delegate);
+                return result;
+            }
+
         }
 
     }

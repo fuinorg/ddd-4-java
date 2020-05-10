@@ -13,6 +13,7 @@ import java.util.UUID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.fuin.ddd4j.ddd.AbstractEventTest.MyEvent1;
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.VendorId;
 import org.junit.Test;
@@ -70,6 +71,36 @@ public class AbstractDomainEventTest {
 
     }
 
+    @Test
+    public final void testBuilder() {
+
+        // PREPARE
+        final MyEvent1.Builder testee = new MyEvent1.Builder();
+        final EventId eventId = new EventId();
+        final ZonedDateTime timestamp = ZonedDateTime.now();
+        final EventId causationId = new EventId();
+        final EventId correlationId = new EventId();
+        final VendorId vendorId = new VendorId();
+        final EntityIdPath entityIdPath = new EntityIdPath(vendorId);
+
+        // TEST
+        final MyEvent1 event = testee
+                .eventId(eventId)
+                .timestamp(timestamp)
+                .causationId(causationId)
+                .correlationId(correlationId)
+                .entityIdPath(entityIdPath)
+                .build();
+
+        // VERIFY
+        assertThat(event.getEventId()).isEqualTo(eventId);
+        assertThat(event.getTimestamp()).isEqualTo(timestamp);
+        assertThat(event.getCausationId()).isEqualTo(causationId);
+        assertThat(event.getCorrelationId()).isEqualTo(correlationId);
+        assertThat(event.getEntityIdPath()).isEqualTo(entityIdPath);
+
+    }
+    
     @Test
     public final void testSerializeDeserialize() {
 
@@ -165,6 +196,25 @@ public class AbstractDomainEventTest {
         public EventType getEventType() {
             return MY_EVENT_1_TYPE;
         }
+        
+        private static class Builder extends AbstractDomainEvent.Builder<VendorId, MyEvent1, Builder> {
+
+            private MyEvent1 delegate;
+
+            public Builder() {
+                super(new MyEvent1());
+                delegate = delegate();
+            }
+
+            public MyEvent1 build() {
+                final MyEvent1 result = delegate;
+                delegate = new MyEvent1();
+                resetAbstractEvent(delegate);
+                return result;
+            }
+
+        }
+        
 
     }
 

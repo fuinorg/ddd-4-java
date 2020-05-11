@@ -37,6 +37,13 @@ public @interface StringValueObject {
     String name();
 
     /**
+     * Description of the type.
+     * 
+     * @return Human readable business driven description of what this type represents.
+     */
+    String description();
+
+    /**
      * Generate a JPA converter.
      * 
      * @return TRUE generates a converter.
@@ -63,13 +70,6 @@ public @interface StringValueObject {
      * @return TRUE generates annotations.
      */
     boolean openapi() default false;
-
-    /**
-     * Description of the type.
-     * 
-     * @return Human readable business driven description of what this type represents.
-     */
-    String description() default "";
 
     /**
      * Sets the maximum length of the type (&gt;=0).

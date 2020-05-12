@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.fuin.ddd4j.ddd.EntityType;
+
 /**
  * Value object based on a single string.
  */
@@ -43,6 +45,13 @@ public @interface AggregateRootUuidVO {
      */
     String description();
 
+    /**
+     * Unique identifier of the aggregate root type.
+     * 
+     * @return Name that is unique in the context and can be used to create a {@link EntityType}.
+     */
+    String entityType();
+    
     /**
      * Generate a JPA converter.
      * 

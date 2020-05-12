@@ -27,7 +27,7 @@ import java.lang.annotation.Target;
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface StringValueObject {
+public @interface AggregateRootUuidVO {
 
     /**
      * Unique name of the type to generate.
@@ -72,32 +72,11 @@ public @interface StringValueObject {
     boolean openapi() default false;
 
     /**
-     * Sets the maximum length of the type (&gt;=0).
-     * 
-     * @return Maximum length.
-     */
-    int maxLength() default Integer.MAX_VALUE;
-
-    /**
-     * Sets the minimum length of the type (&gt;=0).
-     * 
-     * @return Minimum length.
-     */
-    int minLength() default 0;
-
-    /**
-     * A pattern that describes the content of the type.
-     * 
-     * @return Regular expression.
-     */
-    String pattern() default "";
-
-    /**
      * Example value of the type.
      * 
      * @return Example value.
      */
-    String example() default "";
+    String example() default "00000000-0000-0000-0000-000000000000";
 
     /**
      * Serial version UID to use.

@@ -25,7 +25,7 @@ import java.lang.annotation.Target;
 import org.fuin.ddd4j.ddd.EntityType;
 
 /**
- * Value object based on a single string.
+ * UUID based aggregate root identifier value object.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)

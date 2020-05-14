@@ -22,12 +22,21 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.fuin.ddd4j.ddd.EntityType;
+
 /**
- * Value object based on a single integer value.
+ * Integer based entity identifier value object.
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-public @interface IntegerVO {
+public @interface IntegerEntityIdVO {
+
+    /**
+     * Name of the package for the type to generate. If this value is not set, the package of the annotated type will be used.
+     * 
+     * @return Package name.
+     */
+    String pkg() default "";
 
     /**
      * Unique name of the type to generate.
@@ -42,6 +51,13 @@ public @interface IntegerVO {
      * @return Human readable business driven description of what this type represents.
      */
     String description();
+
+    /**
+     * Unique identifier of the entity type.
+     * 
+     * @return Name that is unique in the context and can be used to create a {@link EntityType}.
+     */
+    String entityType();
 
     /**
      * Generate a JPA converter.
@@ -72,18 +88,18 @@ public @interface IntegerVO {
     boolean openapi() default false;
 
     /**
+     * Sets the minimum value of the type.
+     * 
+     * @return Minimum value (inclusive).
+     */
+    int minValue() default 1;
+
+    /**
      * Sets the maximum value of the type.
      * 
      * @return Maximum value (inclusive).
      */
     int maxValue() default Integer.MAX_VALUE;
-
-    /**
-     * Sets the minimum value of the type.
-     * 
-     * @return Minimum value (inclusive).
-     */
-    int minValue() default Integer.MIN_VALUE;
 
     /**
      * Serial version UID to use.

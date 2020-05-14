@@ -17,18 +17,9 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
-import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.ConstraintViolationException;
@@ -141,42 +132,6 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
         return uuid;
     }
 
-    // CHECKSTYLE:OFF
-
-    /**
-     * Ensures that the string can be converted into the type.
-     */
-    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
-    @Retention(RetentionPolicy.RUNTIME)
-    @Constraint(validatedBy = { Validator.class })
-    @Documented
-    public static @interface AggregateRootUuidStr {
-
-        String message() default "{org.fuin.ddd4j.ddd.AggregateRootUuid.message}";
-
-        Class<?>[] groups() default {};
-
-        Class<? extends Payload>[] payload() default {};
-
-    }
-
-    /**
-     * Validates if a string is compliant with the type.
-     */
-    public static final class Validator implements ConstraintValidator<AggregateRootUuidStr, String> {
-
-        @Override
-        public final void initialize(final AggregateRootUuidStr annotation) {
-            // Not used
-        }
-
-        @Override
-        public final boolean isValid(final String value, final ConstraintValidatorContext context) {
-            return AggregateRootUuid.isValid(value);
-        }
-
-    }
-
     /**
      * Verifies that a given string can be converted into the type.
      * 
@@ -213,7 +168,5 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
         }
 
     }
-
-    // CHECKSTYLE:ON
 
 }

@@ -17,19 +17,8 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
-import javax.validation.Constraint;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
-import javax.validation.Payload;
 import javax.validation.constraints.NotNull;
 
-import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
@@ -39,9 +28,6 @@ import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 public abstract class IntegerEntityId implements EntityId, Comparable<IntegerEntityId>, ValueObjectWithBaseType<Integer> {
 
     private static final long serialVersionUID = 1000L;
-
-    /** Minimum valid value (inclusive). */
-    public static final int MIN = 1;
 
     private final EntityType entityType;
 
@@ -128,80 +114,5 @@ public abstract class IntegerEntityId implements EntityId, Comparable<IntegerEnt
     public final Integer asBaseType() {
         return id;
     }
-
-    // CHECKSTYLE:OFF
-
-    /**
-     * Ensures that the integer can be converted into the type.
-     */
-    @Target({ ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE })
-    @Retention(RetentionPolicy.RUNTIME)
-    @Constraint(validatedBy = { Validator.class })
-    @Documented
-    public static @interface IntegerEntityIdStr {
-
-        String message() default "{org.fuin.ddd4j.ddd.IntegerEntityId.message}";
-
-        Class<?>[] groups() default {};
-
-        Class<? extends Payload>[] payload() default {};
-
-    }
-
-    /**
-     * Validates if a string is compliant with the type.
-     */
-    public static final class Validator implements ConstraintValidator<IntegerEntityIdStr, Integer> {
-
-        @Override
-        public final void initialize(final IntegerEntityIdStr annotation) {
-            // Not used
-        }
-
-        @Override
-        public final boolean isValid(final Integer value, final ConstraintValidatorContext context) {
-            return IntegerEntityId.isValid(value);
-        }
-
-    }
-
-    /**
-     * Verifies that a given string can be converted into the type.
-     * 
-     * @param value
-     *            Value to validate.
-     * 
-     * @return Returns <code>true</code> if it's a valid type else <code>false</code>.
-     */
-    public static boolean isValid(final Integer value) {
-        if (value == null) {
-            return true;
-        }
-        if (value < MIN) {
-            return false;
-        }
-        return true;
-    }
-
-    /**
-     * Verifies if the argument is valid and throws an exception if this is not the case.
-     * 
-     * @param name
-     *            Name of the value for a possible error message.
-     * @param value
-     *            Value to check.
-     * 
-     * @throws ConstraintViolationException
-     *             The value was not valid.
-     */
-    public static void requireArgValid(@NotNull final String name, @NotNull final Integer value) throws ConstraintViolationException {
-
-        if (!isValid(value)) {
-            throw new ConstraintViolationException("The argument '" + name + "' is not valid: " + value);
-        }
-
-    }
-
-    // CHECKSTYLE:ON
 
 }

@@ -18,13 +18,11 @@
 package org.fuin.ddd4j.ddd;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.fuin.objects4j.common.ConstraintViolationException;
 import org.junit.Test;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -40,17 +38,6 @@ public class IntegerEntityIdTest {
         EqualsVerifier.forClass(IntegerEntityId.class)
                 .withPrefabValues(EntityType.class, new StringBasedEntityType("A"), new StringBasedEntityType("B"))
                 .suppress(Warning.NULL_FIELDS).verify();
-    }
-
-    @Test
-    public void testIsValid() {
-
-        assertThat(IntegerEntityId.isValid(null)).isTrue();
-        assertThat(IntegerEntityId.isValid(-1)).isFalse();
-        assertThat(IntegerEntityId.isValid(0)).isFalse();
-        assertThat(IntegerEntityId.isValid(IntegerEntityId.MIN)).isTrue();
-        assertThat(IntegerEntityId.isValid(Integer.MAX_VALUE)).isTrue();
-
     }
 
     @Test
@@ -85,29 +72,6 @@ public class IntegerEntityIdTest {
         Collections.sort(ids);
 
         assertThat(ids).containsExactly(a1, a2, a3, b1, b2, b3);
-
-    }
-
-    @Test
-    public void testRequireArgValid() {
-
-        IntegerEntityId.requireArgValid("null", null);
-        IntegerEntityId.requireArgValid("min", IntegerEntityId.MIN);
-        IntegerEntityId.requireArgValid("max", Integer.MAX_VALUE);
-
-        try {
-            IntegerEntityId.requireArgValid("a", -1);
-            fail();
-        } catch (final ConstraintViolationException ex) {
-            assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: -1");
-        }
-
-        try {
-            IntegerEntityId.requireArgValid("a", 0);
-            fail();
-        } catch (final ConstraintViolationException ex) {
-            assertThat(ex.getMessage()).isEqualTo("The argument 'a' is not valid: 0");
-        }
 
     }
 

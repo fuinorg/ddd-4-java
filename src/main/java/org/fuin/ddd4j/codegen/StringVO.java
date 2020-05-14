@@ -30,6 +30,13 @@ import java.lang.annotation.Target;
 public @interface StringVO {
 
     /**
+     * Name of the package for the type to generate. If this value is not set, the package of the annotated type will be used.
+     * 
+     * @return Package name.
+     */
+    String pkg() default "";
+
+    /**
      * Unique name of the type to generate.
      * 
      * @return Simple name of the target class.

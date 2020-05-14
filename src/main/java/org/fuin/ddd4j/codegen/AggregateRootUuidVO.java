@@ -32,6 +32,13 @@ import org.fuin.ddd4j.ddd.EntityType;
 public @interface AggregateRootUuidVO {
 
     /**
+     * Name of the package for the type to generate. If this value is not set, the package of the annotated type will be used.
+     * 
+     * @return Package name.
+     */
+    String pkg() default "";
+
+    /**
      * Unique name of the type to generate.
      * 
      * @return Simple name of the target class.
@@ -51,7 +58,7 @@ public @interface AggregateRootUuidVO {
      * @return Name that is unique in the context and can be used to create a {@link EntityType}.
      */
     String entityType();
-    
+
     /**
      * Generate a JPA converter.
      * 
@@ -93,5 +100,5 @@ public @interface AggregateRootUuidVO {
      * @return Version used for Java serialization.
      */
     long serialVersionUID() default 1L;
-    
+
 }

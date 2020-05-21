@@ -51,6 +51,14 @@ public interface DomainEvent<ID extends EntityId> extends Event {
      * @return Aggregate version at the time the event was raised.
      */
     @Nullable
-    public AggregateVersion getVersion();
+    public AggregateVersion getAggregateVersion();
 
+    /**
+     * Returns the aggregate version as integer. This is a null-safe shortcut for <code>getAggregateVersion().asBaseType()</code>-
+     * 
+     * @return Expected version or {@literal null}.
+     */
+    @Nullable
+    public Integer getAggregateVersionInteger();
+    
 }

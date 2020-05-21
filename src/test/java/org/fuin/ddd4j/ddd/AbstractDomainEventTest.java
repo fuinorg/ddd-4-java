@@ -13,7 +13,6 @@ import java.util.UUID;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-import org.fuin.ddd4j.ddd.AbstractEventTest.MyEvent1;
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.VendorId;
 import org.junit.Test;
@@ -40,7 +39,7 @@ public class AbstractDomainEventTest {
         assertThat(testee.getEntityId()).isEqualTo(vendorId);
         assertThat(testee.getEntityIdPath()).isEqualTo(new EntityIdPath(vendorId));
         assertThat(testee.getEventId()).isNotNull();
-        assertThat(testee.getTimestamp()).isNotNull();
+        assertThat(testee.getEventTimestamp()).isNotNull();
         assertThat(testee.getCausationId()).isEqualTo(causationId);
         assertThat(testee.getCorrelationId()).isEqualTo(correlationId);
         assertThat(testee.getEventType()).isEqualTo(MY_EVENT_1_TYPE);
@@ -64,7 +63,7 @@ public class AbstractDomainEventTest {
         assertThat(testee.getEntityId()).isEqualTo(vendorId);
         assertThat(testee.getEntityIdPath()).isEqualTo(new EntityIdPath(vendorId));
         assertThat(testee.getEventId()).isNotNull();
-        assertThat(testee.getTimestamp()).isNotNull();
+        assertThat(testee.getEventTimestamp()).isNotNull();
         assertThat(testee.getCausationId()).isEqualTo(event.getEventId());
         assertThat(testee.getCorrelationId()).isEqualTo(correlationId);
         assertThat(testee.getEventType()).isEqualTo(MY_EVENT_1_TYPE);
@@ -84,23 +83,18 @@ public class AbstractDomainEventTest {
         final EntityIdPath entityIdPath = new EntityIdPath(vendorId);
 
         // TEST
-        final MyEvent1 event = testee
-                .eventId(eventId)
-                .timestamp(timestamp)
-                .causationId(causationId)
-                .correlationId(correlationId)
-                .entityIdPath(entityIdPath)
-                .build();
+        final MyEvent1 event = testee.eventId(eventId).timestamp(timestamp).causationId(causationId).correlationId(correlationId)
+                .entityIdPath(entityIdPath).build();
 
         // VERIFY
         assertThat(event.getEventId()).isEqualTo(eventId);
-        assertThat(event.getTimestamp()).isEqualTo(timestamp);
+        assertThat(event.getEventTimestamp()).isEqualTo(timestamp);
         assertThat(event.getCausationId()).isEqualTo(causationId);
         assertThat(event.getCorrelationId()).isEqualTo(correlationId);
         assertThat(event.getEntityIdPath()).isEqualTo(entityIdPath);
 
     }
-    
+
     @Test
     public final void testSerializeDeserialize() {
 
@@ -121,7 +115,7 @@ public class AbstractDomainEventTest {
         assertThat(copy.getCorrelationId()).isEqualTo(original.getCorrelationId());
         assertThat(copy.getEventId()).isEqualTo(original.getEventId());
         assertThat(copy.getEventType()).isEqualTo(original.getEventType());
-        assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());
+        assertThat(copy.getEventTimestamp()).isEqualTo(original.getEventTimestamp());
 
     }
 
@@ -146,7 +140,7 @@ public class AbstractDomainEventTest {
         assertThat(copy.getCorrelationId()).isEqualTo(original.getCorrelationId());
         assertThat(copy.getEventId()).isEqualTo(original.getEventId());
         assertThat(copy.getEventType()).isEqualTo(original.getEventType());
-        assertThat(copy.getTimestamp()).isEqualTo(original.getTimestamp());
+        assertThat(copy.getEventTimestamp()).isEqualTo(original.getEventTimestamp());
 
     }
 
@@ -171,7 +165,7 @@ public class AbstractDomainEventTest {
         assertThat(copy.getCorrelationId()).isEqualTo(new EventId(UUID.fromString("2a5893a9-00da-4003-b280-98324eccdef1")));
         assertThat(copy.getEventId()).isEqualTo(new EventId(UUID.fromString("f910c6d7-debc-46e1-ae02-9ca6f4658cf5")));
         assertThat(copy.getEventType()).isEqualTo(copy.getEventType());
-        assertThat(copy.getTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
+        assertThat(copy.getEventTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
 
     }
 
@@ -196,7 +190,7 @@ public class AbstractDomainEventTest {
         public EventType getEventType() {
             return MY_EVENT_1_TYPE;
         }
-        
+
         private static class Builder extends AbstractDomainEvent.Builder<VendorId, MyEvent1, Builder> {
 
             private MyEvent1 delegate;
@@ -214,7 +208,6 @@ public class AbstractDomainEventTest {
             }
 
         }
-        
 
     }
 

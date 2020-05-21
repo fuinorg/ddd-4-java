@@ -51,7 +51,7 @@ public interface Event extends Serializable {
      * @return Event creation date and time.
      */
     @NotNull
-    public ZonedDateTime getTimestamp();
+    public ZonedDateTime getEventTimestamp();
 
     /**
      * Correlation identifier.

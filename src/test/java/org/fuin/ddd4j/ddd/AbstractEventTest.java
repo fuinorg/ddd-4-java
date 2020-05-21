@@ -29,7 +29,7 @@ public class AbstractEventTest {
 
         // VERIFY
         assertThat(testee.getEventId()).isNotNull();
-        assertThat(testee.getTimestamp()).isNotNull();
+        assertThat(testee.getEventTimestamp()).isNotNull();
         assertThat(testee.getCausationId()).isNull();
         assertThat(testee.getCorrelationId()).isNull();
         assertThat(testee.getEventType()).isEqualTo(MY_EVENT_1_TYPE);
@@ -49,7 +49,7 @@ public class AbstractEventTest {
 
         // VERIFY
         assertThat(testee.getEventId()).isNotNull();
-        assertThat(testee.getTimestamp()).isNotNull();
+        assertThat(testee.getEventTimestamp()).isNotNull();
         assertThat(testee.getCausationId()).isEqualTo(event.getEventId());
         assertThat(testee.getCorrelationId()).isEqualTo(correlationId);
         assertThat(testee.getEventType()).isEqualTo(MY_EVENT_1_TYPE);
@@ -71,7 +71,7 @@ public class AbstractEventTest {
 
         // VERIFY
         assertThat(event.getEventId()).isEqualTo(eventId);
-        assertThat(event.getTimestamp()).isEqualTo(timestamp);
+        assertThat(event.getEventTimestamp()).isEqualTo(timestamp);
         assertThat(event.getCausationId()).isEqualTo(causationId);
         assertThat(event.getCorrelationId()).isEqualTo(correlationId);
 
@@ -94,7 +94,7 @@ public class AbstractEventTest {
         assertThat(original.getCorrelationId()).isEqualTo(copy.getCorrelationId());
         assertThat(original.getEventId()).isEqualTo(copy.getEventId());
         assertThat(original.getEventType()).isEqualTo(copy.getEventType());
-        assertThat(original.getTimestamp()).isEqualTo(copy.getTimestamp());
+        assertThat(original.getEventTimestamp()).isEqualTo(copy.getEventTimestamp());
 
     }
 
@@ -116,7 +116,7 @@ public class AbstractEventTest {
         assertThat(original.getCorrelationId()).isEqualTo(copy.getCorrelationId());
         assertThat(original.getEventId()).isEqualTo(copy.getEventId());
         assertThat(original.getEventType()).isEqualTo(copy.getEventType());
-        assertThat(original.getTimestamp()).isEqualTo(copy.getTimestamp());
+        assertThat(original.getEventTimestamp()).isEqualTo(copy.getEventTimestamp());
 
     }
 
@@ -137,7 +137,7 @@ public class AbstractEventTest {
         assertThat(copy.getCorrelationId()).isEqualTo(new EventId(UUID.fromString("2a5893a9-00da-4003-b280-98324eccdef1")));
         assertThat(copy.getEventId()).isEqualTo(new EventId(UUID.fromString("f910c6d7-debc-46e1-ae02-9ca6f4658cf5")));
         assertThat(copy.getEventType()).isEqualTo(copy.getEventType());
-        assertThat(copy.getTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
+        assertThat(copy.getEventTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
 
     }
 

@@ -56,7 +56,7 @@ public abstract class AbstractEvent implements Event {
     @JsonbProperty("event-timestamp")
     @XmlJavaTypeAdapter(ZonedDateTimeXmlAdapter.class)
     @XmlElement(name = "event-timestamp")
-    private ZonedDateTime timestamp;
+    private ZonedDateTime eventTimestamp;
 
     @Label("Correlation Identifier")
     @ShortLabel("CorrID")
@@ -106,7 +106,7 @@ public abstract class AbstractEvent implements Event {
     public AbstractEvent(@Nullable final EventId correlationId, @Nullable final EventId causationId) {
         super();
         this.eventId = new EventId();
-        this.timestamp = ZonedDateTime.now();
+        this.eventTimestamp = ZonedDateTime.now();
         this.correlationId = correlationId;
         this.causationId = causationId;
     }
@@ -117,8 +117,8 @@ public abstract class AbstractEvent implements Event {
     }
 
     @Override
-    public final ZonedDateTime getTimestamp() {
-        return timestamp;
+    public final ZonedDateTime getEventTimestamp() {
+        return eventTimestamp;
     }
 
     @Override
@@ -202,15 +202,15 @@ public abstract class AbstractEvent implements Event {
         /**
          * Sets the date/Time the event was created.
          * 
-         * @param timestamp
+         * @param eventTimestamp
          *            Date/Time the event was created.
          * 
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER timestamp(@NotNull final ZonedDateTime timestamp) {
-            Contract.requireArgNotNull("timestamp", timestamp);
-            delegate.timestamp = timestamp;
+        public final BUILDER timestamp(@NotNull final ZonedDateTime eventTimestamp) {
+            Contract.requireArgNotNull("eventTimestamp", eventTimestamp);
+            delegate.eventTimestamp = eventTimestamp;
             return (BUILDER) this;
         }
 
@@ -262,7 +262,7 @@ public abstract class AbstractEvent implements Event {
          */
         protected final void ensureBuildableAbstractEvent() {
             ensureNotNull("eventId", delegate.eventId);
-            ensureNotNull("timestamp", delegate.timestamp);
+            ensureNotNull("timestamp", delegate.eventTimestamp);
         }
 
         /**

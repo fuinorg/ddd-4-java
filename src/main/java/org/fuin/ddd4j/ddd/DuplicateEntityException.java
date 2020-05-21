@@ -59,8 +59,7 @@ public final class DuplicateEntityException extends Exception
      */
     public DuplicateEntityException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
         super(entityId.asTypedString() + " already exists in " + parentIdPath.asString());
-        final String pidp = parentIdPath == null ? null : parentIdPath.asString();
-        this.data = new Data(getMessage(), SHORT_ID, pidp, entityId.asString());
+        this.data = new Data(getMessage(), SHORT_ID, parentIdPath.asString(), entityId.asString());
     }
 
     /**

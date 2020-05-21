@@ -19,6 +19,8 @@ package org.fuin.ddd4j.ddd;
 
 import javax.validation.constraints.NotNull;
 
+import org.fuin.objects4j.common.Nullable;
+
 /**
  * Domain event published by an entity.
  * 
@@ -42,5 +44,13 @@ public interface DomainEvent<ID extends EntityId> extends Event {
      */
     @NotNull
     public ID getEntityId();
+
+    /**
+     * Returns the version of the aggregate the entity belongs to.
+     * 
+     * @return Aggregate version at the time the event was raised.
+     */
+    @Nullable
+    public AggregateVersion getVersion();
 
 }

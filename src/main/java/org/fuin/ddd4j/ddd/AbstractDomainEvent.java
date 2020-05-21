@@ -43,6 +43,13 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
     @XmlElement(name = "entity-id-path")
     private EntityIdPath entityIdPath;
 
+    @Nullable
+    @JsonbTypeAdapter(AggregateVersionConverter.class)
+    @JsonbProperty("version")
+    @XmlJavaTypeAdapter(AggregateVersionConverter.class)
+    @XmlElement(name = "version")
+    private AggregateVersion version;
+
     /**
      * Protected default constructor for deserialization.
      */
@@ -101,6 +108,11 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
         return entityIdPath.last();
     }
 
+    @Nullable
+    public final AggregateVersion getVersion() {
+        return version;
+    }
+
     /**
      * Base class for event builders.
      * 
@@ -157,6 +169,20 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
             return (BUILDER) this;
         }
 
+        /**
+         * Sets the aggregate version.
+         * 
+         * @param version
+         *            Aggregate version.
+         * 
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER version(final AggregateVersion version) {
+            delegate.version = version;
+            return (BUILDER) this;
+        }
+        
         /**
          * Ensures that everything is setup for building the object or throws a runtime exception otherwise.
          */

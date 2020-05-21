@@ -28,7 +28,7 @@ import org.fuin.objects4j.common.Nullable;
 import org.fuin.objects4j.vo.AbstractIntegerValueObject;
 
 /**
- * Version of an aggregate root.
+ * Version of an aggregate.
  */
 public final class AggregateVersion extends AbstractIntegerValueObject {
 

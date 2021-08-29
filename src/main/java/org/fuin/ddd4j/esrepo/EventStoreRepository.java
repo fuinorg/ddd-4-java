@@ -227,7 +227,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 aggregate.markChangesAsCommitted();
                 unsaved = false;
             } catch (final WrongExpectedVersionException ex) {
-                LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount=", aggregate.getId().asTypedString(),
+                LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount={}", aggregate.getId().asTypedString(),
                         ex.getExpected(), ex.getActual(), retryCount);
                 expectedVersion = resolveConflicts(aggregate, integerVersion(ex.getActual()), retryCount++);
             } catch (final StreamDeletedException | StreamNotFoundException ex) {

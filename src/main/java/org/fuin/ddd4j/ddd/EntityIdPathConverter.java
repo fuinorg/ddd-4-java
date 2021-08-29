@@ -69,7 +69,7 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
             return true;
         }
         final List<String> entryList = entries(value);
-        if (entryList.size() == 0) {
+        if (entryList.isEmpty()) {
             return false;
         }
         for (final String entry : entryList) {
@@ -105,7 +105,7 @@ public final class EntityIdPathConverter extends AbstractValueObjectConverter<St
             return null;
         }
         final List<String> entryList = entries(value);
-        if (entryList.size() == 0) {
+        if (entryList.isEmpty()) {
             throw new IllegalArgumentException("Invalid entity path: '" + value + "'");
         }
         final List<EntityId> ids = new ArrayList<>();

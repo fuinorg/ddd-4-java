@@ -80,7 +80,7 @@ public final class AggregateStreamId implements StreamId {
     @Override
     public final List<KeyValue> getParameters() {
         if (params == null) {
-            final List<KeyValue> list = new ArrayList<KeyValue>();
+            final List<KeyValue> list = new ArrayList<>();
             list.add(new KeyValue(paramName, paramValue.asString()));
             params = Collections.unmodifiableList(list);
         }

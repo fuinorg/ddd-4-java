@@ -47,7 +47,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
      */
     public AbstractAggregateRoot() {
         super();
-        this.uncommitedChanges = new ArrayList<DomainEvent<?>>();
+        this.uncommitedChanges = new ArrayList<>();
     }
 
     @Override

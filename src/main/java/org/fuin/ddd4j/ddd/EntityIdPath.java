@@ -68,7 +68,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
                 throw new ConstraintViolationException("Identifiers in the array cannot be null");
             }
         }
-        this.entityIds = new ArrayList<EntityId>();
+        this.entityIds = new ArrayList<>();
         this.entityIds.addAll(Arrays.asList(entityIds));
     }
 
@@ -80,7 +80,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
      */
     public EntityIdPath(final List<EntityId> ids) {
         Contract.requireArgNotNull("ids", ids);
-        if (ids.size() == 0) {
+        if (ids.isEmpty()) {
             throw new ConstraintViolationException("Identifier list cannot be empty");
         }
         for (final EntityId entityId : ids) {
@@ -88,7 +88,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
                 throw new ConstraintViolationException("Identifiers in the list cannot be null");
             }
         }
-        this.entityIds = new ArrayList<EntityId>();
+        this.entityIds = new ArrayList<>();
         this.entityIds.addAll(ids);
     }
 
@@ -137,7 +137,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
         if (entityIds.size() == 1) {
             return null;
         }
-        final List<EntityId> list = new ArrayList<EntityId>();
+        final List<EntityId> list = new ArrayList<>();
         for (int i = 1; i < entityIds.size(); i++) {
             list.add(entityIds.get(i));
         }
@@ -153,7 +153,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
         if (entityIds.size() == 1) {
             return null;
         }
-        final List<EntityId> list = new ArrayList<EntityId>();
+        final List<EntityId> list = new ArrayList<>();
         for (int i = 0; i < entityIds.size() - 1; i++) {
             list.add(entityIds.get(i));
         }

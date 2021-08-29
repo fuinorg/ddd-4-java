@@ -209,7 +209,7 @@ public final class MethodExecutor {
         if ((arguments == null) && (argumentTypes != null)) {
             throw new IllegalArgumentException("Arguments array is null, but argument types array is not: " + Arrays.asList(argumentTypes));
         }
-        if ((argumentTypes != null) && (arguments != null) && (argumentTypes.length != arguments.length)) {
+        if ((argumentTypes != null) && (argumentTypes.length != arguments.length)) {
             throw new IllegalArgumentException("Types and arguments have different length: Types=" + Arrays.asList(argumentTypes)
                     + ", Args=" + Arrays.asList(arguments));
         }

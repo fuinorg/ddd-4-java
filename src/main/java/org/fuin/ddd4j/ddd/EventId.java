@@ -20,7 +20,7 @@ package org.fuin.ddd4j.ddd;
 import java.util.UUID;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Immutable;

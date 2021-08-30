@@ -19,7 +19,7 @@ package org.fuin.ddd4j.test;
 
 import org.fuin.objects4j.common.Immutable;
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.fuin.ddd4j.ddd.BusinessKey;
 import org.fuin.objects4j.common.Contract;

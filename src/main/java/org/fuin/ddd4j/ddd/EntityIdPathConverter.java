@@ -21,8 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 import javax.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.ConstraintViolationException;

@@ -18,8 +18,8 @@
 package org.fuin.ddd4j.test;
 
 import javax.validation.constraints.NotNull;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.vo.ValueObject;

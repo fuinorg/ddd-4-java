@@ -18,8 +18,8 @@
 package org.fuin.ddd4j.test;
 
 import org.fuin.objects4j.common.ThreadSafe;
-import javax.persistence.AttributeConverter;
-import javax.persistence.Converter;
+import jakarta.persistence.AttributeConverter;
+import jakarta.persistence.Converter;
 
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 

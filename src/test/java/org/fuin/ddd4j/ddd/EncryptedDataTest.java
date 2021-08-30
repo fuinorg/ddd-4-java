@@ -24,11 +24,11 @@ import static org.fuin.utils4j.JaxbUtils.unmarshal;
 import java.util.Base64;
 import java.util.UUID;
 
-import javax.json.bind.Jsonb;
-import javax.json.bind.JsonbBuilder;
-import javax.json.bind.JsonbConfig;
-import javax.json.bind.config.BinaryDataStrategy;
-import javax.xml.bind.annotation.adapters.XmlAdapter;
+import jakarta.json.bind.Jsonb;
+import jakarta.json.bind.JsonbBuilder;
+import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.config.BinaryDataStrategy;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.eclipse.yasson.FieldAccessStrategy;
 import org.fuin.utils4j.Utils4J;

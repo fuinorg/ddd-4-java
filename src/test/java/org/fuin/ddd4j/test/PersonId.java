@@ -18,7 +18,7 @@
 package org.fuin.ddd4j.test;
 
 import org.fuin.objects4j.common.Immutable;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.EntityId;
 import org.fuin.ddd4j.ddd.EntityType;

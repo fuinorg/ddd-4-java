@@ -21,8 +21,8 @@ import java.io.Serializable;
 import java.util.Arrays;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 

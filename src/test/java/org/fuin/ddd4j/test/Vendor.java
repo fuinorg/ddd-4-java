@@ -20,7 +20,7 @@ package org.fuin.ddd4j.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.fuin.ddd4j.ddd.AbstractAggregateRoot;
 import org.fuin.ddd4j.ddd.ApplyEvent;

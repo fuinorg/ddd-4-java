@@ -18,7 +18,7 @@
 package org.fuin.ddd4j.ddd;
 
 import jakarta.json.bind.adapter.JsonbAdapter;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 
 import org.fuin.objects4j.common.ConstraintViolationException;

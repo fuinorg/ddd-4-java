@@ -20,7 +20,7 @@ package org.fuin.ddd4j.ddd;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import org.fuin.objects4j.common.Nullable;
 

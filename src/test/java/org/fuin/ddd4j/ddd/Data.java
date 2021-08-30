@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;

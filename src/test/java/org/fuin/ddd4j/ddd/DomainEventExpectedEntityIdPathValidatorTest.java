@@ -21,7 +21,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.lang.annotation.Annotation;
 
-import javax.validation.Payload;
+import jakarta.validation.Payload;
 
 import org.fuin.ddd4j.test.ACreatedEvent;
 import org.fuin.ddd4j.test.AId;

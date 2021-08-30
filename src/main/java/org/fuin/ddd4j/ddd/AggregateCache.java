@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * Cache for aggregates of the same type.

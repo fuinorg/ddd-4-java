@@ -22,7 +22,7 @@ import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 import java.io.Serializable;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

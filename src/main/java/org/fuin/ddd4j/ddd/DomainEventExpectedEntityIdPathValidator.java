@@ -1,7 +1,7 @@
 package org.fuin.ddd4j.ddd;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
  * Validates that the path has a defined order and type.

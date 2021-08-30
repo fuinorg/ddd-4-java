@@ -28,7 +28,7 @@
     </issueManagement>
 
     <properties>
-        <esc.version>0.4.1</esc.version>
+        <esc.version>0.4.2</esc.version>
     </properties>
 
     <dependencies>

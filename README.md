@@ -10,7 +10,7 @@ Base classes for Domain Driven Design (DDD) with Java.
 [![Java Development Kit 11](https://img.shields.io/badge/JDK-11-green.svg)](https://openjdk.java.net/projects/jdk/11/)
 
 ## Versions
-- (Coming soon) 0.5.x (or later) = **Java 11** with new **jakarta** namespace
+- 0.5.x (or later) = **Java 11** with new **jakarta** namespace
 - 0.3.x/0.4.x = **Java 11** before namespace change from 'javax' to 'jakarta'
 - 0.2.1 = **Java 8**
 

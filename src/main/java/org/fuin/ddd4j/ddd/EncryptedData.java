@@ -19,6 +19,7 @@ package org.fuin.ddd4j.ddd;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Map;
 
 import javax.json.bind.annotation.JsonbProperty;
 import javax.validation.constraints.NotEmpty;
@@ -238,9 +239,67 @@ public final class EncryptedData implements ValueObject, Serializable {
     }
 
     /**
+     * Base functions for the crypto engine.
+     */
+    public static interface CryptoEngine {
+
+        /**
+         * Determines if a key for the given identifier exists.
+         * 
+         * @param keyId
+         *            Identifier to test for.
+         * 
+         * @return TRUE if the key is known and can be used for encryption.
+         */
+        public boolean keyExists(@NotEmpty String keyId);
+
+        /**
+         * Creates a new key for the given identifier.
+         * 
+         * @param keyId
+         *            Identifier to create a new secret key for.
+         * @param params
+         *            Parameters for the key creation. The implementation defines the (optional) key/values.
+         * 
+         * @throws DuplicateEncryptionKeyIdException
+         *             The given ID already exists and a key cannot be created again.
+         */
+        public void createKey(@NotEmpty String keyId, Map<String, Object> params) throws DuplicateEncryptionKeyIdException;
+
+        /**
+         * Rotates the existing key by creating a new one as the next version.
+         * 
+         * @param keyId
+         *            Key identifier to create a new secret key.
+         * @param params
+         *            Parameters for the key creation. The implementation defines the (optional) key/values.
+         * 
+         * @return The new version of the key.
+         * 
+         * @throws EncryptionKeyIdUnknownException
+         *             The given key identifier is unknown.
+         */
+        public String rotateKey(@NotEmpty String keyId, Map<String, Object> params) throws EncryptionKeyIdUnknownException;
+
+        /**
+         * Returns the current version of the given identifier.
+         * 
+         * @param keyId
+         *            Key ID to return the version for.
+         * 
+         * @return Version of the given identifier.
+         * 
+         * @throws EncryptionKeyIdUnknownException
+         *             The given key identifier is unknown.
+         */
+        public String getKeyVersion(@NotEmpty String keyId) throws EncryptionKeyIdUnknownException;
+
+    }
+
+    /**
      * Encrypts some data.
      */
-    public interface Encrypter {
+    public static interface Encrypter {
 
         /**
          * Encrypts some data using a dedicated key. The encrypter will use the latest available version of key and initialization vector.
@@ -261,15 +320,15 @@ public final class EncryptedData implements ValueObject, Serializable {
          * @throws EncryptionKeyIdUnknownException
          *             The given key identifier is unknown.
          */
-        public EncryptedData encrypt(@NotEmpty final String keyId, @NotEmpty final String dataType, @NotEmpty final String contentType,
-                @NotEmpty final byte[] data) throws EncryptionKeyIdUnknownException;
+        public EncryptedData encrypt(@NotEmpty String keyId, @NotEmpty String dataType, @NotEmpty String contentType, @NotEmpty byte[] data)
+                throws EncryptionKeyIdUnknownException;
 
     }
 
     /**
      * Decrypts some data.
      */
-    public interface Decrypter {
+    public static interface Decrypter {
 
         /**
          * Decrypts the data using the information provided by the parameter. The data itself will only be decrypted, means no

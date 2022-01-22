@@ -115,13 +115,11 @@ public interface EncryptedDataService {
      *             The given key identifier is unknown.
      * @throws EncryptionKeyVersionUnknownException
      *             The given version of the key is unknown.
-     * @throws EncryptionIvVersionUnknownException
-     *             The given initialization vector version is unknown.
      * @throws DecryptionFailedException
      *             Decrypting the data using they key, version and (optional) IV version failed.
      */
     @NotEmpty
     public byte[] decrypt(@NotNull EncryptedData encryptedData) throws EncryptionKeyIdUnknownException,
-            EncryptionKeyVersionUnknownException, EncryptionIvVersionUnknownException, DecryptionFailedException;
+            EncryptionKeyVersionUnknownException, DecryptionFailedException;
     
 }

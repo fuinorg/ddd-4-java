@@ -17,13 +17,11 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.util.Map;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 /**
- * Service for encrypting/decrypting {@link EncryptedData} and handling versioned secret keys. 
+ * Service for encrypting/decrypting {@link EncryptedData} and handling versioned secret keys.
  */
 public interface EncryptedDataService {
 
@@ -42,28 +40,24 @@ public interface EncryptedDataService {
      * 
      * @param keyId
      *            Identifier to create a new secret key for.
-     * @param params
-     *            Parameters for the key creation. The implementation defines the (optional) key/values.
      * 
      * @throws DuplicateEncryptionKeyIdException
      *             The given ID already exists and a key cannot be created again.
      */
-    public void createKey(@NotEmpty String keyId, Map<String, Object> params) throws DuplicateEncryptionKeyIdException;
+    public void createKey(@NotEmpty String keyId) throws DuplicateEncryptionKeyIdException;
 
     /**
      * Rotates the existing key by creating a new one as the next version.
      * 
      * @param keyId
      *            Key identifier to create a new secret key.
-     * @param params
-     *            Parameters for the key creation. The implementation defines the (optional) key/values.
      * 
      * @return The new version of the key.
      * 
      * @throws EncryptionKeyIdUnknownException
      *             The given key identifier is unknown.
      */
-    public String rotateKey(@NotEmpty String keyId, Map<String, Object> params) throws EncryptionKeyIdUnknownException;
+    public String rotateKey(@NotEmpty String keyId) throws EncryptionKeyIdUnknownException;
 
     /**
      * Returns the current version of the given identifier.
@@ -78,10 +72,9 @@ public interface EncryptedDataService {
      */
     public String getKeyVersion(@NotEmpty String keyId) throws EncryptionKeyIdUnknownException;
 
-    
     /**
-     * Encrypts some data using a dedicated key. The encrypter will use the latest available version of key and initialization vector.
-     * The only arguments used actively for encryption are the <code>keyId</code> and the <code>data</code> byte array. The rest of the
+     * Encrypts some data using a dedicated key. The encrypter will use the latest available version of key and initialization vector. The
+     * only arguments used actively for encryption are the <code>keyId</code> and the <code>data</code> byte array. The rest of the
      * arguments is only stored for information purposes in the resulting data structure.
      * 
      * @param keyId
@@ -102,9 +95,9 @@ public interface EncryptedDataService {
             throws EncryptionKeyIdUnknownException;
 
     /**
-     * Decrypts the data using the information provided by the parameter. The data itself will only be decrypted, means no
-     * transformation in regard to mime and data type will take place. It's up to the caller to use this information to transform the
-     * returned byte array to the target type.
+     * Decrypts the data using the information provided by the parameter. The data itself will only be decrypted, means no transformation in
+     * regard to mime and data type will take place. It's up to the caller to use this information to transform the returned byte array to
+     * the target type.
      * 
      * @param encryptedData
      *            Encrypted data and meta information about it.
@@ -119,7 +112,7 @@ public interface EncryptedDataService {
      *             Decrypting the data using they key, version and (optional) IV version failed.
      */
     @NotEmpty
-    public byte[] decrypt(@NotNull EncryptedData encryptedData) throws EncryptionKeyIdUnknownException,
-            EncryptionKeyVersionUnknownException, DecryptionFailedException;
-    
+    public byte[] decrypt(@NotNull EncryptedData encryptedData)
+            throws EncryptionKeyIdUnknownException, EncryptionKeyVersionUnknownException, DecryptionFailedException;
+
 }

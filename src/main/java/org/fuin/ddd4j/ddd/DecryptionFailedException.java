@@ -49,10 +49,12 @@ public final class DecryptionFailedException extends Exception
     private final Data data;
 
     /**
-     * Default constructor.
+     * Constructor with causing exception.
+     * 
+     * @param cause Original exception that caused the failure.
      */
-    public DecryptionFailedException() {
-        super("Decryption failed");
+    public DecryptionFailedException(final Exception cause) {
+        super("Decryption failed", cause);
         this.data = new Data(getMessage(), SHORT_ID);
     }
 

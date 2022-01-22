@@ -44,8 +44,8 @@ public class DecryptionFailedExceptionTest {
     @Test
     public void testSerializeDeserialize() {
 
-        // PREPARE
-        final DecryptionFailedException original = new DecryptionFailedException();
+        // PREPARE        
+        final DecryptionFailedException original = new DecryptionFailedException(new RuntimeException("Test"));
 
         // TEST
         final byte[] data = serialize(original);
@@ -66,7 +66,7 @@ public class DecryptionFailedExceptionTest {
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
-        final DecryptionFailedException original = new DecryptionFailedException();
+        final DecryptionFailedException original = new DecryptionFailedException(new RuntimeException("Test"));
 
         // TEST
         final String xml = marshal(original.getData(), DecryptionFailedException.Data.class);
@@ -92,7 +92,7 @@ public class DecryptionFailedExceptionTest {
     public final void testMarshalUnmarshalJSON() throws Exception {
 
         // PREPARE
-        final DecryptionFailedException original = new DecryptionFailedException();
+        final DecryptionFailedException original = new DecryptionFailedException(new RuntimeException("Test"));
 
         // TEST
         final String json = jsonb().toJson(original.getData());

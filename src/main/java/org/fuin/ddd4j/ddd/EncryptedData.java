@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.fuin.objects4j.common.Immutable;
-import org.fuin.objects4j.common.Nullable;
 import org.fuin.objects4j.vo.ValueObject;
 
 /**
@@ -49,11 +48,6 @@ public final class EncryptedData implements ValueObject, Serializable {
     @JsonbProperty("key-version")
     @XmlElement(name = "key-version")
     private String keyVersion;
-
-    @Nullable
-    @JsonbProperty("iv-version")
-    @XmlElement(name = "iv-version")
-    private String ivVersion;
 
     @NotEmpty
     @JsonbProperty("data-type")
@@ -84,8 +78,6 @@ public final class EncryptedData implements ValueObject, Serializable {
      *            Unique identifier of the private key used.
      * @param keyVersion
      *            Version of the private key used.
-     * @param ivVersion
-     *            Version of the initialization vector (optional).
      * @param dataType
      *            Unique type of the data like "UserPersonalData" or even a fully qualified class name.
      * @param contentType
@@ -93,12 +85,11 @@ public final class EncryptedData implements ValueObject, Serializable {
      * @param encryptedData
      *            Encrypted data.
      */
-    public EncryptedData(@NotEmpty final String keyId, @NotEmpty final String keyVersion, @Nullable final String ivVersion,
-            @NotEmpty final String dataType, @NotEmpty final String contentType, @NotEmpty final byte[] encryptedData) {
+    public EncryptedData(@NotEmpty final String keyId, @NotEmpty final String keyVersion, @NotEmpty final String dataType,
+            @NotEmpty final String contentType, @NotEmpty final byte[] encryptedData) {
         super();
         this.keyId = keyId;
         this.keyVersion = keyVersion;
-        this.ivVersion = ivVersion;
         this.dataType = dataType;
         this.contentType = contentType;
         this.encryptedData = encryptedData;
@@ -122,16 +113,6 @@ public final class EncryptedData implements ValueObject, Serializable {
     @NotEmpty
     public final String getKeyVersion() {
         return keyVersion;
-    }
-
-    /**
-     * Returns the optional version of the initialization vector.
-     * 
-     * @return Version or {@literal null}.
-     */
-    @Nullable
-    public final String getIvVersion() {
-        return ivVersion;
     }
 
     /**
@@ -171,7 +152,6 @@ public final class EncryptedData implements ValueObject, Serializable {
         result = prime * result + ((contentType == null) ? 0 : contentType.hashCode());
         result = prime * result + ((dataType == null) ? 0 : dataType.hashCode());
         result = prime * result + Arrays.hashCode(encryptedData);
-        result = prime * result + ((ivVersion == null) ? 0 : ivVersion.hashCode());
         result = prime * result + ((keyId == null) ? 0 : keyId.hashCode());
         result = prime * result + ((keyVersion == null) ? 0 : keyVersion.hashCode());
         return result;
@@ -206,13 +186,6 @@ public final class EncryptedData implements ValueObject, Serializable {
         if (!Arrays.equals(encryptedData, other.encryptedData)) {
             return false;
         }
-        if (ivVersion == null) {
-            if (other.ivVersion != null) {
-                return false;
-            }
-        } else if (!ivVersion.equals(other.ivVersion)) {
-            return false;
-        }
         if (keyId == null) {
             if (other.keyId != null) {
                 return false;
@@ -232,8 +205,8 @@ public final class EncryptedData implements ValueObject, Serializable {
 
     @Override
     public final String toString() {
-        return "EncryptedData [keyId=" + keyId + ", keyVersion=" + keyVersion + ", ivVersion=" + ivVersion + ", dataType=" + dataType
-                + ", contentType=" + contentType + "]";
+        return "EncryptedData [keyId=" + keyId + ", keyVersion=" + keyVersion + ", dataType=" + dataType + ", contentType=" + contentType
+                + "]";
     }
 
 }

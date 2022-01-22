@@ -30,12 +30,12 @@ import javax.json.bind.JsonbConfig;
 import javax.json.bind.config.BinaryDataStrategy;
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+
 import org.eclipse.yasson.FieldAccessStrategy;
 import org.fuin.utils4j.Utils4J;
 import org.junit.Test;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
 
 //CHECKSTYLE:OFF
 public class EncryptedDataTest {
@@ -64,7 +64,6 @@ public class EncryptedDataTest {
         // PREPARE
         final String keyId = UUID.randomUUID().toString();
         final String keyVersion = "v1";
-        final String ivVersion = "v2";
         final String dataType = "MySecretData";
         final String contentType = "application/json; encoding=UTF-8; version=1";
         final byte[] encryptedData = Base64.getDecoder().decode(
@@ -73,12 +72,11 @@ public class EncryptedDataTest {
                         + "eM+I8gqffe19Jv+OrwuN7D3mLVATDMoZ39vUo0ovw5Gfy1S0U0ErxfcviVqWQRxI2Kp/8P2JzFw6EhMWGG+U8=");
 
         // TEST
-        final EncryptedData testee = new EncryptedData(keyId, keyVersion, ivVersion, dataType, contentType, encryptedData);
+        final EncryptedData testee = new EncryptedData(keyId, keyVersion, dataType, contentType, encryptedData);
 
         // VERIFY
         assertThat(testee.getKeyId()).isEqualTo(keyId);
         assertThat(testee.getKeyVersion()).isEqualTo(keyVersion);
-        assertThat(testee.getIvVersion()).isEqualTo(ivVersion);
         assertThat(testee.getDataType()).isEqualTo(dataType);
         assertThat(testee.getContentType()).isEqualTo(contentType);
         assertThat(testee.getEncryptedData()).isEqualTo(encryptedData);
@@ -115,7 +113,7 @@ public class EncryptedDataTest {
                 + "\"data-type\":\"MySecretData\",\"encrypted-data\":\"d3tHrl9NbYKl1SdDh4AzI5egUZfP2qeCSyNbnLdg/K9feYZSdvoWf+Lz7UJVfntRUNK"
                 + "O8u62OspvcgRRidOAKBFtsCx6U77n0ww7Xh4jbZ27AA3KyDTXB+70PUejSZ2AIDgnxxLhj2IWklOBX7OJO/WxGuT1bsnEUi2GLvE8siCRDa29N2Xm1bvUMp"
                 + "yzdUY6yjfBft9Ju8vTgwarIpTUDrLDYH/P0+iJd3eM+I8gqffe19Jv+OrwuN7D3mLVATDMoZ39vUo0ovw5Gfy1S0U0ErxfcviVqWQRxI2Kp/8P2JzFw6EhMWGG+U8=\""
-                + ",\"iv-version\":\"v2\",\"key-id\":\"99417357-47dc-4d78-8eeb-c634891b5645\",\"key-version\":\"v1\"}";
+                + ",\"key-id\":\"99417357-47dc-4d78-8eeb-c634891b5645\",\"key-version\":\"v1\"}";
 
         // TEST
         final EncryptedData copy = jsonb.fromJson(json, EncryptedData.class);
@@ -146,7 +144,7 @@ public class EncryptedDataTest {
         // PREPARE
         final EncryptedData original = createTestee(UUID.fromString("972060b0-a8fa-4f01-a731-6accad669948"));
         final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
-                + "<eyncrypted-data><key-id>972060b0-a8fa-4f01-a731-6accad669948</key-id><key-version>v1</key-version><iv-version>v2</iv-version>"
+                + "<eyncrypted-data><key-id>972060b0-a8fa-4f01-a731-6accad669948</key-id><key-version>v1</key-version>"
                 + "<data-type>MySecretData</data-type><content-type>application/json; encoding=UTF-8; version=1</content-type>"
                 + "<encrypted-data>d3tHrl9NbYKl1SdDh4AzI5egUZfP2qeCSyNbnLdg/K9feYZSdvoWf+Lz7UJVfntRUNKO8u62OspvcgRRidOAKBFtsCx6U77n0ww7Xh4jbZ27A"
                 + "A3KyDTXB+70PUejSZ2AIDgnxxLhj2IWklOBX7OJO/WxGuT1bsnEUi2GLvE8siCRDa29N2Xm1bvUMpyzdUY6yjfBft9Ju8vTgwarIpTUDrLDYH/P0+iJd3eM+I8gqff"
@@ -163,7 +161,6 @@ public class EncryptedDataTest {
     private EncryptedData createTestee(final UUID uuid) {
         final String keyId = uuid.toString();
         final String keyVersion = "v1";
-        final String ivVersion = "v2";
         final String dataType = "MySecretData";
         final String contentType = "application/json; encoding=UTF-8; version=1";
         final byte[] encryptedData = Base64.getDecoder().decode(
@@ -171,7 +168,7 @@ public class EncryptedDataTest {
                         + "70PUejSZ2AIDgnxxLhj2IWklOBX7OJO/WxGuT1bsnEUi2GLvE8siCRDa29N2Xm1bvUMpyzdUY6yjfBft9Ju8vTgwarIpTUDrLDYH/P0+iJd3"
                         + "eM+I8gqffe19Jv+OrwuN7D3mLVATDMoZ39vUo0ovw5Gfy1S0U0ErxfcviVqWQRxI2Kp/8P2JzFw6EhMWGG+U8=");
 
-        return new EncryptedData(keyId, keyVersion, ivVersion, dataType, contentType, encryptedData);
+        return new EncryptedData(keyId, keyVersion, dataType, contentType, encryptedData);
 
     }
 

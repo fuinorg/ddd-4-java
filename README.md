@@ -29,9 +29,9 @@ See [ddd-cqrs-4-java-example](https://github.com/fuinorg/ddd-cqrs-4-java-example
 ### EncryptedData
 For example the [GDPR](https://gdpr.eu/) data protection rules requires to "delete" personal data on request. This can be done by encrypting the personal data in the event with a secret key. When the user is deleted, you can simply throw away that key and it is no longer possible to access the personal data in the stored events.
 
-The [src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java](EncryptedData) class provides a basic structure with the relevant information to encrypt/decrypt such personal data in events.
+The [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) class provides a basic structure with the relevant information to encrypt/decrypt such personal data in events.
 
-Here is an example of an event with "personal-data" of type [src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java](EncryptedData.java):
+Here is an example of an event with "personal-data" of type [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java):
 
 ```json
 {
@@ -49,12 +49,12 @@ Here is an example of an event with "personal-data" of type [src/main/java/org/f
 ```
 
 ### EncryptedDataService
-The [src/main/java/org/fuin/ddd4j/ddd/EncryptedDataService.java](EncryptedDataService) interface defines for encrypting/decrypting [src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java](EncryptedData) and handling versioned secret keys.
+The [EncryptedDataService](src/main/java/org/fuin/ddd4j/ddd/EncryptedDataService.java) interface defines for encrypting/decrypting [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) and handling versioned secret keys.
 
 There are two implementations that can be used for tests:
 
-- [https://github.com/fuinorg/ddd-cqrs-unit/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java](InMemoryCryptoService) for in-memory unit tests
-- [https://github.com/fuinorg/ddd-cqrs-unit/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java](VaultCryptoService) for the HashiCorp Vault [https://www.vaultproject.io/docs/secrets/transit](Transit Secrets Engine)
+- [InMemoryCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java) for simple in-memory unit tests
+- [VaultCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java) for unit tests with the HashiCorp Vault [Transit Secrets Engine](https://www.vaultproject.io/docs/secrets/transit)
 
 
 ## Snapshots

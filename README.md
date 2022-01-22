@@ -53,8 +53,8 @@ The [EncryptedDataService](src/main/java/org/fuin/ddd4j/ddd/EncryptedDataService
 
 There are two implementations that can be used for tests:
 
-- [InMemoryCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java) for simple in-memory unit tests
-- [VaultCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java) for unit tests with the HashiCorp Vault [Transit Secrets Engine](https://www.vaultproject.io/docs/secrets/transit)
+- [InMemoryCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java) for simple in-memory unit tests
+- [VaultCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java) for unit tests with the HashiCorp Vault [Transit Secrets Engine](https://www.vaultproject.io/docs/secrets/transit)
 
 
 ## Snapshots

@@ -31,7 +31,7 @@ import org.fuin.utils4j.Utils4J;
 /**
  * Simple in-memory crypto service for testing purposes.
  */
-public final class InMemoryCryptoService implements EncryptedData.CryptoEngine, EncryptedData.Encrypter, EncryptedData.Decrypter {
+public final class InMemoryCryptoService implements EncryptedDataService {
 
     /** Key the hash map that has a byte array (byte[]) as value that contains the salt to use for key creation. */
     public static final String PARAM_SALT = "salt";

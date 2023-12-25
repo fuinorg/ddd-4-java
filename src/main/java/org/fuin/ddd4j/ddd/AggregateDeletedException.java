@@ -17,22 +17,21 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
-
-import java.io.Serializable;
-
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.MarshalInformation;
 import org.fuin.objects4j.common.ToExceptionCapable;
 import org.fuin.objects4j.vo.ValueObject;
+
+import java.io.Serializable;
+
+import static org.fuin.ddd4j.ddd.Ddd4JUtils.SHORT_ID_PREFIX;
 
 /**
  * Signals that an aggregate of a given type and identifier was deleted from the repository.

@@ -17,17 +17,16 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ThreadSafe;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import jakarta.validation.constraints.NotNull;
-
-import org.fuin.objects4j.common.Contract;
-import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Lightweight utility class to execute a method using reflection.

@@ -18,7 +18,6 @@
 package org.fuin.ddd4j.test;
 
 import jakarta.validation.constraints.NotNull;
-
 import org.fuin.ddd4j.ddd.AbstractEntity;
 import org.fuin.ddd4j.ddd.ApplyEvent;
 import org.fuin.ddd4j.ddd.EntityType;

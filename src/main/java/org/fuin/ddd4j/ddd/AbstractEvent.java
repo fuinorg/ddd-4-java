@@ -17,15 +17,12 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.time.ZonedDateTime;
-
-import jakarta.validation.constraints.NotNull;
-
+import io.github.threetenjaxb.core.ZonedDateTimeXmlAdapter;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
+import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Nullable;
 import org.fuin.objects4j.ui.Label;
@@ -33,7 +30,7 @@ import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;
 
-import io.github.threetenjaxb.core.ZonedDateTimeXmlAdapter;
+import java.time.ZonedDateTime;
 
 /**
  * Base class for events. Equals and hash code are solely based on the event id.

@@ -17,9 +17,9 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.util.List;
-
 import jakarta.validation.constraints.NotNull;
+
+import java.util.List;
 
 /**
  * Dedicated entity of a group of entities (The group is called "Aggregate") that guarantees the consistency of changes being made within

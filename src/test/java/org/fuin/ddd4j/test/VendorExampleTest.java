@@ -17,14 +17,14 @@
  */
 package org.fuin.ddd4j.test;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.fuin.ddd4j.ddd.DomainEvent;
+import org.fuin.ddd4j.test.Vendor.ConstructorService;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.UUID;
 
-import org.fuin.ddd4j.ddd.DomainEvent;
-import org.fuin.ddd4j.test.Vendor.ConstructorService;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 //CHECKSTYLE:OFF
 public class VendorExampleTest {

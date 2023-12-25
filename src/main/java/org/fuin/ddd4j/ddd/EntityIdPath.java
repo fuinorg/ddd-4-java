@@ -17,14 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.ui.Label;
@@ -32,6 +25,12 @@ import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;
 import org.fuin.objects4j.vo.AbstractStringValueObject;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * An ordered list of entity identifiers. An aggregate root will be the first entry if it's contained in the list.

@@ -17,16 +17,11 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-
 import jakarta.validation.constraints.NotNull;
-
 import org.fuin.objects4j.common.Contract;
+
+import java.lang.reflect.Method;
+import java.util.*;
 
 /**
  * Base class for aggregate roots.

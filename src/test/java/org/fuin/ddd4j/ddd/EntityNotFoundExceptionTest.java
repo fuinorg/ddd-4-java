@@ -17,25 +17,23 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.fuin.utils4j.JaxbUtils.marshal;
-import static org.fuin.utils4j.JaxbUtils.unmarshal;
-import static org.fuin.utils4j.Utils4J.deserialize;
-import static org.fuin.utils4j.Utils4J.serialize;
-
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
-
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.eclipse.yasson.FieldAccessStrategy;
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.BId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.diff.Diff;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fuin.utils4j.Utils4J.deserialize;
+import static org.fuin.utils4j.Utils4J.serialize;
+import static org.fuin.utils4j.jaxb.JaxbUtils.marshal;
+import static org.fuin.utils4j.jaxb.JaxbUtils.unmarshal;
 
 /**
  * Tests for {@link EntityNotFoundException}.

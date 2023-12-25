@@ -17,11 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Identifies a method in an aggregate or an entity that applies a given domain event. The {@link Event} is the only argument. Any return

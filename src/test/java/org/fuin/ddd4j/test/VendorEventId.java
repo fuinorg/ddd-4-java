@@ -17,11 +17,10 @@
  */
 package org.fuin.ddd4j.test;
 
-import java.io.Serializable;
-
 import jakarta.validation.constraints.NotNull;
-
 import org.fuin.objects4j.common.Contract;
+
+import java.io.Serializable;
 
 /**
  * Identifies a stream event based on a string and a number.

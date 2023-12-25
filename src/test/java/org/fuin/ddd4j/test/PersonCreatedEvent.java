@@ -21,7 +21,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.EntityIdPath;
 import org.fuin.ddd4j.ddd.EventType;

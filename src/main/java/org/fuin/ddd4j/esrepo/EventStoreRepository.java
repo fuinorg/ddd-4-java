@@ -17,35 +17,16 @@
  */
 package org.fuin.ddd4j.esrepo;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.validation.constraints.NotNull;
-
-import org.fuin.ddd4j.ddd.AggregateAlreadyExistsException;
-import org.fuin.ddd4j.ddd.AggregateCache;
-import org.fuin.ddd4j.ddd.AggregateDeletedException;
-import org.fuin.ddd4j.ddd.AggregateNoCache;
-import org.fuin.ddd4j.ddd.AggregateNotFoundException;
-import org.fuin.ddd4j.ddd.AggregateRoot;
-import org.fuin.ddd4j.ddd.AggregateRootId;
-import org.fuin.ddd4j.ddd.AggregateVersionConflictException;
-import org.fuin.ddd4j.ddd.AggregateVersionNotFoundException;
-import org.fuin.ddd4j.ddd.DomainEvent;
-import org.fuin.ddd4j.ddd.Repository;
-import org.fuin.esc.api.CommonEvent;
+import org.fuin.ddd4j.ddd.*;
 import org.fuin.esc.api.EventId;
-import org.fuin.esc.api.EventStore;
-import org.fuin.esc.api.ExpectedVersion;
-import org.fuin.esc.api.SimpleCommonEvent;
-import org.fuin.esc.api.StreamDeletedException;
-import org.fuin.esc.api.StreamEventsSlice;
-import org.fuin.esc.api.StreamNotFoundException;
-import org.fuin.esc.api.TypeName;
-import org.fuin.esc.api.WrongExpectedVersionException;
+import org.fuin.esc.api.*;
 import org.fuin.objects4j.common.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Event store based repository.

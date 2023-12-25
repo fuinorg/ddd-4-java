@@ -17,16 +17,15 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.lang.annotation.Annotation;
-
 import jakarta.validation.Payload;
-
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.BId;
 import org.fuin.ddd4j.test.CId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import java.lang.annotation.Annotation;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 //CHECKSTYLE:OFF Test code
 public class ExpectedEntityIdPathValidatorTest {

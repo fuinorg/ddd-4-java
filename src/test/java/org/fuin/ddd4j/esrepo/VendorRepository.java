@@ -17,8 +17,6 @@
  */
 package org.fuin.ddd4j.esrepo;
 
-import java.util.List;
-
 import org.fuin.ddd4j.ddd.DomainEvent;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.test.PersonCreatedEvent;
@@ -26,6 +24,8 @@ import org.fuin.ddd4j.test.PersonNameChangedEvent;
 import org.fuin.ddd4j.test.Vendor;
 import org.fuin.ddd4j.test.VendorId;
 import org.fuin.esc.api.EventStore;
+
+import java.util.List;
 
 /**
  * Implements a repository that is capable of storing vendors.

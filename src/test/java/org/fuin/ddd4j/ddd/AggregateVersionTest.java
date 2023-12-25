@@ -17,11 +17,11 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
-
 import org.fuin.objects4j.common.ConstraintViolationException;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //CHECKSTYLE:OFF
 public class AggregateVersionTest {

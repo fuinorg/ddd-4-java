@@ -17,12 +17,12 @@
  */
 package org.fuin.ddd4j.codegen;
 
+import org.fuin.ddd4j.ddd.EntityType;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-
-import org.fuin.ddd4j.ddd.EntityType;
 
 /**
  * UUID based aggregate root identifier value object.

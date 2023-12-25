@@ -1,18 +1,17 @@
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.fuin.utils4j.JaxbUtils.marshal;
-import static org.fuin.utils4j.JaxbUtils.unmarshal;
-import static org.fuin.utils4j.Utils4J.deserialize;
-import static org.fuin.utils4j.Utils4J.serialize;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import org.junit.jupiter.api.Test;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-import jakarta.xml.bind.annotation.XmlRootElement;
-
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fuin.utils4j.Utils4J.deserialize;
+import static org.fuin.utils4j.Utils4J.serialize;
+import static org.fuin.utils4j.jaxb.JaxbUtils.marshal;
+import static org.fuin.utils4j.jaxb.JaxbUtils.unmarshal;
 
 //CHECKSTYLE:OFF Test code
 public class AbstractEventTest {

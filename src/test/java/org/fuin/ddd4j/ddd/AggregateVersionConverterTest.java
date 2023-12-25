@@ -18,56 +18,40 @@
 package org.fuin.ddd4j.ddd;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.fuin.units4j.Units4JUtils.assertCauseCauseMessage;
-import static org.fuin.utils4j.JaxbUtils.XML_PREFIX;
-import static org.fuin.utils4j.JaxbUtils.marshal;
-import static org.fuin.utils4j.JaxbUtils.unmarshal;
-import static org.junit.Assert.fail;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.fuin.utils4j.jaxb.JaxbUtils.XML_PREFIX;
+import static org.fuin.utils4j.jaxb.JaxbUtils.marshal;
+import static org.fuin.utils4j.jaxb.JaxbUtils.unmarshal;
+
+import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.vo.ValueObjectConverter;
+import org.fuin.utils4j.jaxb.UnmarshallerBuilder;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import jakarta.xml.bind.JAXBException;
-
-import org.fuin.objects4j.vo.ValueObjectConverter;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
 
 // CHECKSTYLE:OFF Test code
 public class AggregateVersionConverterTest {
 
     private static final String XML = XML_PREFIX + "<data version=\"123\"/>";
 
-    private ValueObjectConverter<Integer, AggregateVersion> testee;
-
-    @Before
-    public final void setup() {
-        testee = new AggregateVersionConverter();
-    }
-
-    @After
-    public final void teardown() {
-        testee = null;
-    }
-
-    @Test
-    public final void testFactoryInjectable() {
-        assertThat(testee).isNotNull();
-    }
-
     @Test
     public final void testtoVO() {
-        assertThat(testee.toVO(123)).isEqualTo(new AggregateVersion(123));
+        assertThat(new AggregateVersionConverter().toVO(123)).isEqualTo(new AggregateVersion(123));
     }
 
     @Test
     public final void testIsValid() {
-        assertThat(testee.isValid(null)).isTrue();
-        assertThat(testee.isValid(0)).isTrue();
-        assertThat(testee.isValid(-1)).isFalse();
+        assertThat(new AggregateVersionConverter().isValid(null)).isTrue();
+        assertThat(new AggregateVersionConverter().isValid(0)).isTrue();
+        assertThat(new AggregateVersionConverter().isValid(-1)).isFalse();
     }
 
     @Test
     public final void testGetSimpleValueObjectClass() {
-        assertThat(testee.getValueObjectClass()).isSameAs(AggregateVersion.class);
+        assertThat(new AggregateVersionConverter().getValueObjectClass()).isSameAs(AggregateVersion.class);
     }
 
     @Test
@@ -91,12 +75,10 @@ public class AggregateVersionConverterTest {
     public final void testUnmarshalError() {
 
         final String invalidEmailInXmlData = XML_PREFIX + "<data version=\"-1\"/>";
-        try {
-            unmarshal(invalidEmailInXmlData, Data.class);
-            fail("Expected an exception");
-        } catch (final RuntimeException ex) {
-            assertCauseCauseMessage(ex, "Min value of argument 'version' is 0, but was: -1");
-        }
+        assertThatThrownBy(() -> {
+            unmarshal(new UnmarshallerBuilder().addClassesToBeBound(Data.class).withHandler(event -> false).build(), invalidEmailInXmlData);
+        }).hasRootCauseInstanceOf(ConstraintViolationException.class)
+          .hasRootCauseMessage("Min value of argument 'version' is 0, but was: -1");
 
     }
 

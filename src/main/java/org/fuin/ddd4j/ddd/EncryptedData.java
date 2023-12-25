@@ -17,16 +17,15 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.io.Serializable;
-import java.util.Arrays;
-
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-
 import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.vo.ValueObject;
+
+import java.io.Serializable;
+import java.util.Arrays;
 
 /**
  * Container for encrypted data. In addition to the data itself, the container has information about the key used to encrypt the data and

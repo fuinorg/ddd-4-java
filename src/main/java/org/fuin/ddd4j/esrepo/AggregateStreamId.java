@@ -17,16 +17,15 @@
  */
 package org.fuin.ddd4j.esrepo;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.fuin.objects4j.common.Immutable;
-
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.esc.api.StreamId;
+import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.vo.KeyValue;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Unique name of an aggregate stream. Equals and has code are based on the {@link #asString()} method.

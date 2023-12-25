@@ -17,18 +17,18 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import org.fuin.ddd4j.test.AId;
+import org.fuin.ddd4j.test.BId;
+import org.fuin.ddd4j.test.CId;
+import org.fuin.objects4j.common.ConstraintViolationException;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.fuin.ddd4j.test.AId;
-import org.fuin.ddd4j.test.BId;
-import org.fuin.ddd4j.test.CId;
-import org.fuin.objects4j.common.ConstraintViolationException;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //CHECKSTYLE:OFF Test code
 public class EntityIdPathTest {

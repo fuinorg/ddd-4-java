@@ -17,11 +17,7 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Method that is able to return a child entity by it's identifier. The {@link EntityId} is the only argument and the return value is the

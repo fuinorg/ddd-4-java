@@ -17,10 +17,9 @@
  */
 package org.fuin.ddd4j.test;
 
-import org.fuin.objects4j.common.ThreadSafe;
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
 
 /**

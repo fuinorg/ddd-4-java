@@ -17,23 +17,17 @@
  */
 package org.fuin.ddd4j.esrepo;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
-
-import java.util.concurrent.Executors;
-
 import org.fuin.ddd4j.ddd.AggregateNotFoundException;
-import org.fuin.ddd4j.test.DuplicateVendorKeyException;
-import org.fuin.ddd4j.test.PersonCreatedEvent;
-import org.fuin.ddd4j.test.PersonName;
-import org.fuin.ddd4j.test.Vendor;
-import org.fuin.ddd4j.test.VendorId;
-import org.fuin.ddd4j.test.VendorKey;
-import org.fuin.ddd4j.test.VendorName;
+import org.fuin.ddd4j.test.*;
 import org.fuin.esc.api.EventStore;
 import org.fuin.esc.api.StreamEventsSlice;
 import org.fuin.esc.mem.InMemoryEventStore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import java.util.concurrent.Executors;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 //CHECKSTYLE:OFF
 public class EventStoreRespositoryTest {

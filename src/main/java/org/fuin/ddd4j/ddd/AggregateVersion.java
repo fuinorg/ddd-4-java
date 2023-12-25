@@ -17,15 +17,14 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.util.Scanner;
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Nullable;
 import org.fuin.objects4j.vo.AbstractIntegerValueObject;
+
+import java.util.Scanner;
 
 /**
  * Version of an aggregate.

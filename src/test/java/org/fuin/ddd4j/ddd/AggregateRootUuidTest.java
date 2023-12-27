@@ -17,16 +17,15 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.fail;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.fuin.objects4j.common.ConstraintViolationException;
+import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
-import org.fuin.objects4j.common.ConstraintViolationException;
-import org.junit.Test;
-
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test for {@link AggregateRootId}.

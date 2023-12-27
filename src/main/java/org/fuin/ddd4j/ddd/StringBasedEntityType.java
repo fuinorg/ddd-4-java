@@ -19,7 +19,6 @@ package org.fuin.ddd4j.ddd;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
-
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.vo.AbstractStringValueObject;

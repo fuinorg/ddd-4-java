@@ -17,18 +17,17 @@
  */
 package org.fuin.ddd4j.test;
 
-import java.util.UUID;
-
-import org.fuin.objects4j.common.Immutable;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
 import org.fuin.ddd4j.ddd.AggregateRootId;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.vo.AbstractUuidValueObject;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
+
+import java.util.UUID;
 
 /**
  * Unique identifier of a customer.

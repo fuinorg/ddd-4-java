@@ -17,17 +17,10 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import org.fuin.ddd4j.test.*;
+import org.junit.jupiter.api.Test;
 
-import org.fuin.ddd4j.test.ACreatedEvent;
-import org.fuin.ddd4j.test.AId;
-import org.fuin.ddd4j.test.ARoot;
-import org.fuin.ddd4j.test.BId;
-import org.fuin.ddd4j.test.CAddedEvent;
-import org.fuin.ddd4j.test.CEntity;
-import org.fuin.ddd4j.test.CId;
-import org.fuin.ddd4j.test.DEvent;
-import org.junit.Test;
+import static org.assertj.core.api.Assertions.assertThat;
 
 // CHECKSTYLE:OFF
 public class AbstractAggregateRootTest {

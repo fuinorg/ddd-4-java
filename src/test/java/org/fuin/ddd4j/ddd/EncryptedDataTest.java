@@ -17,25 +17,24 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.fuin.utils4j.JaxbUtils.marshal;
-import static org.fuin.utils4j.JaxbUtils.unmarshal;
-
-import java.util.Base64;
-import java.util.UUID;
-
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
 import jakarta.json.bind.config.BinaryDataStrategy;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
-
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
-
 import org.eclipse.yasson.FieldAccessStrategy;
 import org.fuin.utils4j.Utils4J;
-import org.junit.Test;
+import org.fuin.utils4j.jaxb.UnmarshallerBuilder;
+import org.junit.jupiter.api.Test;
+
+import java.util.Base64;
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.fuin.utils4j.jaxb.JaxbUtils.marshal;
+import static org.fuin.utils4j.jaxb.JaxbUtils.unmarshal;
 
 //CHECKSTYLE:OFF
 public class EncryptedDataTest {
@@ -131,7 +130,7 @@ public class EncryptedDataTest {
 
         // TEST
         final String xml = marshal(original, (XmlAdapter[]) null, EncryptedData.class);
-        final EncryptedData copy = unmarshal(xml, (XmlAdapter[]) null, EncryptedData.class);
+        final EncryptedData copy = unmarshal(new UnmarshallerBuilder().addClassesToBeBound(EncryptedData.class).withHandler(event -> false).build(), xml);
 
         // VERIFY
         assertThat(copy).isEqualTo(original);
@@ -151,7 +150,7 @@ public class EncryptedDataTest {
                 + "e19Jv+OrwuN7D3mLVATDMoZ39vUo0ovw5Gfy1S0U0ErxfcviVqWQRxI2Kp/8P2JzFw6EhMWGG+U8=</encrypted-data></eyncrypted-data>";
 
         // TEST
-        final EncryptedData copy = unmarshal(xml, (XmlAdapter[]) null, EncryptedData.class);
+        final EncryptedData copy = unmarshal(new UnmarshallerBuilder().addClassesToBeBound(EncryptedData.class).withHandler(event -> false).build(), xml);
 
         // VERIFY
         assertThat(copy).isEqualTo(original);

@@ -17,17 +17,16 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import jakarta.validation.constraints.NotNull;
-
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * JAXB and JPA converter for an entity identifier path.

@@ -17,13 +17,12 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import java.util.UUID;
-
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
-
 import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.vo.AbstractValueObjectConverter;
+
+import java.util.UUID;
 
 /**
  * JAXB and JPA converter for an entity identifier.

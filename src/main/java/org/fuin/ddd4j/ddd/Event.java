@@ -17,12 +17,11 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.Nullable;
+
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-
-import jakarta.validation.constraints.NotNull;
-
-import org.fuin.objects4j.common.Nullable;
 
 /**
  * Something that happened in the system.

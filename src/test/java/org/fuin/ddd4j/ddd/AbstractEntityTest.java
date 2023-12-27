@@ -17,16 +17,15 @@
  */
 package org.fuin.ddd4j.ddd;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.ARoot;
 import org.fuin.ddd4j.test.BEntity;
 import org.fuin.ddd4j.test.BId;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
+import static org.assertj.core.api.Assertions.assertThat;
 
 // CHECKSTYLE:OFF
 public class AbstractEntityTest {

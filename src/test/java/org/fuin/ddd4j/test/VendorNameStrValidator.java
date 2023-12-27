@@ -20,7 +20,6 @@ package org.fuin.ddd4j.test;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.constraints.NotNull;
-
 import org.fuin.objects4j.common.ConstraintViolationException;
 
 /**

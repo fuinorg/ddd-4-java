@@ -25,7 +25,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 import org.fuin.objects4j.common.MarshalInformation;
-import org.fuin.objects4j.common.Nullable;
+import jakarta.annotation.Nullable;
 import org.fuin.objects4j.common.ToExceptionCapable;
 import org.fuin.objects4j.vo.ValueObject;
 

@@ -18,7 +18,7 @@
 package org.fuin.ddd4j.ddd;
 
 import jakarta.validation.constraints.NotNull;
-import org.fuin.objects4j.common.Nullable;
+import jakarta.annotation.Nullable;
 
 /**
  * Repository that supports CRUD operations for an aggregate.

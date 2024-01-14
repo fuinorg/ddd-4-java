@@ -47,7 +47,7 @@ public class AggregateAlreadyExistsExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateAlreadyExistsException original = new AggregateAlreadyExistsException(VendorId.ENTITY_TYPE, vendorId, 102);
+        final AggregateAlreadyExistsException original = new AggregateAlreadyExistsException(VendorId.TYPE, vendorId, 102);
 
         // TEST
         final byte[] data = serialize(original);
@@ -71,7 +71,7 @@ public class AggregateAlreadyExistsExceptionTest {
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
-        final AggregateAlreadyExistsException original = new AggregateAlreadyExistsException(VendorId.ENTITY_TYPE,
+        final AggregateAlreadyExistsException original = new AggregateAlreadyExistsException(VendorId.TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")), 102);
 
         // TEST
@@ -105,7 +105,7 @@ public class AggregateAlreadyExistsExceptionTest {
     public final void testMarshalUnmarshalJSON() throws Exception {
 
         // PREPARE
-        final AggregateAlreadyExistsException original = new AggregateAlreadyExistsException(VendorId.ENTITY_TYPE,
+        final AggregateAlreadyExistsException original = new AggregateAlreadyExistsException(VendorId.TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")), 102);
 
         // TEST

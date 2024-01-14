@@ -157,7 +157,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
 
     @Override
     public final EntityType getType() {
-        return VendorId.ENTITY_TYPE;
+        return VendorId.TYPE;
     }
 
     @Override

@@ -47,7 +47,7 @@ public class AggregateDeletedExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateDeletedException original = new AggregateDeletedException(VendorId.ENTITY_TYPE, vendorId);
+        final AggregateDeletedException original = new AggregateDeletedException(VendorId.TYPE, vendorId);
 
         // TEST
         final byte[] data = serialize(original);
@@ -70,7 +70,7 @@ public class AggregateDeletedExceptionTest {
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
-        final AggregateDeletedException original = new AggregateDeletedException(VendorId.ENTITY_TYPE,
+        final AggregateDeletedException original = new AggregateDeletedException(VendorId.TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
 
         // TEST
@@ -102,7 +102,7 @@ public class AggregateDeletedExceptionTest {
     public final void testMarshalUnmarshalJSON() throws Exception {
 
         // PREPARE
-        final AggregateDeletedException original = new AggregateDeletedException(VendorId.ENTITY_TYPE,
+        final AggregateDeletedException original = new AggregateDeletedException(VendorId.TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
 
         // TEST

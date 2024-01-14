@@ -49,7 +49,7 @@ public final class VendorRepository extends EventStoreRepository<VendorId, Vendo
 
     @Override
     public final EntityType getAggregateType() {
-        return VendorId.ENTITY_TYPE;
+        return VendorId.TYPE;
     }
 
     @Override

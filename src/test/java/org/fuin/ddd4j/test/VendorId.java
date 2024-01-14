@@ -20,9 +20,11 @@ package org.fuin.ddd4j.test;
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.fuin.ddd4j.ddd.AggregateRootId;
+import org.fuin.ddd4j.ddd.HasEntityTypeConstant;
 import org.fuin.ddd4j.ddd.EntityType;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.vo.AbstractUuidValueObject;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
@@ -34,12 +36,14 @@ import java.util.UUID;
  */
 @Immutable
 @XmlJavaTypeAdapter(VendorIdConverter.class)
+@HasPublicStaticValueOfMethod
+@HasEntityTypeConstant
 public final class VendorId extends AbstractUuidValueObject implements AggregateRootId, ValueObjectWithBaseType<UUID> {
 
     private static final long serialVersionUID = 1000L;
 
     /** Type of entity this identifier represents. */
-    public static final EntityType ENTITY_TYPE = new StringBasedEntityType("Vendor");
+    public static final EntityType TYPE = new StringBasedEntityType("Vendor");
 
     private final UUID uuid;
 
@@ -70,7 +74,7 @@ public final class VendorId extends AbstractUuidValueObject implements Aggregate
 
     @Override
     public final EntityType getType() {
-        return ENTITY_TYPE;
+        return TYPE;
     }
 
     @Override

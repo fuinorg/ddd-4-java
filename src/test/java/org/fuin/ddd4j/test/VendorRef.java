@@ -99,7 +99,7 @@ public final class VendorRef implements ValueObject {
 
     @Override
     public final String toString() {
-        return VendorId.ENTITY_TYPE + " " + vendorKey;
+        return VendorId.TYPE + " " + vendorKey;
     }
 
 }

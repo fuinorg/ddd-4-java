@@ -20,6 +20,7 @@ package org.fuin.ddd4j.ddd;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.IsValidCapable;
 import org.fuin.objects4j.vo.ValueObjectWithBaseType;
 
 import java.util.UUID;
@@ -28,6 +29,7 @@ import java.util.regex.Pattern;
 /**
  * UUID based aggregate root identifier.
  */
+@IsValidCapable
 public abstract class AggregateRootUuid implements AggregateRootId, Comparable<AggregateRootUuid>, ValueObjectWithBaseType<UUID> {
 
     private static final long serialVersionUID = 1000L;

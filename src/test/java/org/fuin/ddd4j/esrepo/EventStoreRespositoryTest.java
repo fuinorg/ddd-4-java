@@ -56,7 +56,7 @@ public class EventStoreRespositoryTest {
             repo.update(vendor);
 
             // VERIFY
-            final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            final AggregateStreamId streamId = new AggregateStreamId(VendorId.TYPE, "vendorId", vendorId);
             final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 100);
             assertThat(slice.getEvents()).hasSize(1);
             vendor = repo.read(vendorId, vendor.getVersion());
@@ -96,7 +96,7 @@ public class EventStoreRespositoryTest {
             repo.update(vendor);
 
             // VERIFY
-            final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            final AggregateStreamId streamId = new AggregateStreamId(VendorId.TYPE, "vendorId", vendorId);
             final StreamEventsSlice slice = eventStore.readEventsForward(streamId, 0, 100);
             assertThat(slice.getEvents()).hasSize(2);
             vendor = repo.read(vendorId, vendor.getVersion());
@@ -135,7 +135,7 @@ public class EventStoreRespositoryTest {
             repo.delete(vendorId, vendor.getVersion());
 
             // VERIFY
-            final AggregateStreamId streamId = new AggregateStreamId(VendorId.ENTITY_TYPE, "vendorId", vendorId);
+            final AggregateStreamId streamId = new AggregateStreamId(VendorId.TYPE, "vendorId", vendorId);
             assertThat(eventStore.streamExists(streamId)).isFalse();
             try {
                 repo.read(vendorId);

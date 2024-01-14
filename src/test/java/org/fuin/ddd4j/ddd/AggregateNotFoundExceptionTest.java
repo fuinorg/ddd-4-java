@@ -47,7 +47,7 @@ public class AggregateNotFoundExceptionTest {
 
         // PREPARE
         final VendorId vendorId = new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119"));
-        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE, vendorId);
+        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.TYPE, vendorId);
 
         // TEST
         final byte[] data = serialize(original);
@@ -70,7 +70,7 @@ public class AggregateNotFoundExceptionTest {
     public final void testMarshalUnmarshalXML() throws Exception {
 
         // PREPARE
-        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE,
+        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
 
         // TEST
@@ -102,7 +102,7 @@ public class AggregateNotFoundExceptionTest {
     public final void testMarshalUnmarshalJSON() throws Exception {
 
         // PREPARE
-        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.ENTITY_TYPE,
+        final AggregateNotFoundException original = new AggregateNotFoundException(VendorId.TYPE,
                 new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")));
 
         // TEST

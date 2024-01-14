@@ -28,7 +28,7 @@
     </issueManagement>
 
     <properties>
-        <esc.version>0.6.0</esc.version>
+        <esc.version>0.8.0-SNAPSHOT</esc.version>
     </properties>
 
     <dependencies>

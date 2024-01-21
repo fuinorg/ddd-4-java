@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.ddd;
 
+import java.util.List;
+
 /**
  * Factory to create entity identifier.
  */

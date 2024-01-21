@@ -24,11 +24,14 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.EntityIdPath;
 import org.fuin.ddd4j.ddd.EventType;
+import org.fuin.esc.api.HasSerializedDataTypeConstant;
+import org.fuin.esc.api.SerializedDataType;
 import org.fuin.objects4j.common.Contract;
 
 /**
  * The name of a person entity was changed.
  */
+@HasSerializedDataTypeConstant
 @XmlRootElement(name = "person-name-changed-event")
 public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> {
 
@@ -36,6 +39,9 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
 
     /** Unique name of the event used to store it - Should never change. */
     public static final EventType TYPE = new EventType(PersonNameChangedEvent.class.getSimpleName());
+
+    /** Unique name of the serialized event. */
+    public static final SerializedDataType SER_TYPE = new SerializedDataType(TYPE.asBaseType());
 
     @XmlElement(name = "vendor-ref")
     private VendorRef vendorRef;

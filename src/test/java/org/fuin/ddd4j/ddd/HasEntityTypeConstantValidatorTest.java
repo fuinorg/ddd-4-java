@@ -21,14 +21,19 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import jakarta.validation.ValidatorFactory;
+import org.fuin.esc.api.HasSerializedDataTypeConstantValidator;
+import org.fuin.esc.api.SerializedDataType;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public final class HasEntityTypeConstantValidatorTest {
+
+    private static final String FIELD_NAME = "TYPE";
 
     private static Validator validator;
 
@@ -42,36 +47,79 @@ public final class HasEntityTypeConstantValidatorTest {
     @Test
     public final void testValid() {
         assertThat(validator.validate(new MyClassValid())).isEmpty();
+        assertThat(HasEntityTypeConstantValidator.extractValue(MyClassValid.class, FIELD_NAME)).isEqualTo(new StringBasedEntityType("XYZ"));
     }
 
     @Test
     public final void testNotStatic() {
+
         assertThat(first(validator.validate(new MyClassNotStatic()))).contains("#1");
+
+        assertThatThrownBy(
+                () -> HasEntityTypeConstantValidator.extractValue(MyClassNotStatic.class, FIELD_NAME))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("#1");
+
     }
 
     @Test
     public final void testNotPublic() {
+
         assertThat(first(validator.validate(new MyClassNotPublic()))).contains("#2");
+
+        assertThatThrownBy(
+                () -> HasEntityTypeConstantValidator.extractValue(MyClassNotPublic.class, FIELD_NAME))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("#2");
+
     }
 
     @Test
     public final void testWrongReturnType() {
+
         assertThat(first(validator.validate(new MyClassWrongType()))).contains("#3");
+
+        assertThatThrownBy(
+                () -> HasEntityTypeConstantValidator.extractValue(MyClassWrongType.class, FIELD_NAME))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("#3");
+
     }
 
     @Test
     public final void testWrongReturn() {
+
         assertThat(first(validator.validate(new MyClassNullValue()))).contains("#4");
+
+        assertThatThrownBy(
+                () -> HasEntityTypeConstantValidator.extractValue(MyClassNullValue.class, FIELD_NAME))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("#4");
+
     }
 
     @Test
     public final void testNoMethod() {
+
         assertThat(first(validator.validate(new MyClassNoField()))).contains("#2");
+
+        assertThatThrownBy(
+                () -> HasEntityTypeConstantValidator.extractValue(MyClassNoField.class, FIELD_NAME))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("#2");
+
     }
 
     @Test
     public final void testNotFinal() {
+
         assertThat(first(validator.validate(new MyClassNotFinal()))).contains("#5");
+
+        assertThatThrownBy(
+                () -> HasEntityTypeConstantValidator.extractValue(MyClassNotFinal.class, FIELD_NAME))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("#5");
+
     }
 
     private static String first(Set<?> violations) {

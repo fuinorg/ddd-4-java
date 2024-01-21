@@ -19,10 +19,7 @@ package org.fuin.ddd4j.test;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import org.fuin.ddd4j.ddd.AggregateRootId;
-import org.fuin.ddd4j.ddd.HasEntityTypeConstant;
-import org.fuin.ddd4j.ddd.EntityType;
-import org.fuin.ddd4j.ddd.StringBasedEntityType;
+import org.fuin.ddd4j.ddd.*;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 import org.fuin.objects4j.common.Immutable;
@@ -90,6 +87,36 @@ public final class VendorId extends AbstractUuidValueObject implements Aggregate
     @Override
     public final String toString() {
         return uuid.toString();
+    }
+
+    /**
+     * Parses an identifier from a String.
+     *
+     * @param value
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
+     *
+     * @return Converted value.
+     */
+    public static VendorId valueOf(final String value) {
+        if (value == null) {
+            return null;
+        }
+        return new VendorId(UUID.fromString(value));
+    }
+
+    /**
+     * Parses an identifier from a UUID.
+     *
+     * @param value
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
+     *
+     * @return Converted value.
+     */
+    public static VendorId valueOf(final UUID value) {
+        if (value == null) {
+            return null;
+        }
+        return new VendorId(value);
     }
 
 }

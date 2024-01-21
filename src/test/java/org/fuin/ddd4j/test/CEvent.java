@@ -20,13 +20,23 @@ package org.fuin.ddd4j.test;
 import org.fuin.ddd4j.ddd.AbstractDomainEvent;
 import org.fuin.ddd4j.ddd.EntityIdPath;
 import org.fuin.ddd4j.ddd.EventType;
+import org.fuin.esc.api.HasSerializedDataTypeConstant;
+import org.fuin.esc.api.SerializedDataType;
+import org.fuin.esc.api.TypeName;
 
 // CHECKSTYLE:OFF
+@HasSerializedDataTypeConstant
 public class CEvent extends AbstractDomainEvent<CId> {
 
     private static final long serialVersionUID = 1L;
 
-    private static final EventType EVENT_TYPE = new EventType("CEvent");
+    /** Unique name of the event. */
+    public static final TypeName TYPE = new TypeName("CEvent");
+
+    /** Unique name of the serialized event. */
+    public static final SerializedDataType SER_TYPE = new SerializedDataType(TYPE.asBaseType());
+
+    private static final EventType EVENT_TYPE = new EventType(TYPE.asBaseType());
 
     public CEvent(final AId aid, final BId bid, final CId cid) {
         super(new EntityIdPath(aid, bid, cid));

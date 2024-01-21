@@ -4,10 +4,14 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.test.AId;
 import org.fuin.ddd4j.test.VendorId;
+import org.fuin.esc.api.HasSerializedDataTypeConstant;
+import org.fuin.esc.api.SerializedDataType;
+import org.fuin.esc.api.TypeName;
 import org.junit.jupiter.api.Test;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -169,9 +173,16 @@ public class AbstractDomainEventTest {
     }
 
     @XmlRootElement(name = "my-event-1")
+    @HasSerializedDataTypeConstant
     public static class MyEvent1 extends AbstractDomainEvent<VendorId> {
 
         private static final long serialVersionUID = 1L;
+
+        /** Unique name of the event. */
+        public static final TypeName TYPE = new TypeName("MyEvent1");
+
+        /** Unique name of the serialized event. */
+        public static final SerializedDataType SER_TYPE = new SerializedDataType(TYPE.asBaseType());
 
         protected MyEvent1() {
             super();
@@ -210,9 +221,16 @@ public class AbstractDomainEventTest {
 
     }
 
+    @HasSerializedDataTypeConstant
     public static class MyEvent2 extends AbstractDomainEvent<VendorId> {
 
         private static final long serialVersionUID = 1L;
+
+        /** Unique name of the event. */
+        public static final TypeName TYPE = new TypeName("MyEvent1");
+
+        /** Unique name of the serialized event. */
+        public static final SerializedDataType SER_TYPE = new SerializedDataType(TYPE.asBaseType());
 
         public MyEvent2(AId id, EventId correlationId, EventId causationId) {
             super(new EntityIdPath(id), correlationId, causationId);

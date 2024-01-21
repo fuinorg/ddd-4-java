@@ -19,9 +19,15 @@ package org.fuin.ddd4j.test;
 
 import org.fuin.ddd4j.ddd.EntityId;
 import org.fuin.ddd4j.ddd.EntityType;
+import org.fuin.ddd4j.ddd.HasEntityTypeConstant;
 import org.fuin.ddd4j.ddd.StringBasedEntityType;
+import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
+import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 
 //CHECKSTYLE:OFF
+@HasPublicStaticIsValidMethod
+@HasPublicStaticValueOfMethod
+@HasEntityTypeConstant
 public class BId implements EntityId {
 
     private static final long serialVersionUID = 1L;
@@ -52,6 +58,57 @@ public class BId implements EntityId {
     @Override
     public String toString() {
         return "BId [id=" + id + "]";
+    }
+
+    /**
+     * Returns the information if a given string is a valid person identifier.
+     *
+     * @param value
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
+     *
+     * @return TRUE if it's a valid ID, else FALSE.
+     */
+    public static boolean isValid(final String value) {
+        if (value == null) {
+            return true;
+        }
+        try {
+            // TODO Use regular expression - Exception is no good style
+            Long.parseLong(value);
+            return true;
+        } catch (final RuntimeException ex) {
+            return false;
+        }
+    }
+
+    /**
+     * Parses an identifier.
+     *
+     * @param value
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
+     *
+     * @return Converted value.
+     */
+    public static BId valueOf(final Long value) {
+        if (value == null) {
+            return null;
+        }
+        return new BId(value);
+    }
+
+    /**
+     * Parses an identifier.
+     *
+     * @param value
+     *            Value to convert. A <code>null</code> value returns <code>null</code>.
+     *
+     * @return Converted value.
+     */
+    public static BId valueOf(final String value) {
+        if (value == null) {
+            return null;
+        }
+        return new BId(Long.valueOf(value));
     }
 
 }

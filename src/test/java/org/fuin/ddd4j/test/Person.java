@@ -83,7 +83,7 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
 
     @Override
     public final EntityType getType() {
-        return PersonId.ENTITY_TYPE;
+        return PersonId.TYPE;
     }
 
     @Override

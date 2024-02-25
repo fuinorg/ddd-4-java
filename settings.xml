@@ -1,22 +1,22 @@
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
     <servers>
-    
+
         <server>
-          <id>sonatype-nexus-snapshots</id>
-          <username>${env.OSS_SONATYPE_USERNAME}</username>
-          <password>${env.OSS_SONATYPE_TOKEN}</password>
+            <id>sonatype-nexus-snapshots</id>
+            <username>${env.OSS_SONATYPE_USERNAME}</username>
+            <password>${env.OSS_SONATYPE_TOKEN}</password>
         </server>
-        
+
         <server>
-          <id>sonatype-nexus-staging</id>
-          <username>${env.OSS_SONATYPE_USERNAME}</username>
-          <password>${env.OSS_SONATYPE_TOKEN}</password>
+            <id>sonatype-nexus-staging</id>
+            <username>${env.OSS_SONATYPE_USERNAME}</username>
+            <password>${env.OSS_SONATYPE_TOKEN}</password>
         </server>
-    
+
     </servers>
 
     <profiles>
@@ -46,7 +46,7 @@
                         <enabled>true</enabled>
                     </snapshots>
                 </repository>
-                
+
                 <repository>
                     <id>sonatype.oss.releases</id>
                     <name>Sonatype OSS Releases Repository</name>
@@ -66,7 +66,7 @@
                 <pluginRepository>
                     <id>sonatype.oss.snapshots</id>
                     <name>Sonatype OSS Snapshot Repository</name>
-                    <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
                     <releases>
                         <enabled>false</enabled>
                     </releases>
@@ -75,7 +75,7 @@
                         <enabled>true</enabled>
                     </snapshots>
                 </pluginRepository>
-                
+
                 <pluginRepository>
                     <id>sonatype.oss.releases</id>
                     <name>Sonatype OSS Releases Repository</name>
@@ -87,7 +87,7 @@
                         <enabled>false</enabled>
                     </snapshots>
                 </pluginRepository>
-                
+
             </pluginRepositories>
 
         </profile>

@@ -1,6 +1,7 @@
 # ddd-4-java
 
 # Domain Driven Design for Java
+
 Base classes for Domain Driven Design (DDD) with Java.
 
 [![Java Maven Build](https://github.com/fuinorg/ddd-4-java/actions/workflows/maven.yml/badge.svg)](https://github.com/fuinorg/ddd-4-java/actions/workflows/maven.yml)
@@ -10,28 +11,38 @@ Base classes for Domain Driven Design (DDD) with Java.
 [![Java Development Kit 17](https://img.shields.io/badge/JDK-17-green.svg)](https://openjdk.java.net/projects/jdk/17/)
 
 ## Versions
+
 - 0.5.x (or later) = **Java 17** with new **jakarta** namespace
 - 0.3.x/0.4.x = **Java 11** before namespace change from 'javax' to 'jakarta'
 - 0.2.1 = **Java 8**
 
-
 ## Documentation
-You can find the [documentation](https://app.gitbook.com/@fuinorg/s/ddd-4-java/) of the project at [gitbook](https://app.gitbook.com/@fuinorg/spaces/) (*Work in progress* - Just started!).
+
+You can find the [documentation](https://app.gitbook.com/@fuinorg/s/ddd-4-java/) of the project
+at [gitbook](https://app.gitbook.com/@fuinorg/spaces/) (*Work in progress* - Just started!).
 
 ## Presentation
+
 http://de.slideshare.net/michael-schnell/ddd-4java/ (Rather old - The git book above is a bit more up-to-date)
 
 ## Example
-See [ddd-cqrs-4-java-example](https://github.com/fuinorg/ddd-cqrs-4-java-example) for example microservices using the classes of this library.
+
+See [ddd-cqrs-4-java-example](https://github.com/fuinorg/ddd-cqrs-4-java-example) for example microservices using the
+classes of this library.
 
 ## Additional information
 
 ### EncryptedData
-For example the [GDPR](https://gdpr.eu/) data protection rules requires to "delete" personal data on request. This can be done by encrypting the personal data in the event with a secret key. When the user is deleted, you can simply throw away that key and it is no longer possible to access the personal data in the stored events.
 
-The [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) class provides a basic structure with the relevant information to encrypt/decrypt such personal data in events.
+For example the [GDPR](https://gdpr.eu/) data protection rules requires to "delete" personal data on request. This can
+be done by encrypting the personal data in the event with a secret key. When the user is deleted, you can simply throw
+away that key, and it is no longer possible to access the personal data in the stored events.
 
-Here is an example of an event with "personal-data" of type [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java):
+The [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) class provides a basic structure with the
+relevant information to encrypt/decrypt such personal data in events.
+
+Here is an example of an event with "personal-data" of
+type [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java):
 
 ```json
 {
@@ -49,25 +60,32 @@ Here is an example of an event with "personal-data" of type [EncryptedData](src/
 ```
 
 ### EncryptedDataService
-The [EncryptedDataService](src/main/java/org/fuin/ddd4j/ddd/EncryptedDataService.java) interface defines for encrypting/decrypting [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) and handling versioned secret keys.
+
+The [EncryptedDataService](src/main/java/org/fuin/ddd4j/ddd/EncryptedDataService.java) interface defines for
+encrypting/decrypting [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) and handling versioned secret
+keys.
 
 There are two implementations that can be used for tests:
 
-- [InMemoryCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java) for simple in-memory unit tests
-- [VaultCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java) for unit tests with the HashiCorp Vault [Transit Secrets Engine](https://www.vaultproject.io/docs/secrets/transit)
-
+- [InMemoryCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java)
+  for simple in-memory unit tests
+- [VaultCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java)
+  for unit tests with the HashiCorp Vault [Transit Secrets Engine](https://www.vaultproject.io/docs/secrets/transit)
 
 ## Snapshots
 
-Snapshots can be found on the [OSS Sonatype Snapshots Repository](http://oss.sonatype.org/content/repositories/snapshots/org/fuin "Snapshot Repository"). 
+Snapshots can be found on
+the [OSS Sonatype Snapshots Repository](http://oss.sonatype.org/content/repositories/snapshots/org/fuin "Snapshot Repository").
 
-Add the following to your [.m2/settings.xml](http://maven.apache.org/ref/3.2.1/maven-settings/settings.html "Reference configuration") to enable snapshots in your Maven build:
+Add the following to
+your [.m2/settings.xml](http://maven.apache.org/ref/3.2.1/maven-settings/settings.html "Reference configuration") to
+enable snapshots in your Maven build:
 
 ```xml
 <repository>
     <id>sonatype.oss.snapshots</id>
     <name>Sonatype OSS Snapshot Repository</name>
-    <url>http://oss.sonatype.org/content/repositories/snapshots</url>
+    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     <releases>
         <enabled>false</enabled>
     </releases>

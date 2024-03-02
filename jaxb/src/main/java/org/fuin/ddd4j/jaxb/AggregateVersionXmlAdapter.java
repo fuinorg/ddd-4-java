@@ -17,29 +17,29 @@
  */
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
-import org.junit.jupiter.api.Test;
+import javax.annotation.concurrent.ThreadSafe;
 
-import static org.assertj.core.api.Assertions.assertThat;
+/**
+ * Converts an aggregate version into an integer and back.
+ */
+@ThreadSafe
+public final class AggregateVersionXmlAdapter extends XmlAdapter<Integer, AggregateVersion> {
 
-public class AggregateVersionConverterTest {
-
-    @Test
-    public final void testUnmarshal() throws Exception {
-        final AggregateVersionConverter testee = new AggregateVersionConverter();
-        assertThat(testee.unmarshal(null)).isNull();
-        assertThat(testee.unmarshal(123)).isEqualTo(new AggregateVersion(123));
+    @Override
+    public AggregateVersion unmarshal(Integer value) throws Exception {
+        if (value == null) {
+            return null;
+        }
+        return AggregateVersion.valueOf(value);
     }
 
-    @Test
-    public final void testMarshal() throws Exception {
-
-        final AggregateVersionConverter testee = new AggregateVersionConverter();
-        assertThat(testee.marshal(null)).isNull();
-        assertThat(testee.marshal(new AggregateVersion(123))).isEqualTo(123);
-
+    @Override
+    public Integer marshal(AggregateVersion version) throws Exception {
+        if (version == null) {
+            return null;
+        }
+        return version.asBaseType();
     }
-
-
 }
-

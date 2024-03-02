@@ -49,7 +49,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
     private EntityIdPath entityIdPath;
 
     @Nullable
-    @XmlJavaTypeAdapter(AggregateVersionConverter.class)
+    @XmlJavaTypeAdapter(AggregateVersionXmlAdapter.class)
     @XmlElement(name = "aggregate-version")
     private AggregateVersion aggregateVersion;
 

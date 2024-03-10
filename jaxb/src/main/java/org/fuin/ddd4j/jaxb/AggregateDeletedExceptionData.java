@@ -22,7 +22,6 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.fuin.ddd4j.core.AggregateAlreadyExistsException;
 import org.fuin.ddd4j.core.AggregateDeletedException;
 
 import java.io.Serial;

@@ -4,11 +4,8 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.DecryptionFailedException;
 import org.fuin.ddd4j.core.ExceptionData;
-import org.fuin.objects4j.common.ToExceptionCapable;
-import org.fuin.objects4j.common.ValueObject;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 import static org.fuin.ddd4j.core.DecryptionFailedException.ELEMENT_NAME;
 

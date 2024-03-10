@@ -3,11 +3,8 @@ package org.fuin.ddd4j.jsonb;
 import jakarta.json.bind.annotation.JsonbProperty;
 import org.fuin.ddd4j.core.AbstractAggregateException;
 import org.fuin.ddd4j.core.ExceptionData;
-import org.fuin.objects4j.common.ToExceptionCapable;
-import org.fuin.objects4j.common.ValueObject;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.Objects;
 
 /**

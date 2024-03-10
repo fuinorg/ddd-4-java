@@ -5,7 +5,7 @@
 Base classes for Domain Driven Design (DDD) with Java.
 
 [![Java Maven Build](https://github.com/fuinorg/ddd-4-java/actions/workflows/maven.yml/badge.svg)](https://github.com/fuinorg/ddd-4-java/actions/workflows/maven.yml)
-[![Coverage Status](https://sonarcloud.io/api/project_badges/measure?project=org.fuin%3Addd-4-java&metric=coverage)](https://sonarcloud.io/dashboard?id=org.fuin%3Addd-4-java)
+[![Coverage Status](https://sonarcloud.io/api/project_badges/measure?project=org.fuin.cqrs4j%3Addd-4-java&metric=coverage)](https://sonarcloud.io/dashboard?id=org.fuin.cqrs4j%3Addd-4-java)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.fuin/ddd-4-java/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.fuin/ddd-4-java/)
 [![LGPLv3 License](http://img.shields.io/badge/license-LGPLv3-blue.svg)](https://www.gnu.org/licenses/lgpl.html)
 [![Java Development Kit 17](https://img.shields.io/badge/JDK-17-green.svg)](https://openjdk.java.net/projects/jdk/17/)

@@ -1,6 +1,7 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
 import jakarta.json.bind.adapter.JsonbAdapter;
+
 import javax.annotation.concurrent.ThreadSafe;
 
 /**

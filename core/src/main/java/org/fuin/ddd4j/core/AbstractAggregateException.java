@@ -24,19 +24,19 @@ import org.fuin.objects4j.common.Contract;
 import java.io.Serial;
 
 /**
- * An aggregate already exists when trying to create it.
+ * Base class for aggregate related exceptions.
  */
 public abstract class AbstractAggregateException extends Exception {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    private final EntityType type;
+    private final String type;
 
-    private final AggregateRootId id;
+    private final String id;
 
     /**
-     * Constructor with all data.
+     * Constructor with strongly typed data.
      *
      * @param message Error message.
      * @param type    Type of the aggregate.
@@ -45,6 +45,24 @@ public abstract class AbstractAggregateException extends Exception {
     public AbstractAggregateException(@NotEmpty final String message,
                                       @NotNull final EntityType type,
                                       @NotNull final AggregateRootId id) {
+        super(message);
+        Contract.requireArgNotEmpty("message", message);
+        Contract.requireArgNotNull("aggregateType", type);
+        Contract.requireArgNotNull("aggregateId", id);
+        this.type = type.asString();
+        this.id = id.asString();
+    }
+
+    /**
+     * Constructor with string data.
+     *
+     * @param message Error message.
+     * @param type    Type of the aggregate.
+     * @param id      Unique identifier of the aggregate.
+     */
+    public AbstractAggregateException(@NotEmpty final String message,
+                                      @NotEmpty final String type,
+                                      @NotEmpty final String id) {
         super(message);
         Contract.requireArgNotEmpty("message", message);
         Contract.requireArgNotNull("aggregateType", type);
@@ -59,7 +77,7 @@ public abstract class AbstractAggregateException extends Exception {
      * @return Type.
      */
     @NotNull
-    public final EntityType getType() {
+    public final String getType() {
         return type;
     }
 
@@ -69,7 +87,7 @@ public abstract class AbstractAggregateException extends Exception {
      * @return Stream with version conflict.
      */
     @NotNull
-    public final AggregateRootId getId() {
+    public final String getId() {
         return id;
     }
 

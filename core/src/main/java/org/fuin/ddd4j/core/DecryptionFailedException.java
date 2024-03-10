@@ -28,6 +28,11 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
  */
 public final class DecryptionFailedException extends Exception implements ExceptionShortIdentifable {
 
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "decryption-failed-exception";
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -42,7 +47,16 @@ public final class DecryptionFailedException extends Exception implements Except
      * @param cause Original exception that caused the failure.
      */
     public DecryptionFailedException(final Exception cause) {
-        super("Decryption failed", cause);
+        super("Decryption failed: " + cause.getMessage(), cause);
+    }
+
+    /**
+     * Constructor with message. Should only be used for re-creating the exception on the client side.
+     *
+     * @param msg Exception message.
+     */
+    public DecryptionFailedException(final String msg) {
+        super(msg);
     }
 
     @Override

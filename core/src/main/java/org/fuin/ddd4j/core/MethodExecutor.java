@@ -19,8 +19,8 @@ package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
-import javax.annotation.concurrent.ThreadSafe;
 
+import javax.annotation.concurrent.ThreadSafe;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

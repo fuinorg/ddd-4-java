@@ -29,6 +29,11 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
  */
 public final class AggregateVersionNotFoundException extends AbstractVersionedAggregateException implements ExceptionShortIdentifable {
 
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "aggregate-version-not-found-exception";
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +52,20 @@ public final class AggregateVersionNotFoundException extends AbstractVersionedAg
     public AggregateVersionNotFoundException(@NotNull final EntityType type,
                                              @NotNull final AggregateRootId id,
                                              final int version) {
-        super("Requested version " + version + " for " + type.asString() + " (" + id.asString() + ") does not exist", type, id, version);
+        this(type.asString(), id.asString(), version);
+    }
+
+    /**
+     * Constructor with string arguments.
+     *
+     * @param type    Type of the aggregate.
+     * @param id      Unique identifier of the aggregate.
+     * @param version Requested version.
+     */
+    public AggregateVersionNotFoundException(@NotNull final String type,
+                                             @NotNull final String id,
+                                             final int version) {
+        super("Requested version " + version + " for " + type + " (" + id + ") does not exist", type, id, version);
     }
 
     @Override

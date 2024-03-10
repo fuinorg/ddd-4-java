@@ -30,6 +30,11 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
  */
 public final class EncryptionKeyIdUnknownException extends Exception implements ExceptionShortIdentifable {
 
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "encryption-key-id-unknown-exception";
+
     @Serial
     private static final long serialVersionUID = 1L;
 

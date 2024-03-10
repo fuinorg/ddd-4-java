@@ -27,7 +27,12 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 /**
  * Signals a conflict between an expected and an actual version for an aggregate.
  */
-public final class AggregateVersionConflictException extends AbstractVersionedAggregateException implements ExceptionShortIdentifable {
+public final class AggregateVersionConflictException extends AbstractAggregateException implements ExceptionShortIdentifable {
+
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "aggregate-version-conflict-exception";
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -38,6 +43,8 @@ public final class AggregateVersionConflictException extends AbstractVersionedAg
     public static final String SHORT_ID = SHORT_ID_PREFIX + "-AGGREGATE_VERSION_CONFLICT";
 
     private final int expected;
+
+    private final int actual;
 
     /**
      * Constructor with all data.
@@ -51,12 +58,28 @@ public final class AggregateVersionConflictException extends AbstractVersionedAg
                                              @NotNull final AggregateRootId id,
                                              final int expected,
                                              final int actual) {
-        super("Expected version " + expected + " for " + type.asString() + " (" + id.asString() + "), but was " + actual, type, id, actual);
+        this(type.asString(), id.asString(), expected, actual);
+    }
+
+    /**
+     * Constructor with string.
+     *
+     * @param type     Type of the aggregate.
+     * @param id       Unique identifier of the aggregate.
+     * @param expected Expected version.
+     * @param actual   Actual version.
+     */
+    public AggregateVersionConflictException(@NotNull final String type,
+                                             @NotNull final String id,
+                                             final int expected,
+                                             final int actual) {
+        super("Expected version " + expected + " for " + type + " (" + id + "), but was " + actual, type, id);
         this.expected = expected;
+        this.actual = actual;
     }
 
     @Override
-    public final String getShortId() {
+    public String getShortId() {
         return SHORT_ID;
     }
 
@@ -65,7 +88,7 @@ public final class AggregateVersionConflictException extends AbstractVersionedAg
      *
      * @return Expected version.
      */
-    public final int getExpected() {
+    public int getExpected() {
         return expected;
     }
 
@@ -74,8 +97,8 @@ public final class AggregateVersionConflictException extends AbstractVersionedAg
      *
      * @return Actual version.
      */
-    public final int getActual() {
-        return getVersion();
+    public int getActual() {
+        return actual;
     }
 
 }

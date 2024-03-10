@@ -3,7 +3,6 @@ package org.fuin.ddd4j.esc;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.EntityType;
-import org.fuin.ddd4j.core.StringBasedEntityType;
 import org.fuin.ddd4j.jsonbtestmodel.VendorId;
 import org.fuin.objects4j.core.KeyValue;
 import org.junit.jupiter.api.Test;

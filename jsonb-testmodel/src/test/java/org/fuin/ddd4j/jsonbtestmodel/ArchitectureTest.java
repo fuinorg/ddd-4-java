@@ -1,14 +1,10 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
-import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.domain.JavaModifier;
-import com.tngtech.archunit.core.importer.ClassFileImporter;
 import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
-import org.fuin.ddd4j.core.AggregateRootId;
-import org.fuin.ddd4j.core.AggregateRootUuid;
 import org.fuin.ddd4j.core.DomainEvent;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityType;
@@ -16,7 +12,6 @@ import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
-import org.junit.jupiter.api.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.DependencyRules.NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;

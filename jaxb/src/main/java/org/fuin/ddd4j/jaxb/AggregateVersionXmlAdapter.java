@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jaxb;
 
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
+
 import javax.annotation.concurrent.ThreadSafe;
 
 /**

@@ -30,6 +30,11 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
  */
 public final class DuplicateEntityException extends Exception implements ExceptionShortIdentifable {
 
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "duplicate-entity-exception";
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -38,9 +43,9 @@ public final class DuplicateEntityException extends Exception implements Excepti
      */
     public static final String SHORT_ID = SHORT_ID_PREFIX + "-DUPLICATE_ENTITY";
 
-    private final EntityIdPath parentIdPath;
+    private final String parentIdPath;
 
-    private final EntityId entityId;
+    private final String entityId;
 
     /**
      * Constructor with all data.
@@ -49,9 +54,7 @@ public final class DuplicateEntityException extends Exception implements Excepti
      * @param entityId     Unique identifier of the entity that already existed.
      */
     public DuplicateEntityException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
-        super(entityId.asTypedString() + " already exists in " + parentIdPath.asString());
-        this.parentIdPath = parentIdPath;
-        this.entityId = entityId;
+        this(parentIdPath.asString(), entityId.asTypedString());
     }
 
     /**
@@ -60,7 +63,19 @@ public final class DuplicateEntityException extends Exception implements Excepti
      * @param entityIdPath Entity identifier path (from root to entity). Required to contain at least two elements.
      */
     public DuplicateEntityException(@NotNull final EntityIdPath entityIdPath) {
-        this(Objects.requireNonNull(entityIdPath.parent()), entityIdPath.last());
+        this(Objects.requireNonNull(entityIdPath.parent(), "entityIdPath has not parent"), entityIdPath.last());
+    }
+
+    /**
+     * Constructor with string data.
+     *
+     * @param parentIdPath Path from root to parent.
+     * @param entityId     Unique identifier of the entity that already existed.
+     */
+    public DuplicateEntityException(@NotNull final String parentIdPath, @NotNull final String entityId) {
+        super(entityId + " already exists in " + parentIdPath);
+        this.parentIdPath = parentIdPath;
+        this.entityId = entityId;
     }
 
     @Override
@@ -73,7 +88,7 @@ public final class DuplicateEntityException extends Exception implements Excepti
      *
      * @return Path.
      */
-    public final EntityIdPath getParentIdPath() {
+    public final String getParentIdPath() {
         return parentIdPath;
     }
 
@@ -82,7 +97,7 @@ public final class DuplicateEntityException extends Exception implements Excepti
      *
      * @return Unknown entity identifier.
      */
-    public final EntityId getEntityId() {
+    public final String getEntityId() {
         return entityId;
     }
 

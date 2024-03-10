@@ -17,8 +17,9 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.jsonb.ValueObjectStringJsonbAdapter;
+
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Converts a person name into a string and back (JSON-B).

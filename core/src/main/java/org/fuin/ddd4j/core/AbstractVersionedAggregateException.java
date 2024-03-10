@@ -23,7 +23,7 @@ import jakarta.validation.constraints.NotNull;
 import java.io.Serial;
 
 /**
- * An aggregate already exists when trying to create it.
+ * Base class for version related aggregate exceptions.
  */
 public abstract class AbstractVersionedAggregateException extends AbstractAggregateException {
 
@@ -33,7 +33,7 @@ public abstract class AbstractVersionedAggregateException extends AbstractAggreg
     private final int version;
 
     /**
-     * Constructor with all data.
+     * Constructor with strongly typed data.
      *
      * @param message Error message.
      * @param type    Type of the aggregate.
@@ -43,6 +43,21 @@ public abstract class AbstractVersionedAggregateException extends AbstractAggreg
     public AbstractVersionedAggregateException(@NotEmpty final String message,
                                                @NotNull final EntityType type,
                                                @NotNull final AggregateRootId id,
+                                               final int version) {
+        this(message, type.asString(), id.asString(), version);
+    }
+
+    /**
+     * Constructor with string data.
+     *
+     * @param message Error message.
+     * @param type    Type of the aggregate.
+     * @param id      Unique identifier of the aggregate.
+     * @param version Version of the aggregate.
+     */
+    public AbstractVersionedAggregateException(@NotEmpty final String message,
+                                               @NotNull final String type,
+                                               @NotNull final String id,
                                                final int version) {
         super(message, type, id);
         this.version = version;

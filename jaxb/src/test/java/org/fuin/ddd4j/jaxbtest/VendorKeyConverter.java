@@ -17,8 +17,9 @@
  */
 package org.fuin.ddd4j.jaxbtest;
 
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.jaxb.ValueObjectStringXmlAdapter;
+
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * Converts a vendor key into a string and back (JAXB and JPA).

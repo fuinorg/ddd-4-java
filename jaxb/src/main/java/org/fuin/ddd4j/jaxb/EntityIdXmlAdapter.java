@@ -20,8 +20,9 @@ package org.fuin.ddd4j.jaxb;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityIdFactory;
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.common.ValueOfCapable;
+
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * JAXB adapter for an entity identifier.

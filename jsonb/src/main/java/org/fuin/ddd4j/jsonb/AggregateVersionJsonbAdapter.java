@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jsonb;
 
 import jakarta.json.bind.adapter.JsonbAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
+
 import javax.annotation.concurrent.ThreadSafe;
 
 /**

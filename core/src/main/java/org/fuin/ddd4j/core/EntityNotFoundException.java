@@ -23,6 +23,7 @@ import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
+import java.util.Objects;
 
 import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 
@@ -30,6 +31,11 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
  * Signals that an entity was not found.
  */
 public final class EntityNotFoundException extends Exception implements ExceptionShortIdentifable {
+
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "entity-not-found-exception";
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,9 +45,9 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      */
     public static final String SHORT_ID = SHORT_ID_PREFIX + "-ENTITY_NOT_FOUND";
 
-    private final EntityIdPath parentIdPath;
+    private final String parentIdPath;
 
-    private final EntityId entityId;
+    private final String entityId;
 
     /**
      * Constructor with all data.
@@ -50,11 +56,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      * @param entityId     Unique identifier of the entity that was not found.
      */
     public EntityNotFoundException(@Nullable final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
-        super(parentIdPath == null ? entityId.asTypedString() + " not found"
-                : entityId.asTypedString() + " not found in " + parentIdPath.asString());
-        Contract.requireArgNotNull("entityId", entityId);
-        this.parentIdPath = parentIdPath;
-        this.entityId = entityId;
+        this(parentIdPath == null ? null : parentIdPath.asString(), entityId.asTypedString());
     }
 
     /**
@@ -63,7 +65,21 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      * @param entityIdPath Entity identifier path (from root to entity).
      */
     public EntityNotFoundException(@NotNull final EntityIdPath entityIdPath) {
-        this(entityIdPath.parent(), entityIdPath.last());
+        this(Objects.requireNonNull(entityIdPath, "entityIdPath==null").parent(), entityIdPath.last());
+    }
+
+    /**
+     * Constructor with string data.
+     *
+     * @param parentIdPath Path from root to parent or {@literal null} if the entity identifier is a root aggregate ID.
+     * @param entityId     Unique identifier of the entity that was not found.
+     */
+    public EntityNotFoundException(@Nullable final String parentIdPath, @NotNull final String entityId) {
+        super(parentIdPath == null ? entityId + " not found"
+                : entityId + " not found in " + parentIdPath);
+        Contract.requireArgNotNull("entityId", entityId);
+        this.parentIdPath = parentIdPath;
+        this.entityId = entityId;
     }
 
     @Override
@@ -77,7 +93,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      * @return Path.
      */
     @Nullable
-    public EntityIdPath getParentIdPath() {
+    public String getParentIdPath() {
         return parentIdPath;
     }
 
@@ -87,7 +103,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      * @return Unknown entity identifier.
      */
     @NotNull
-    public EntityId getEntityId() {
+    public String getEntityId() {
         return entityId;
     }
 

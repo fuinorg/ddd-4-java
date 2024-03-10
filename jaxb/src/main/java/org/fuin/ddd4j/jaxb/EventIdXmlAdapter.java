@@ -18,8 +18,9 @@
 package org.fuin.ddd4j.jaxb;
 
 import org.fuin.ddd4j.core.EventId;
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.jaxb.ValueObjectStringXmlAdapter;
+
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * JAXB and JPA converter for an entity identifier.

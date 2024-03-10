@@ -29,6 +29,11 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
  */
 public final class AggregateNotFoundException extends AbstractAggregateException implements ExceptionShortIdentifable {
 
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "aggregate-not-found-exception";
+
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +49,17 @@ public final class AggregateNotFoundException extends AbstractAggregateException
      * @param id   Unique identifier of the aggregate.
      */
     public AggregateNotFoundException(@NotNull final EntityType type, @NotNull final AggregateRootId id) {
-        super(type.asString() + " with id " + id.asString() + " not found", type, id);
+        this(type.asString(), id.asString());
+    }
+
+    /**
+     * Constructor with string data.
+     *
+     * @param type Type of the aggregate.
+     * @param id   Unique identifier of the aggregate.
+     */
+    public AggregateNotFoundException(@NotNull final String type, @NotNull final String id) {
+        super(type + " with id " + id + " not found", type, id);
     }
 
     @Override

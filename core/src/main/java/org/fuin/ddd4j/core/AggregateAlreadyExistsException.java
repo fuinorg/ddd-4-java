@@ -25,9 +25,14 @@ import java.io.Serial;
 import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 
 /**
- * An aggregate already exists when trying to create it.
+ * An aggregate already existed when trying to create it.
  */
 public final class AggregateAlreadyExistsException extends AbstractVersionedAggregateException implements ExceptionShortIdentifable {
+
+    /**
+     * Unique name of the element to use for XML and JSON marshalling/unmarshalling.
+     */
+    public static final String ELEMENT_NAME = "aggregate-already-exists-exception";
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -38,14 +43,25 @@ public final class AggregateAlreadyExistsException extends AbstractVersionedAggr
     public static final String SHORT_ID = SHORT_ID_PREFIX + "-AGGREGATE_ALREADY_EXISTS";
 
     /**
-     * Constructor with all data.
+     * Constructor with typed data.
      *
      * @param type    Type of the aggregate.
      * @param id      Unique identifier of the aggregate.
      * @param version Actual version.
      */
     public AggregateAlreadyExistsException(@NotNull final EntityType type, @NotNull final AggregateRootId id, final int version) {
-        super(type.asString() + " " + id.asString() + " already exists (version=" + version + ")", type, id, version);
+        this(type.asString(), id.asString(), version);
+    }
+
+    /**
+     * Constructor with string data.
+     *
+     * @param type    Type of the aggregate.
+     * @param id      Unique identifier of the aggregate.
+     * @param version Actual version.
+     */
+    public AggregateAlreadyExistsException(@NotNull final String type, @NotNull final String id, final int version) {
+        super(type + " " + id + " already exists (version=" + version + ")", type, id, version);
     }
 
     @Override

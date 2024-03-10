@@ -19,8 +19,9 @@ package org.fuin.ddd4j.jaxb;
 
 import org.fuin.ddd4j.core.EntityIdFactory;
 import org.fuin.ddd4j.core.EntityIdPath;
-import javax.annotation.concurrent.ThreadSafe;
 import org.fuin.objects4j.jaxb.ValueObjectStringXmlAdapter;
+
+import javax.annotation.concurrent.ThreadSafe;
 
 /**
  * JAXB adapter for an entity identifier path.

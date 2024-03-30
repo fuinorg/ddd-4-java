@@ -9,6 +9,7 @@ import jakarta.json.bind.config.BinaryDataStrategy;
 import org.eclipse.yasson.FieldAccessStrategy;
 import org.fuin.ddd4j.core.EntityIdFactory;
 import org.fuin.ddd4j.jsonbtest.JsonbTestEntityIdFactory;
+import org.fuin.utils4j.TestOmitted;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Utils for the package.
  */
-@ArchIgnore
+@TestOmitted("Only a test class")
 final class TestUtils {
 
     private static final EntityIdFactory ENTITY_ID_FACTORY = new JsonbTestEntityIdFactory();

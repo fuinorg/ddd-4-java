@@ -40,7 +40,7 @@ public class ArchitectureTest {
                     "org.fuin.objects4j.common..",
                     "org.fuin.objects4j.core..",
                     "org.fuin.objects4j.ui..",
-                    "org.fuin.utils4j.jandex..",
+                    "org.fuin.utils4j..",
                     "org.jboss.jandex..",
                     "org.slf4j..");
 

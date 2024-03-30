@@ -25,13 +25,14 @@ import org.fuin.ddd4j.jsonbtestmodel.PersonNameChangedEvent;
 import org.fuin.ddd4j.jsonbtestmodel.Vendor;
 import org.fuin.ddd4j.jsonbtestmodel.VendorId;
 import org.fuin.esc.api.EventStore;
+import org.fuin.utils4j.TestOmitted;
 
 import java.util.List;
 
 /**
  * Implements a repository that is capable of storing vendors.
  */
-@ArchIgnore
+@TestOmitted("Only a test class")
 public final class VendorRepository extends EventStoreRepository<VendorId, Vendor> {
 
     /**

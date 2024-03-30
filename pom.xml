@@ -67,6 +67,12 @@
 
             <dependency>
                 <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-junit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
                 <artifactId>ddd-4-java-jsonb-testmodel</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -106,6 +112,12 @@
             <dependency>
                 <groupId>org.fuin.objects4j</groupId>
                 <artifactId>objects4j-jsonb</artifactId>
+                <version>${objects4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.objects4j</groupId>
+                <artifactId>objects4j-junit</artifactId>
                 <version>${objects4j.version}</version>
             </dependency>
 
@@ -323,6 +335,7 @@
         <module>jsonb-testmodel</module>
         <module>esc</module>
         <module>codegen</module>
+        <module>junit</module>
         <module>jacoco</module>
     </modules>
 

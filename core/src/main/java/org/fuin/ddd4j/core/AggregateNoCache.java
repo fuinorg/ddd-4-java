@@ -17,12 +17,15 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.utils4j.TestOmitted;
+
 /**
  * Never caches anything.
  *
  * @param <AGGREGATE>
  *            Type of the aggregate.
  */
+@TestOmitted("Nothing useful to test")
 public final class AggregateNoCache<AGGREGATE> implements AggregateCache<AGGREGATE> {
 
     @Override

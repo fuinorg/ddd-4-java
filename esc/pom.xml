@@ -64,6 +64,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.fuin</groupId>
+            <artifactId>utils4j</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>org.fuin.esc</groupId>
             <artifactId>esc-mem</artifactId>
             <scope>test</scope>

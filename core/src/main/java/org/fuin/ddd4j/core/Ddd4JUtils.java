@@ -17,9 +17,12 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.utils4j.TestOmitted;
+
 /**
  * Utility methods and constants.
  */
+@TestOmitted("Currently nothing to test")
 public final class Ddd4JUtils {
 
     /**

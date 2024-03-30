@@ -22,6 +22,7 @@ import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchIgnore;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import org.fuin.units4j.archunit.Units4JConditions;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static org.fuin.units4j.archunit.AllTopLevelClassesHaveATestCondition.haveACorrespondingClassEndingWith;
@@ -30,16 +31,7 @@ import static org.fuin.units4j.archunit.AllTopLevelClassesHaveATestCondition.hav
 class BaseTest {
 
     @ArchTest
-    static final ArchRule all_classes_should_have_tests =
-            classes()
-                    .that()
-                    .areTopLevelClasses()
-                    .and().areNotInterfaces()
-                    .and().areNotRecords()
-                    .and().areNotEnums()
-                    .and().doNotHaveModifier(JavaModifier.ABSTRACT)
-                    .and().areNotAnnotatedWith(ArchIgnore.class)
-                    .should(haveACorrespondingClassEndingWith("Test"));
+    static final ArchRule all_classes_should_have_tests = Units4JConditions.ALL_CLASSES_SHOULD_HAVE_TESTS;
 
 }
 

@@ -19,10 +19,13 @@ package org.fuin.ddd4j.core;
 
 import org.fuin.utils4j.TestOmitted;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Collection;
+import java.util.zip.Adler32;
+
 /**
  * Utility methods and constants.
  */
-@TestOmitted("Currently nothing to test")
 public final class Ddd4JUtils {
 
     /**
@@ -35,6 +38,22 @@ public final class Ddd4JUtils {
      */
     private Ddd4JUtils() {
         throw new UnsupportedOperationException();
+    }
+
+    /**
+     * Creates an Adler32 checksum based on event type names.
+     *
+     * @param eventTypes
+     *            Types to calculate a checksum for.
+     *
+     * @return Checksum based on all names.
+     */
+    public static long calculateChecksum(final Collection<EventType> eventTypes) {
+        final Adler32 checksum = new Adler32();
+        for (final EventType eventType : eventTypes) {
+            checksum.update(eventType.asBaseType().getBytes(StandardCharsets.US_ASCII));
+        }
+        return checksum.getValue();
     }
 
 }

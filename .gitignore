@@ -3,6 +3,7 @@
 !.gitkeep
 !.github
 !.mvn
+!.sonarlint
 target
 META-INF
 *.log

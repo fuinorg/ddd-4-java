@@ -31,7 +31,7 @@
     <properties>
         <esc.version>0.8.0-SNAPSHOT</esc.version>
         <objects4j.version>0.10.0-SNAPSHOT</objects4j.version>
-        <archunit.version>1.0.0</archunit.version>
+        <archunit.version>1.4.0</archunit.version>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -130,7 +130,7 @@
             <dependency>
                 <groupId>jakarta.annotation</groupId>
                 <artifactId>jakarta.annotation-api</artifactId>
-                <version>2.1.0</version>
+                <version>2.1.1</version>
             </dependency>
 
             <dependency>
@@ -142,19 +142,19 @@
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
-                <version>3.14.0</version>
+                <version>3.17.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
-                <version>2.0.9</version>
+                <version>2.0.6</version>
             </dependency>
 
             <dependency>
                 <groupId>io.github.threeten-jaxb</groupId>
                 <artifactId>threeten-jaxb-core</artifactId>
-                <version>2.1.0</version>
+                <version>2.2.0</version>
             </dependency>
 
             <dependency>
@@ -166,13 +166,13 @@
             <dependency>
                 <groupId>jakarta.json.bind</groupId>
                 <artifactId>jakarta.json.bind-api</artifactId>
-                <version>3.0.0</version>
+                <version>3.0.1</version>
             </dependency>
 
             <dependency>
                 <groupId>io.smallrye</groupId>
                 <artifactId>jandex</artifactId>
-                <version>3.1.2</version>
+                <version>3.2.7</version>
             </dependency>
 
             <dependency>
@@ -184,7 +184,7 @@
             <dependency>
                 <groupId>org.junit.jupiter</groupId>
                 <artifactId>junit-jupiter</artifactId>
-                <version>5.10.1</version>
+                <version>5.10.5</version>
             </dependency>
 
             <dependency>
@@ -202,31 +202,31 @@
             <dependency>
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
-                <version>8.0.1.Final</version>
+                <version>8.0.2.Final</version>
             </dependency>
 
             <dependency>
-                <groupId>org.glassfish</groupId>
-                <artifactId>jakarta.el</artifactId>
-                <version>4.0.1</version>
+                <groupId>org.glassfish.expressly</groupId>
+                <artifactId>expressly</artifactId>
+                <version>5.0.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.xmlunit</groupId>
                 <artifactId>xmlunit-core</artifactId>
-                <version>2.9.1</version>
+                <version>2.10.0</version>
             </dependency>
 
             <dependency>
                 <groupId>nl.jqno.equalsverifier</groupId>
                 <artifactId>equalsverifier</artifactId>
-                <version>3.15.5</version>
+                <version>3.19.2</version>
             </dependency>
 
             <dependency>
                 <groupId>org.assertj</groupId>
                 <artifactId>assertj-core</artifactId>
-                <version>3.24.2</version>
+                <version>3.26.3</version>
             </dependency>
 
             <dependency>
@@ -238,13 +238,13 @@
             <dependency>
                 <groupId>org.eclipse</groupId>
                 <artifactId>yasson</artifactId>
-                <version>3.0.3</version>
+                <version>3.0.4</version>
             </dependency>
 
             <dependency>
                 <groupId>org.glassfish.jaxb</groupId>
                 <artifactId>jaxb-runtime</artifactId>
-                <version>4.0.4</version>
+                <version>4.0.5</version>
             </dependency>
 
             <dependency>
@@ -268,7 +268,7 @@
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>4.0.1</version>
+                <version>4.0.2</version>
             </dependency>
 
         </dependencies>
@@ -285,7 +285,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.6.1</version>
+                    <version>3.8.1</version>
                     <executions>
                         <execution>
                             <id>analyze</id>
@@ -302,7 +302,7 @@
                 <plugin>
                     <groupId>io.smallrye</groupId>
                     <artifactId>jandex-maven-plugin</artifactId>
-                    <version>3.0.6</version>
+                    <version>3.2.7</version>
                     <executions>
                         <execution>
                             <id>make-index</id>
@@ -316,7 +316,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.2.3</version>
+                    <version>3.5.3</version>
                     <configuration>
                         <argLine>-Duser.country=US -Duser.language=en --add-opens java.base/java.util=ALL-UNNAMED ${argLine}</argLine>
                     </configuration>

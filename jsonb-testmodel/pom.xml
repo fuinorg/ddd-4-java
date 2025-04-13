@@ -95,6 +95,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.fuin.ddd4j</groupId>
+            <artifactId>ddd-4-java-codegen</artifactId>
+            <version>0.6.0-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <scope>test</scope>
@@ -136,10 +142,23 @@
 
         <plugins>
 
+            <!-- Example how ta add code generator (not available yet)
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <generatedSourcesDirectory>${project.basedir}/src-gen/main/java</generatedSourcesDirectory>
+                    <generatedTestSourcesDirectory>${project.basedir}/src-gen/test/java</generatedTestSourcesDirectory>
+                    <annotationProcessorPaths>
+                        <annotationProcessorPath>
+                            <groupId>org.fuin</groupId>
+                            <artifactId>ddd-4-java-codegen</artifactId>
+                            <version>0.1.0-SNAPSHOT</version>
+                        </annotationProcessorPath>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
+            -->
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -156,35 +175,35 @@
                 </configuration>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.1.1</version>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>3.1.1</version>
+            <configuration>
+                <skip>true</skip>
+            </configuration>
+        </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <configuration>
+                <skip>true</skip>
+            </configuration>
+        </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.2.3</version>
-                <configuration>
-                    <argLine>-Duser.country=US -Duser.language=en</argLine>
-                </configuration>
-            </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>3.2.3</version>
+            <configuration>
+                <argLine>-Duser.country=US -Duser.language=en</argLine>
+            </configuration>
+        </plugin>
 
-        </plugins>
+    </plugins>
 
-    </build>
+</build>
 
 
 </project>

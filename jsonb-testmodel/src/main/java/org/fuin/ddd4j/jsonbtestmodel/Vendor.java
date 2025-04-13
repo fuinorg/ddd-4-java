@@ -18,10 +18,7 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
 import jakarta.validation.constraints.NotNull;
-import org.fuin.ddd4j.core.AbstractAggregateRoot;
-import org.fuin.ddd4j.core.ApplyEvent;
-import org.fuin.ddd4j.core.ChildEntityLocator;
-import org.fuin.ddd4j.core.EntityType;
+import org.fuin.ddd4j.core.*;
 import org.fuin.objects4j.common.Contract;
 
 import java.util.ArrayList;
@@ -97,7 +94,12 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
         // Nothing to do here
 
         // HANDLE EVENT
-        apply(new PersonCreatedEvent(ref, new PersonId(nextId()), name));
+        apply(PersonCreatedEvent.builder()
+                .entityIdPath(new EntityIdPath(ref.getId()))
+                .vendorRef(ref)
+                .personId(new PersonId(nextId()))
+                .personName(name)
+                .build());
 
     }
 

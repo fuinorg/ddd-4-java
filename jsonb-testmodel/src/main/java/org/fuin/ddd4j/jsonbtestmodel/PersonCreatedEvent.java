@@ -25,6 +25,7 @@ import org.fuin.ddd4j.core.EventType;
 import org.fuin.ddd4j.jsonb.AbstractDomainEvent;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.esc.api.SerializedDataType;
+import org.fuin.objects4j.common.Contract;
 
 import java.io.Serial;
 
@@ -71,7 +72,9 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * @param personName
      *            Person name.
      */
-    public PersonCreatedEvent(@NotNull final VendorRef vendorRef, @NotNull final PersonId personId, @NotNull final PersonName personName) {
+    protected PersonCreatedEvent(@NotNull final VendorRef vendorRef,
+                                 @NotNull final PersonId personId,
+                                 @NotNull final PersonName personName) {
         super(new EntityIdPath(vendorRef.getId()));
         this.vendorRef = vendorRef;
         this.personId = personId;
@@ -79,7 +82,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
     }
 
     @Override
-    public final EventType getEventType() {
+    public EventType getEventType() {
         return TYPE;
     }
 
@@ -89,7 +92,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * @return Person ID.
      */
     @NotNull
-    public final PersonId getPersonId() {
+    public PersonId getPersonId() {
         return personId;
     }
 
@@ -99,13 +102,88 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * @return Person name.
      */
     @NotNull
-    public final PersonName getPersonName() {
+    public PersonName getPersonName() {
         return personName;
     }
 
     @Override
-    public final String toString() {
+    public String toString() {
         return "Created person #" + personId + " with name '" + personName + "' for " + vendorRef;
+    }
+
+    /**
+     * Creates a new builder instance.
+     *
+     * @return New builder instance.
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * Builds an instance of the outer class.
+     */
+    public static final class Builder extends AbstractDomainEvent.Builder<PersonId, PersonCreatedEvent, Builder> {
+
+        private PersonCreatedEvent delegate;
+
+        private Builder() {
+            super(new PersonCreatedEvent());
+            delegate = delegate();
+        }
+
+        /**
+         * Sets the vendor reference.
+         *
+         * @param vendorRef Vendor reference.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final Builder vendorRef(@NotNull final VendorRef vendorRef) {
+            Contract.requireArgNotNull("vendorRef", vendorRef);
+            delegate.vendorRef = vendorRef;
+            return this;
+        }
+
+        /**
+         * Sets the unique identifier of the person.
+         *
+         * @param personId Unique identifier of the person.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final Builder personId(@NotNull final PersonId personId) {
+            Contract.requireArgNotNull("personId", personId);
+            delegate.personId = personId;
+            return this;
+        }
+
+        /**
+         * Sets the name of the person.
+         *
+         * @param personName Name of the person.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final Builder personName(@NotNull final PersonName personName) {
+            Contract.requireArgNotNull("personName", personName);
+            delegate.personName = personName;
+            return this;
+        }
+
+        /**
+         * Creates the event and clears the builder.
+         *
+         * @return New instance.
+         */
+        public PersonCreatedEvent build() {
+            ensureBuildableAbstractDomainEvent();
+            final PersonCreatedEvent result = delegate;
+            delegate = new PersonCreatedEvent();
+            resetAbstractDomainEvent(delegate);
+            return result;
+        }
+
     }
 
 }

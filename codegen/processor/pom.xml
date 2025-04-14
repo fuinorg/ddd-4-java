@@ -1,0 +1,252 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.fuin.ddd4j</groupId>
+		<artifactId>ddd-4-java-codegen</artifactId>
+		<version>0.6.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+	<artifactId>ddd-4-java-codegen-processor</artifactId>
+	<description>Code generation support (APT)</description>
+
+	<dependencies>
+
+		<!-- Compile -->
+
+		<dependency>
+			<groupId>org.fuin.ddd4j</groupId>
+			<artifactId>ddd-4-java-codegen-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.validation</groupId>
+			<artifactId>jakarta.validation-api</artifactId>
+			<version>3.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.json.bind</groupId>
+			<artifactId>jakarta.json.bind-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.18</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity-engine-core</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.googlejavaformat</groupId>
+			<artifactId>google-java-format</artifactId>
+			<version>1.26.0</version>
+		</dependency>
+
+		<!-- Provided -->
+
+		<dependency>
+			<groupId>com.google.auto.service</groupId>
+			<artifactId>auto-service</artifactId>
+			<version>1.1.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Test -->
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.10.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>3.26.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>nl.jqno.equalsverifier</groupId>
+			<artifactId>equalsverifier</artifactId>
+			<version>3.19.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.18.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate.validator</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>8.0.2.Final</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.expressly</groupId>
+			<artifactId>expressly</artifactId>
+			<version>5.0.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse</groupId>
+			<artifactId>yasson</artifactId>
+			<version>3.0.4</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jaxb</groupId>
+			<artifactId>jaxb-runtime</artifactId>
+			<version>4.0.5</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>jakarta.persistence</groupId>
+			<artifactId>jakarta.persistence-api</artifactId>
+			<version>3.1.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jooq</groupId>
+			<artifactId>joor</artifactId>
+			<version>0.9.15</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>3.0.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin</groupId>
+			<artifactId>objects4j</artifactId>
+			<version>0.9.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.microprofile.openapi</groupId>
+			<artifactId>microprofile-openapi-api</artifactId>
+			<version>4.0.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.toolisticon.cute</groupId>
+			<artifactId>cute</artifactId>
+			<version>1.7.0</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.ddd4j</groupId>
+			<artifactId>ddd-4-java-core</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.ddd4j</groupId>
+			<artifactId>ddd-4-java-jsonb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.ddd4j</groupId>
+			<artifactId>ddd-4-java-esc</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<includes>
+						<include>**/*</include>
+					</includes>
+					<archive>
+						<manifestEntries>
+							<Automatic-Module-Name>org.fuin.ddd4j.codegen.processor</Automatic-Module-Name>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.5.3</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jdeps-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+
+	</build>
+
+</project>

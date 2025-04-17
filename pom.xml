@@ -29,8 +29,8 @@
     </issueManagement>
 
     <properties>
-        <esc.version>0.8.0-SNAPSHOT</esc.version>
-        <objects4j.version>0.10.0-SNAPSHOT</objects4j.version>
+        <esc.version>0.8.0</esc.version>
+        <objects4j.version>0.10.0</objects4j.version>
         <archunit.version>1.4.0</archunit.version>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
@@ -190,13 +190,13 @@
             <dependency>
                 <groupId>org.fuin</groupId>
                 <artifactId>utils4j</artifactId>
-                <version>0.14.0-SNAPSHOT</version>
+                <version>0.14.0</version>
             </dependency>
 
             <dependency>
                 <groupId>org.fuin</groupId>
                 <artifactId>units4j</artifactId>
-                <version>0.12.0-SNAPSHOT</version>
+                <version>0.12.0</version>
             </dependency>
 
             <dependency>

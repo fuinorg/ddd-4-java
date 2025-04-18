@@ -8,12 +8,12 @@
     <parent>
         <groupId>org.fuin.ddd4j</groupId>
         <artifactId>ddd-4-java</artifactId>
-        <version>0.6.0-SNAPSHOT</version>
+        <version>0.6.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>ddd-4-java-core</artifactId>
-    <version>0.6.0-SNAPSHOT</version>
+    <version>0.6.0</version>
     <packaging>jar</packaging>
     <description>Base classes for Domain Driven Design (DDD) with Java (CORE)</description>
 

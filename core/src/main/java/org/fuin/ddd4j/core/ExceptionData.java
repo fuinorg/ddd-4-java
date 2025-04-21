@@ -18,6 +18,6 @@ public interface ExceptionData<EX extends Exception> extends Serializable, Value
      *
      * @return Data element name.
      */
-    public String getDataElement();
+    String getDataElement();
 
 }

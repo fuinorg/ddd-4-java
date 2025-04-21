@@ -13,7 +13,7 @@
 
     <groupId>org.fuin.ddd4j</groupId>
     <artifactId>ddd-4-java</artifactId>
-    <version>0.6.0</version>
+    <version>0.7.0-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Base classes for Domain Driven Design (DDD) with Java</description>
 
@@ -29,8 +29,11 @@
     </issueManagement>
 
     <properties>
-        <esc.version>0.8.0</esc.version>
-        <objects4j.version>0.10.0</objects4j.version>
+        <jackson.version>2.18.2</jackson.version>
+        <esc.version>0.9.0-SNAPSHOT</esc.version>
+        <objects4j.version>0.11.0-SNAPSHOT</objects4j.version>
+        <utils4j.version>0.15.0-SNAPSHOT</utils4j.version>
+        <units4j.version>0.12.0</units4j.version>
         <archunit.version>1.4.0</archunit.version>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
@@ -62,6 +65,12 @@
             <dependency>
                 <groupId>org.fuin.ddd4j</groupId>
                 <artifactId>ddd-4-java-jsonb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-jackson</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -112,6 +121,12 @@
             <dependency>
                 <groupId>org.fuin.objects4j</groupId>
                 <artifactId>objects4j-jsonb</artifactId>
+                <version>${objects4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.objects4j</groupId>
+                <artifactId>objects4j-jackson</artifactId>
                 <version>${objects4j.version}</version>
             </dependency>
 
@@ -190,13 +205,13 @@
             <dependency>
                 <groupId>org.fuin</groupId>
                 <artifactId>utils4j</artifactId>
-                <version>0.14.0</version>
+                <version>${utils4j.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>org.fuin</groupId>
                 <artifactId>units4j</artifactId>
-                <version>0.12.0</version>
+                <version>${units4j.version}</version>
             </dependency>
 
             <dependency>
@@ -271,6 +286,42 @@
                 <version>4.0.2</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.javacrumbs.json-unit</groupId>
+                <artifactId>json-unit-fluent</artifactId>
+                <version>4.1.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.google.code.gson</groupId>
+                <artifactId>gson</artifactId>
+                <version>2.11.0</version>
+            </dependency>
+
         </dependencies>
 
     </dependencyManagement>
@@ -333,6 +384,7 @@
         <module>jaxb</module>
         <module>jsonb</module>
         <module>jsonb-testmodel</module>
+        <module>jackson</module>
         <module>esc</module>
         <module>codegen</module>
         <module>junit</module>

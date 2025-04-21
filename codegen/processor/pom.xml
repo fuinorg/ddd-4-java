@@ -7,7 +7,7 @@
 	<parent>
 		<groupId>org.fuin.ddd4j</groupId>
 		<artifactId>ddd-4-java-codegen</artifactId>
-		<version>0.6.0</version>
+		<version>0.7.0-SNAPSHOT</version>
 		<relativePath>../pom.xml</relativePath>
 	</parent>
 
@@ -177,6 +177,18 @@
 		<dependency>
 			<groupId>org.fuin.ddd4j</groupId>
 			<artifactId>ddd-4-java-jsonb</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.ddd4j</groupId>
+			<artifactId>ddd-4-java-jackson</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.ddd4j</groupId>
+			<artifactId>ddd-4-java-jaxb</artifactId>
 			<scope>test</scope>
 		</dependency>
 

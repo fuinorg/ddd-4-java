@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.fuin.ddd4j</groupId>
         <artifactId>ddd-4-java</artifactId>
-        <version>0.6.0</version>
+        <version>0.7.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -71,17 +71,16 @@
             <artifactId>jakarta.xml.bind-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.fuin</groupId>
+            <artifactId>utils4j</artifactId>
+        </dependency>
+
         <!-- Test -->
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <scope>test</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.fuin</groupId>
-            <artifactId>utils4j</artifactId>
             <scope>test</scope>
         </dependency>
 
@@ -216,6 +215,7 @@
                     </ignoredUsedUndeclaredDependencies>
                     <ignoredNonTestScopedDependencies>
                         <ignoredNonTestScopedDependency>org.fuin.objects4j:objects4j-core</ignoredNonTestScopedDependency>
+                        <ignoredNonTestScopedDependency>org.fuin:utils4j</ignoredNonTestScopedDependency>
                     </ignoredNonTestScopedDependencies>
                 </configuration>
             </plugin>

@@ -1,6 +1,5 @@
 package org.fuin.ddd4jcodegen.test;
 
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;

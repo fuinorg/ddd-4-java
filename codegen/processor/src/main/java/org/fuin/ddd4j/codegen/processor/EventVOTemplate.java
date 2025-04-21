@@ -71,6 +71,7 @@ public final class EventVOTemplate implements ValueObjectTemplate<EventVO> {
         context.put("idClass", new Clasz(anno.entityIdClass()));
         context.put("entityIdPathParams", anno.entityIdPathParams());
         context.put("jsonb", anno.jsonb());
+        context.put("jackson", anno.jackson());
         context.put("jaxb", anno.jaxb());
         context.put("openapi", anno.openapi());
         context.put("description", anno.description());

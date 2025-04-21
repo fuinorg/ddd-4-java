@@ -1,6 +1,10 @@
 # Release Notes
 
-## General
+## 0.7.0
+- Added [Jackson](jackson) module
+
+## 0.6.0
+
 - Dependency updates
 - **Incompatible** Previously there was only one artifact. Now there are multiple modules.
   The existing classes were moved to one of these modules to allow different serialization libraries

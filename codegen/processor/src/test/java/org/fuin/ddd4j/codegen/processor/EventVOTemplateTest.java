@@ -30,9 +30,9 @@ public final class EventVOTemplateTest {
     }
 
     @Test
-    public void testAllConverters() {
+    public void testJsonb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "AllConverters","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jsonb","""
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
@@ -42,7 +42,69 @@ public final class EventVOTemplateTest {
                 @EventVO(pkg="org.fuin.ddd4jcodegen.test", name = "MyEvent",
                         entityIdPathParams = "myId",
                         description = "Something important happened",
-                        jaxb = true, jsonb = true, openapi = true,
+                        jsonb = true, openapi = true,
+                        serialVersionUID = 1000L,
+                        entityIdClass = "org.fuin.ddd4j.codegen.processor.MyId",
+                        message = "MyEvent happened"
+                )
+                public interface MyEventExample {
+                
+                    @NotNull
+                    @ShortLabel("ROOT-ID")
+                    @Label("Root Identifier")
+                    @Tooltip("Uniquely identifies The Root")
+                    @Examples({"e4baf6c5-ccb9-4580-9d59-41860c140189", "00000000-0000-0000-0000-000000000000"})
+                    org.fuin.ddd4j.codegen.processor.MyId myId = null;
+                
+                }
+                """);
+    }
+
+    @Test
+    public void testJackson() {
+
+        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jackson","""
+                package input;
+                
+                import jakarta.validation.constraints.NotNull;
+                import org.fuin.ddd4j.codegen.api.EventVO;
+                import org.fuin.objects4j.ui.*;
+                
+                @EventVO(pkg="org.fuin.ddd4jcodegen.test", name = "MyEvent",
+                        entityIdPathParams = "myId",
+                        description = "Something important happened",
+                        jackson = true, openapi = true,
+                        serialVersionUID = 1000L,
+                        entityIdClass = "org.fuin.ddd4j.codegen.processor.MyId",
+                        message = "MyEvent happened"
+                )
+                public interface MyEventExample {
+                
+                    @NotNull
+                    @ShortLabel("ROOT-ID")
+                    @Label("Root Identifier")
+                    @Tooltip("Uniquely identifies The Root")
+                    @Examples({"e4baf6c5-ccb9-4580-9d59-41860c140189", "00000000-0000-0000-0000-000000000000"})
+                    org.fuin.ddd4j.codegen.processor.MyId myId = null;
+                
+                }
+                """);
+    }
+
+    @Test
+    public void testJaxb() {
+
+        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jaxb","""
+                package input;
+                
+                import jakarta.validation.constraints.NotNull;
+                import org.fuin.ddd4j.codegen.api.EventVO;
+                import org.fuin.objects4j.ui.*;
+                
+                @EventVO(pkg="org.fuin.ddd4jcodegen.test", name = "MyEvent",
+                        entityIdPathParams = "myId",
+                        description = "Something important happened",
+                        jaxb = true, openapi = true,
                         serialVersionUID = 1000L,
                         entityIdClass = "org.fuin.ddd4j.codegen.processor.MyId",
                         message = "MyEvent happened"

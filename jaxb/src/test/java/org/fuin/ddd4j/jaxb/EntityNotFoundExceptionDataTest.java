@@ -1,5 +1,6 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.EntityIdPath;
@@ -7,6 +8,7 @@ import org.fuin.ddd4j.core.EntityNotFoundException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.ddd4j.jaxbtest.PersonId;
 import org.fuin.ddd4j.jaxbtest.VendorId;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -61,7 +63,8 @@ class EntityNotFoundExceptionDataTest {
         final EntityNotFoundExceptionData original = new EntityNotFoundExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), EntityNotFoundExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(EntityNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
         final EntityNotFoundExceptionData copy = unmarshal(xml, createXmlAdapter(), EntityNotFoundExceptionData.class);
 
         // VERIFY

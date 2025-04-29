@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.esc;
 
-import com.tngtech.archunit.junit.ArchIgnore;
 import org.fuin.ddd4j.core.DomainEvent;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.jsonbtestmodel.PersonCreatedEvent;

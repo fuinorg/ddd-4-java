@@ -33,6 +33,7 @@ public final class VendorKeyStrValidator implements ConstraintValidator<VendorKe
 
     @Override
     public final void initialize(final VendorKeyStr constraintAnnotation) {
+        // Nothing to do
     }
 
     @Override

@@ -69,10 +69,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
             return false;
         }
         final AbstractAggregateRoot<?> other = (AbstractAggregateRoot<?>) obj;
-        if (!getId().equals(other.getId())) {
-            return false;
-        }
-        return true;
+        return getId().equals(other.getId());
     }
 
     @Override

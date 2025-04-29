@@ -29,6 +29,7 @@ public final class VendorNameStrValidator implements ConstraintValidator<VendorN
 
     @Override
     public final void initialize(final VendorNameStr constraintAnnotation) {
+        // Nothing to do
     }
 
     @Override

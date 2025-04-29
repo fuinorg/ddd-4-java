@@ -1,10 +1,14 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.AggregateNotFoundException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.ddd4j.jaxbtest.VendorId;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
+import org.fuin.utils4j.jaxb.UnmarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -57,8 +61,10 @@ class AggregateNotFoundExceptionDataTest {
         final AggregateNotFoundExceptionData original = new AggregateNotFoundExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), AggregateNotFoundExceptionData.class);
-        final AggregateNotFoundExceptionData copy = unmarshal(xml, createXmlAdapter(), AggregateNotFoundExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(AggregateNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(AggregateNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final AggregateNotFoundExceptionData copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         assertThat(copy).isEqualTo(original);
@@ -89,7 +95,8 @@ class AggregateNotFoundExceptionDataTest {
                 """;
 
         // TEST
-        final AggregateNotFoundExceptionData copy = unmarshal(xml, createXmlAdapter(), AggregateNotFoundExceptionData.class);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(AggregateNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final AggregateNotFoundExceptionData copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         final AggregateNotFoundException copyEx = copy.toException();

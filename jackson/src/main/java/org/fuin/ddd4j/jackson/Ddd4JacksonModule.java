@@ -65,7 +65,8 @@ public class Ddd4JacksonModule extends Module {
     @Override
     public Version version() {
         // Don't forget to change from release to SNAPSHOT and back!
-        return new Version(0, 7, 0, "SNAPSHOT");
+        return new Version(0, 7, 0, "SNAPSHOT",
+            "org.fuin.ddd4j", "ddd-4-java-jackson");
     }
 
 }

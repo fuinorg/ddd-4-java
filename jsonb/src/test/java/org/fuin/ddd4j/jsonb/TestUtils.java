@@ -1,6 +1,5 @@
 package org.fuin.ddd4j.jsonb;
 
-import com.tngtech.archunit.junit.ArchIgnore;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;

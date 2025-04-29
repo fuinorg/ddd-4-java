@@ -1,9 +1,11 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,7 +53,8 @@ class DuplicateEncryptionKeyIdExceptionDataTest {
         final DuplicateEncryptionKeyIdExceptionData original = new DuplicateEncryptionKeyIdExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), DuplicateEncryptionKeyIdExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(DuplicateEncryptionKeyIdExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
         final DuplicateEncryptionKeyIdExceptionData copy = unmarshal(xml, createXmlAdapter(), DuplicateEncryptionKeyIdExceptionData.class);
 
         // VERIFY

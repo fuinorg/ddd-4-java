@@ -62,8 +62,7 @@ public class TestJacksonAdapterModule extends Module {
 
     @Override
     public Version version() {
-        // Don't forget to change from release to SNAPSHOT and back!
-        return new Version(0, 7, 0, "SNAPSHOT");
+        return new Version(1, 0, 0, "SNAPSHOT", "foo", "bar");
     }
 
 }

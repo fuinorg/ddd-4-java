@@ -1,5 +1,7 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.EntityIdPath;
@@ -11,6 +13,8 @@ import org.fuin.ddd4j.jaxbtest.VendorId;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.esc.api.SerializedDataType;
 import org.fuin.esc.api.TypeName;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
+import org.fuin.utils4j.jaxb.UnmarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.io.Serial;
@@ -134,8 +138,10 @@ public class AbstractDomainEventTest {
         final MyEvent1 original = new MyEvent1(vendorId, correlationId, causationId);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), MyEvent1.class);
-        final MyEvent1 copy = unmarshal(xml, createXmlAdapter(), MyEvent1.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(MyEvent1.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(MyEvent1.class).addAdapters(createXmlAdapter()).build();
+        final MyEvent1 copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         assertThat(copy).isEqualTo(original);
@@ -160,7 +166,8 @@ public class AbstractDomainEventTest {
                 + "<causation-id>f13d3481-51b7-423f-8fe7-5c342f7d7c46</causation-id></my-event-1>";
 
         // TEST
-        final MyEvent1 copy = unmarshal(xml, createXmlAdapter(), MyEvent1.class);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(MyEvent1.class).addAdapters(createXmlAdapter()).build();
+        final MyEvent1 copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         assertThat(copy.getEntityId()).isEqualTo(new VendorId(UUID.fromString("f6773571-f7a8-4b73-8734-e69991d58732")));

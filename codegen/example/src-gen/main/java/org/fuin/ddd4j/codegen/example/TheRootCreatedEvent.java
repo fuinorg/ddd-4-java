@@ -34,7 +34,6 @@ import org.fuin.objects4j.ui.Examples;
  * The root was created.
  */
 @Immutable
-
 @HasSerializedDataTypeConstant
 public final class TheRootCreatedEvent extends AbstractDomainEvent<TheRootId> {
 

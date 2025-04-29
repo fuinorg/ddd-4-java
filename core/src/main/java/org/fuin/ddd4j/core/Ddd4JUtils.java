@@ -17,8 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import org.fuin.utils4j.TestOmitted;
-
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.zip.Adler32;

@@ -36,6 +36,11 @@
             <artifactId>ddd-4-java-jsonb</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.fuin.ddd4j</groupId>
+            <artifactId>ddd-4-java-jackson</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

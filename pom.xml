@@ -13,7 +13,7 @@
 
     <groupId>org.fuin.ddd4j</groupId>
     <artifactId>ddd-4-java</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
+    <version>0.7.0</version>
     <packaging>pom</packaging>
     <description>Base classes for Domain Driven Design (DDD) with Java</description>
 
@@ -30,9 +30,9 @@
 
     <properties>
         <jackson.version>2.18.2</jackson.version>
-        <esc.version>0.9.0-SNAPSHOT</esc.version>
-        <objects4j.version>0.11.0-SNAPSHOT</objects4j.version>
-        <utils4j.version>0.15.0-SNAPSHOT</utils4j.version>
+        <esc.version>0.9.0</esc.version>
+        <objects4j.version>0.11.0</objects4j.version>
+        <utils4j.version>0.15.0</utils4j.version>
         <units4j.version>0.12.0</units4j.version>
         <archunit.version>1.4.0</archunit.version>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>

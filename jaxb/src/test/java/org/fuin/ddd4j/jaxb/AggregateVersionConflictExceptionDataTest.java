@@ -1,10 +1,14 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.AggregateVersionConflictException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.ddd4j.jaxbtest.VendorId;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
+import org.fuin.utils4j.jaxb.UnmarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -59,8 +63,10 @@ class AggregateVersionConflictExceptionDataTest {
         final AggregateVersionConflictExceptionData original = new AggregateVersionConflictExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), AggregateVersionConflictExceptionData.class);
-        final AggregateVersionConflictExceptionData copy = unmarshal(xml, createXmlAdapter(), AggregateVersionConflictExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(AggregateVersionConflictExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(AggregateVersionConflictExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final AggregateVersionConflictExceptionData copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         assertThat(copy).isEqualTo(original);
@@ -95,7 +101,8 @@ class AggregateVersionConflictExceptionDataTest {
                 """;
 
         // TEST
-        final AggregateVersionConflictExceptionData copy = unmarshal(xml, createXmlAdapter(), AggregateVersionConflictExceptionData.class);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(AggregateVersionConflictExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final AggregateVersionConflictExceptionData copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         final AggregateVersionConflictException copyEx = copy.toException();

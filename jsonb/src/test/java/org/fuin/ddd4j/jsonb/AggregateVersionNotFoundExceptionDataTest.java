@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
 
+import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fuin.ddd4j.jsonb.TestUtils.jsonb;
 import static org.fuin.utils4j.Utils4J.deserialize;
@@ -82,15 +83,13 @@ class AggregateVersionNotFoundExceptionDataTest {
         try (final Jsonb jsonb = jsonb()) {
 
             // PREPARE
-            final AggregateVersionNotFoundException originalEx = new AggregateVersionNotFoundException(VendorId.TYPE,
-                    new VendorId(UUID.fromString("4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119")), 102);
             final String json = """
                     {
                         "msg" : "Requested version 102 for Vendor (4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119) does not exist",
                         "sid" : "DDD4J-AGGREGATE_VERSION_NOT_FOUND",
                         "aggregate-type" : "Vendor",
                         "aggregate-id" : "4dcf4c2c-10e1-4db9-ba9e-d1e644e9d119",
-                        "version" : "102"
+                        "version" : 102
                     }
                     """;
 
@@ -98,14 +97,8 @@ class AggregateVersionNotFoundExceptionDataTest {
             final AggregateVersionNotFoundExceptionData copy = jsonb.fromJson(json, AggregateVersionNotFoundExceptionData.class);
 
             // VERIFY
-            final AggregateVersionNotFoundException copyEx = copy.toException();
-            assertThat(copy.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copy.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getType()).isEqualTo(originalEx.getType());
-            assertThat(copyEx.getId()).isEqualTo(originalEx.getId());
-            assertThat(copyEx.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copyEx.getVersion()).isEqualTo(originalEx.getVersion());
+            final String copyJson = jsonb.toJson(copy);
+            assertThatJson(copyJson).isEqualTo(json);
 
         }
         

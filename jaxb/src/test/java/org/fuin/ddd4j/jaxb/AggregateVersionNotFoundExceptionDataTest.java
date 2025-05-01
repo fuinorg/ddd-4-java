@@ -1,10 +1,14 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.AggregateVersionNotFoundException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.ddd4j.jaxbtest.VendorId;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
+import org.fuin.utils4j.jaxb.UnmarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -58,8 +62,10 @@ class AggregateVersionNotFoundExceptionDataTest {
         final AggregateVersionNotFoundExceptionData original = new AggregateVersionNotFoundExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), AggregateVersionNotFoundExceptionData.class);
-        final AggregateVersionNotFoundExceptionData copy = unmarshal(xml, createXmlAdapter(), AggregateVersionNotFoundExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(AggregateVersionNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(AggregateVersionNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final AggregateVersionNotFoundExceptionData copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         assertThat(copy).isEqualTo(original);
@@ -92,7 +98,8 @@ class AggregateVersionNotFoundExceptionDataTest {
                 """;
 
         // TEST
-        final AggregateVersionNotFoundExceptionData copy = unmarshal(xml, createXmlAdapter(), AggregateVersionNotFoundExceptionData.class);
+        final Unmarshaller unmarshaller = new UnmarshallerBuilder().addClassesToBeBound(AggregateVersionNotFoundExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final AggregateVersionNotFoundExceptionData copy = unmarshal(unmarshaller, xml);
 
         // VERIFY
         final AggregateVersionNotFoundException copyEx = copy.toException();

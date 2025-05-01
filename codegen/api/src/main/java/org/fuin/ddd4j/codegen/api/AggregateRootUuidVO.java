@@ -79,6 +79,13 @@ public @interface AggregateRootUuidVO {
     boolean jsonb() default false;
 
     /**
+     * Generate Jackson information.
+     *
+     * @return TRUE generates stuff for Jackson.
+     */
+    boolean jackson() default false;
+
+    /**
      * Generate a Eclipse Microprofile OpenAPI annotations.
      *
      * @return TRUE generates annotations.

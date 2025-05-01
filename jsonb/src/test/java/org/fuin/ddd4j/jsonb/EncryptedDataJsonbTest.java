@@ -5,8 +5,8 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Base64;
 
+import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fuin.ddd4j.jsonb.TestUtils.jsonb;
 import static org.fuin.utils4j.Utils4J.deserialize;
@@ -81,8 +81,9 @@ public class EncryptedDataJsonbTest {
     @Test
     public final void testUnmarshal() throws Exception {
 
-        // PREPARE
-        final String json = """
+        try (final Jsonb jsonb = jsonb()) {
+            // PREPARE
+            final String json = """
                 {
                   "key-id" : "the/key",
                   "key-version" : "1",
@@ -92,18 +93,12 @@ public class EncryptedDataJsonbTest {
                 }
                 """;
 
-        // TEST
-        try (final Jsonb jsonb = jsonb()) {
+            // TEST
             final EncryptedDataJsonb copy = jsonb.fromJson(json, EncryptedDataJsonb.class);
 
             // VERIFY
-            // VERIFY
-            assertThat(copy.getKeyId()).isEqualTo("the/key");
-            assertThat(copy.getKeyVersion()).isEqualTo("1");
-            assertThat(copy.getDataType()).isEqualTo("TheSecretData");
-            assertThat(copy.getContentType()).isEqualTo("application/json");
-            assertThat(copy.getEncryptedData()).isEqualTo(
-                    Base64.getDecoder().decode("ewogICAgImxhc3ROYW1lIiA6ICJQYXJrZXIiLAogICAgImZpcnN0TmFtZSIgOiAiUGV0ZXIiLAp9Cg=="));
+            final String copyJson = jsonb.toJson(copy);
+            assertThatJson(copyJson).isEqualTo(json);
 
         }
 

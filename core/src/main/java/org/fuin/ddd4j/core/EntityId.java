@@ -21,11 +21,14 @@ import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.AsStringCapable;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.utils4j.TechnicalId;
+
+import java.io.Serializable;
 
 /**
  * Identifies an entity within all entities of the same type.
  */
-public interface EntityId extends TechnicalId, AsStringCapable {
+public interface EntityId extends TechnicalId, AsStringCapable, Serializable {
 
     /**
      * Returns the type represented by this identifier.
@@ -53,11 +56,8 @@ public interface EntityId extends TechnicalId, AsStringCapable {
      * Verifies that the given value can be converted into a value object using the factory.
      * A <code>null</code> parameter will return <code>true</code>.
      *
-     * @param factory
-     *            Factory used to create enitity identifiers.
-     * @param value
-     *            Value to check.
-     *
+     * @param factory Factory used to create enitity identifiers.
+     * @param value   Value to check.
      * @return <code>true</code> if the value can be converted, else <code>false</code>.
      */
     static boolean isValid(@NotNull final EntityIdFactory factory, @Nullable final String value) {
@@ -79,15 +79,10 @@ public interface EntityId extends TechnicalId, AsStringCapable {
     /**
      * Verifies if the argument is valid and throws an exception if this is not the case.
      *
-     * @param factory
-     *            Factory used to create enitity identifiers.
-     * @param name
-     *            Name of the value for a possible error message.
-     * @param value
-     *            Value to check.
-     *
-     * @throws ConstraintViolationException
-     *             The value was not valid.
+     * @param factory Factory used to create enitity identifiers.
+     * @param name    Name of the value for a possible error message.
+     * @param value   Value to check.
+     * @throws ConstraintViolationException The value was not valid.
      */
     static void requireArgValid(@NotNull final EntityIdFactory factory,
                                 @NotNull final String name,
@@ -102,11 +97,8 @@ public interface EntityId extends TechnicalId, AsStringCapable {
     /**
      * Converts a string into an entity identifier. A <code>null</code> parameter will return <code>null</code>.
      *
-     * @param factory
-     *            Factory used to create enitity identifiers.
-     * @param value
-     *            Representation of the entity identifier as string.
-     *
+     * @param factory Factory used to create enitity identifiers.
+     * @param value   Representation of the entity identifier as string.
      * @return Value object.
      */
     static EntityId valueOf(@NotNull final EntityIdFactory factory, @Nullable final String value) {

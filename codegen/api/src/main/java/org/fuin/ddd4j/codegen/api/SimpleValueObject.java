@@ -43,4 +43,12 @@ public @interface SimpleValueObject {
      */
     boolean jsonb() default false;
 
+    /**
+     * Generate Jackson information.
+     *
+     * @return TRUE generates stuff for Jackson.
+     */
+    boolean jackson() default false;
+
+
 }

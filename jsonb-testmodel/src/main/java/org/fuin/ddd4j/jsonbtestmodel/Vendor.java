@@ -18,7 +18,11 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
 import jakarta.validation.constraints.NotNull;
-import org.fuin.ddd4j.core.*;
+import org.fuin.ddd4j.core.AbstractAggregateRoot;
+import org.fuin.ddd4j.core.ApplyEvent;
+import org.fuin.ddd4j.core.ChildEntityLocator;
+import org.fuin.ddd4j.core.EntityIdPath;
+import org.fuin.ddd4j.core.EntityType;
 import org.fuin.objects4j.common.Contract;
 
 import java.util.ArrayList;

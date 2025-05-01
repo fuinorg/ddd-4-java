@@ -1,9 +1,11 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.DecryptionFailedException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +54,8 @@ class DecryptionFailedExceptionDataTest {
         final DecryptionFailedExceptionData original = new DecryptionFailedExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), DecryptionFailedExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(DecryptionFailedExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
         final DecryptionFailedExceptionData copy = unmarshal(xml, createXmlAdapter(), DecryptionFailedExceptionData.class);
 
         // VERIFY

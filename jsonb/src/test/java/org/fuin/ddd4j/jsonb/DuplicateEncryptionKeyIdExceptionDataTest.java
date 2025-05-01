@@ -5,6 +5,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException;
 import org.junit.jupiter.api.Test;
 
+import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fuin.ddd4j.jsonb.TestUtils.jsonb;
 import static org.fuin.utils4j.Utils4J.deserialize;
@@ -73,7 +74,6 @@ class DuplicateEncryptionKeyIdExceptionDataTest {
         try (final Jsonb jsonb = jsonb()) {
 
             // PREPARE
-            final DuplicateEncryptionKeyIdException originalEx = new DuplicateEncryptionKeyIdException("xyz");
             final String json = """
                     {
                         "msg" : "Duplicate keyId: xyz",
@@ -86,12 +86,8 @@ class DuplicateEncryptionKeyIdExceptionDataTest {
             final DuplicateEncryptionKeyIdExceptionData copy = jsonb.fromJson(json, DuplicateEncryptionKeyIdExceptionData.class);
 
             // VERIFY
-            final DuplicateEncryptionKeyIdException copyEx = copy.toException();
-            assertThat(copy.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copy.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copyEx.getKeyId()).isEqualTo(originalEx.getKeyId());
+            final String copyJson = jsonb.toJson(copy);
+            assertThatJson(copyJson).isEqualTo(json);
 
         }
         

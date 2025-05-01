@@ -5,6 +5,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.EncryptionKeyIdUnknownException;
 import org.junit.jupiter.api.Test;
 
+import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fuin.ddd4j.jsonb.TestUtils.jsonb;
 import static org.fuin.utils4j.Utils4J.deserialize;
@@ -73,7 +74,6 @@ class EncryptionKeyIdUnknownExceptionDataTest {
         try (final Jsonb jsonb = jsonb()) {
 
             // PREPARE
-            final EncryptionKeyIdUnknownException originalEx = new EncryptionKeyIdUnknownException("xyz");
             final String json = """
                     {
                         "msg" : "Unknown keyId: xyz",
@@ -86,12 +86,8 @@ class EncryptionKeyIdUnknownExceptionDataTest {
             final EncryptionKeyIdUnknownExceptionData copy = jsonb.fromJson(json, EncryptionKeyIdUnknownExceptionData.class);
 
             // VERIFY
-            final EncryptionKeyIdUnknownException copyEx = copy.toException();
-            assertThat(copy.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copy.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copyEx.getKeyId()).isEqualTo(originalEx.getKeyId());
+            final String copyJson = jsonb.toJson(copy);
+            assertThatJson(copyJson).isEqualTo(json);
 
         }
         

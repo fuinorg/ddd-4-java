@@ -1,9 +1,11 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.EncryptionKeyIdUnknownException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -51,7 +53,8 @@ class EncryptionKeyIdUnknownExceptionDataTest {
         final EncryptionKeyIdUnknownExceptionData original = new EncryptionKeyIdUnknownExceptionData(originalEx);
 
         // TEST
-        final String xml = marshal(original, createXmlAdapter(), EncryptionKeyIdUnknownExceptionData.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(EncryptionKeyIdUnknownExceptionData.class).addAdapters(createXmlAdapter()).build();
+        final String xml = marshal(marshaller, original);
         final EncryptionKeyIdUnknownExceptionData copy = unmarshal(xml, createXmlAdapter(), EncryptionKeyIdUnknownExceptionData.class);
 
         // VERIFY

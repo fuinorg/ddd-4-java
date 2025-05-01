@@ -1,6 +1,8 @@
 package ${package};
 
 #if($jaxb)
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 #end
 import jakarta.validation.constraints.NotNull;
@@ -12,10 +14,22 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 #end
+#if($jackson)
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+#end
 import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventType;
+#if($jsonb)
 import org.fuin.ddd4j.jsonb.AbstractDomainEvent;
+#end
+#if($jackson)
+import org.fuin.ddd4j.jackson.AbstractDomainEvent;
+#end
+#if($jaxb)
+import org.fuin.ddd4j.jaxb.AbstractDomainEvent;
+#end
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.esc.api.SerializedDataType;
 import org.fuin.objects4j.common.Contract;
@@ -35,8 +49,12 @@ import ${import};
  * ${description}.
  */
 @Immutable
-#if($openapi)@Schema(name = "${class}", type = SchemaType.OBJECT, description = "${description}")#end
-
+#if($openapi)
+@Schema(name = "${class}", type = SchemaType.OBJECT, description = "${description}")
+#end
+#if($jaxb)
+@XmlRootElement(name = "${class}")
+#end
 @HasSerializedDataTypeConstant
 public final class ${class} extends AbstractDomainEvent<${idClass.simpleName}> {
 
@@ -53,7 +71,15 @@ public final class ${class} extends AbstractDomainEvent<${idClass.simpleName}> {
     #foreach ($annotation in $field.annotations)
     ${annotation}
     #end
+    #if($jsonb)
     @JsonbProperty("${field.property}")
+    #end
+    #if($jackson)
+    @JsonProperty("${field.property}")
+    #end
+    #if($jaxb)
+    @XmlAttribute(name = "${field.property}")
+    #end
     private ${field.type} ${field.name};
 
     #end
@@ -84,6 +110,9 @@ public final class ${class} extends AbstractDomainEvent<${idClass.simpleName}> {
     }
 
     @Override
+    #if($jackson)
+    @JsonIgnore
+    #end
     public EventType getEventType() {
         return TYPE;
     }

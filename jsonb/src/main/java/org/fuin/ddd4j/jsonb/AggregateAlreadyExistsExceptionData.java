@@ -91,9 +91,7 @@ public final class AggregateAlreadyExistsExceptionData extends AbstractVersioned
                 return false;
         } else if (!sid.equals(other.sid))
             return false;
-        if (getVersion() != other.getVersion())
-            return false;
-        return true;
+        return getVersion() == other.getVersion();
     }
 
     @Override

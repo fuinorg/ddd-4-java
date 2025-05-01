@@ -15,13 +15,38 @@
  * You should have received a copy of the GNU Lesser General Public License
  * along with this library. If not, see http://www.gnu.org/licenses/.
  */
-package org.fuin.ddd4j.core;
+package org.fuin.ddd4j.jacksontest;
 
-import java.io.Serializable;
+import java.io.Serial;
 
 /**
- * Technical identifier that is only used internally and never shown to a user.
+ * It was tried to add a vendor key that already exists.
  */
-public interface TechnicalId extends Serializable {
+public final class DuplicateVendorKeyException extends Exception {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+    private final VendorKey key;
+
+    /**
+     * Constructor with key.
+     *
+     * @param key
+     *            Key.
+     */
+    public DuplicateVendorKeyException(final VendorKey key) {
+        super("The vendor key already exists: " + key);
+        this.key = key;
+    }
+
+    /**
+     * The key that caused the problem.
+     *
+     * @return Duplicate key.
+     */
+    public final VendorKey getKey() {
+        return key;
+    }
 
 }

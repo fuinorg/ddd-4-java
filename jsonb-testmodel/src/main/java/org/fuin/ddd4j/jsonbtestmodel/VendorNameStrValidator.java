@@ -29,6 +29,7 @@ public final class VendorNameStrValidator implements ConstraintValidator<VendorN
 
     @Override
     public final void initialize(final VendorNameStr constraintAnnotation) {
+        // Nothing to do
     }
 
     @Override
@@ -49,10 +50,7 @@ public final class VendorNameStrValidator implements ConstraintValidator<VendorN
             return true;
         }
         final String trimmed = value.trim();
-        if ((trimmed.isEmpty()) || (trimmed.length() > 100)) {
-            return false;
-        }
-        return true;
+        return (!trimmed.isEmpty()) && (trimmed.length() <= 100);
     }
 
     /**

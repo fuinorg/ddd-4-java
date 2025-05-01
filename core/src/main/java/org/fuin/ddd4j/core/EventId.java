@@ -28,9 +28,11 @@ import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;
+import org.fuin.utils4j.TechnicalId;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
@@ -43,7 +45,7 @@ import java.util.UUID;
 @Prompt("bb05f34d-4eac-4f6a-b3c2-5c89269720f3")
 @HasPublicStaticValueOfMethod
 @HasPublicStaticIsValidMethod
-public final class EventId extends AbstractUuidValueObject implements TechnicalId, AsStringCapable {
+public final class EventId extends AbstractUuidValueObject implements TechnicalId, AsStringCapable, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1000L;

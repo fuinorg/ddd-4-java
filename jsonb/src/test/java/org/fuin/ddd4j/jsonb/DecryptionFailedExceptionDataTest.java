@@ -5,6 +5,7 @@ import nl.jqno.equalsverifier.EqualsVerifier;
 import org.fuin.ddd4j.core.DecryptionFailedException;
 import org.junit.jupiter.api.Test;
 
+import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.fuin.ddd4j.jsonb.TestUtils.jsonb;
 import static org.fuin.utils4j.Utils4J.deserialize;
@@ -73,8 +74,6 @@ class DecryptionFailedExceptionDataTest {
         try (final Jsonb jsonb = jsonb()) {
 
             // PREPARE
-            final RuntimeException cause = new RuntimeException("Foo Bar");
-            final DecryptionFailedException originalEx = new DecryptionFailedException(cause);
             final String json = """
                     {
                         "msg" : "Decryption failed: Foo Bar",
@@ -86,11 +85,8 @@ class DecryptionFailedExceptionDataTest {
             final DecryptionFailedExceptionData copy = jsonb.fromJson(json, DecryptionFailedExceptionData.class);
 
             // VERIFY
-            final DecryptionFailedException copyEx = copy.toException();
-            assertThat(copy.getMessage()).isEqualTo(originalEx.getMessage());
-            assertThat(copy.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getShortId()).isEqualTo(originalEx.getShortId());
-            assertThat(copyEx.getMessage()).isEqualTo(originalEx.getMessage());
+            final String copyJson = jsonb.toJson(copy);
+            assertThatJson(copyJson).isEqualTo(json);
 
         }
         

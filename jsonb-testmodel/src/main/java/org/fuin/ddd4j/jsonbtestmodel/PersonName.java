@@ -73,10 +73,7 @@ public final class PersonName extends AbstractStringValueObject implements Value
         if (value == null) {
             return true;
         }
-        if (value.isEmpty() || value.length() > 100) {
-            return false;
-        }
-        return true;
+        return !value.isEmpty() && value.length() <= 100;
     }
 
     /**

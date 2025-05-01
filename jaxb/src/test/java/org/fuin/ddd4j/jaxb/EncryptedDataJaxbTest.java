@@ -1,6 +1,8 @@
 package org.fuin.ddd4j.jaxb;
 
+import jakarta.xml.bind.Marshaller;
 import nl.jqno.equalsverifier.EqualsVerifier;
+import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
@@ -64,7 +66,8 @@ public class EncryptedDataJaxbTest {
         final EncryptedDataJaxb original = new EncryptedDataJaxb(keyId, keyVersion, dataType, contentType, encryptedData);
 
         // TEST
-        final String xml = marshal(original, EncryptedDataJaxb.class);
+        final Marshaller marshaller = new MarshallerBuilder().addClassesToBeBound(EncryptedDataJaxb.class).build();
+        final String xml = marshal(marshaller, original);
         final EncryptedDataJaxb copy = unmarshal(xml, EncryptedDataJaxb.class);
 
         // VERIFY

@@ -17,15 +17,10 @@
  */
 package org.fuin.ddd4j.jaxb;
 
-import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.junit.AnalyzeClasses;
-import com.tngtech.archunit.junit.ArchIgnore;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 import org.fuin.units4j.archunit.Units4JConditions;
-
-import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
-import static org.fuin.units4j.archunit.AllTopLevelClassesHaveATestCondition.haveACorrespondingClassEndingWith;
 
 @AnalyzeClasses(packagesOf = BaseTest.class)
 class BaseTest {

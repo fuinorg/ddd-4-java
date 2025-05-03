@@ -1,4 +1,4 @@
-package ${package};
+package org.fuin.ddd4jcodegen.test;
 
 import java.io.Serializable;
 import java.lang.annotation.Documented;
@@ -7,16 +7,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.Objects;
-#if($pattern)
 import java.util.regex.Pattern;
-#end
 
-#if($jsonb)
 import jakarta.json.bind.adapter.JsonbAdapter;
-#end
-#if($jpa)
-import jakarta.persistence.AttributeConverter;
-#end
 
 import jakarta.annotation.Generated;
 import jakarta.validation.Constraint;
@@ -24,12 +17,7 @@ import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
 import jakarta.validation.constraints.NotNull;
-#if($jaxb)import jakarta.xml.bind.annotation.adapters.XmlAdapter;#end
 
-#if($openapi)
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
-#end
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.AsStringCapable;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
@@ -37,42 +25,33 @@ import org.fuin.objects4j.common.ValueObjectWithBaseType;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * ${description}.
+ * Human readable unique key of a company.
  * 
  * CAUTION: Instances of this type may contain invalid values by deserializing it.
  * This means if you create it from JSON, XML or database (JPA) it may not have a correct length or pattern.
  */
 @Generated("Generated class - Manual changes will be overwritten")
 @Immutable
-#if($openapi)@Schema(name = "${class}", type = SchemaType.STRING, description = "${description}"#if($minLength>0), minLength = ${minLength}#end#if($maxLength<$integerMaxValue), maxLength = ${maxLength}#end#if($pattern), pattern = "${pattern}"#end#if($example), example = "${example}"#end)#end
 
-public final class ${class} implements ValueObjectWithBaseType<String>, Comparable<${class}>, Serializable, AsStringCapable {
+public final class CompanyKey implements ValueObjectWithBaseType<String>, Comparable<CompanyKey>, Serializable, AsStringCapable {
 
-    private static final long serialVersionUID = ${serialVersionUID}L;
+    private static final long serialVersionUID = 1000L;
 
-    #if($pattern)
     /** Regular expression of a valid value. */
-    public static final Pattern PATTERN = Pattern.compile("${pattern}");
-    #end
+    public static final Pattern PATTERN = Pattern.compile("[a-z0-9][a-z0-9-]+");
 
-    #if($minLength > 0)
-    /** Minimal length of a valid value. */
-    public static final int MIN_LENGTH = ${minLength};
-    #end
 
-    #if($maxLength<$integerMaxValue)
     /** Maximum length of a valid value. */
-    public static final int MAX_LENGTH = ${maxLength};
-    #end
+    public static final int MAX_LENGTH = 50;
 
     @NotNull
-    @${class}Str
+    @CompanyKeyStr
     private String value;
 
     /**
      * Protected default constructor for deserialization.
      */
-    protected ${class}() {
+    protected CompanyKey() {
         super();
     }
 
@@ -82,14 +61,14 @@ public final class ${class} implements ValueObjectWithBaseType<String>, Comparab
      * @param value
      *            Value.
      */
-    public ${class}(final String value) {
+    public CompanyKey(final String value) {
         this(value, true);
     }
 
-    private ${class}(final String value, final boolean strict) {
+    private CompanyKey(final String value, final boolean strict) {
         super();
         if (strict) {
-            ${class}.requireArgValid("value", value);
+            CompanyKey.requireArgValid("value", value);
         }
         this.value = value;
     }
@@ -125,12 +104,12 @@ public final class ${class} implements ValueObjectWithBaseType<String>, Comparab
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final ${class} other = (${class}) obj;
+        final CompanyKey other = (CompanyKey) obj;
         return Objects.equals(value, other.value);
     }
 
     @Override
-    public final int compareTo(final ${class} other) {
+    public final int compareTo(final CompanyKey other) {
         return value.compareTo(other.value);
     }
 
@@ -152,22 +131,11 @@ public final class ${class} implements ValueObjectWithBaseType<String>, Comparab
         if (value == null) {
             return true;
         }
-        #if($minLength > 0)
-        if (value.length() < MIN_LENGTH) {
-            return false;
-        }
-        #end
         final String trimmed = value.trim();
-        #if($maxLength < $integerMaxValue)
         if (trimmed.length() > MAX_LENGTH) {
             return false;
         }
-        #end
-        #if($pattern)
         return PATTERN.matcher(trimmed).matches();
-        #else
-        return true;
-        #end
     }
 
     /**
@@ -194,11 +162,11 @@ public final class ${class} implements ValueObjectWithBaseType<String>, Comparab
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = { Validator.class })
     @Documented
-    public static @interface ${class}Str {
+    public static @interface CompanyKeyStr {
 
         String message()
 
-        default "{${package}.${class}.message}";
+        default "{org.fuin.ddd4jcodegen.test.CompanyKey.message}";
 
         Class<?>[] groups() default {};
 
@@ -209,81 +177,50 @@ public final class ${class} implements ValueObjectWithBaseType<String>, Comparab
     /**
      * Validates if a string is compliant with the type.
      */
-    public static final class Validator implements ConstraintValidator<${class}Str, String> {
+    public static final class Validator implements ConstraintValidator<CompanyKeyStr, String> {
 
         @Override
-        public final void initialize(final ${class}Str annotation) {
+        public final void initialize(final CompanyKeyStr annotation) {
             // Not used
         }
 
         @Override
         public final boolean isValid(final String value, final ConstraintValidatorContext context) {
-            return ${class}.isValid(value);
+            return CompanyKey.isValid(value);
         }
 
     }
 
-    #if($jaxb || $jsonb || $jpa)
     /**
      * Converts the value object from/to string.
      */
-    public static final class Converter#if($jaxb) extends XmlAdapter<String, ${class}>#end#if($jsonb || $jpa) implements#end#if($jsonb) JsonbAdapter<${class}, String>#end#if($jpa)#if($jsonb),#end AttributeConverter<${class}, String>#end {
+    public static final class Converter implements JsonbAdapter<CompanyKey, String> {
 
-        private ${class} toVO(final String value) {
+        private CompanyKey toVO(final String value) {
             if (value == null) {
                 return null;
             }
-            return new ${class}(value, false);
+            return new CompanyKey(value, false);
         }
 
-        private String fromVO(final ${class} value) {
+        private String fromVO(final CompanyKey value) {
             if (value == null) {
                 return null;
             }
             return value.asBaseType();
         }
-        #if($jsonb)
         // JSONB Adapter
 
         @Override
-        public final String adaptToJson(final ${class} obj) throws Exception {
+        public final String adaptToJson(final CompanyKey obj) throws Exception {
             return fromVO(obj);
         }
 
         @Override
-        public final ${class} adaptFromJson(final String str) throws Exception {
+        public final CompanyKey adaptFromJson(final String str) throws Exception {
             return toVO(str);
         }
 
-        #end
-        #if($jaxb)
-        // JAX-B
-
-        @Override
-        public final String marshal(final ${class} value) throws Exception {
-            return fromVO(value);
-        }
-
-        @Override
-        public final ${class} unmarshal(final String value) throws Exception {
-            return toVO(value);
-        }
-
-        #end
-        #if($jpa)
-        // JPA
-
-        @Override
-        public final String convertToDatabaseColumn(final ${class} value) {
-            return fromVO(value);
-        }
-
-        @Override
-        public final ${class} convertToEntityAttribute(final String value) {
-            return toVO(value);
-        }
-        #end
     }
-    #end
 
 }

@@ -46,4 +46,88 @@ public final class StringVOTemplateTest {
                 """);
     }
 
+    @Test
+    public void testNoConverters() {
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "NoConverters","""
+                package input;
+                
+                import org.fuin.ddd4j.codegen.api.StringVO;
+                
+                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                        serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
+                        minLength = 0, maxLength = 50, example = "john-doe-inc"
+                )
+                public interface CompanyKeyExample {
+                }
+                """);
+    }
+
+    @Test
+    public void testJpaOnly() {
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JpaOnly","""
+                package input;
+                
+                import org.fuin.ddd4j.codegen.api.StringVO;
+                
+                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                        jpa = true,
+                        serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
+                        minLength = 0, maxLength = 50, example = "john-doe-inc"
+                )
+                public interface CompanyKeyExample {
+                }
+                """);
+    }
+
+    @Test
+    public void testJsonbOnly() {
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JsonbOnly","""
+                package input;
+                
+                import org.fuin.ddd4j.codegen.api.StringVO;
+                
+                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                        jsonb = true,
+                        serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
+                        minLength = 0, maxLength = 50, example = "john-doe-inc"
+                )
+                public interface CompanyKeyExample {
+                }
+                """);
+    }
+
+    @Test
+    public void testJaxbOnly() {
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JaxbOnly","""
+                package input;
+                
+                import org.fuin.ddd4j.codegen.api.StringVO;
+                
+                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                        jaxb = true,
+                        serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
+                        minLength = 0, maxLength = 50, example = "john-doe-inc"
+                )
+                public interface CompanyKeyExample {
+                }
+                """);
+    }
+
+    @Test
+    public void testOpenApiOnly() {
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "OpenApiOnly","""
+                package input;
+                
+                import org.fuin.ddd4j.codegen.api.StringVO;
+                
+                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                        openapi = true,
+                        serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
+                        minLength = 0, maxLength = 50, example = "john-doe-inc"
+                )
+                public interface CompanyKeyExample {
+                }
+                """);
+    }
+
 }

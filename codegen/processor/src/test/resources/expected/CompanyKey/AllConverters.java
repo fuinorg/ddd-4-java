@@ -11,6 +11,7 @@ import java.util.regex.Pattern;
 
 import jakarta.json.bind.adapter.JsonbAdapter;
 import jakarta.persistence.AttributeConverter;
+
 import jakarta.annotation.Generated;
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;

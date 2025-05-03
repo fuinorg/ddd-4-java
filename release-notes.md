@@ -2,6 +2,8 @@
 
 ## 0.7.1
 - Fixed issue #9: Codegen template "StringVO.java" has JSON-B import even if JSON-B is not enabled
+- Fixed issue #10 JandexEntityIdfactory does not find "HasPublicStaticIsValidMethods" annotations
+- Fixed issue #11: Generated method "isValid" of Integer EntityId failed to validate correct values
 - New [annotation](codegen/api/src/main/java/org/fuin/ddd4j/codegen/api/CommandVO.java) and code generation template for commands
 - Added missing annotation "@HasPublicStaticIsValidMethod" to generated entity and aggregate identifiers
 

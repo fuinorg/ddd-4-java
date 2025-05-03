@@ -123,10 +123,13 @@ public final class RampId extends IntegerEntityId {
         if (pp.getErrorIndex() != -1 || pp.getIndex() < value.length()) {
             return false;
         }
-        if (!(num instanceof Integer)) {
-            return false;
+        if (num instanceof Integer v) {
+            return isValid(v);
         }
-        return isValid((Integer) num);
+        if (num instanceof Long v && v <= Integer.MAX_VALUE) {
+            return isValid(v.intValue());
+        }
+        return false;
     }
 
     /**

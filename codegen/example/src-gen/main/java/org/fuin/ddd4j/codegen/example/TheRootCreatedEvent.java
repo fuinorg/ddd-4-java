@@ -77,24 +77,6 @@ public final class TheRootCreatedEvent extends AbstractDomainEvent<TheRootId> {
         super();
     }
 
-    /**
-     * Constructor with event data.
-     *
-     * @param id Root Identifier. Uniquely identifies The Root.
-     * @param name Root Name. Name of The Root.
-     * @param foo The foo. Whatever the 'foo' is....
-     */
-    protected TheRootCreatedEvent(
-        final TheRootId id,
-        final TheRootName name,
-        final int foo
-    ) {
-        super(new EntityIdPath(id));
-        this.id = id;
-        this.name = name;
-        this.foo = foo;
-    }
-
     @Override
     public EventType getEventType() {
         return TYPE;

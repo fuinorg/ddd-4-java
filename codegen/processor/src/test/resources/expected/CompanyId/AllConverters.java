@@ -24,6 +24,7 @@ import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.ddd4j.core.StringBasedEntityType;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 
 import javax.annotation.concurrent.Immutable;
@@ -33,8 +34,9 @@ import javax.annotation.concurrent.Immutable;
  */
 @Generated("Generated class - Manual changes will be overwritten")
 @Immutable
-@HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
+@HasPublicStaticIsValidMethod
+@HasPublicStaticValueOfMethod
 @Schema(name = "CompanyId", type = SchemaType.STRING, description = "Unique identifier of a company", format="uuid", minLength = 36, maxLength = 36, pattern = "^[a-f0-9]{8}-?[a-f0-9]{4}-?[1-5][a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$", example = "4d48c20e-6cd2-44c5-8063-767ea0a65ec4")
 public final class CompanyId extends AggregateRootUuid {
 

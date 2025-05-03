@@ -24,6 +24,7 @@ import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.ddd4j.core.StringBasedEntityType;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 
 import javax.annotation.concurrent.Immutable;
@@ -38,6 +39,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 @HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
+@HasPublicStaticIsValidMethod
+@HasPublicStaticIsValidMethod(param = Integer.class)
 @Schema(name = "RampId", type = SchemaType.INTEGER, description = "Unique identifier of a ramp", format="int32", minimum = "1", maximum = "100")
 public final class RampId extends IntegerEntityId {
 

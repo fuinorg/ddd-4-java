@@ -31,6 +31,7 @@ import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.ddd4j.core.StringBasedEntityType;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 
 import javax.annotation.concurrent.Immutable;
@@ -40,8 +41,9 @@ import javax.annotation.concurrent.Immutable;
  */
 @Generated("Generated class - Manual changes will be overwritten")
 @Immutable
-@HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
+@HasPublicStaticIsValidMethod
+@HasPublicStaticValueOfMethod
 #if($openapi)@Schema(name = "${class}", type = SchemaType.STRING, description = "${description}", format="uuid", minLength = 36, maxLength = 36, pattern = "^[a-f0-9]{8}-?[a-f0-9]{4}-?[1-5][a-f0-9]{3}-?[89ab][a-f0-9]{3}-?[a-f0-9]{12}$", example = "${example}")#end
 
 public final class ${class} extends AggregateRootUuid {

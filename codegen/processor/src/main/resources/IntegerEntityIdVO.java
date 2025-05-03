@@ -31,6 +31,7 @@ import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.ddd4j.core.StringBasedEntityType;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 
 import javax.annotation.concurrent.Immutable;
@@ -45,6 +46,8 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 @HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
+@HasPublicStaticIsValidMethod
+@HasPublicStaticIsValidMethod(param = Integer.class)
 #if($openapi)@Schema(name = "${class}", type = SchemaType.INTEGER, description = "${description}", format="int32", minimum = "${minValue}", maximum = "${maxValue}")#end
 
 public final class ${class} extends IntegerEntityId {

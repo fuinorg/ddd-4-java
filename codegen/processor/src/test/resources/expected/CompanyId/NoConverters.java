@@ -20,6 +20,7 @@ import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.ddd4j.core.StringBasedEntityType;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 
 import javax.annotation.concurrent.Immutable;
@@ -29,8 +30,9 @@ import javax.annotation.concurrent.Immutable;
  */
 @Generated("Generated class - Manual changes will be overwritten")
 @Immutable
-@HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
+@HasPublicStaticIsValidMethod
+@HasPublicStaticValueOfMethod
 
 public final class CompanyId extends AggregateRootUuid {
 

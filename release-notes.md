@@ -1,5 +1,8 @@
 # Release Notes
 
+## 0.7.1
+- Fixed issue #9: Codegen template "StringVO.java" has JSON-B import even if JSON-B is not enabled
+
 ## 0.7.0
 - Added [Jackson](jackson) module
 

@@ -13,7 +13,7 @@
 
     <groupId>org.fuin.ddd4j</groupId>
     <artifactId>ddd-4-java</artifactId>
-    <version>0.7.0</version>
+    <version>0.7.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <description>Base classes for Domain Driven Design (DDD) with Java</description>
 

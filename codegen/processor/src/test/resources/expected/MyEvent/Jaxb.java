@@ -59,18 +59,6 @@ public final class MyEvent extends AbstractDomainEvent<MyId> {
         super();
     }
 
-    /**
-     * Constructor with event data.
-     *
-     * @param myId Root Identifier. Uniquely identifies The Root.
-     */
-    protected MyEvent(
-        final MyId myId
-    ) {
-        super(new EntityIdPath(myId));
-        this.myId = myId;
-    }
-
     @Override
     public EventType getEventType() {
         return TYPE;

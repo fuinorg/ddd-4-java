@@ -91,24 +91,6 @@ public final class ${class} extends AbstractDomainEvent<${idClass.simpleName}> {
         super();
     }
 
-    /**
-     * Constructor with event data.
-     *
-     #foreach ($field in $fields)
-     * @param ${field.name} ${field.label}. ${field.description}.
-     #end
-     */
-    protected ${class}(
-    #foreach ($field in $fields)
-        final ${field.type} ${field.name}#if(!$foreach.last),#end
-    #end
-    ) {
-        super(new EntityIdPath(${entityIdPathParams}));
-        #foreach ($field in $fields)
-        this.${field.name} = ${field.name};
-        #end
-    }
-
     @Override
     #if($jackson)
     @JsonIgnore

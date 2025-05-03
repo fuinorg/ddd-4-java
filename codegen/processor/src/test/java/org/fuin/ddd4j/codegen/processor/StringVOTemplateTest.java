@@ -36,7 +36,7 @@ public final class StringVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
                 
-                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                @StringVO(pkg="org.fuin.ddd4j.codegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
                         jpa = true, jaxb = true, jsonb = true, openapi = true,
                         serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
                         minLength = 0, maxLength = 50, example = "john-doe-inc"
@@ -53,7 +53,7 @@ public final class StringVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
                 
-                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                @StringVO(pkg="org.fuin.ddd4j.codegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
                         serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
                         minLength = 0, maxLength = 50, example = "john-doe-inc"
                 )
@@ -69,7 +69,7 @@ public final class StringVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
                 
-                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                @StringVO(pkg="org.fuin.ddd4j.codegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
                         jpa = true,
                         serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
                         minLength = 0, maxLength = 50, example = "john-doe-inc"
@@ -86,7 +86,7 @@ public final class StringVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
                 
-                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                @StringVO(pkg="org.fuin.ddd4j.codegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
                         jsonb = true,
                         serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
                         minLength = 0, maxLength = 50, example = "john-doe-inc"
@@ -103,7 +103,7 @@ public final class StringVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
                 
-                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                @StringVO(pkg="org.fuin.ddd4j.codegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
                         jaxb = true,
                         serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
                         minLength = 0, maxLength = 50, example = "john-doe-inc"
@@ -120,7 +120,7 @@ public final class StringVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
                 
-                @StringVO(pkg="org.fuin.ddd4jcodegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
+                @StringVO(pkg="org.fuin.ddd4j.codegen.test", name = "CompanyKey", description = "Human readable unique key of a company",
                         openapi = true,
                         serialVersionUID = 1000L, pattern = "[a-z0-9][a-z0-9-]+",
                         minLength = 0, maxLength = 50, example = "john-doe-inc"

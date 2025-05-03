@@ -37,7 +37,7 @@ public final class IntegerEntityIdVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
                 
-                @IntegerEntityIdVO(pkg="org.fuin.ddd4jcodegen.test",
+                @IntegerEntityIdVO(pkg="org.fuin.ddd4j.codegen.test",
                          name = "RampId", entityType = "RAMP", description = "Unique identifier of a ramp",
                          jpa = true, jaxb = true, jsonb = true, openapi = true,
                          serialVersionUID = 1000L, minValue = 1, maxValue = 100
@@ -55,7 +55,7 @@ public final class IntegerEntityIdVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
                 
-                @IntegerEntityIdVO(pkg="org.fuin.ddd4jcodegen.test",
+                @IntegerEntityIdVO(pkg="org.fuin.ddd4j.codegen.test",
                          name = "RampId", entityType = "RAMP", description = "Unique identifier of a ramp",
                          serialVersionUID = 1000L, minValue = 1, maxValue = 100
                 )
@@ -72,7 +72,7 @@ public final class IntegerEntityIdVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
                 
-                @IntegerEntityIdVO(pkg="org.fuin.ddd4jcodegen.test",
+                @IntegerEntityIdVO(pkg="org.fuin.ddd4j.codegen.test",
                          name = "RampId", entityType = "RAMP", description = "Unique identifier of a ramp",
                          jpa = true,
                          serialVersionUID = 1000L, minValue = 1, maxValue = 100
@@ -90,7 +90,7 @@ public final class IntegerEntityIdVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
                 
-                @IntegerEntityIdVO(pkg="org.fuin.ddd4jcodegen.test",
+                @IntegerEntityIdVO(pkg="org.fuin.ddd4j.codegen.test",
                          name = "RampId", entityType = "RAMP", description = "Unique identifier of a ramp",
                          jaxb = true,
                          serialVersionUID = 1000L, minValue = 1, maxValue = 100
@@ -108,7 +108,7 @@ public final class IntegerEntityIdVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
                 
-                @IntegerEntityIdVO(pkg="org.fuin.ddd4jcodegen.test",
+                @IntegerEntityIdVO(pkg="org.fuin.ddd4j.codegen.test",
                          name = "RampId", entityType = "RAMP", description = "Unique identifier of a ramp",
                          jsonb = true,
                          serialVersionUID = 1000L, minValue = 1, maxValue = 100
@@ -126,7 +126,7 @@ public final class IntegerEntityIdVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
                 
-                @IntegerEntityIdVO(pkg="org.fuin.ddd4jcodegen.test",
+                @IntegerEntityIdVO(pkg="org.fuin.ddd4j.codegen.test",
                          name = "RampId", entityType = "RAMP", description = "Unique identifier of a ramp",
                          openapi = true,
                          serialVersionUID = 1000L, minValue = 1, maxValue = 100

@@ -1,9 +1,9 @@
-package org.fuin.ddd4j.codegen.processor;
+package org.fuin.ddd4j.codegen.test;
 
-import org.fuin.ddd4j.core.EntityId;
+import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.EntityType;
 
-public class MyId implements EntityId {
+public class MyRootId implements AggregateRootId {
     @Override
     public EntityType getType() {
         return null;

@@ -2,6 +2,7 @@
 
 ## 0.7.1
 - Fixed issue #9: Codegen template "StringVO.java" has JSON-B import even if JSON-B is not enabled
+- New [annotation](codegen/api/src/main/java/org/fuin/ddd4j/codegen/api/CommandVO.java) and code generation template for commands
 
 ## 0.7.0
 - Added [Jackson](jackson) module

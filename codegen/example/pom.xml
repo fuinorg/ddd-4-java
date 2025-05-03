@@ -49,6 +49,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.fuin.cqrs4j</groupId>
+            <artifactId>cqrs-4-java-jsonb</artifactId>
+            <version>${cqrs4j.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.eclipse.microprofile.openapi</groupId>
             <artifactId>microprofile-openapi-api</artifactId>
             <version>4.0.2</version>

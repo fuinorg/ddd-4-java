@@ -1,4 +1,4 @@
-package org.fuin.ddd4j.codegen.test;
+package org.fuin.ddd4j.codegen.example;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -9,16 +9,13 @@ import java.text.NumberFormat;
 import java.text.ParsePosition;
 
 import jakarta.json.bind.adapter.JsonbAdapter;
-import jakarta.persistence.AttributeConverter;
 import jakarta.annotation.Generated;
 import jakarta.validation.Constraint;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
 import jakarta.validation.constraints.NotNull;
-import jakarta.xml.bind.annotation.adapters.XmlAdapter;
-import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
+
 import org.fuin.ddd4j.core.IntegerEntityId;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
@@ -29,7 +26,7 @@ import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 import javax.annotation.concurrent.Immutable;
 
 /**
- * Unique identifier of a ramp.
+ * Unique identifier of the entity.
  * 
  * CAUTION: Instances of this type may contain invalid values by deserializing it.
  * This means if you create it from JSON, XML or database (JPA) it may not have a correct min or max value.
@@ -38,17 +35,17 @@ import javax.annotation.concurrent.Immutable;
 @Immutable
 @HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
-@Schema(name = "RampId", type = SchemaType.INTEGER, description = "Unique identifier of a ramp", format="int32", minimum = "1", maximum = "100")
-public final class RampId extends IntegerEntityId {
+
+public final class TheEntityId extends IntegerEntityId {
 
     private static final long serialVersionUID = 1000L;
 
     /** Unique name of the aggregate this identifier refers to. */
-    public static final EntityType TYPE = new StringBasedEntityType("RAMP");
+    public static final EntityType TYPE = new StringBasedEntityType("THE_ENTITY");
     
     private static final int MIN = 1;
 
-    private static final int MAX = 100;
+    private static final int MAX = 2147483647;
     
     /**
      * Constructor with mandatory data.
@@ -56,11 +53,11 @@ public final class RampId extends IntegerEntityId {
      * @param value
      *            Value.
      */
-    public RampId(final Integer value) {
+    public TheEntityId(final Integer value) {
         this(value, true);
     }
 
-    private RampId(final Integer value, final boolean strict) {
+    private TheEntityId(final Integer value, final boolean strict) {
         super(TYPE, value);
         if (strict & !isValid(value)) {
             throw new ConstraintViolationException("The argument 'value' is not valid: '" + value + "'");            
@@ -75,12 +72,12 @@ public final class RampId extends IntegerEntityId {
      * 
      * @return Converted value.
      */
-    public static RampId valueOf(final String value) {
+    public static TheEntityId valueOf(final String value) {
         if (value == null) {
             return null;
         }
         requireArgValid("value", value);
-        return new RampId(Integer.valueOf(value));
+        return new TheEntityId(Integer.valueOf(value));
     }
     
     /**
@@ -150,11 +147,11 @@ public final class RampId extends IntegerEntityId {
     @Retention(RetentionPolicy.RUNTIME)
     @Constraint(validatedBy = { Validator.class })
     @Documented
-    public static @interface RampIdStr {
+    public static @interface TheEntityIdStr {
 
         String message()
 
-        default "{org.fuin.ddd4j.codegen.test.RampId.message}";
+        default "{org.fuin.ddd4j.codegen.example.TheEntityId.message}";
 
         Class<?>[] groups() default {};
 
@@ -165,16 +162,16 @@ public final class RampId extends IntegerEntityId {
     /**
      * Validates if a string is compliant with the type.
      */
-    public static final class Validator implements ConstraintValidator<RampIdStr, String> {
+    public static final class Validator implements ConstraintValidator<TheEntityIdStr, String> {
 
         @Override
-        public final void initialize(final RampIdStr annotation) {
+        public final void initialize(final TheEntityIdStr annotation) {
             // Not used
         }
 
         @Override
         public final boolean isValid(final String value, final ConstraintValidatorContext context) {
-            return RampId.isValid(value);
+            return TheEntityId.isValid(value);
         }
 
     }
@@ -182,16 +179,16 @@ public final class RampId extends IntegerEntityId {
     /**
      * Converts the value object from/to string.
      */
-    public static final class Converter extends XmlAdapter<Integer, RampId> implements JsonbAdapter<RampId, Integer>, AttributeConverter<RampId, Integer> {
+    public static final class Converter implements JsonbAdapter<TheEntityId, Integer> {
 
-        private RampId toVO(final Integer value) {
+        private TheEntityId toVO(final Integer value) {
             if (value == null) {
                 return null;
             }
-            return new RampId(value, false);
+            return new TheEntityId(value, false);
         }
 
-        private Integer fromVO(final RampId value) {
+        private Integer fromVO(final TheEntityId value) {
             if (value == null) {
                 return null;
             }
@@ -200,38 +197,15 @@ public final class RampId extends IntegerEntityId {
         // JSONB Adapter
 
         @Override
-        public final Integer adaptToJson(final RampId obj) throws Exception {
+        public final Integer adaptToJson(final TheEntityId obj) throws Exception {
             return fromVO(obj);
         }
 
         @Override
-        public final RampId adaptFromJson(final Integer str) throws Exception {
+        public final TheEntityId adaptFromJson(final Integer str) throws Exception {
             return toVO(str);
         }
 
-        // JAX-B
-
-        @Override
-        public final Integer marshal(final RampId value) throws Exception {
-            return fromVO(value);
-        }
-
-        @Override
-        public final RampId unmarshal(final Integer value) throws Exception {
-            return toVO(value);
-        }
-
-        // JPA
-
-        @Override
-        public final Integer convertToDatabaseColumn(final RampId value) {
-            return fromVO(value);
-        }
-
-        @Override
-        public final RampId convertToEntityAttribute(final Integer value) {
-            return toVO(value);
-        }
     }
 
 }

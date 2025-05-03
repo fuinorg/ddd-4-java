@@ -1,4 +1,4 @@
-package org.fuin.ddd4jcodegen.test;
+package org.fuin.ddd4j.codegen.test;
 
 import java.io.Serializable;
 import java.lang.annotation.Documented;
@@ -165,7 +165,7 @@ public final class CompanyKey implements ValueObjectWithBaseType<String>, Compar
 
         String message()
 
-        default "{org.fuin.ddd4jcodegen.test.CompanyKey.message}";
+        default "{org.fuin.ddd4j.codegen.test.CompanyKey.message}";
 
         Class<?>[] groups() default {};
 

@@ -1,14 +1,17 @@
 package org.fuin.ddd4j.codegen.test;
 
+import jakarta.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Nullable;
+import org.fuin.ddd4j.core.DomainEventExpectedEntityIdPath;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventType;
-import org.fuin.ddd4j.jackson.AbstractDomainEvent;
+import org.fuin.cqrs4j.jaxb.AbstractAggregateCommand;
+import org.fuin.ddd4j.jaxb.AbstractDomainEvent;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.esc.api.SerializedDataType;
 import org.fuin.objects4j.common.Contract;
@@ -18,59 +21,46 @@ import java.io.Serial;
 import javax.annotation.concurrent.Immutable;
 
 import org.fuin.ddd4j.codegen.test.MyId;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Tooltip;
 import org.fuin.objects4j.ui.Examples;
 
 /**
- * Something important happened.
+ * Do it!.
  */
 @Immutable
-@Schema(name = "MyEvent", type = SchemaType.OBJECT, description = "Something important happened")
+@Schema(name = "MyCommand", type = SchemaType.OBJECT, description = "Do it!")
+@XmlRootElement(name = "MyCommand")
 @HasSerializedDataTypeConstant
-public final class MyEvent extends AbstractDomainEvent<MyId> {
+@DomainEventExpectedEntityIdPath({  MyRootId.class, MyId.class })
+public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
 
     @Serial
     private static final long serialVersionUID = 1000L;
 
-    /** Unique name of the event used to store it - Should never change. */
-    public static final EventType TYPE = new EventType(MyEvent.class.getSimpleName());
+    /** Unique name of the command used to store it - Should never change. */
+    public static final EventType TYPE = new EventType(MyCommand.class.getSimpleName());
 
-    /** Unique name of the serialized event. */
+    /** Unique name of the serialized command. */
     public static final SerializedDataType SER_TYPE = new SerializedDataType(TYPE.asBaseType());
 
-    @NotNull
     @ShortLabel("ROOT-ID")
     @Label("Root Identifier")
     @Tooltip("Uniquely identifies The Root")
     @Examples({"e4baf6c5-ccb9-4580-9d59-41860c140189", "00000000-0000-0000-0000-000000000000"})
-    @JsonProperty("my-id")
+    @XmlAttribute(name = "my-id")
     private MyId myId;
 
 
     /**
      * Protected default constructor for deserialization.
      */
-    protected MyEvent() { // NOSONAR Default constructor
+    protected MyCommand() { // NOSONAR Default constructor
         super();
     }
 
-    /**
-     * Constructor with event data.
-     *
-     * @param myId Root Identifier. Uniquely identifies The Root.
-     */
-    protected MyEvent(
-        final MyId myId
-    ) {
-        super(new EntityIdPath(myId));
-        this.myId = myId;
-    }
-
     @Override
-    @JsonIgnore
     public EventType getEventType() {
         return TYPE;
     }
@@ -86,7 +76,7 @@ public final class MyEvent extends AbstractDomainEvent<MyId> {
 
     @Override
     public String toString() {
-        return "MyEvent happened";
+        return "Issued MyCommand";
     }
 
     /**
@@ -101,12 +91,12 @@ public final class MyEvent extends AbstractDomainEvent<MyId> {
     /**
      * Builds an instance of the outer class.
      */
-    public static final class Builder extends AbstractDomainEvent.Builder<MyId, MyEvent, Builder> {
+    public static final class Builder extends AbstractAggregateCommand.Builder<MyRootId, MyId, MyCommand, Builder> {
 
-        private MyEvent delegate;
+        private MyCommand delegate;
 
         private Builder() {
-            super(new MyEvent());
+            super(new MyCommand());
             delegate = delegate();
         }
 
@@ -124,15 +114,15 @@ public final class MyEvent extends AbstractDomainEvent<MyId> {
         }
 
         /**
-         * Creates the event and clears the builder.
+         * Creates the command and clears the builder.
          *
          * @return New instance.
          */
-        public MyEvent build() {
-            ensureBuildableAbstractDomainEvent();
-            final MyEvent result = delegate;
-            delegate = new MyEvent();
-            resetAbstractDomainEvent(delegate);
+        public MyCommand build() {
+            ensureBuildableAbstractAggregateCommand();
+            final MyCommand result = delegate;
+            delegate = new MyCommand();
+            resetAbstractAggregateCommand(delegate);
             return result;
         }
 

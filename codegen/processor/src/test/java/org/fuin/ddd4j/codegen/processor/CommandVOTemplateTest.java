@@ -18,9 +18,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * Test for the {@link EventVOTemplate} class.
+ * Test for the {@link CommandVOTemplate} class.
  */
-public final class EventVOTemplateTest {
+public final class CommandVOTemplateTest {
 
     CuteApi.BlackBoxTestSourceFilesInterface compileTestBuilder;
 
@@ -32,24 +32,25 @@ public final class EventVOTemplateTest {
     @Test
     public void testJsonb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jsonb","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jsonb","""
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
-                import org.fuin.ddd4j.codegen.api.EventVO;
+                import org.fuin.ddd4j.codegen.api.CommandVO;
                 import org.fuin.objects4j.ui.*;
                 
-                @EventVO(pkg="org.fuin.ddd4j.codegen.test", name = "MyEvent",
-                        entityIdPathParams = "myId",
-                        description = "Something important happened",
+                @CommandVO(pkg="org.fuin.ddd4j.codegen.test", name = "MyCommand",
+                        entityIdPathClasses = {" MyRootId", "MyId" },
+                        entityIdPathParams = "theAId, myId",
+                        description = "Do it!",
                         jsonb = true, openapi = true,
                         serialVersionUID = 1000L,
-                        entityIdClass = "org.fuin.ddd4j.codegen.test.MyId",
-                        message = "MyEvent happened"
+                        aggregateIdClass = "MyRootId",
+                        entityIdClass = "MyId",
+                        message = "Issued MyCommand"
                 )
-                public interface MyEventExample {
+                public interface MyCommandExample {
                 
-                    @NotNull
                     @ShortLabel("ROOT-ID")
                     @Label("Root Identifier")
                     @Tooltip("Uniquely identifies The Root")
@@ -63,24 +64,25 @@ public final class EventVOTemplateTest {
     @Test
     public void testJackson() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jackson","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jackson","""
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
-                import org.fuin.ddd4j.codegen.api.EventVO;
+                import org.fuin.ddd4j.codegen.api.CommandVO;
                 import org.fuin.objects4j.ui.*;
                 
-                @EventVO(pkg="org.fuin.ddd4j.codegen.test", name = "MyEvent",
-                        entityIdPathParams = "myId",
-                        description = "Something important happened",
+                @CommandVO(pkg="org.fuin.ddd4j.codegen.test", name = "MyCommand",
+                        entityIdPathClasses = {" MyRootId", "MyId" },
+                        entityIdPathParams = "theAId, myId",
+                        description = "Do it!",
                         jackson = true, openapi = true,
                         serialVersionUID = 1000L,
-                        entityIdClass = "org.fuin.ddd4j.codegen.test.MyId",
-                        message = "MyEvent happened"
+                        aggregateIdClass = "MyRootId",
+                        entityIdClass = "MyId",
+                        message = "Issued MyCommand"
                 )
-                public interface MyEventExample {
+                public interface MyCommandExample {
                 
-                    @NotNull
                     @ShortLabel("ROOT-ID")
                     @Label("Root Identifier")
                     @Tooltip("Uniquely identifies The Root")
@@ -94,24 +96,25 @@ public final class EventVOTemplateTest {
     @Test
     public void testJaxb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jaxb","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jaxb","""
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
-                import org.fuin.ddd4j.codegen.api.EventVO;
+                import org.fuin.ddd4j.codegen.api.CommandVO;
                 import org.fuin.objects4j.ui.*;
                 
-                @EventVO(pkg="org.fuin.ddd4j.codegen.test", name = "MyEvent",
-                        entityIdPathParams = "myId",
-                        description = "Something important happened",
+                @CommandVO(pkg="org.fuin.ddd4j.codegen.test", name = "MyCommand",
+                        entityIdPathClasses = {" MyRootId", "MyId" },
+                        entityIdPathParams = "theAId, myId",
+                        description = "Do it!",
                         jaxb = true, openapi = true,
                         serialVersionUID = 1000L,
-                        entityIdClass = "org.fuin.ddd4j.codegen.test.MyId",
-                        message = "MyEvent happened"
+                        aggregateIdClass = "MyRootId",
+                        entityIdClass = "MyId",
+                        message = "Issued MyCommand"
                 )
-                public interface MyEventExample {
+                public interface MyCommandExample {
                 
-                    @NotNull
                     @ShortLabel("ROOT-ID")
                     @Label("Root Identifier")
                     @Tooltip("Uniquely identifies The Root")

@@ -1,4 +1,4 @@
-package org.fuin.ddd4jcodegen.test;
+package org.fuin.ddd4j.codegen.test;
 
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -18,7 +18,7 @@ import java.io.Serial;
 
 import javax.annotation.concurrent.Immutable;
 
-import org.fuin.ddd4j.codegen.processor.MyId;
+import org.fuin.ddd4j.codegen.test.MyId;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Label;

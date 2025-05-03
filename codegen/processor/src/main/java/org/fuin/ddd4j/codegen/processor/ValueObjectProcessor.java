@@ -46,7 +46,8 @@ import static org.fuin.ddd4j.codegen.processor.Ddd4jCodeGenUtils.runWithContextC
         ValueObjectProcessor.STRING_VO,
         ValueObjectProcessor.AGGREGATE_ROOT_UUID_VO,
         ValueObjectProcessor.INTEGER_ENTITY_ID_VO,
-        ValueObjectProcessor.EVENT_VO
+        ValueObjectProcessor.EVENT_VO,
+        ValueObjectProcessor.COMMAND_VO
 })
 @SupportedSourceVersion(SourceVersion.RELEASE_17)
 @AutoService(Processor.class)
@@ -59,6 +60,8 @@ public final class ValueObjectProcessor extends AbstractProcessor {
     static final String INTEGER_ENTITY_ID_VO = "org.fuin.ddd4j.codegen.api.IntegerEntityIdVO";
 
     static final String EVENT_VO = "org.fuin.ddd4j.codegen.api.EventVO";
+
+    static final String COMMAND_VO = "org.fuin.ddd4j.codegen.api.CommandVO";
 
     @SuppressWarnings("rawtypes")
     private Map<String, ValueObjectTemplate> templateMap;
@@ -75,6 +78,7 @@ public final class ValueObjectProcessor extends AbstractProcessor {
         templateMap.put(AGGREGATE_ROOT_UUID_VO, new AggregateRootUuidVOTemplate());
         templateMap.put(INTEGER_ENTITY_ID_VO, new IntegerEntityIdVOTemplate());
         templateMap.put(EVENT_VO, new EventVOTemplate());
+        templateMap.put(COMMAND_VO, new CommandVOTemplate());
     }
 
     @Override

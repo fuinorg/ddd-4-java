@@ -38,7 +38,7 @@ public final class AggregateRootUuidVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
                 
-                @AggregateRootUuidVO(pkg="org.fuin.ddd4jcodegen.test", 
+                @AggregateRootUuidVO(pkg="org.fuin.ddd4j.codegen.test", 
                         name = "CompanyId",
                         entityType = "COMPANY",
                         description = "Unique identifier of a company",
@@ -59,7 +59,7 @@ public final class AggregateRootUuidVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
                 
-                @AggregateRootUuidVO(pkg="org.fuin.ddd4jcodegen.test", 
+                @AggregateRootUuidVO(pkg="org.fuin.ddd4j.codegen.test", 
                         name = "CompanyId",
                         entityType = "COMPANY",
                         description = "Unique identifier of a company",
@@ -79,7 +79,7 @@ public final class AggregateRootUuidVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
                 
-                @AggregateRootUuidVO(pkg="org.fuin.ddd4jcodegen.test", 
+                @AggregateRootUuidVO(pkg="org.fuin.ddd4j.codegen.test", 
                         name = "CompanyId",
                         entityType = "COMPANY",
                         description = "Unique identifier of a company",
@@ -100,7 +100,7 @@ public final class AggregateRootUuidVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
                 
-                @AggregateRootUuidVO(pkg="org.fuin.ddd4jcodegen.test", 
+                @AggregateRootUuidVO(pkg="org.fuin.ddd4j.codegen.test", 
                         name = "CompanyId",
                         entityType = "COMPANY",
                         description = "Unique identifier of a company",
@@ -121,7 +121,7 @@ public final class AggregateRootUuidVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
                 
-                @AggregateRootUuidVO(pkg="org.fuin.ddd4jcodegen.test", 
+                @AggregateRootUuidVO(pkg="org.fuin.ddd4j.codegen.test", 
                         name = "CompanyId",
                         entityType = "COMPANY",
                         description = "Unique identifier of a company",
@@ -142,7 +142,7 @@ public final class AggregateRootUuidVOTemplateTest {
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
                 
-                @AggregateRootUuidVO(pkg="org.fuin.ddd4jcodegen.test", 
+                @AggregateRootUuidVO(pkg="org.fuin.ddd4j.codegen.test", 
                         name = "CompanyId",
                         entityType = "COMPANY",
                         description = "Unique identifier of a company",

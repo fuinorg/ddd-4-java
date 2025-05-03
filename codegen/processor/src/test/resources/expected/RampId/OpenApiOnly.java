@@ -1,4 +1,4 @@
-package org.fuin.ddd4jcodegen.test;
+package org.fuin.ddd4j.codegen.test;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -152,7 +152,7 @@ public final class RampId extends IntegerEntityId {
 
         String message()
 
-        default "{org.fuin.ddd4jcodegen.test.RampId.message}";
+        default "{org.fuin.ddd4j.codegen.test.RampId.message}";
 
         Class<?>[] groups() default {};
 

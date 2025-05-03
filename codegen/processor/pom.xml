@@ -198,6 +198,27 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>org.fuin.cqrs4j</groupId>
+			<artifactId>cqrs-4-java-jackson</artifactId>
+			<version>${cqrs4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.cqrs4j</groupId>
+			<artifactId>cqrs-4-java-jsonb</artifactId>
+			<version>${cqrs4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.fuin.cqrs4j</groupId>
+			<artifactId>cqrs-4-java-jaxb</artifactId>
+			<version>${cqrs4j.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>

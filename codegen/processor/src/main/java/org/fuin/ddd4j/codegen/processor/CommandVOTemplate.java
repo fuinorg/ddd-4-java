@@ -13,30 +13,34 @@
 package org.fuin.ddd4j.codegen.processor;
 
 import org.apache.velocity.VelocityContext;
-import org.fuin.ddd4j.codegen.api.EventVO;
+import org.fuin.ddd4j.codegen.api.CommandVO;
+
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
- * Generates code using the values of the {@link EventVO} annotation and a velocity template.
+ * Generates code using the values of the {@link CommandVO} annotation and a velocity template.
  */
-public final class EventVOTemplate extends AbstractEventVOTemplate<EventVO> {
+public final class CommandVOTemplate extends AbstractEventVOTemplate<CommandVO> {
 
     @Override
-    public final Class<EventVO> getAnnotationClass() {
-        return EventVO.class;
+    public Class<CommandVO> getAnnotationClass() {
+        return CommandVO.class;
     }
 
     @Override
-    public final String targetClassName(final EventVO anno) {
+    public String targetClassName(final CommandVO anno) {
         return anno.name();
     }
 
     @Override
     protected String getTemplateName() {
-        return "EventVO.java";
+        return "CommandVO.java";
     }
 
     @Override
-    protected VelocityContext createVelocityContext(String packageName, EventVO anno) {
+    protected VelocityContext createVelocityContext(final String packageName, final CommandVO anno) {
         final VelocityContext context = new VelocityContext();
         if (anno.pkg().isEmpty()) {
             context.put("package", packageName);
@@ -44,7 +48,13 @@ public final class EventVOTemplate extends AbstractEventVOTemplate<EventVO> {
             context.put("package", anno.pkg());
         }
         context.put("class", anno.name());
-        context.put("idClass", new Clasz(anno.entityIdClass()));
+        context.put("aggregateIdClass", new Clasz(anno.aggregateIdClass()));
+        if (anno.entityIdClass().isEmpty()) {
+            context.put("entityIdClass", new Clasz(anno.aggregateIdClass()));
+        } else {
+            context.put("entityIdClass", new Clasz(anno.entityIdClass()));
+        }
+        context.put("entityIdPathClasses", asString(anno.entityIdPathClasses()));
         context.put("entityIdPathParams", anno.entityIdPathParams());
         context.put("jsonb", anno.jsonb());
         context.put("jackson", anno.jackson());
@@ -54,6 +64,12 @@ public final class EventVOTemplate extends AbstractEventVOTemplate<EventVO> {
         context.put("serialVersionUID", anno.serialVersionUID());
         context.put("message", anno.message());
         return context;
+    }
+
+    public String asString(final String[] classes) {
+        return "{ " + Arrays.stream(classes)
+                .map(clasz -> clasz + ".class")
+                .collect(Collectors.joining(", ")) + " }";
     }
 
 }

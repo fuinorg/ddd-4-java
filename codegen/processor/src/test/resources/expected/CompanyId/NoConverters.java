@@ -1,4 +1,4 @@
-package org.fuin.ddd4jcodegen.test;
+package org.fuin.ddd4j.codegen.test;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
@@ -115,7 +115,7 @@ public final class CompanyId extends AggregateRootUuid {
 
         String message()
 
-        default "{org.fuin.ddd4jcodegen.test.CompanyId.message}";
+        default "{org.fuin.ddd4j.codegen.test.CompanyId.message}";
 
         Class<?>[] groups() default {};
 

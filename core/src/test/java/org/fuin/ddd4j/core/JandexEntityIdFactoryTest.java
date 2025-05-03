@@ -24,11 +24,20 @@ class JandexEntityIdFactoryTest {
     }
 
     @Test
-    void testCreateEntityId() {
+    void testCreateAggregateId() {
         final VendorId id = new VendorId();
         final JandexEntityIdFactory testee = new JandexEntityIdFactory(new File("target/test-classes"));
         final EntityId result = testee.createEntityId(VendorId.TYPE.asString(), id.asString());
         assertThat(result).isInstanceOf(VendorId.class);
+        assertThat(result).isEqualTo(id);
+    }
+
+    @Test
+    void testCreateEntityId() {
+        final PersonId id = new PersonId(123);
+        final JandexEntityIdFactory testee = new JandexEntityIdFactory(new File("target/test-classes"));
+        final EntityId result = testee.createEntityId(PersonId.TYPE.asString(), id.asString());
+        assertThat(result).isInstanceOf(PersonId.class);
         assertThat(result).isEqualTo(id);
     }
 

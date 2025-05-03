@@ -35,7 +35,9 @@ import java.io.Serial;
  */
 @Immutable
 @HasPublicStaticIsValidMethod
+@HasPublicStaticIsValidMethod(param = Integer.class)
 @HasPublicStaticValueOfMethod
+@HasPublicStaticValueOfMethod(param = Integer.class)
 @HasEntityTypeConstant
 public final class PersonId extends AbstractIntegerValueObject implements EntityId {
 
@@ -110,6 +112,18 @@ public final class PersonId extends AbstractIntegerValueObject implements Entity
         } catch (final RuntimeException ex) {
             return false;
         }
+    }
+
+    /**
+     * Returns the information if a given Integer is a valid person identifier.
+     *
+     * @param value
+     *            Value to check. A <code>null</code> value returns <code>true</code>.
+     *
+     * @return TRUE if it's a valid ID, else FALSE.
+     */
+    public static boolean isValid(final Integer value) {
+        return true;
     }
 
     /**

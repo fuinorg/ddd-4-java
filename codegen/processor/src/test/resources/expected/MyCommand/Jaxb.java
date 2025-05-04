@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import javax.annotation.Nullable;
-import org.fuin.ddd4j.core.DomainEventExpectedEntityIdPath;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventType;
 import org.fuin.cqrs4j.jaxb.AbstractAggregateCommand;
@@ -33,7 +32,6 @@ import org.fuin.objects4j.ui.Examples;
 @Schema(name = "MyCommand", type = SchemaType.OBJECT, description = "Do it!")
 @XmlRootElement(name = "MyCommand")
 @HasSerializedDataTypeConstant
-@DomainEventExpectedEntityIdPath({  MyRootId.class, MyId.class })
 public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
 
     @Serial

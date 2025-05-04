@@ -19,7 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 #end
 import javax.annotation.Nullable;
-import org.fuin.ddd4j.core.DomainEventExpectedEntityIdPath;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventType;
 #if($jsonb)
@@ -63,7 +62,6 @@ import ${import};
 @XmlRootElement(name = "${class}")
 #end
 @HasSerializedDataTypeConstant
-@DomainEventExpectedEntityIdPath(${entityIdPathClasses})
 public final class ${class} extends AbstractAggregateCommand<${aggregateIdClass.simpleName}, ${entityIdClass.simpleName}> {
 
     @Serial

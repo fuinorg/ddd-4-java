@@ -6,7 +6,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import javax.annotation.Nullable;
-import org.fuin.ddd4j.core.DomainEventExpectedEntityIdPath;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventType;
 import org.fuin.cqrs4j.jsonb.AbstractAggregateCommand;
@@ -31,7 +30,6 @@ import org.fuin.objects4j.ui.Examples;
 @Immutable
 @Schema(name = "MyCommand", type = SchemaType.OBJECT, description = "Do it!")
 @HasSerializedDataTypeConstant
-@DomainEventExpectedEntityIdPath({  MyRootId.class, MyId.class })
 public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
 
     @Serial

@@ -26,7 +26,9 @@ public @interface HasEntityTypeConstant {
      *
      * @return Name of the public static constant.
      */
-    String value() default "TYPE";
+    String name() default "TYPE";
+
+    Class<EntityType> value() default EntityType.class;
 
     String message() default "Does not define a public static constant with the given name";
 

@@ -147,7 +147,7 @@ public final class JandexEntityIdFactory implements EntityIdFactory {
 
     public EntityType typeConstant(Class<?> entityIdClass) {
         final HasEntityTypeConstant annotation = entityIdClass.getAnnotation(HasEntityTypeConstant.class);
-        return HasEntityTypeConstantValidator.extractValue(entityIdClass, annotation.value());
+        return HasEntityTypeConstantValidator.extractValue(entityIdClass, annotation.value(), annotation.name());
     }
 
     private static boolean hasAnnotation(Class<?> clasz,

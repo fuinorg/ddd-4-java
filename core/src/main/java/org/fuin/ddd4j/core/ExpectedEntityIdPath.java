@@ -35,7 +35,7 @@ import java.lang.annotation.Target;
 @Documented
 public @interface ExpectedEntityIdPath {
 
-    String message() default "{org.fuin.ddd4j.ddd.ExpectedEntityIdPath.message}";
+    String message() default "ExpectedEntityIdPath validation failed: ${validatedValue}";
 
     /**
      * Expected identifier types.

@@ -8,4 +8,9 @@ import org.fuin.utils4j.TestOmitted;
  */
 @TestOmitted("All function in base class")
 public class HasEntityTypeConstantValidator extends TypeConstantValidator<HasEntityTypeConstant> {
+
+    public HasEntityTypeConstantValidator() {
+        super(HasEntityTypeConstant.class);
+    }
+
 }

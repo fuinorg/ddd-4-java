@@ -17,17 +17,48 @@
  */
 package org.fuin.ddd4j.core;
 
+import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 import org.fuin.ddd4j.coretest.AId;
 import org.fuin.ddd4j.coretest.BId;
 import org.fuin.ddd4j.coretest.CId;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class ExpectedEntityIdPathValidatorTest {
+
+    private Validator validator;
+
+    private ConstraintValidatorContext context;
+
+    private ConstraintValidatorContext.ConstraintViolationBuilder builder;
+
+    @BeforeEach
+    public void setUp() {
+        try (ValidatorFactory factory = Validation.buildDefaultValidatorFactory()) {
+            validator = factory.getValidator();
+        }
+        context = mock(ConstraintValidatorContext.class);
+        builder = mock(ConstraintValidatorContext.ConstraintViolationBuilder.class);
+        when(context.buildConstraintViolationWithTemplate(any())).thenReturn(builder);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        validator = null;
+        context = null;
+    }
 
     @Test
     public void testIsValidNull() {
@@ -38,7 +69,8 @@ public class ExpectedEntityIdPathValidatorTest {
         testee.initialize(anno);
 
         // TEST & VERIFY
-        assertThat(testee.isValid(null, null)).isTrue();
+        assertThat(testee.isValid(null, context)).isTrue();
+
     }
 
     @Test
@@ -52,9 +84,14 @@ public class ExpectedEntityIdPathValidatorTest {
         testee.initialize(anno);
 
         // TEST & VERIFY
-        assertThat(testee.isValid(new EntityIdPath(aid), null)).isTrue();
-        assertThat(testee.isValid(new EntityIdPath(bid), null)).isFalse();
-        assertThat(testee.isValid(new EntityIdPath(aid, bid), null)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(bid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid), context)).isFalse();
+
+        // TEST & VERIFY
+        assertThat(validator.validate(new OneLevelPath(new EntityIdPath(aid)))).isEmpty();
+        assertThat(validator.validate(new OneLevelPath(new EntityIdPath(bid))))
+                .anyMatch(v -> v.getMessage().contains("Expected the following types (in order) 'AId', but was: 'BId' ('B 2')"));
 
     }
 
@@ -70,10 +107,19 @@ public class ExpectedEntityIdPathValidatorTest {
         testee.initialize(anno);
 
         // TEST & VERIFY
-        assertThat(testee.isValid(new EntityIdPath(aid, bid), null)).isTrue();
-        assertThat(testee.isValid(new EntityIdPath(aid), null)).isFalse();
-        assertThat(testee.isValid(new EntityIdPath(aid, cid), null)).isFalse();
-        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), null)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, cid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), context)).isFalse();
+
+        // TEST & VERIFY
+        assertThat(validator.validate(new TwoLevelPath(new EntityIdPath(aid, bid)))).isEmpty();
+        assertThat(validator.validate(new TwoLevelPath(new EntityIdPath(aid))))
+                .anyMatch(v -> v.getMessage()
+                        .contains("Expected the following types (in order) 'AId, BId', but was: 'AId' ('A 1')"));
+        assertThat(validator.validate(new TwoLevelPath(new EntityIdPath(aid, bid, cid))))
+                .anyMatch(v -> v.getMessage()
+                        .contains("Expected the following types (in order) 'AId, BId', but was: 'AId, BId, CId' ('A 1/B 2/C 3')"));
 
     }
 
@@ -90,11 +136,20 @@ public class ExpectedEntityIdPathValidatorTest {
         testee.initialize(anno);
 
         // TEST & VERIFY
-        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), null)).isTrue();
-        assertThat(testee.isValid(new EntityIdPath(aid, bid), null)).isFalse();
-        assertThat(testee.isValid(new EntityIdPath(aid), null)).isFalse();
-        assertThat(testee.isValid(new EntityIdPath(aid, cid, bid), null)).isFalse();
-        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid, cid2), null)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, cid, bid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid, cid2), context)).isFalse();
+
+        // TEST & VERIFY
+        assertThat(validator.validate(new ThreeLevelPath(new EntityIdPath(aid, bid, cid)))).isEmpty();
+        assertThat(validator.validate(new ThreeLevelPath(new EntityIdPath(aid))))
+                .anyMatch(v -> v.getMessage()
+                        .contains("Expected the following types (in order) 'AId, BId, CId', but was: 'AId' ('A 1')"));
+        assertThat(validator.validate(new ThreeLevelPath(new EntityIdPath(aid, bid))))
+                .anyMatch(v -> v.getMessage()
+                        .contains("Expected the following types (in order) 'AId, BId, CId', but was: 'AId, BId' ('A 1/B 2')"));
 
     }
 
@@ -128,4 +183,38 @@ public class ExpectedEntityIdPathValidatorTest {
             }
         };
     }
+
+    public class OneLevelPath {
+
+        @ExpectedEntityIdPath({AId.class})
+        private EntityIdPath path;
+
+        public OneLevelPath(EntityIdPath path) {
+            this.path = path;
+        }
+
+    }
+
+    public class TwoLevelPath {
+
+        @ExpectedEntityIdPath({AId.class, BId.class})
+        private EntityIdPath path;
+
+        public TwoLevelPath(EntityIdPath path) {
+            this.path = path;
+        }
+
+    }
+
+    public class ThreeLevelPath {
+
+        @ExpectedEntityIdPath({AId.class, BId.class, CId.class})
+        private EntityIdPath path;
+
+        public ThreeLevelPath(EntityIdPath path) {
+            this.path = path;
+        }
+
+    }
+
 }

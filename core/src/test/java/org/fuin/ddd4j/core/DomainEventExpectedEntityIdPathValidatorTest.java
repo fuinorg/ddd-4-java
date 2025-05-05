@@ -17,20 +17,44 @@
  */
 package org.fuin.ddd4j.core;
 
+import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.Payload;
+import jakarta.validation.Validation;
+import jakarta.validation.ValidatorFactory;
 import org.fuin.ddd4j.coretest.ACreatedEvent;
 import org.fuin.ddd4j.coretest.AId;
 import org.fuin.ddd4j.coretest.BId;
 import org.fuin.ddd4j.coretest.CAddedEvent;
 import org.fuin.ddd4j.coretest.CEvent;
 import org.fuin.ddd4j.coretest.CId;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class DomainEventExpectedEntityIdPathValidatorTest {
+
+    private ConstraintValidatorContext context;
+
+    private ConstraintValidatorContext.ConstraintViolationBuilder builder;
+
+    @BeforeEach
+    public void setUp() {
+        context = mock(ConstraintValidatorContext.class);
+        builder = mock(ConstraintValidatorContext.ConstraintViolationBuilder.class);
+        when(context.buildConstraintViolationWithTemplate(any())).thenReturn(builder);
+    }
+
+    @AfterEach
+    public void tearDown() {
+        context = null;
+    }
 
     @Test
     public void testIsValidNull() {
@@ -41,7 +65,7 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
         testee.initialize(anno);
 
         // TEST & VERIFY
-        assertThat(testee.isValid(null, null)).isTrue();
+        assertThat(testee.isValid(null, context)).isTrue();
     }
 
     @Test
@@ -56,9 +80,9 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
         testee.initialize(anno);
 
         // TEST & VERIFY
-        assertThat(testee.isValid(new ACreatedEvent(aid), null)).isTrue();
-        assertThat(testee.isValid(new CAddedEvent(aid, bid, cid), null)).isFalse();
-        assertThat(testee.isValid(new CEvent(aid, bid, cid), null)).isFalse();
+        assertThat(testee.isValid(new ACreatedEvent(aid), context)).isTrue();
+        assertThat(testee.isValid(new CAddedEvent(aid, bid, cid), context)).isFalse();
+        assertThat(testee.isValid(new CEvent(aid, bid, cid), context)).isFalse();
 
     }
 

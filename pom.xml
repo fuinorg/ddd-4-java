@@ -36,6 +36,7 @@
         <units4j.version>0.12.0</units4j.version>
         <archunit.version>1.4.0</archunit.version>
         <cqrs4j.version>0.6.0</cqrs4j.version> <!-- TEST ONLY! -->
+        <mockito.version>5.14.2</mockito.version>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>
 
@@ -321,6 +322,18 @@
                 <groupId>com.google.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>2.11.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
             </dependency>
 
         </dependencies>

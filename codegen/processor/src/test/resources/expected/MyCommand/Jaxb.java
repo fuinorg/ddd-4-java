@@ -6,7 +6,6 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import jakarta.validation.constraints.NotNull;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
-import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
@@ -22,10 +21,10 @@ import java.time.ZonedDateTime;
 import javax.annotation.concurrent.Immutable;
 
 import org.fuin.ddd4j.codegen.test.MyId;
-import org.fuin.objects4j.ui.ShortLabel;
-import org.fuin.objects4j.ui.Label;
-import org.fuin.objects4j.ui.Tooltip;
 import org.fuin.objects4j.ui.Examples;
+import org.fuin.objects4j.ui.Label;
+import org.fuin.objects4j.ui.ShortLabel;
+import org.fuin.objects4j.ui.Tooltip;
 
 /**
  * Do it!.
@@ -70,6 +69,7 @@ public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
      *
      * @return Root Identifier. Uniquely identifies The Root.
      */
+    @NotNull
     public MyId getMyId() {
         return myId;
     }

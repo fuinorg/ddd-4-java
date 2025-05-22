@@ -36,6 +36,7 @@ public final class CommandVOTemplateTest {
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
+                import jakarta.annotation.Nullable;
                 import org.fuin.ddd4j.codegen.api.CommandVO;
                 import org.fuin.objects4j.ui.*;
                 
@@ -56,6 +57,13 @@ public final class CommandVOTemplateTest {
                     @Tooltip("Uniquely identifies The Root")
                     @Examples({"e4baf6c5-ccb9-4580-9d59-41860c140189", "00000000-0000-0000-0000-000000000000"})
                     org.fuin.ddd4j.codegen.test.MyId myId = null;
+                
+                    @Label("Nullable Field")
+                    @Nullable
+                    String fieldNullable = null;
+                
+                    @Label("Non-Null Field")
+                    String fieldNonNull = null;
                 
                 }
                 """);

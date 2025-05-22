@@ -5,7 +5,6 @@ import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
-import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
@@ -20,11 +19,12 @@ import java.time.ZonedDateTime;
 
 import javax.annotation.concurrent.Immutable;
 
+import jakarta.annotation.Nullable;
 import org.fuin.ddd4j.codegen.test.MyId;
-import org.fuin.objects4j.ui.ShortLabel;
-import org.fuin.objects4j.ui.Label;
-import org.fuin.objects4j.ui.Tooltip;
 import org.fuin.objects4j.ui.Examples;
+import org.fuin.objects4j.ui.Label;
+import org.fuin.objects4j.ui.ShortLabel;
+import org.fuin.objects4j.ui.Tooltip;
 
 /**
  * Do it!.
@@ -50,6 +50,15 @@ public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
     @JsonbProperty("my-id")
     private MyId myId;
 
+    @Label("Nullable Field")
+    @Nullable
+    @JsonbProperty("field-nullable")
+    private String fieldNullable;
+
+    @Label("Non-Null Field")
+    @JsonbProperty("field-non-null")
+    private String fieldNonNull;
+
 
     /**
      * Protected default constructor for deserialization.
@@ -68,8 +77,27 @@ public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
      *
      * @return Root Identifier. Uniquely identifies The Root.
      */
+    @NotNull
     public MyId getMyId() {
         return myId;
+    }
+    /**
+     * Returns: Nullable Field.
+     *
+     * @return Nullable Field. TODO Add '@Tooltip' annotation.
+     */
+    @Nullable
+    public String getFieldNullable() {
+        return fieldNullable;
+    }
+    /**
+     * Returns: Non-Null Field.
+     *
+     * @return Non-Null Field. TODO Add '@Tooltip' annotation.
+     */
+    @NotNull
+    public String getFieldNonNull() {
+        return fieldNonNull;
     }
 
     @Override
@@ -108,6 +136,29 @@ public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
         public final Builder myId(@NotNull final MyId myId) {
             Contract.requireArgNotNull("myId", myId);
             delegate.myId = myId;
+            return this;
+        }
+        /**
+         * Sets: Nullable Field.
+         *
+         * @param fieldNullable Nullable Field.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final Builder fieldNullable(@Nullable final String fieldNullable) {
+            delegate.fieldNullable = fieldNullable;
+            return this;
+        }
+        /**
+         * Sets: Non-Null Field.
+         *
+         * @param fieldNonNull Non-Null Field.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final Builder fieldNonNull(@NotNull final String fieldNonNull) {
+            Contract.requireArgNotNull("fieldNonNull", fieldNonNull);
+            delegate.fieldNonNull = fieldNonNull;
             return this;
         }
 

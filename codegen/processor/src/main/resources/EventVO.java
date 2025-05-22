@@ -18,7 +18,6 @@ import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 #end
-import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
@@ -107,7 +106,11 @@ public final class ${class} extends AbstractDomainEvent<${idClass.simpleName}> {
      *
      * @return ${field.label}. ${field.description}.
      */
-    #if(${field.nullable})@NotNull#end
+    #if(${field.nullable})
+    @Nullable
+    #else
+    @NotNull
+    #end
     public ${field.type} ${field.nameGetter}() {
         return ${field.name};
     }
@@ -147,8 +150,10 @@ public final class ${class} extends AbstractDomainEvent<${idClass.simpleName}> {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final Builder ${field.name}(@NotNull final ${field.type} ${field.name}) {
+        public final Builder ${field.name}(#if(${field.nullable})@Nullable#else@NotNull#end final ${field.type} ${field.name}) {
+            #if(!${field.nullable})
             Contract.requireArgNotNull("${field.name}", ${field.name});
+            #end
             delegate.${field.name} = ${field.name};
             return this;
         }

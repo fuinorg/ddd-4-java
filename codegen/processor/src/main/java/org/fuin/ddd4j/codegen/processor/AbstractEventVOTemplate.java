@@ -32,9 +32,12 @@ import java.io.Writer;
 import java.lang.annotation.Annotation;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import static org.fuin.ddd4j.codegen.processor.Ddd4jCodeGenUtils.createVelocityEngine;
@@ -72,11 +75,12 @@ public abstract class AbstractEventVOTemplate<ANNOTATION extends Annotation> imp
                 .toList();
         context.put("fields", fields);
 
-        final List<String> imports = new ArrayList<>();
+        final Set<String> imports = new HashSet<>();
 
         // Add imports for fields
         imports.addAll(fields.stream()
                 .filter(field -> !field.pkg.isEmpty())
+                        .filter(field -> !field.pkg.equals("java.lang"))
                 .map(field -> field.pkg + "." + field.type)
                 .toList());
 
@@ -86,7 +90,10 @@ public abstract class AbstractEventVOTemplate<ANNOTATION extends Annotation> imp
                 .flatMap(Collection::stream)
                 .toList());
 
-        context.put("additionalImports", imports);
+        final List<String> sortedImports = new ArrayList<>(imports);
+        Collections.sort(sortedImports);
+
+        context.put("additionalImports", sortedImports);
 
         final Template template = ve.getTemplate(getTemplateName());
         template.merge(context, writer);
@@ -185,6 +192,12 @@ public abstract class AbstractEventVOTemplate<ANNOTATION extends Annotation> imp
                 }
             }
             return null;
+        }
+
+        public boolean isNullable() {
+            return annotations.stream()
+                    .anyMatch(anno ->
+                            anno.getAnnotationType().asElement().getSimpleName().toString().equals("Nullable"));
         }
 
         public List<String> getAnnotations() {

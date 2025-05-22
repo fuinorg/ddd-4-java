@@ -8,6 +8,7 @@
 - Added missing annotation "@HasPublicStaticIsValidMethod" to generated entity and aggregate identifiers
 - Fixed bug: Code was not generated in the package configured in the annotation.
 - Added default value in generated command and event builders for eventId and timestamp
+- Allow nullable fields for generated commands and events
 
 ## 0.7.0
 - Added [Jackson](jackson) module

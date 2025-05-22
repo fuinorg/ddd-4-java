@@ -20,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 #end
 import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
+import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
 #if($jsonb)
 import org.fuin.cqrs4j.jsonb.AbstractAggregateCommand;
@@ -44,6 +45,7 @@ import ${entityIdClass};
 #end
 
 import java.io.Serial;
+import java.time.ZonedDateTime;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -165,6 +167,12 @@ public final class ${class} extends AbstractAggregateCommand<${aggregateIdClass.
          */
         public ${class} build() {
             ensureBuildableAbstractAggregateCommand();
+            if (delegate.getEventId() == null) {
+                this.eventId(new EventId());
+            }
+            if (delegate.getEventTimestamp() == null) {
+                this.timestamp(ZonedDateTime.now());
+            }
             final ${class} result = delegate;
             delegate = new ${class}();
             resetAbstractAggregateCommand(delegate);

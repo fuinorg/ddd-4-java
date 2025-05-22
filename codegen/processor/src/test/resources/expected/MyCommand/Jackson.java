@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
+import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
 import org.fuin.cqrs4j.jackson.AbstractAggregateCommand;
 import org.fuin.ddd4j.jackson.AbstractDomainEvent;
@@ -15,6 +16,7 @@ import org.fuin.esc.api.SerializedDataType;
 import org.fuin.objects4j.common.Contract;
 
 import java.io.Serial;
+import java.time.ZonedDateTime;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -117,6 +119,12 @@ public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
          */
         public MyCommand build() {
             ensureBuildableAbstractAggregateCommand();
+            if (delegate.getEventId() == null) {
+                this.eventId(new EventId());
+            }
+            if (delegate.getEventTimestamp() == null) {
+                this.timestamp(ZonedDateTime.now());
+            }
             final MyCommand result = delegate;
             delegate = new MyCommand();
             resetAbstractAggregateCommand(delegate);

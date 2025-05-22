@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
+import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
 import org.fuin.ddd4j.jackson.AbstractDomainEvent;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
@@ -14,6 +15,7 @@ import org.fuin.esc.api.SerializedDataType;
 import org.fuin.objects4j.common.Contract;
 
 import java.io.Serial;
+import java.time.ZonedDateTime;
 
 import javax.annotation.concurrent.Immutable;
 
@@ -118,6 +120,12 @@ public final class MyEvent extends AbstractDomainEvent<MyId> {
          */
         public MyEvent build() {
             ensureBuildableAbstractDomainEvent();
+            if (delegate.getEventId() == null) {
+                this.eventId(new EventId());
+            }
+            if (delegate.getEventTimestamp() == null) {
+                this.timestamp(ZonedDateTime.now());
+            }
             final MyEvent result = delegate;
             delegate = new MyEvent();
             resetAbstractDomainEvent(delegate);

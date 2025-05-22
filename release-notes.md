@@ -6,6 +6,7 @@
 - Fixed issue #11: Generated method "isValid" of Integer EntityId failed to validate correct values
 - New [annotation](codegen/api/src/main/java/org/fuin/ddd4j/codegen/api/CommandVO.java) and code generation template for commands
 - Added missing annotation "@HasPublicStaticIsValidMethod" to generated entity and aggregate identifiers
+- Fixed bug: Code was not generated in the package configured in the annotation.
 
 ## 0.7.0
 - Added [Jackson](jackson) module

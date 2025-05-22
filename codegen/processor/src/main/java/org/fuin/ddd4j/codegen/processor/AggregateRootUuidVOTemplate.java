@@ -39,6 +39,11 @@ public final class AggregateRootUuidVOTemplate implements ValueObjectTemplate<Ag
     }
 
     @Override
+    public String targetPackage(AggregateRootUuidVO anno) {
+        return anno.pkg();
+    }
+
+    @Override
     public void generate(final Messager messager, final Writer writer, final String packageName,
                          final AggregateRootUuidVO anno, final TypeElement element) {
 

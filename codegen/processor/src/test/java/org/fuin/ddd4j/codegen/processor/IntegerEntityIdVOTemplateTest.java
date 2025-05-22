@@ -32,7 +32,7 @@ public final class IntegerEntityIdVOTemplateTest {
     @Test
     public void testAllConverters() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "RampId", "AllConverters", """
+        TestUtils.testAnnotation(compileTestBuilder, "RampId", "AllConverters", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
@@ -50,7 +50,7 @@ public final class IntegerEntityIdVOTemplateTest {
     @Test
     public void testNoConverters() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "RampId", "NoConverters", """
+        TestUtils.testAnnotation(compileTestBuilder, "RampId", "NoConverters", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
@@ -67,7 +67,7 @@ public final class IntegerEntityIdVOTemplateTest {
     @Test
     public void testJpaOnly() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "RampId", "JpaOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "RampId", "JpaOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
@@ -85,7 +85,7 @@ public final class IntegerEntityIdVOTemplateTest {
     @Test
     public void testJaxbOnly() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "RampId", "JaxbOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "RampId", "JaxbOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
@@ -103,7 +103,7 @@ public final class IntegerEntityIdVOTemplateTest {
     @Test
     public void testJsonbOnly() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "RampId", "JsonbOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "RampId", "JsonbOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;
@@ -121,7 +121,7 @@ public final class IntegerEntityIdVOTemplateTest {
     @Test
     public void testOpenapiOnly() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "RampId", "OpenApiOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "RampId", "OpenApiOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.IntegerEntityIdVO;

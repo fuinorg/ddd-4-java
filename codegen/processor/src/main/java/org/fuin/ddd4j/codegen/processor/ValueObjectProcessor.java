@@ -153,7 +153,7 @@ public final class ValueObjectProcessor extends AbstractProcessor {
         }
         return b;
     }
-    
+
     private boolean generateCode(final RoundEnvironment roundEnv, final TargetType targetType) {
         try {
             final ValueObjectTemplate<Annotation> template = targetType.getTemplate();
@@ -161,7 +161,7 @@ public final class ValueObjectProcessor extends AbstractProcessor {
             final String packageName = targetType.getPackageName();
             final Annotation annotation = targetType.getAnnotationInstance();
 
-            final boolean ok = runWithContextClassLoader(() -> {
+            return runWithContextClassLoader(() -> {
                 final String packageAndClass = packageName + "." + template.targetClassName(annotation);
                 this.processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE,"Generating code for: " + targetType);
                 try {
@@ -176,7 +176,6 @@ public final class ValueObjectProcessor extends AbstractProcessor {
                     return false;
                 }
             }, getClass().getClassLoader());
-            return ok;
         } catch (final RuntimeException ex) {
             return false;
         }
@@ -226,8 +225,7 @@ public final class ValueObjectProcessor extends AbstractProcessor {
         }
 
         public String getPackageName() {
-            final PackageElement packageElement = (PackageElement) annotatedElement.getEnclosingElement();
-            return packageElement.getQualifiedName().toString();
+            return template.targetPackage(getAnnotationInstance());
         }
 
         public Annotation getAnnotationInstance() {

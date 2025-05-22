@@ -35,6 +35,11 @@ public final class CommandVOTemplate extends AbstractEventVOTemplate<CommandVO> 
     }
 
     @Override
+    public String targetPackage(CommandVO anno) {
+        return anno.pkg();
+    }
+
+    @Override
     protected String getTemplateName() {
         return "CommandVO.java";
     }

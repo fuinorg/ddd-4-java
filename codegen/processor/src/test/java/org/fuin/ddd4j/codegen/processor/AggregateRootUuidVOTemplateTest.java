@@ -33,7 +33,7 @@ public final class AggregateRootUuidVOTemplateTest {
 
     @Test
     public void testAllConverters() throws IOException {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "AllConverters", """
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "AllConverters","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
@@ -54,7 +54,7 @@ public final class AggregateRootUuidVOTemplateTest {
 
     @Test
     public void testNoConverters() throws IOException {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "NoConverters", """
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "NoConverters", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
@@ -74,7 +74,7 @@ public final class AggregateRootUuidVOTemplateTest {
 
     @Test
     public void testJaxbOnly() throws IOException {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "JaxbOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "JaxbOnly","org.fuin.ddd4j.codegen.test",  """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
@@ -95,7 +95,7 @@ public final class AggregateRootUuidVOTemplateTest {
 
     @Test
     public void testJpaOnly() throws IOException {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "JpaOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "JpaOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
@@ -116,7 +116,7 @@ public final class AggregateRootUuidVOTemplateTest {
 
     @Test
     public void testJsonbOnly() throws IOException {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "JsonbOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "JsonbOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;
@@ -137,7 +137,7 @@ public final class AggregateRootUuidVOTemplateTest {
 
     @Test
     public void testOpenApiOnly() throws IOException {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "OpenApiOnly", """
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyId", "OpenApiOnly", "org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.AggregateRootUuidVO;

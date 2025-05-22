@@ -32,7 +32,7 @@ public final class EventVOTemplateTest {
     @Test
     public void testJsonb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jsonb","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jsonb","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
@@ -63,7 +63,7 @@ public final class EventVOTemplateTest {
     @Test
     public void testJackson() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jackson","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jackson","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
@@ -94,7 +94,7 @@ public final class EventVOTemplateTest {
     @Test
     public void testJaxb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jaxb","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyEvent",  "Jaxb","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;

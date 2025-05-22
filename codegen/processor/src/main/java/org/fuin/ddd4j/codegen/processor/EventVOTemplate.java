@@ -31,6 +31,11 @@ public final class EventVOTemplate extends AbstractEventVOTemplate<EventVO> {
     }
 
     @Override
+    public String targetPackage(EventVO anno) {
+        return anno.pkg();
+    }
+
+    @Override
     protected String getTemplateName() {
         return "EventVO.java";
     }

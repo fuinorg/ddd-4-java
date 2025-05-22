@@ -12,23 +12,26 @@ final class TestUtils {
      *
      * @param compileTestBuilder   Compile test builder to use.
      * @param targetName           Unique simple name of the target java class.
+     * @param testCase             Test case name. Used to find an expected file in "/expected/{targetName}/{testCase}.java".
+     * @param pkg                  Package with generated source file.
      * @param sourceWithAnnotation Source code with annotation used to generate the target code.
      */
     static void testAnnotation(CuteApi.BlackBoxTestSourceFilesInterface compileTestBuilder,
                                String targetName,
                                String testCase,
+                               String pkg,
                                String sourceWithAnnotation) {
         final String expectedFileName = "/expected/" + targetName + "/" + testCase + ".java";
         compileTestBuilder
-                .andSourceFile("input." + targetName + "Example", sourceWithAnnotation)
+                .andSourceFile(pkg + "." + targetName + "Example", sourceWithAnnotation)
                 .whenCompiled()
                 .thenExpectThat()
                 .compilationSucceeds()
                 .andThat()
-                .generatedSourceFile("input." + targetName)
+                .generatedSourceFile(pkg + "." + targetName)
                 .exists()
                 .andThat()
-                .generatedSourceFile("input." + targetName)
+                .generatedSourceFile(pkg + "." + targetName)
                 .matches(new ExpectedFileMatcher(expectedFileName))
                 .executeTest();
     }

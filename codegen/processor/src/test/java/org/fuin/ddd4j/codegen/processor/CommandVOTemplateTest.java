@@ -32,7 +32,7 @@ public final class CommandVOTemplateTest {
     @Test
     public void testJsonb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jsonb","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jsonb","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
@@ -64,7 +64,7 @@ public final class CommandVOTemplateTest {
     @Test
     public void testJackson() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jackson","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jackson","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;
@@ -96,7 +96,7 @@ public final class CommandVOTemplateTest {
     @Test
     public void testJaxb() {
 
-        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jaxb","""
+        TestUtils.testAnnotation(compileTestBuilder, "MyCommand",  "Jaxb","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import jakarta.validation.constraints.NotNull;

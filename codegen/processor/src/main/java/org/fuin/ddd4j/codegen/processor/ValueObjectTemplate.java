@@ -43,6 +43,16 @@ public interface ValueObjectTemplate<ANNOTATION extends Annotation> {
     String targetClassName(ANNOTATION anno);
 
     /**
+     * Returns the name of the target package to create.
+     *
+     * @param anno
+     *            Annotation instance that has the package.
+     *
+     * @return Package where the class is located.
+     */
+    String targetPackage(ANNOTATION anno);
+
+    /**
      * Stores the result of merging the template and the annotation data to the given writer instance.
      *
      * @param messager

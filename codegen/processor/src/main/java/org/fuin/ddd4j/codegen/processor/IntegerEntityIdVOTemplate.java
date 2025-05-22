@@ -39,6 +39,11 @@ public final class IntegerEntityIdVOTemplate implements ValueObjectTemplate<Inte
     }
 
     @Override
+    public String targetPackage(IntegerEntityIdVO anno) {
+        return anno.pkg();
+    }
+
+    @Override
     public void generate(final Messager messager, final Writer writer, final String packageName,
                          final IntegerEntityIdVO anno, final TypeElement element) {
 

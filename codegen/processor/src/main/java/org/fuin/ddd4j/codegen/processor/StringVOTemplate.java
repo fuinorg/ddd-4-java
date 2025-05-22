@@ -39,6 +39,11 @@ public final class StringVOTemplate implements ValueObjectTemplate<StringVO> {
     }
 
     @Override
+    public String targetPackage(StringVO anno) {
+        return anno.pkg();
+    }
+
+    @Override
     public void generate(final Messager messager, final Writer writer, final String packageName,
                          final StringVO anno, final TypeElement element) {
 

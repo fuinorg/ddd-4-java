@@ -31,7 +31,7 @@ public final class StringVOTemplateTest {
 
     @Test
     public void testAllConverters() {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "AllConverters","""
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "AllConverters","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
@@ -48,7 +48,7 @@ public final class StringVOTemplateTest {
 
     @Test
     public void testNoConverters() {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "NoConverters","""
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "NoConverters","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
@@ -64,7 +64,7 @@ public final class StringVOTemplateTest {
 
     @Test
     public void testJpaOnly() {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JpaOnly","""
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JpaOnly","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
@@ -81,7 +81,7 @@ public final class StringVOTemplateTest {
 
     @Test
     public void testJsonbOnly() {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JsonbOnly","""
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JsonbOnly","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
@@ -98,7 +98,7 @@ public final class StringVOTemplateTest {
 
     @Test
     public void testJaxbOnly() {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JaxbOnly","""
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "JaxbOnly","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;
@@ -115,7 +115,7 @@ public final class StringVOTemplateTest {
 
     @Test
     public void testOpenApiOnly() {
-        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "OpenApiOnly","""
+        TestUtils.testAnnotation(compileTestBuilder, "CompanyKey",  "OpenApiOnly","org.fuin.ddd4j.codegen.test", """
                 package input;
                 
                 import org.fuin.ddd4j.codegen.api.StringVO;

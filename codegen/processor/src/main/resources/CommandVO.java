@@ -45,8 +45,11 @@ import ${entityIdClass};
 
 import java.io.Serial;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.concurrent.Immutable;
+import org.fuin.utils4j.Utils4J;
 
 #foreach($import in $additionalImports)
 import ${import};
@@ -124,7 +127,12 @@ public final class ${class} extends AbstractAggregateCommand<${aggregateIdClass.
 
     @Override
     public String toString() {
-        return "${message}";
+        final Map<String, String> vars = new HashMap<>();
+        vars.put("entityIdPath", getEntityIdPath().toString());
+        #foreach ($field in $fields)
+        vars.put("${field.name}", "" + ${field.name});
+        #end
+        return Utils4J.replaceVars("${message}", vars);
     }
 
     /**

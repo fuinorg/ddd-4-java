@@ -17,8 +17,11 @@ import org.fuin.objects4j.common.Contract;
 
 import java.io.Serial;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.concurrent.Immutable;
+import org.fuin.utils4j.Utils4J;
 
 import org.fuin.ddd4j.codegen.test.MyId;
 import org.fuin.objects4j.ui.Examples;
@@ -76,7 +79,10 @@ public final class MyCommand extends AbstractAggregateCommand<MyRootId, MyId> {
 
     @Override
     public String toString() {
-        return "Issued MyCommand";
+        final Map<String, String> vars = new HashMap<>();
+        vars.put("entityIdPath", getEntityIdPath().toString());
+        vars.put("myId", "" + myId);
+        return Utils4J.replaceVars("Issued MyCommand", vars);
     }
 
     /**

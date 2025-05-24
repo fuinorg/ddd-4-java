@@ -3,7 +3,6 @@ package org.fuin.ddd4j.codegen.example;
 import jakarta.validation.constraints.NotNull;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
-import javax.annotation.Nullable;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
@@ -14,23 +13,19 @@ import org.fuin.objects4j.common.Contract;
 
 import java.io.Serial;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.concurrent.Immutable;
+import org.fuin.utils4j.Utils4J;
 
 import jakarta.annotation.Nonnull;
-import org.fuin.objects4j.ui.ShortLabel;
-import org.fuin.objects4j.ui.Label;
-import org.fuin.objects4j.ui.Tooltip;
+import org.fuin.ddd4j.codegen.example.TheRootId;
+import org.fuin.ddd4j.codegen.example.TheRootName;
 import org.fuin.objects4j.ui.Examples;
-import jakarta.annotation.Nonnull;
-import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Label;
-import org.fuin.objects4j.ui.Tooltip;
-import org.fuin.objects4j.ui.Examples;
 import org.fuin.objects4j.ui.ShortLabel;
-import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Tooltip;
-import org.fuin.objects4j.ui.Examples;
 
 /**
  * The root was created.
@@ -89,6 +84,7 @@ public final class TheRootCreatedEvent extends AbstractDomainEvent<TheRootId> {
      *
      * @return Root Identifier. Uniquely identifies The Root.
      */
+    @NotNull
     public TheRootId getId() {
         return id;
     }
@@ -97,6 +93,7 @@ public final class TheRootCreatedEvent extends AbstractDomainEvent<TheRootId> {
      *
      * @return Root Name. Name of The Root.
      */
+    @NotNull
     public TheRootName getName() {
         return name;
     }
@@ -105,13 +102,19 @@ public final class TheRootCreatedEvent extends AbstractDomainEvent<TheRootId> {
      *
      * @return The foo. Whatever the 'foo' is....
      */
+    @NotNull
     public int getFoo() {
         return foo;
     }
 
     @Override
     public String toString() {
-        return "MyEvent happened";
+        final Map<String, String> vars = new HashMap<>();
+        vars.put("entityIdPath", getEntityIdPath().toString());
+        vars.put("id", id.toString());
+        vars.put("name", name.toString());
+        vars.put("foo", foo.toString());
+        return Utils4J.replaceVars("MyEvent happened", vars);
     }
 
     /**

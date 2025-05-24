@@ -46,7 +46,7 @@ public final class EventVOTemplateTest {
                         jsonb = true, openapi = true,
                         serialVersionUID = 1000L,
                         entityIdClass = "org.fuin.ddd4j.codegen.test.MyId",
-                        message = "MyEvent happened"
+                        message = "MyEvent happened (${entityIdPath})"
                 )
                 public interface MyEventExample {
                 

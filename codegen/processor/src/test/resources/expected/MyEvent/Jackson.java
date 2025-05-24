@@ -15,8 +15,11 @@ import org.fuin.objects4j.common.Contract;
 
 import java.io.Serial;
 import java.time.ZonedDateTime;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.annotation.concurrent.Immutable;
+import org.fuin.utils4j.Utils4J;
 
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.codegen.test.MyId;
@@ -76,7 +79,10 @@ public final class MyEvent extends AbstractDomainEvent<MyId> {
 
     @Override
     public String toString() {
-        return "MyEvent happened";
+        final Map<String, String> vars = new HashMap<>();
+        vars.put("entityIdPath", getEntityIdPath().toString());
+        vars.put("myId", "" + myId);
+        return Utils4J.replaceVars("MyEvent happened", vars);
     }
 
     /**

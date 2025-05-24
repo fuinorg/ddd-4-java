@@ -28,10 +28,13 @@ import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 import javax.annotation.concurrent.Immutable;
 
 /**
+ * <p class="business">
  * Unique identifier of a ramp.
- * 
+ * </p>
+ * <p class="technical">
  * CAUTION: Instances of this type may contain invalid values by deserializing it.
  * This means if you create it from JSON, XML or database (JPA) it may not have a correct min or max value.
+ * </p>
  */
 @Generated("Generated class - Manual changes will be overwritten")
 @Immutable

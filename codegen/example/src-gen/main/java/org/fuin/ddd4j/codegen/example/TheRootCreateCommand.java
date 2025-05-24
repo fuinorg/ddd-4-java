@@ -21,8 +21,6 @@ import javax.annotation.concurrent.Immutable;
 import org.fuin.utils4j.Utils4J;
 
 import jakarta.annotation.Nonnull;
-import org.fuin.ddd4j.codegen.example.TheRootId;
-import org.fuin.ddd4j.codegen.example.TheRootName;
 import org.fuin.objects4j.ui.Examples;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.ShortLabel;
@@ -112,9 +110,9 @@ public final class TheRootCreateCommand extends AbstractAggregateCommand<TheRoot
     public String toString() {
         final Map<String, String> vars = new HashMap<>();
         vars.put("entityIdPath", getEntityIdPath().toString());
-        vars.put("id", id.toString());
-        vars.put("name", name.toString());
-        vars.put("foo", foo.toString());
+        vars.put("id", "" + id);
+        vars.put("name", "" + name);
+        vars.put("foo", "" + foo);
         return Utils4J.replaceVars("This is the command!", vars);
     }
 

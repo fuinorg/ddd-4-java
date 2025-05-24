@@ -17,19 +17,13 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.AsStringCapable;
+
 import java.io.Serializable;
 
 /**
  * Identifies a type of entity within all entity types of the context. As the simple name of an entity class should be defined by the
  * Ubiquitous Language, the simple class name is a good choice for the type.
  */
-public interface EntityType extends Serializable {
-
-    /**
-     * Returns the entity type name as string.
-     *
-     * @return Unique entity type name.
-     */
-    String asString();
-
+public interface EntityType extends Serializable, AsStringCapable {
 }

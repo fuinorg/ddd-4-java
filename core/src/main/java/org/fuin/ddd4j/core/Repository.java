@@ -91,7 +91,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             An aggregate with the requested version does not exist.
      */
     @NotNull
-    T read(@NotNull ID id, int version)
+    T read(@NotNull ID id, @Nullable Integer version)
             throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException;
 
     /**
@@ -172,6 +172,6 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateVersionConflictException
      *             The expected version didn't match the actual version.
      */
-    void delete(@NotNull ID aggregateId, int expectedVersion) throws AggregateVersionConflictException;
+    void delete(@NotNull ID aggregateId, @Nullable Integer expectedVersion) throws AggregateVersionConflictException;
 
 }

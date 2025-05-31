@@ -99,10 +99,14 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final AGGREGATE read(final ID aggregateId, final int version)
+    public final AGGREGATE read(final ID aggregateId, final Integer version)
             throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
+
+        if (version == null) {
+            return read(aggregateId);
+        }
 
         AGGREGATE aggregate = getAggregateCache().get(aggregateId, version);
         if (aggregate == null) {
@@ -309,7 +313,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final void delete(final ID aggregateId, final int expectedVersion) throws AggregateVersionConflictException {
+    public final void delete(final ID aggregateId, final Integer expectedVersion) throws AggregateVersionConflictException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
@@ -317,10 +321,14 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
         try {
             final AggregateStreamId streamId = new AggregateStreamId(getAggregateType(), getIdParamName(), aggregateId);
-            getEventStore().deleteStream(streamId, expectedVersion, false);
+            if (expectedVersion == null) {
+                getEventStore().deleteStream(streamId, false);
+            } else {
+                getEventStore().deleteStream(streamId, expectedVersion, false);
+            }
         } catch (final WrongExpectedVersionException ex) {
-            throw new AggregateVersionConflictException(getAggregateType(), aggregateId, integerVersion(ex.getExpected()),
-                    integerVersion(ex.getActual()));
+            throw new AggregateVersionConflictException(getAggregateType(), aggregateId,
+                    integerVersion(ex.getExpected()), integerVersion(ex.getActual()));
         } catch (final StreamDeletedException ex) {
             LOG.debug("Aggregate {} was already deleted: {}", aggregateId, ex.getMessage());
         }
@@ -402,9 +410,9 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         return (int) version;
     }
 
-    private Integer integerVersion(final Long version) {
+    private int integerVersion(final Long version) {
         if (version == null) {
-            return null;
+            return Integer.MIN_VALUE;
         }
         if (version > Integer.MAX_VALUE) {
             throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);

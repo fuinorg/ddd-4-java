@@ -78,6 +78,12 @@
 
             <dependency>
                 <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
                 <artifactId>ddd-4-java-junit</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -157,6 +163,12 @@
             </dependency>
 
             <dependency>
+                <groupId>jakarta.el</groupId>
+                <artifactId>jakarta.el-api</artifactId>
+                <version>5.0.1</version>
+            </dependency>
+
+            <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>3.17.0</version>
@@ -220,6 +232,18 @@
                 <groupId>org.hibernate.validator</groupId>
                 <artifactId>hibernate-validator</artifactId>
                 <version>8.0.2.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.orm</groupId>
+                <artifactId>hibernate-core</artifactId>
+                <version>6.6.11.Final</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hsqldb</groupId>
+                <artifactId>hsqldb</artifactId>
+                <version>2.7.3</version>
             </dependency>
 
             <dependency>
@@ -399,6 +423,7 @@
         <module>jsonb</module>
         <module>jsonb-testmodel</module>
         <module>jackson</module>
+        <module>jpa</module>
         <module>esc</module>
         <module>codegen</module>
         <module>junit</module>

@@ -41,6 +41,11 @@
             <artifactId>ddd-4-java-jackson</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.fuin.ddd4j</groupId>
+            <artifactId>ddd-4-java-jpa</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

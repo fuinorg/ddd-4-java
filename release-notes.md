@@ -11,6 +11,7 @@
   - Added variable replacement for event and command message
   - Fixed issue #9: Codegen template "StringVO.java" has JSON-B import even if JSON-B is not enabled
 - Added new interface [IEventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/IEventStoreRepository.java)
+- Added new [JPA module](jpa)
 
 ## 0.7.0
 - Added [Jackson](jackson) module

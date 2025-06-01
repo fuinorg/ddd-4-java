@@ -30,12 +30,12 @@
 
     <properties>
         <jackson.version>2.18.2</jackson.version>
-        <esc.version>0.9.0</esc.version>
+        <esc.version>0.9.1-SNAPSHOT</esc.version>
         <objects4j.version>0.11.1-SNAPSHOT</objects4j.version>
-        <utils4j.version>0.15.0</utils4j.version>
+        <utils4j.version>0.15.1-SNAPSHOT</utils4j.version>
         <units4j.version>0.12.0</units4j.version>
         <archunit.version>1.4.0</archunit.version>
-        <cqrs4j.version>0.6.0</cqrs4j.version> <!-- TEST ONLY! -->
+        <cqrs4j.version>0.7.0-SNAPSHOT</cqrs4j.version> <!-- TEST ONLY! -->
         <mockito.version>5.14.2</mockito.version>
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>

@@ -349,7 +349,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @throws AggregateDeletedException
      *             The aggregate with the given identifier was already deleted.
      */
-    private List<DomainEvent<?>> readEvents(final ID aggregateId, final int startVersion)
+    public List<DomainEvent<?>> readEvents(final ID aggregateId, final int startVersion)
             throws AggregateNotFoundException, AggregateDeletedException {
 
         LOG.info("Read events: id={}, startVersion={}", aggregateId.asTypedString(), startVersion);

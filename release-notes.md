@@ -1,6 +1,7 @@
 # Release Notes
 
-## 0.7.1
+## 0.8.0
+- **Incompatible** Added new "readEvents" method to [EventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/EventStoreRepository.java)
 - Fixed issue #10 JandexEntityIdfactory does not find "HasPublicStaticIsValidMethods" annotations
 - Code generation
   - Fixed issue #11: Generated method "isValid" of Integer EntityId failed to validate correct values 
@@ -15,7 +16,6 @@
 - Added [Jackson](jackson) module
 
 ## 0.6.0
-
 - Dependency updates
 - **Incompatible** Previously there was only one artifact. Now there are multiple modules.
   The existing classes were moved to one of these modules to allow different serialization libraries

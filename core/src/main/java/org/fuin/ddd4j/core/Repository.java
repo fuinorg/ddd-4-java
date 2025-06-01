@@ -20,6 +20,8 @@ package org.fuin.ddd4j.core;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.List;
+
 /**
  * Repository that supports CRUD operations for an aggregate.
  *
@@ -173,5 +175,25 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             The expected version didn't match the actual version.
      */
     void delete(@NotNull ID aggregateId, @Nullable Integer expectedVersion) throws AggregateVersionConflictException;
+
+
+    /**
+     * Reads all events for the given aggregate starting with a given number.
+     * CAUTION: Should only be used for testing purposes.
+     *
+     * @param aggregateId
+     *            Unique identifier of the aggregate to read the events for.
+     * @param startVersion
+     *            First event number to read.
+     *
+     * @return List of events.
+     *
+     * @throws AggregateNotFoundException
+     *             An aggregate with the given identifier was not found.
+     * @throws AggregateDeletedException
+     *             The aggregate with the given identifier was already deleted.
+     */
+    List<DomainEvent<?>> readEvents(final ID aggregateId, final int startVersion)
+            throws AggregateNotFoundException, AggregateDeletedException;
 
 }

@@ -55,7 +55,7 @@ import java.util.List;
  *            Type of the aggregate root.
  */
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
-        implements Repository<ID, AGGREGATE> {
+        implements IEventStoreRepository<ID, AGGREGATE> {
 
     private static final String MAX_AGGREGATE_VERSION_EXCEEDED = "Exceeded maximum number of aggregate versions."
             + " The Event Store operates with 'long' versions but aggregates only can handle 'int' versions.";

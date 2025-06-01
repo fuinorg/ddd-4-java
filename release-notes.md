@@ -1,7 +1,6 @@
 # Release Notes
 
 ## 0.8.0
-- **Incompatible** Added new "readEvents" method to [EventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/EventStoreRepository.java)
 - Fixed issue #10 JandexEntityIdfactory does not find "HasPublicStaticIsValidMethods" annotations
 - Code generation
   - Fixed issue #11: Generated method "isValid" of Integer EntityId failed to validate correct values 
@@ -11,6 +10,7 @@
   - Allow nullable fields for generated commands and events
   - Added variable replacement for event and command message
   - Fixed issue #9: Codegen template "StringVO.java" has JSON-B import even if JSON-B is not enabled
+- Added new interface [IEventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/IEventStoreRepository.java)
 
 ## 0.7.0
 - Added [Jackson](jackson) module

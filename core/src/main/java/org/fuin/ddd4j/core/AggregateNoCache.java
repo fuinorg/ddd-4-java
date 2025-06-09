@@ -17,30 +17,30 @@
  */
 package org.fuin.ddd4j.core;
 
+import jakarta.annotation.Nullable;
 import org.fuin.utils4j.TestOmitted;
 
 /**
  * Never caches anything.
  *
- * @param <AGGREGATE>
- *            Type of the aggregate.
+ * @param <AGGREGATE> Type of the aggregate.
  */
 @TestOmitted("Nothing useful to test")
 public final class AggregateNoCache<AGGREGATE> implements AggregateCache<AGGREGATE> {
 
     @Override
-    public final AGGREGATE get(final AggregateRootId aggregateId, final Integer version) {
+    public final AGGREGATE get(@Nullable final TenantId tenantId, final AggregateRootId aggregateId, final Integer version) {
         // Always return null
         return null;
     }
 
     @Override
-    public void put(final AggregateRootId aggregateId, final AGGREGATE aggregate) {
+    public void put(@Nullable final TenantId tenantId, final AggregateRootId aggregateId, final AGGREGATE aggregate) {
         // Do nothing
     }
 
     @Override
-    public final void remove(final AggregateRootId aggregateId) {
+    public final void remove(@Nullable final TenantId tenantId, final AggregateRootId aggregateId) {
         // Do nothing
     }
 

@@ -30,7 +30,7 @@
 
     <properties>
         <jackson.version>2.18.2</jackson.version>
-        <esc.version>0.9.1-SNAPSHOT</esc.version>
+        <esc.version>0.10.0-SNAPSHOT</esc.version>
         <objects4j.version>0.11.1-SNAPSHOT</objects4j.version>
         <utils4j.version>0.15.1-SNAPSHOT</utils4j.version>
         <units4j.version>0.12.0</units4j.version>

@@ -20,6 +20,8 @@ package org.fuin.ddd4j.core;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.Optional;
+
 /**
  * Repository that supports CRUD operations for an aggregate.
  *
@@ -37,6 +39,15 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      */
     @NotNull
     Class<T> getAggregateClass();
+
+    /**
+     * Returns the context to retrieve the tenant (if there is one).
+     *
+     * @return Context that has the tenant ot empty if it's no multi-tenant environment.
+     */
+    default Optional<TenantContext> getTenantContext() {
+        return Optional.empty();
+    }
 
     /**
      * Returns a unique name for the aggregate root type. This can be used to provide a shorted name for an aggregate type. Another good

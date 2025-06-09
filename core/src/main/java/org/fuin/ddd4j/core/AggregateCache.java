@@ -17,7 +17,10 @@
  */
 package org.fuin.ddd4j.core;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotNull;
+
+import java.util.Optional;
 
 /**
  * Cache for aggregates of the same type.
@@ -37,7 +40,23 @@ public interface AggregateCache<AGGREGATE> {
      *
      * @return Cached aggregate or <code>null</code> if it was not found in the cache.
      */
-    AGGREGATE get(@NotNull AggregateRootId aggregateId, Integer version);
+    default AGGREGATE get(@NotNull AggregateRootId aggregateId, Integer version) {
+        return get(null, aggregateId, version);
+    }
+
+    /**
+     * Tries to read an aggregate of a tenant with the given identifier from the cache.
+     *
+     * @param tenantId
+     *            Unique tenant identifier.
+     * @param aggregateId
+     *            Aggregate to load.
+     * @param version
+     *            Version to load or <code>null</code> for latest.
+     *
+     * @return Cached aggregate or <code>null</code> if it was not found in the cache.
+     */
+    AGGREGATE get(@Nullable TenantId tenantId, @NotNull AggregateRootId aggregateId, Integer version);
 
     /**
      * Puts an aggregate with the given identifier in the cache.
@@ -47,7 +66,21 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregate
      *            Aggregate to cache.
      */
-    void put(@NotNull AggregateRootId aggregateId, @NotNull AGGREGATE aggregate);
+    default void put(@NotNull AggregateRootId aggregateId, @NotNull AGGREGATE aggregate) {
+        put(null, aggregateId, aggregate);
+    }
+
+    /**
+     * Puts an aggregate of a tenant with the given identifier in the cache.
+     *
+     * @param tenantId
+     *            Unique tenant identifier.
+     * @param aggregateId
+     *            Aggregate to load.
+     * @param aggregate
+     *            Aggregate to cache.
+     */
+    void put(@Nullable TenantId tenantId, @NotNull AggregateRootId aggregateId, @NotNull AGGREGATE aggregate);
 
     /**
      * Removes the aggregate with the given identifier from the cache.
@@ -55,6 +88,18 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregateId
      *            Aggregate to remove from cache.
      */
-    void remove(@NotNull AggregateRootId aggregateId);
+    default void remove(@NotNull AggregateRootId aggregateId) {
+        remove(null, aggregateId);
+    }
+
+    /**
+     * Removes the aggregate of a tenant with the given identifier from the cache.
+     *
+     * @param tenantId
+     *            Unique tenant identifier.
+     * @param aggregateId
+     *            Aggregate to remove from cache.
+     */
+    void remove(@Nullable TenantId tenantId, @NotNull AggregateRootId aggregateId);
 
 }

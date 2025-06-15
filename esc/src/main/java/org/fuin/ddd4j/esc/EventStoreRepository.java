@@ -29,7 +29,6 @@ import org.fuin.ddd4j.core.AggregateVersionConflictException;
 import org.fuin.ddd4j.core.AggregateVersionNotFoundException;
 import org.fuin.ddd4j.core.DomainEvent;
 import org.fuin.ddd4j.core.TenantContext;
-import org.fuin.ddd4j.core.TenantId;
 import org.fuin.esc.api.CommonEvent;
 import org.fuin.esc.api.EventId;
 import org.fuin.esc.api.EventStore;
@@ -40,7 +39,6 @@ import org.fuin.esc.api.StreamDeletedException;
 import org.fuin.esc.api.StreamEventsSlice;
 import org.fuin.esc.api.StreamId;
 import org.fuin.esc.api.StreamNotFoundException;
-import org.fuin.esc.api.TenantStreamId;
 import org.fuin.esc.api.TypeName;
 import org.fuin.esc.api.WrongExpectedVersionException;
 import org.fuin.objects4j.common.Contract;
@@ -49,7 +47,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Event store based repository.
@@ -387,19 +384,25 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         return list;
     }
 
-    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events, final String metaType, final Object metaData) {
+    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events,
+                                             final String metaType,
+                                             final Object metaData) {
+        final SimpleTenantId tenantId = getTenantContext()
+                .map(TenantContext::getTenantId)
+                .map(tid -> new SimpleTenantId(tid.asString()))
+                .orElse(null);
         final List<CommonEvent> list = new ArrayList<>();
         for (final DomainEvent<?> event : events) {
             final SimpleCommonEvent sce;
             if (metaData == null) {
                 sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
-                        event);
+                        event, tenantId);
             } else {
                 if (metaType == null) {
                     throw new IllegalArgumentException("Argument 'metaType' cannot be null if 'metaData' is provided (non-null)");
                 }
                 sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
-                        event, new TypeName(metaType), metaData);
+                        event, new TypeName(metaType), metaData, tenantId);
             }
             list.add(sce);
         }
@@ -424,11 +427,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     private StreamId streamId(final ID aggregateId) {
-        final Optional<TenantId> tenantId = getTenantContext().map(TenantContext::getTenantId);
-        final AggregateStreamId aggregateStreamId = new AggregateStreamId(getAggregateType(), getIdParamName(), aggregateId);
-        return tenantId
-                .map(tid -> (StreamId) new TenantStreamId(new SimpleTenantId(tid.name()), aggregateStreamId))
-                .orElse(aggregateStreamId);
+        return new AggregateStreamId(getAggregateType(), getIdParamName(), aggregateId);
     }
 
     /**

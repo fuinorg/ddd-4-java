@@ -12,9 +12,8 @@
   - Fixed issue #9: Codegen template "StringVO.java" has JSON-B import even if JSON-B is not enabled
 - Added new interface [IEventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/IEventStoreRepository.java)
 - Added new [JPA module](jpa)
-- [Repository](core/src/main/java/org/fuin/ddd4j/core/Repository.java) now supports 
-  a [TenantContext](core/src/main/java/org/fuin/ddd4j/core/TenantContext.java) 
-  that contains the current [TenantId](core/src/main/java/org/fuin/ddd4j/core/TenantId.java)
+- [Repository](core/src/main/java/org/fuin/ddd4j/core/Repository.java) now supports a [TenantContext](core/src/main/java/org/fuin/ddd4j/core/TenantContext.java)
+  (also see [WritableTenantContext](core/src/main/java/org/fuin/ddd4j/core/WritableTenantContext.java)) that contains the current [TenantId](core/src/main/java/org/fuin/ddd4j/core/TenantId.java)
 - **Incompatible** Added [TenantId](core/src/main/java/org/fuin/ddd4j/core/TenantId.java) parameter to [AggregateCache](core/src/main/java/org/fuin/ddd4j/core/AggregateCache.java) interface methods.
 
 ## 0.7.0

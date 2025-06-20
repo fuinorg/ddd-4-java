@@ -56,8 +56,8 @@ jobs:
       - name: Build with Maven
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OSS_SONATYPE_USERNAME: michael-schnell
+          OSS_SONATYPE_USERNAME: ${{ secrets.OSS_SONATYPE_USERNAME }}
           OSS_SONATYPE_TOKEN: ${{ secrets.OSS_SONATYPE_TOKEN }}
           OSS_SONATYPE_GPG_PASSPHRASE: ${{ secrets.OSS_SONATYPE_GPG_PASSPHRASE }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: ./mvnw clean deploy jacoco:report sonar:sonar -U -B -P sonatype-oss-release --file pom.xml -s settings.xml
+        run: ./mvnw clean deploy jacoco:report sonar:sonar -U -B -P central-sonatype-release --file pom.xml -s settings.xml

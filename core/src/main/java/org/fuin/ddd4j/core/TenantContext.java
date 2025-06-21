@@ -1,6 +1,7 @@
 package org.fuin.ddd4j.core;
 
 import javax.annotation.concurrent.ThreadSafe;
+import java.util.Optional;
 
 /**
  * Helper to return the current tenant.
@@ -16,6 +17,6 @@ public interface TenantContext {
      *
      * @return Tenant ID.
      */
-    TenantId getTenantId();
+    Optional<TenantId> getTenantId();
 
 }

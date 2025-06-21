@@ -47,6 +47,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Event store based repository.
@@ -389,7 +391,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                                              final Object metaData) {
         final SimpleTenantId tenantId = getTenantContext()
                 .map(TenantContext::getTenantId)
-                .map(tid -> new SimpleTenantId(tid.asString()))
+                .filter(Optional::isPresent)
+                .map(tid -> new SimpleTenantId(tid.get().asString()))
                 .orElse(null);
         final List<CommonEvent> list = new ArrayList<>();
         for (final DomainEvent<?> event : events) {

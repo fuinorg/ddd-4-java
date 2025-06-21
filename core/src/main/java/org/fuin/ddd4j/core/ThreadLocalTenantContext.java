@@ -4,6 +4,8 @@ import org.fuin.utils4j.TestOmitted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Optional;
+
 /**
  * Container for the tenant based on a {@link ThreadLocal}.
  */
@@ -15,8 +17,8 @@ public class ThreadLocalTenantContext implements WritableTenantContext {
     private static final ThreadLocal<TenantId> CURRENT = new InheritableThreadLocal<>();
 
     @Override
-    public TenantId getTenantId() {
-        return CURRENT.get();
+    public Optional<TenantId> getTenantId() {
+        return Optional.ofNullable(CURRENT.get());
     }
 
     @Override

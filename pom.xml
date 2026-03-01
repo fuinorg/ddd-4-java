@@ -29,7 +29,7 @@
     </issueManagement>
 
     <properties>
-        <jackson.version>2.18.2</jackson.version>
+        <jackson.version>2.18.6</jackson.version>
         <esc.version>0.9.0</esc.version>
         <objects4j.version>0.11.0</objects4j.version>
         <utils4j.version>0.15.0</utils4j.version>

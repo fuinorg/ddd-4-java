@@ -114,18 +114,15 @@ There are two implementations that can be used for tests:
 
 ## Snapshots
 
-Snapshots can be found on
-the [OSS Sonatype Snapshots Repository](http://oss.sonatype.org/content/repositories/snapshots/org/fuin "Snapshot Repository").
+Snapshots can be found on the [Central Portal Snapshots Repository](https://central.sonatype.com/repository/maven-snapshots/org/fuin "Snapshot Repository").
 
-Add the following to
-your [.m2/settings.xml](http://maven.apache.org/ref/3.2.1/maven-settings/settings.html "Reference configuration") to
-enable snapshots in your Maven build:
+Add the following to your .m2/settings.xml to enable snapshots in your Maven build:
 
 ```xml
 <repository>
-    <id>sonatype.oss.snapshots</id>
-    <name>Sonatype OSS Snapshot Repository</name>
-    <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    <id>central-portal-snapshots</id>
+    <name>Central Portal Snapshots</name>
+    <url>https://central.sonatype.com/repository/maven-snapshots/</url>
     <releases>
         <enabled>false</enabled>
     </releases>
@@ -134,4 +131,3 @@ enable snapshots in your Maven build:
     </snapshots>
 </repository>
 ```
-

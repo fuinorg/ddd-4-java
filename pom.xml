@@ -36,6 +36,7 @@
         <units4j.version>0.12.1-SNAPSHOT</units4j.version>
         <cqrs4j.version>0.7.0-SNAPSHOT</cqrs4j.version> <!-- TEST ONLY! -->
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <org-fuin-bom.version>1.0.2-SNAPSHOT</org-fuin-bom.version>
     </properties>
 
     <dependencyManagement>
@@ -45,7 +46,23 @@
             <dependency>
                 <groupId>org.fuin</groupId>
                 <artifactId>bom</artifactId>
-                <version>1.0.2-SNAPSHOT</version>
+                <version>${org-fuin-bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.objects4j</groupId>
+                <artifactId>objects4j-bom</artifactId>
+                <version>${objects4j.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.esc</groupId>
+                <artifactId>esc-bom</artifactId>
+                <version>0.10.0-SNAPSHOT</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -101,60 +118,6 @@
             </dependency>
 
             <!-- other -->
-
-            <dependency>
-                <groupId>org.fuin.esc</groupId>
-                <artifactId>esc-api</artifactId>
-                <version>${esc.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-common</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-core</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-ui</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-jaxb</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-jsonb</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-jackson</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.objects4j</groupId>
-                <artifactId>objects4j-junit</artifactId>
-                <version>${objects4j.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>org.fuin.esc</groupId>
-                <artifactId>esc-mem</artifactId>
-                <version>${esc.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.fuin</groupId>

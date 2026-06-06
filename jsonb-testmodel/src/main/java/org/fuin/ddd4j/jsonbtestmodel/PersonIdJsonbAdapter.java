@@ -1,5 +1,6 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.adapter.JsonbAdapter;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -11,7 +12,7 @@ import javax.annotation.concurrent.ThreadSafe;
 public class PersonIdJsonbAdapter implements JsonbAdapter<PersonId, Integer> {
 
     @Override
-    public Integer adaptToJson(PersonId obj) throws Exception {
+    public @Nullable Integer adaptToJson(@Nullable PersonId obj) throws Exception {
         if (obj == null) {
             return null;
         }
@@ -19,7 +20,7 @@ public class PersonIdJsonbAdapter implements JsonbAdapter<PersonId, Integer> {
     }
 
     @Override
-    public PersonId adaptFromJson(Integer obj) throws Exception {
+    public @Nullable PersonId adaptFromJson(@Nullable Integer obj) throws Exception {
         if (obj == null) {
             return null;
         }

@@ -1,9 +1,9 @@
 package org.fuin.ddd4j.jackson;
 
+import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.EncryptionKeyVersionUnknownException;
 import org.fuin.ddd4j.core.ExceptionData;
 
@@ -16,13 +16,14 @@ import static org.fuin.ddd4j.core.EncryptionKeyVersionUnknownException.ELEMENT_N
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SuppressWarnings("NullAway.Init")
 public class EncryptionKeyVersionUnknownExceptionData implements ExceptionData<EncryptionKeyVersionUnknownException> {
 
     @Serial
     private static final long serialVersionUID = 1000L;
 
     @JsonProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonProperty("sid")
     private String sid;
@@ -42,7 +43,7 @@ public class EncryptionKeyVersionUnknownExceptionData implements ExceptionData<E
      *
      * @param ex Exception to copy data from.
      */
-    public EncryptionKeyVersionUnknownExceptionData(@NotNull final EncryptionKeyVersionUnknownException ex) {
+    public EncryptionKeyVersionUnknownExceptionData(final EncryptionKeyVersionUnknownException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -61,7 +62,7 @@ public class EncryptionKeyVersionUnknownExceptionData implements ExceptionData<E
      * @return Message.
      */
     @JsonIgnore
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

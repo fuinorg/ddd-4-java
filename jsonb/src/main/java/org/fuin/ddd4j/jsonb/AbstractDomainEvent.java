@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.jsonb;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.validation.constraints.NotNull;
@@ -37,6 +37,7 @@ import java.io.Serial;
  *
  * @param <ID> Type of the entity identifier.
  */
+@SuppressWarnings("NullAway.Init")
 public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractEvent implements DomainEvent<ID> {
 
     @Serial
@@ -64,7 +65,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      *
      * @param entityIdPath Identifier path from aggregate root to the entity that emitted the event.
      */
-    public AbstractDomainEvent(@NotNull final EntityIdPath entityIdPath) {
+    public AbstractDomainEvent(final EntityIdPath entityIdPath) {
         super();
         this.entityIdPath = entityIdPath;
     }
@@ -76,7 +77,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      * @param entityIdPath Identifier path from aggregate root to the entity that emitted the event.
      * @param respondTo    Causing event.
      */
-    public AbstractDomainEvent(@NotNull final EntityIdPath entityIdPath, @NotNull final Event respondTo) {
+    public AbstractDomainEvent(final EntityIdPath entityIdPath, final Event respondTo) {
         super(respondTo);
         this.entityIdPath = entityIdPath;
     }
@@ -88,7 +89,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
      * @param correlationId Correlation ID.
      * @param causationId   ID of the event that caused this one.
      */
-    public AbstractDomainEvent(@NotNull final EntityIdPath entityIdPath, @Nullable final EventId correlationId,
+    public AbstractDomainEvent(final EntityIdPath entityIdPath, @Nullable final EventId correlationId,
                                @Nullable final EventId causationId) {
         super(correlationId, causationId);
         this.entityIdPath = entityIdPath;
@@ -148,7 +149,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER entityIdPath(@NotNull final EntityIdPath entityIdPath) {
+        public final BUILDER entityIdPath(final EntityIdPath entityIdPath) {
             Contract.requireArgNotNull("entityIdPath", entityIdPath);
             delegate.entityIdPath = entityIdPath;
             return (BUILDER) this;
@@ -161,7 +162,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER entityIdPath(@NotNull AggregateRootId id) {
+        public final BUILDER entityIdPath(AggregateRootId id) {
             Contract.requireArgNotNull("id", id);
             delegate.entityIdPath = new EntityIdPath(id);
             return (BUILDER) this;

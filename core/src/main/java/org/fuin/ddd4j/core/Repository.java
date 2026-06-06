@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.Optional;
@@ -82,7 +82,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             The aggregate with the given identifier was already deleted.
      */
     @NotNull
-    T read(@NotNull ID id) throws AggregateNotFoundException, AggregateDeletedException;
+    T read(ID id) throws AggregateNotFoundException, AggregateDeletedException;
 
     /**
      * Reads a given version of an aggregate.
@@ -102,7 +102,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      *             An aggregate with the requested version does not exist.
      */
     @NotNull
-    T read(@NotNull ID id, @Nullable Integer version)
+    T read(ID id, @Nullable Integer version)
             throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException;
 
     /**
@@ -122,7 +122,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
      */
-    void update(@NotNull T aggregate, @Nullable String metaType, @Nullable Object metaData)
+    void update(T aggregate, @Nullable String metaType, @Nullable Object metaData)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException;
 
     /**
@@ -136,7 +136,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateDeletedException
      *             The aggregate with the given identifier was already deleted.
      */
-    void add(@NotNull T aggregate) throws AggregateAlreadyExistsException, AggregateDeletedException;
+    void add(T aggregate) throws AggregateAlreadyExistsException, AggregateDeletedException;
 
     /**
      * Adds a new aggregate to the repository with some metadata. The method will fail if an aggregate with the same ID already exists.
@@ -153,7 +153,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateDeletedException
      *             The aggregate with the given identifier was already deleted.
      */
-    void add(@NotNull T aggregate, @Nullable String metaType, @Nullable Object metaData)
+    void add(T aggregate, @Nullable String metaType, @Nullable Object metaData)
             throws AggregateAlreadyExistsException, AggregateDeletedException;
 
     /**
@@ -169,7 +169,7 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateNotFoundException
      *             An aggregate with the given identifier was not found.
      */
-    void update(@NotNull T aggregate)
+    void update(T aggregate)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException;
 
     /**
@@ -183,6 +183,6 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      * @throws AggregateVersionConflictException
      *             The expected version didn't match the actual version.
      */
-    void delete(@NotNull ID aggregateId, @Nullable Integer expectedVersion) throws AggregateVersionConflictException;
+    void delete(ID aggregateId, @Nullable Integer expectedVersion) throws AggregateVersionConflictException;
 
 }

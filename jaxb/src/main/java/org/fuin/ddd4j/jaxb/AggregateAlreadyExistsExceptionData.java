@@ -16,6 +16,7 @@ import static org.fuin.ddd4j.core.AggregateAlreadyExistsException.ELEMENT_NAME;
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.FIELD)
+@SuppressWarnings("NullAway.Init")
 public final class AggregateAlreadyExistsExceptionData extends AbstractVersionedAggregateExceptionData<AggregateAlreadyExistsException> {
 
     @Serial

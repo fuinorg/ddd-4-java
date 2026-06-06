@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
@@ -49,7 +48,7 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
      * @param entityType
      *            Entity type.
      */
-    public AggregateRootUuid(@NotNull final EntityType entityType) {
+    public AggregateRootUuid(final EntityType entityType) {
         this(entityType, UUID.randomUUID());
     }
 
@@ -61,7 +60,7 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
      * @param uuid
      *            UUID.
      */
-    public AggregateRootUuid(@NotNull final EntityType entityType, @NotNull final UUID uuid) {
+    public AggregateRootUuid(final EntityType entityType, final UUID uuid) {
         super();
         Contract.requireArgNotNull("entityType", entityType);
         Contract.requireArgNotNull("uuid", uuid);
@@ -163,7 +162,7 @@ public abstract class AggregateRootUuid implements AggregateRootId, Comparable<A
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name, @NotNull final String value) throws ConstraintViolationException {
+    public static void requireArgValid(final String name, final String value) throws ConstraintViolationException {
 
         if (!isValid(value)) {
             throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");

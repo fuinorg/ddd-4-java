@@ -1,6 +1,5 @@
 package org.fuin.ddd4j.jaxb;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -17,6 +16,7 @@ import static org.fuin.ddd4j.core.AggregateVersionConflictException.ELEMENT_NAME
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public final class AggregateVersionConflictExceptionData extends AbstractAggregateExceptionData<AggregateVersionConflictException> {
 
     @Serial
@@ -43,7 +43,7 @@ public final class AggregateVersionConflictExceptionData extends AbstractAggrega
      *
      * @param ex Exception to copy data from.
      */
-    public AggregateVersionConflictExceptionData(@NotNull final AggregateVersionConflictException ex) {
+    public AggregateVersionConflictExceptionData(final AggregateVersionConflictException ex) {
         super(ex);
         this.sid = ex.getShortId();
         this.expected = ex.getExpected();

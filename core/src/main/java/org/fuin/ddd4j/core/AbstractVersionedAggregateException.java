@@ -18,7 +18,6 @@
 package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 import java.io.Serial;
 
@@ -41,8 +40,8 @@ public abstract class AbstractVersionedAggregateException extends AbstractAggreg
      * @param version Version of the aggregate.
      */
     public AbstractVersionedAggregateException(@NotEmpty final String message,
-                                               @NotNull final EntityType type,
-                                               @NotNull final AggregateRootId id,
+                                               final EntityType type,
+                                               final AggregateRootId id,
                                                final int version) {
         this(message, type.asString(), id.asString(), version);
     }
@@ -56,8 +55,8 @@ public abstract class AbstractVersionedAggregateException extends AbstractAggreg
      * @param version Version of the aggregate.
      */
     public AbstractVersionedAggregateException(@NotEmpty final String message,
-                                               @NotNull final String type,
-                                               @NotNull final String id,
+                                               final String type,
+                                               final String id,
                                                final int version) {
         super(message, type, id);
         this.version = version;

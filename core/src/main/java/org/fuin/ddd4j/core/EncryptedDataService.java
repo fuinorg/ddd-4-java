@@ -18,7 +18,6 @@
 package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 
 /**
  * Service for encrypting/decrypting {@link EncryptedData} and handling versioned secret keys.
@@ -86,7 +85,7 @@ public interface EncryptedDataService {
      * @throws DecryptionFailedException            Decrypting the data using they key, version and (optional) IV version failed.
      */
     @NotEmpty
-    byte[] decrypt(@NotNull EncryptedData encryptedData)
+    byte[] decrypt(EncryptedData encryptedData)
             throws EncryptionKeyIdUnknownException, EncryptionKeyVersionUnknownException, DecryptionFailedException;
 
 }

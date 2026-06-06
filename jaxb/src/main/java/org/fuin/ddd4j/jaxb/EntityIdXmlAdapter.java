@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jaxb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityIdFactory;
@@ -41,11 +42,11 @@ public final class EntityIdXmlAdapter extends XmlAdapter<String, EntityId> {
         vop = str -> EntityId.valueOf(factory, str);
     }
 
-    public final EntityId unmarshal(String value) {
+    public final @Nullable EntityId unmarshal(@Nullable String value) {
         return this.vop.valueOf(value);
     }
 
-    public final String marshal(EntityId value) {
+    public final @Nullable String marshal(@Nullable EntityId value) {
         return value == null ? null : value.asTypedString();
     }
 

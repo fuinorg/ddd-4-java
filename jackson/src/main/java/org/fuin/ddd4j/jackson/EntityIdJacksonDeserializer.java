@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jackson;
 
+import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
@@ -50,7 +51,7 @@ public final class EntityIdJacksonDeserializer<T extends EntityId> extends StdDe
 
     @Override
     @SuppressWarnings("unchecked")
-    public T deserialize(JsonParser parser, DeserializationContext context) throws IOException {
+    public @Nullable T deserialize(JsonParser parser, DeserializationContext context) throws IOException {
         JsonToken currentToken = parser.getCurrentToken();
         if (currentToken.equals(JsonToken.VALUE_STRING)) {
             String value = parser.getText().trim();

@@ -32,6 +32,7 @@ import java.util.Arrays;
  * code is based on all data (value object)
  */
 @Immutable
+@SuppressWarnings("NullAway.Init")
 public final class EncryptedDataJackson implements EncryptedData {
 
     @Serial

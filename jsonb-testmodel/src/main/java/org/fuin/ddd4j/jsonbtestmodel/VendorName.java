@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
@@ -44,7 +45,7 @@ public final class VendorName extends AbstractStringValueObject implements Value
      * @param name
      *            Name.
      */
-    public VendorName(@NotNull @VendorNameStr final String name) {
+    public VendorName(@VendorNameStr final String name) {
         super();
         Contract.requireArgNotNull("name", name);
         VendorNameStrValidator.requireArgValid("name", name);
@@ -81,7 +82,8 @@ public final class VendorName extends AbstractStringValueObject implements Value
      *
      * @return Converted value.
      */
-    public static VendorName valueOf(final String value) {
+    @Nullable
+    public static VendorName valueOf(@Nullable final String value) {
         if (value == null) {
             return null;
         }

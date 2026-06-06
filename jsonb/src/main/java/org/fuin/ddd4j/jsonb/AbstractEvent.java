@@ -17,10 +17,10 @@
  */
 package org.fuin.ddd4j.jsonb;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
+import jakarta.validation.constraints.NotNull;
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.objects4j.common.Contract;
@@ -81,7 +81,7 @@ public abstract class AbstractEvent implements Event {
      *
      * @param respondTo Causing event.
      */
-    public AbstractEvent(@NotNull final Event respondTo) {
+    public AbstractEvent(final Event respondTo) {
         this(respondTo.getCorrelationId(), respondTo.getEventId());
     }
 
@@ -110,12 +110,12 @@ public abstract class AbstractEvent implements Event {
     }
 
     @Override
-    public final EventId getCorrelationId() {
+    public final @Nullable EventId getCorrelationId() {
         return correlationId;
     }
 
     @Override
-    public final EventId getCausationId() {
+    public final @Nullable EventId getCausationId() {
         return causationId;
     }
 
@@ -176,7 +176,7 @@ public abstract class AbstractEvent implements Event {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER eventId(@NotNull final EventId eventId) {
+        public final BUILDER eventId(final EventId eventId) {
             Contract.requireArgNotNull("eventId", eventId);
             delegate.eventId = eventId;
             return (BUILDER) this;
@@ -189,7 +189,7 @@ public abstract class AbstractEvent implements Event {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER timestamp(@NotNull final ZonedDateTime eventTimestamp) {
+        public final BUILDER timestamp(final ZonedDateTime eventTimestamp) {
             Contract.requireArgNotNull("eventTimestamp", eventTimestamp);
             delegate.eventTimestamp = eventTimestamp;
             return (BUILDER) this;

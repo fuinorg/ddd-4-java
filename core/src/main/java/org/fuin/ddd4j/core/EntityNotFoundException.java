@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
@@ -45,6 +45,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      */
     public static final String SHORT_ID = SHORT_ID_PREFIX + "-ENTITY_NOT_FOUND";
 
+    @Nullable
     private final String parentIdPath;
 
     private final String entityId;
@@ -55,7 +56,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      * @param parentIdPath Path from root to parent or {@literal null} if the entity identifier is a root aggregate ID.
      * @param entityId     Unique identifier of the entity that was not found.
      */
-    public EntityNotFoundException(@Nullable final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
+    public EntityNotFoundException(@Nullable final EntityIdPath parentIdPath, final EntityId entityId) {
         this(parentIdPath == null ? null : parentIdPath.asString(), entityId.asTypedString());
     }
 
@@ -64,7 +65,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      *
      * @param entityIdPath Entity identifier path (from root to entity).
      */
-    public EntityNotFoundException(@NotNull final EntityIdPath entityIdPath) {
+    public EntityNotFoundException(final EntityIdPath entityIdPath) {
         this(Objects.requireNonNull(entityIdPath, "entityIdPath==null").parent(), entityIdPath.last());
     }
 
@@ -74,7 +75,7 @@ public final class EntityNotFoundException extends Exception implements Exceptio
      * @param parentIdPath Path from root to parent or {@literal null} if the entity identifier is a root aggregate ID.
      * @param entityId     Unique identifier of the entity that was not found.
      */
-    public EntityNotFoundException(@Nullable final String parentIdPath, @NotNull final String entityId) {
+    public EntityNotFoundException(@Nullable final String parentIdPath, final String entityId) {
         super(parentIdPath == null ? entityId + " not found"
                 : entityId + " not found in " + parentIdPath);
         Contract.requireArgNotNull("entityId", entityId);

@@ -33,6 +33,7 @@ import java.util.Arrays;
  */
 @Immutable
 @XmlRootElement(name = "eyncrypted-data")
+@SuppressWarnings("NullAway.Init")
 public final class EncryptedDataJaxb implements EncryptedData {
 
     @Serial

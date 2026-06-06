@@ -31,6 +31,7 @@ import java.io.Serial;
  * A vendor entity was created.
  */
 @HasSerializedDataTypeConstant
+@SuppressWarnings("NullAway.Init")
 public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
 
     @Serial
@@ -61,7 +62,7 @@ public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {
      *
      * @param vendorRef Vendor reference.
      */
-    public VendorCreatedEvent(@NotNull final VendorRef vendorRef) {
+    public VendorCreatedEvent(final VendorRef vendorRef) {
         super(new EntityIdPath(vendorRef.getId()));
         this.vendorRef = vendorRef;
     }

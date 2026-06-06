@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jpa;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.StringBasedEntityType;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -31,7 +32,7 @@ import javax.annotation.concurrent.ThreadSafe;
 public final class StringBasedEntityTypeAttributeConverter implements AttributeConverter<StringBasedEntityType, String> {
 
     @Override
-    public String convertToDatabaseColumn(StringBasedEntityType value) {
+    public @Nullable String convertToDatabaseColumn(@Nullable StringBasedEntityType value) {
         if (value == null) {
             return null;
         }
@@ -39,7 +40,7 @@ public final class StringBasedEntityTypeAttributeConverter implements AttributeC
     }
 
     @Override
-    public StringBasedEntityType convertToEntityAttribute(String dbData) {
+    public @Nullable StringBasedEntityType convertToEntityAttribute(@Nullable String dbData) {
         if (dbData == null) {
             return null;
         }

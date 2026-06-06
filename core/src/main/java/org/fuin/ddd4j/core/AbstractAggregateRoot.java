@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 
 import java.lang.reflect.Method;
@@ -26,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Base class for aggregate roots.
@@ -100,7 +100,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
 
     @Override
     public final AggregateVersion getNextApplyVersion() {
-        return AggregateVersion.valueOf(getNextVersion() + 1);
+        return Objects.requireNonNull(AggregateVersion.valueOf(getNextVersion() + 1));
     }
 
     @Override
@@ -184,7 +184,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
      * @param event
      *            Event to dispatch to the appropriate event handler method.
      */
-    protected final void apply(@NotNull final DomainEvent<?> event) {
+    protected final void apply(final DomainEvent<?> event) {
         if (callAnnotatedEventHandlerMethod(this, event)) {
             uncommitedChanges.add(event);
         } else {
@@ -200,7 +200,7 @@ public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implemen
      * @param event
      *            Event to dispatch to the appropriate event handler method.
      */
-    final void applyNewChildEvent(@NotNull final AbstractEntity<?, ?, ?> entity, @NotNull final DomainEvent<?> event) {
+    final void applyNewChildEvent(final AbstractEntity<?, ?, ?> entity, final DomainEvent<?> event) {
 
         if (callAnnotatedEventHandlerMethod(entity, event)) {
             uncommitedChanges.add(event);

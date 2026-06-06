@@ -33,6 +33,7 @@ import java.io.Serial;
  * The name of a person entity was changed.
  */
 @HasSerializedDataTypeConstant
+@SuppressWarnings("NullAway.Init")
 public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> {
 
     @Serial
@@ -78,8 +79,8 @@ public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> 
      * @param oldName   Person name.
      * @param newName   Person name.
      */
-    public PersonNameChangedEvent(@NotNull final VendorRef vendorRef, @NotNull final PersonId personId, @NotNull final PersonName oldName,
-                                  @NotNull final PersonName newName) {
+    public PersonNameChangedEvent(final VendorRef vendorRef, final PersonId personId, final PersonName oldName,
+                                  final PersonName newName) {
         super(new EntityIdPath(vendorRef.getId(), personId));
         Contract.requireArgNotNull("vendorRef", vendorRef);
         Contract.requireArgNotNull("personId", personId);

@@ -17,8 +17,7 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -40,7 +39,8 @@ public interface AggregateCache<AGGREGATE> {
      *
      * @return Cached aggregate or <code>null</code> if it was not found in the cache.
      */
-    default AGGREGATE get(@NotNull AggregateRootId aggregateId, Integer version) {
+    @Nullable
+    default AGGREGATE get(AggregateRootId aggregateId, @Nullable Integer version) {
         return get(null, aggregateId, version);
     }
 
@@ -56,7 +56,8 @@ public interface AggregateCache<AGGREGATE> {
      *
      * @return Cached aggregate or <code>null</code> if it was not found in the cache.
      */
-    AGGREGATE get(@Nullable TenantId tenantId, @NotNull AggregateRootId aggregateId, Integer version);
+    @Nullable
+    AGGREGATE get(@Nullable TenantId tenantId, AggregateRootId aggregateId, @Nullable Integer version);
 
     /**
      * Puts an aggregate with the given identifier in the cache.
@@ -66,7 +67,7 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregate
      *            Aggregate to cache.
      */
-    default void put(@NotNull AggregateRootId aggregateId, @NotNull AGGREGATE aggregate) {
+    default void put(AggregateRootId aggregateId, AGGREGATE aggregate) {
         put(null, aggregateId, aggregate);
     }
 
@@ -80,7 +81,7 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregate
      *            Aggregate to cache.
      */
-    void put(@Nullable TenantId tenantId, @NotNull AggregateRootId aggregateId, @NotNull AGGREGATE aggregate);
+    void put(@Nullable TenantId tenantId, AggregateRootId aggregateId, AGGREGATE aggregate);
 
     /**
      * Removes the aggregate with the given identifier from the cache.
@@ -88,7 +89,7 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregateId
      *            Aggregate to remove from cache.
      */
-    default void remove(@NotNull AggregateRootId aggregateId) {
+    default void remove(AggregateRootId aggregateId) {
         remove(null, aggregateId);
     }
 
@@ -100,6 +101,6 @@ public interface AggregateCache<AGGREGATE> {
      * @param aggregateId
      *            Aggregate to remove from cache.
      */
-    void remove(@Nullable TenantId tenantId, @NotNull AggregateRootId aggregateId);
+    void remove(@Nullable TenantId tenantId, AggregateRootId aggregateId);
 
 }

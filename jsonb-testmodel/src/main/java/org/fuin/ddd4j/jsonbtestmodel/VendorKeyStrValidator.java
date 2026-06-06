@@ -19,7 +19,6 @@ package org.fuin.ddd4j.jsonbtestmodel;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ConstraintViolationException;
 
 import java.util.regex.Pattern;
@@ -70,7 +69,7 @@ public final class VendorKeyStrValidator implements ConstraintValidator<VendorKe
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name, @NotNull final String value) throws ConstraintViolationException {
+    public static void requireArgValid(final String name, final String value) throws ConstraintViolationException {
         if (!isValid(value)) {
             throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");
         }

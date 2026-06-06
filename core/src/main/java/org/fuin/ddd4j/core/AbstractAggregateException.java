@@ -43,8 +43,8 @@ public abstract class AbstractAggregateException extends Exception {
      * @param id      Unique identifier of the aggregate.
      */
     public AbstractAggregateException(@NotEmpty final String message,
-                                      @NotNull final EntityType type,
-                                      @NotNull final AggregateRootId id) {
+                                      final EntityType type,
+                                      final AggregateRootId id) {
         super(message);
         Contract.requireArgNotEmpty("message", message);
         Contract.requireArgNotNull("aggregateType", type);

@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
@@ -22,6 +23,7 @@ public final class ExpectedEntityIdPathValidator implements ConstraintValidator<
 
     private static final ResourceBundle MESSAGES = ResourceBundle.getBundle("ValidationMessages", Locale.getDefault());
 
+    @SuppressWarnings("NullAway.Init")
     private List<Class<? extends EntityId>> expectedEntityIdTypes;
 
     @Override
@@ -48,10 +50,7 @@ public final class ExpectedEntityIdPathValidator implements ConstraintValidator<
             return true;
         }
         if (value.size() != expectedEntityIdTypes.size()) {
-            error(context, Utils4J.replaceVars(MESSAGES.getString(KEY),
-                    Map.of("expectedEntityIdTypes", entityIdTypesNames(expectedEntityIdTypes),
-                            "actualEntityIdTypes", entityIdTypesNames(value),
-                            "actualEntityIdPath", value.toString())));
+            error(context, message(value));
             return false;
         }
         final Iterator<Class<? extends EntityId>> expected = expectedEntityIdTypes.iterator();
@@ -60,14 +59,18 @@ public final class ExpectedEntityIdPathValidator implements ConstraintValidator<
             final EntityId actualId = actual.next();
             final Class<? extends EntityId> expectedIdType = expected.next();
             if (!expectedIdType.isAssignableFrom(actualId.getClass())) {
-                error(context, Utils4J.replaceVars(MESSAGES.getString(KEY),
-                        Map.of("expectedEntityIdTypes", entityIdTypesNames(expectedEntityIdTypes),
-                               "actualEntityIdTypes", entityIdTypesNames(value),
-                               "actualEntityIdPath", value.toString())));
+                error(context, message(value));
                 return false;
             }
         }
         return true;
+    }
+
+    private String message(final EntityIdPath value) {
+        return Objects.requireNonNull(Utils4J.replaceVars(MESSAGES.getString(KEY),
+                Map.of("expectedEntityIdTypes", entityIdTypesNames(expectedEntityIdTypes),
+                        "actualEntityIdTypes", entityIdTypesNames(value),
+                        "actualEntityIdPath", value.toString())));
     }
 
     private static String entityIdTypesNames(EntityIdPath path) {

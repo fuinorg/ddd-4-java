@@ -33,6 +33,7 @@ import java.io.Serial;
  * A person entity was created.
  */
 @HasSerializedDataTypeConstant
+@SuppressWarnings("NullAway.Init")
 public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
 
     @Serial
@@ -72,9 +73,9 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
      * @param personName
      *            Person name.
      */
-    protected PersonCreatedEvent(@NotNull final VendorRef vendorRef,
-                                 @NotNull final PersonId personId,
-                                 @NotNull final PersonName personName) {
+    protected PersonCreatedEvent(final VendorRef vendorRef,
+                                 final PersonId personId,
+                                 final PersonName personName) {
         super(new EntityIdPath(vendorRef.getId()));
         this.vendorRef = vendorRef;
         this.personId = personId;
@@ -139,7 +140,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final Builder vendorRef(@NotNull final VendorRef vendorRef) {
+        public final Builder vendorRef(final VendorRef vendorRef) {
             Contract.requireArgNotNull("vendorRef", vendorRef);
             delegate.vendorRef = vendorRef;
             return this;
@@ -152,7 +153,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final Builder personId(@NotNull final PersonId personId) {
+        public final Builder personId(final PersonId personId) {
             Contract.requireArgNotNull("personId", personId);
             delegate.personId = personId;
             return this;
@@ -165,7 +166,7 @@ public final class PersonCreatedEvent extends AbstractDomainEvent<PersonId> {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final Builder personName(@NotNull final PersonName personName) {
+        public final Builder personName(final PersonName personName) {
             Contract.requireArgNotNull("personName", personName);
             delegate.personName = personName;
             return this;

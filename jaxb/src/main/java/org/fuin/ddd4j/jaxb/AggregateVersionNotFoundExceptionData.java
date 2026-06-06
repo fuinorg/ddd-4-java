@@ -1,6 +1,5 @@
 package org.fuin.ddd4j.jaxb;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -17,6 +16,7 @@ import static org.fuin.ddd4j.core.AggregateVersionNotFoundException.ELEMENT_NAME
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public final class AggregateVersionNotFoundExceptionData extends AbstractVersionedAggregateExceptionData<AggregateVersionNotFoundException> {
 
     @Serial
@@ -37,7 +37,7 @@ public final class AggregateVersionNotFoundExceptionData extends AbstractVersion
      *
      * @param ex Exception to copy data from.
      */
-    public AggregateVersionNotFoundExceptionData(@NotNull final AggregateVersionNotFoundException ex) {
+    public AggregateVersionNotFoundExceptionData(final AggregateVersionNotFoundException ex) {
         super(ex);
         this.sid = ex.getShortId();
     }

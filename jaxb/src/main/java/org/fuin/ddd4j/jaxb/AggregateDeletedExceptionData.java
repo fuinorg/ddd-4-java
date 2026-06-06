@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.jaxb;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -34,6 +33,7 @@ import static org.fuin.ddd4j.core.AggregateDeletedException.ELEMENT_NAME;
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public final class AggregateDeletedExceptionData extends AbstractAggregateExceptionData<AggregateDeletedException> {
 
     @Serial
@@ -54,7 +54,7 @@ public final class AggregateDeletedExceptionData extends AbstractAggregateExcept
      *
      * @param ex Exception to copy data from.
      */
-    public AggregateDeletedExceptionData(@NotNull final AggregateDeletedException ex) {
+    public AggregateDeletedExceptionData(final AggregateDeletedException ex) {
         super(ex);
         this.sid = ex.getShortId();
     }

@@ -15,6 +15,11 @@
 
     <dependencies>
 
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+        </dependency>
+
         <!-- compile -->
 
         <dependency>

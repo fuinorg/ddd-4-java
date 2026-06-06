@@ -17,8 +17,7 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.fuin.objects4j.common.AsStringCapable;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.utils4j.TechnicalId;
@@ -60,7 +59,7 @@ public interface EntityId extends TechnicalId, AsStringCapable, Serializable {
      * @param value   Value to check.
      * @return <code>true</code> if the value can be converted, else <code>false</code>.
      */
-    static boolean isValid(@NotNull final EntityIdFactory factory, @Nullable final String value) {
+    static boolean isValid(final EntityIdFactory factory, @Nullable final String value) {
         if (value == null) {
             return true;
         }
@@ -84,8 +83,8 @@ public interface EntityId extends TechnicalId, AsStringCapable, Serializable {
      * @param value   Value to check.
      * @throws ConstraintViolationException The value was not valid.
      */
-    static void requireArgValid(@NotNull final EntityIdFactory factory,
-                                @NotNull final String name,
+    static void requireArgValid(final EntityIdFactory factory,
+                                final String name,
                                 @Nullable final String value) throws ConstraintViolationException {
 
         if (!isValid(factory, value)) {
@@ -101,7 +100,8 @@ public interface EntityId extends TechnicalId, AsStringCapable, Serializable {
      * @param value   Representation of the entity identifier as string.
      * @return Value object.
      */
-    static EntityId valueOf(@NotNull final EntityIdFactory factory, @Nullable final String value) {
+    @Nullable
+    static EntityId valueOf(final EntityIdFactory factory, @Nullable final String value) {
         if (value == null) {
             return null;
         }

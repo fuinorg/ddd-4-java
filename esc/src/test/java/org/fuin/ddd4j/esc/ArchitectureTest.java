@@ -26,6 +26,7 @@ public class ArchitectureTest {
             .should()
             .onlyDependOnClassesThat()
             .resideInAnyPackage(THIS_PACKAGE, "java..",
+                    "org.jspecify.annotations..",
                     "org.fuin.ddd4j.core..",
                     "org.fuin.esc.api..",
                     "org.fuin.objects4j.common..",

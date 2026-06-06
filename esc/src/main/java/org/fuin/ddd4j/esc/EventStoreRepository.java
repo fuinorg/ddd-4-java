@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.esc;
 
 import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.AggregateAlreadyExistsException;
 import org.fuin.ddd4j.core.AggregateCache;
 import org.fuin.ddd4j.core.AggregateDeletedException;
@@ -76,7 +77,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * @param eventStore
      *            Event store.
      */
-    protected EventStoreRepository(@NotNull final EventStore eventStore) {
+    protected EventStoreRepository(final EventStore eventStore) {
         super();
 
         Contract.requireArgNotNull("eventStore", eventStore);
@@ -103,7 +104,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final AGGREGATE read(final ID aggregateId, final Integer version)
+    public final AGGREGATE read(final ID aggregateId, @Nullable final Integer version)
             throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
@@ -208,7 +209,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final void update(final AGGREGATE aggregate, final String metaType, final Object metaData)
+    public final void update(final AGGREGATE aggregate, @Nullable final String metaType, @Nullable final Object metaData)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException {
 
         Contract.requireArgNotNull("aggregate", aggregate);
@@ -249,7 +250,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public void add(final AGGREGATE aggregate, final String metaType, final Object metaData)
+    public void add(final AGGREGATE aggregate, @Nullable final String metaType, @Nullable final Object metaData)
             throws AggregateAlreadyExistsException, AggregateDeletedException {
 
         try {
@@ -315,7 +316,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
-    public final void delete(final ID aggregateId, final Integer expectedVersion) throws AggregateVersionConflictException {
+    public final void delete(final ID aggregateId, @Nullable final Integer expectedVersion) throws AggregateVersionConflictException {
 
         Contract.requireArgNotNull("aggregateId", aggregateId);
 
@@ -387,8 +388,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events,
-                                             final String metaType,
-                                             final Object metaData) {
+                                             @Nullable final String metaType,
+                                             @Nullable final Object metaData) {
         final SimpleTenantId tenantId = getTenantContext()
                 .map(TenantContext::getTenantId)
                 .filter(Optional::isPresent)
@@ -419,7 +420,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
         return (int) version;
     }
 
-    private int integerVersion(final Long version) {
+    private int integerVersion(@Nullable final Long version) {
         if (version == null) {
             return Integer.MIN_VALUE;
         }

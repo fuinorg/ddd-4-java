@@ -58,7 +58,7 @@ public class Ddd4JacksonModule extends Module {
         deserializers.addDeserializer(AggregateVersion.class, new AggregateVersionJacksonDeserializer());
         deserializers.addDeserializer(EntityIdPath.class, new EntityIdPathJacksonDeserializer(entityIdFactory));
         deserializers.addDeserializer(EventId.class, new ValueObjectStringJacksonDeserializer<>(EventId.class, EventId::valueOf));
-        deserializers.addDeserializer(EventType.class, new ValueObjectStringJacksonDeserializer<>(EventType.class, EventType::new));
+        deserializers.addDeserializer(EventType.class, new ValueObjectStringJacksonDeserializer<>(EventType.class, str -> new EventType(Objects.requireNonNull(str))));
         context.addDeserializers(deserializers);
     }
 

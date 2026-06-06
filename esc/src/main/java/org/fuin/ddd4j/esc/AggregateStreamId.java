@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.esc;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.EntityType;
@@ -46,6 +47,7 @@ public final class AggregateStreamId implements StreamId {
     @NotNull
     private final AggregateRootId paramValue;
 
+    @Nullable
     private transient List<KeyValue> params;
 
     /**

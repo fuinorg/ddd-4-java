@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jsonb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
 
@@ -29,7 +30,7 @@ import javax.annotation.concurrent.ThreadSafe;
 public final class AggregateVersionJsonbAdapter implements JsonbAdapter<AggregateVersion, Integer> {
 
     @Override
-    public Integer adaptToJson(AggregateVersion version) throws Exception {
+    public @Nullable Integer adaptToJson(@Nullable AggregateVersion version) throws Exception {
         if (version == null) {
             return null;
         }
@@ -37,7 +38,7 @@ public final class AggregateVersionJsonbAdapter implements JsonbAdapter<Aggregat
     }
 
     @Override
-    public AggregateVersion adaptFromJson(Integer value) throws Exception {
+    public @Nullable AggregateVersion adaptFromJson(@Nullable Integer value) throws Exception {
         if (value == null) {
             return null;
         }

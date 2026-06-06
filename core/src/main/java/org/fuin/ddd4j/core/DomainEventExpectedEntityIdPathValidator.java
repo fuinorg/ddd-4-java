@@ -9,6 +9,7 @@ import jakarta.validation.ConstraintValidatorContext;
 public final class DomainEventExpectedEntityIdPathValidator
         implements ConstraintValidator<DomainEventExpectedEntityIdPath, DomainEvent<?>> {
 
+    @SuppressWarnings("NullAway.Init")
     private ExpectedEntityIdPathValidator delegate;
 
     @Override

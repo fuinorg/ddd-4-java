@@ -19,7 +19,7 @@ package org.fuin.ddd4j.jackson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
@@ -78,7 +78,7 @@ public abstract class AbstractEvent implements Event {
      *
      * @param respondTo Causing event.
      */
-    public AbstractEvent(@NotNull final Event respondTo) {
+    public AbstractEvent(final Event respondTo) {
         this(respondTo.getCorrelationId(), respondTo.getEventId());
     }
 
@@ -110,13 +110,13 @@ public abstract class AbstractEvent implements Event {
 
     @Override
     @JsonIgnore
-    public final EventId getCorrelationId() {
+    public final @Nullable EventId getCorrelationId() {
         return correlationId;
     }
 
     @Override
     @JsonIgnore
-    public final EventId getCausationId() {
+    public final @Nullable EventId getCausationId() {
         return causationId;
     }
 
@@ -177,7 +177,7 @@ public abstract class AbstractEvent implements Event {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER eventId(@NotNull final EventId eventId) {
+        public final BUILDER eventId(final EventId eventId) {
             Contract.requireArgNotNull("eventId", eventId);
             delegate.eventId = eventId;
             return (BUILDER) this;
@@ -190,7 +190,7 @@ public abstract class AbstractEvent implements Event {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER timestamp(@NotNull final ZonedDateTime eventTimestamp) {
+        public final BUILDER timestamp(final ZonedDateTime eventTimestamp) {
             Contract.requireArgNotNull("eventTimestamp", eventTimestamp);
             delegate.eventTimestamp = eventTimestamp;
             return (BUILDER) this;

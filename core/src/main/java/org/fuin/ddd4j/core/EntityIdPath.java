@@ -17,8 +17,7 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.core.AbstractStringValueObject;
@@ -131,6 +130,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
      *
      * @return Rest or NULL if the path has only one element.
      */
+    @Nullable
     public final EntityIdPath rest() {
         if (entityIds.size() == 1) {
             return null;
@@ -147,6 +147,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
      *
      * @return Parent identifier path or NULL if this is an aggregate root ID.
      */
+    @Nullable
     public EntityIdPath parent() {
         if (entityIds.size() == 1) {
             return null;
@@ -192,7 +193,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
      * @return New instance.
      */
     @Nullable
-    public static EntityIdPath valueOf(@NotNull EntityIdFactory factory, @Nullable final String str) {
+    public static EntityIdPath valueOf(EntityIdFactory factory, @Nullable final String str) {
         Contract.requireArgNotNull("factory", factory);
         if (str == null) {
             return null;
@@ -215,7 +216,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
      * @param value   Value to check.
      * @return Returns {@literal true} if it's a valid email address else {@literal false} is returned.
      */
-    public static boolean isValid(@NotNull EntityIdFactory factory, @Nullable final String value) {
+    public static boolean isValid(EntityIdFactory factory, @Nullable final String value) {
         Contract.requireArgNotNull("factory", factory);
         if (value == null) {
             return true;
@@ -243,7 +244,7 @@ public final class EntityIdPath extends AbstractStringValueObject implements Ser
      * @param value   Value to check.
      * @throws ConstraintViolationException The value was not valid.
      */
-    public static void requireArgValid(@NotNull EntityIdFactory factory, @NotNull final String name, @Nullable final String value) throws ConstraintViolationException {
+    public static void requireArgValid(EntityIdFactory factory, final String name, @Nullable final String value) throws ConstraintViolationException {
         Contract.requireArgNotNull("factory", factory);
         Contract.requireArgNotNull("name", name);
 

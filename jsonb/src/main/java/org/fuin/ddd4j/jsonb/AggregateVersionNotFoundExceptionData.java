@@ -1,7 +1,6 @@
 package org.fuin.ddd4j.jsonb;
 
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.AggregateVersionNotFoundException;
 
 import java.io.Serial;
@@ -12,6 +11,7 @@ import static org.fuin.ddd4j.core.AggregateVersionNotFoundException.ELEMENT_NAME
  * Stores the data from a {@link AggregateVersionNotFoundException} for marshalling and allows recreating it after unmarshalling.
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
+@SuppressWarnings("NullAway.Init")
 public final class AggregateVersionNotFoundExceptionData extends AbstractVersionedAggregateExceptionData<AggregateVersionNotFoundException> {
 
     @Serial
@@ -32,7 +32,7 @@ public final class AggregateVersionNotFoundExceptionData extends AbstractVersion
      *
      * @param ex Exception to copy data from.
      */
-    public AggregateVersionNotFoundExceptionData(@NotNull final AggregateVersionNotFoundException ex) {
+    public AggregateVersionNotFoundExceptionData(final AggregateVersionNotFoundException ex) {
         super(ex);
         this.sid = ex.getShortId();
     }

@@ -9,6 +9,7 @@
 - **Incompatible** Added [TenantId](core/src/main/java/org/fuin/ddd4j/core/TenantId.java) parameter to [AggregateCache](core/src/main/java/org/fuin/ddd4j/core/AggregateCache.java) interface methods.
 - Added new BOM
 - Removed "codegen" module that was an experimental annotation based code generator
+- Added [JSpecify](https://jspecify.dev/) and [NullAway](https://github.com/uber/nullaway)
 
 ## 0.7.0
 - Added [Jackson](jackson) module

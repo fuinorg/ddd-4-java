@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 
 /**
@@ -41,7 +40,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      * @param root
      *            Root aggregate.
      */
-    public AbstractEntity(@NotNull final ROOT root) {
+    public AbstractEntity(final ROOT root) {
         super();
         Contract.requireArgNotNull("root", root);
         this.root = root;
@@ -53,7 +52,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      * @param event
      *            Event to dispatch to the appropriate event handler method.
      */
-    protected final void apply(@NotNull final DomainEvent<?> event) {
+    protected final void apply(final DomainEvent<?> event) {
         root.applyNewChildEvent(this, event);
     }
 

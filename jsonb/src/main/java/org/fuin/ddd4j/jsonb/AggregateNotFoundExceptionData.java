@@ -11,6 +11,7 @@ import static org.fuin.ddd4j.core.AggregateNotFoundException.ELEMENT_NAME;
  * Stores the data from a {@link AggregateNotFoundException} for marshalling and allows recreating it after unmarshalling.
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
+@SuppressWarnings("NullAway.Init")
 public final class AggregateNotFoundExceptionData extends AbstractAggregateExceptionData<AggregateNotFoundException> {
 
     @Serial

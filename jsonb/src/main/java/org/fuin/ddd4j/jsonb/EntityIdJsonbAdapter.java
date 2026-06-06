@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jsonb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityIdFactory;
@@ -42,12 +43,12 @@ public final class EntityIdJsonbAdapter implements JsonbAdapter<EntityId, String
     }
 
     @Override
-    public EntityId adaptFromJson(String value) {
+    public @Nullable EntityId adaptFromJson(@Nullable String value) {
         return this.vop.valueOf(value);
     }
 
     @Override
-    public String adaptToJson(EntityId value) {
+    public @Nullable String adaptToJson(@Nullable EntityId value) {
         return value == null ? null : value.asTypedString();
     }
 

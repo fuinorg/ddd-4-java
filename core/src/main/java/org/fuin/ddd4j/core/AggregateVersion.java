@@ -17,9 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
@@ -49,7 +48,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      * @param version
      *            Version.
      */
-    public AggregateVersion(@NotNull @Min(0) final Integer version) {
+    public AggregateVersion(@Min(0) final Integer version) {
         super();
         Contract.requireArgNotNull("version", version);
         Contract.requireArgMin("version", version, 0);
@@ -69,7 +68,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      *
      * @return TRUE if it's a valid version, else FALSE.
      */
-    public static boolean isValid(final Integer value) {
+    public static boolean isValid(@Nullable final Integer value) {
         if (value == null) {
             return true;
         }
@@ -84,7 +83,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      *
      * @return TRUE if it's a valid version, else FALSE.
      */
-    public static boolean isValid(final String value) {
+    public static boolean isValid(@Nullable final String value) {
         if (value == null) {
             return true;
         }
@@ -104,7 +103,8 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      *
      * @return Converted value.
      */
-    public static AggregateVersion valueOf(final Integer value) {
+    @Nullable
+    public static AggregateVersion valueOf(@Nullable final Integer value) {
         if (value == null) {
             return null;
         }
@@ -119,7 +119,8 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      *
      * @return Converted value.
      */
-    public static AggregateVersion valueOf(final String value) {
+    @Nullable
+    public static AggregateVersion valueOf(@Nullable final String value) {
         if (value == null) {
             return null;
         }
@@ -137,7 +138,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name, @Nullable final Integer value) throws ConstraintViolationException {
+    public static void requireArgValid(final String name, @Nullable final Integer value) throws ConstraintViolationException {
 
         if (!isValid(value)) {
             throw new ConstraintViolationException("The argument '" + name + "' is not valid: " + value);
@@ -156,7 +157,7 @@ public final class AggregateVersion extends AbstractIntegerValueObject {
      * @throws ConstraintViolationException
      *             The value was not valid.
      */
-    public static void requireArgValid(@NotNull final String name, @Nullable final String value) throws ConstraintViolationException {
+    public static void requireArgValid(final String name, @Nullable final String value) throws ConstraintViolationException {
 
         if (!isValid(value)) {
             throw new ConstraintViolationException("The argument '" + name + "' is not valid: '" + value + "'");

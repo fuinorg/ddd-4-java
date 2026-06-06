@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.BusinessKey;
 import org.fuin.objects4j.common.Contract;
@@ -50,7 +51,7 @@ public final class VendorKey extends AbstractStringValueObject implements Busine
      * @param key
      *            Key.
      */
-    public VendorKey(@NotNull @VendorKeyStr final String key) {
+    public VendorKey(@VendorKeyStr final String key) {
         super();
         Contract.requireArgNotEmpty("key", key);
         VendorKeyStrValidator.requireArgValid("key", key);
@@ -87,7 +88,8 @@ public final class VendorKey extends AbstractStringValueObject implements Busine
      *
      * @return Converted value.
      */
-    public static VendorKey valueOf(final String value) {
+    @Nullable
+    public static VendorKey valueOf(@Nullable final String value) {
         if (value == null) {
             return null;
         }

@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
@@ -49,8 +48,8 @@ public final class AggregateVersionNotFoundException extends AbstractVersionedAg
      * @param id      Unique identifier of the aggregate.
      * @param version Requested version.
      */
-    public AggregateVersionNotFoundException(@NotNull final EntityType type,
-                                             @NotNull final AggregateRootId id,
+    public AggregateVersionNotFoundException(final EntityType type,
+                                             final AggregateRootId id,
                                              final int version) {
         this(type.asString(), id.asString(), version);
     }
@@ -62,8 +61,8 @@ public final class AggregateVersionNotFoundException extends AbstractVersionedAg
      * @param id      Unique identifier of the aggregate.
      * @param version Requested version.
      */
-    public AggregateVersionNotFoundException(@NotNull final String type,
-                                             @NotNull final String id,
+    public AggregateVersionNotFoundException(final String type,
+                                             final String id,
                                              final int version) {
         super("Requested version " + version + " for " + type + " (" + id + ") does not exist", type, id, version);
     }

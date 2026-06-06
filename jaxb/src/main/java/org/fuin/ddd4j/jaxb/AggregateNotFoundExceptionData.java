@@ -16,6 +16,7 @@ import static org.fuin.ddd4j.core.AggregateNotFoundException.ELEMENT_NAME;
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public final class AggregateNotFoundExceptionData extends AbstractAggregateExceptionData<AggregateNotFoundException> {
 
     @Serial

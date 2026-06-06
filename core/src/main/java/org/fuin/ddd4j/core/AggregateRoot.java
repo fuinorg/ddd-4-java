@@ -88,7 +88,7 @@ public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
      * @param history
      *            List of historic events.
      */
-    void loadFromHistory(@NotNull DomainEvent<?>... history);
+    void loadFromHistory(DomainEvent<?>... history);
 
     /**
      * Loads the aggregate with historic events.
@@ -96,6 +96,6 @@ public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
      * @param history
      *            List of historic events.
      */
-    void loadFromHistory(@NotNull List<DomainEvent<?>> history);
+    void loadFromHistory(List<DomainEvent<?>> history);
 
 }

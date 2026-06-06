@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jpa;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.EventId;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -32,7 +33,7 @@ import java.util.UUID;
 public final class EventIdAttributeConverter implements AttributeConverter<EventId, UUID> {
 
     @Override
-    public UUID convertToDatabaseColumn(EventId value) {
+    public @Nullable UUID convertToDatabaseColumn(@Nullable EventId value) {
         if (value == null) {
             return null;
         }
@@ -40,7 +41,7 @@ public final class EventIdAttributeConverter implements AttributeConverter<Event
     }
 
     @Override
-    public EventId convertToEntityAttribute(UUID dbData) {
+    public @Nullable EventId convertToEntityAttribute(@Nullable UUID dbData) {
         if (dbData == null) {
             return null;
         }

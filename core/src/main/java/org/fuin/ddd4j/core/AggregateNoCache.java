@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import org.fuin.utils4j.TestOmitted;
 
 /**
@@ -29,7 +29,8 @@ import org.fuin.utils4j.TestOmitted;
 public final class AggregateNoCache<AGGREGATE> implements AggregateCache<AGGREGATE> {
 
     @Override
-    public final AGGREGATE get(@Nullable final TenantId tenantId, final AggregateRootId aggregateId, final Integer version) {
+    @Nullable
+    public final AGGREGATE get(@Nullable final TenantId tenantId, final AggregateRootId aggregateId, @Nullable final Integer version) {
         // Always return null
         return null;
     }

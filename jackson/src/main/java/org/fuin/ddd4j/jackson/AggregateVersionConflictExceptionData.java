@@ -2,7 +2,6 @@ package org.fuin.ddd4j.jackson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.AggregateVersionConflictException;
 
 import java.io.Serial;
@@ -13,6 +12,7 @@ import static org.fuin.ddd4j.core.AggregateVersionConflictException.ELEMENT_NAME
  * Stores the data from a {@link AggregateVersionConflictException} for marshalling and allows recreating it after unmarshalling.
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
+@SuppressWarnings("NullAway.Init")
 public final class AggregateVersionConflictExceptionData extends AbstractAggregateExceptionData<AggregateVersionConflictException> {
 
     @Serial
@@ -39,7 +39,7 @@ public final class AggregateVersionConflictExceptionData extends AbstractAggrega
      *
      * @param ex Exception to copy data from.
      */
-    public AggregateVersionConflictExceptionData(@NotNull final AggregateVersionConflictException ex) {
+    public AggregateVersionConflictExceptionData(final AggregateVersionConflictException ex) {
         super(ex);
         this.sid = ex.getShortId();
         this.expected = ex.getExpected();

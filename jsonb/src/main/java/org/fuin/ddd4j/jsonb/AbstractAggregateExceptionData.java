@@ -1,5 +1,6 @@
 package org.fuin.ddd4j.jsonb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.annotation.JsonbProperty;
 import org.fuin.ddd4j.core.AbstractAggregateException;
 import org.fuin.ddd4j.core.ExceptionData;
@@ -13,13 +14,14 @@ import java.util.Objects;
  *
  * @param <EX> Concrete type of wrapped exception.
  */
+@SuppressWarnings("NullAway.Init")
 public abstract class AbstractAggregateExceptionData<EX extends AbstractAggregateException> implements ExceptionData<EX> {
 
     @Serial
     private static final long serialVersionUID = 1000L;
 
     @JsonbProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonbProperty("aggregate-type")
     private String aggregateType;
@@ -52,7 +54,7 @@ public abstract class AbstractAggregateExceptionData<EX extends AbstractAggregat
      *
      * @return Message.
      */
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

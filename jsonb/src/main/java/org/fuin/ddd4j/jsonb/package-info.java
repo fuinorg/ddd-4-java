@@ -11,10 +11,6 @@
  * http://www.gnu.org/licenses/.
  */
 @NullMarked
-package org.fuin.ddd4j.esc;
+package org.fuin.ddd4j.jsonb;
 
 import org.jspecify.annotations.NullMarked;
-
-/**
- * Event store based repository implementation.
- */

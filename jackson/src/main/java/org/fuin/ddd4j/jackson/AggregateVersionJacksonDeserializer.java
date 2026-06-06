@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jackson;
 
+import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
@@ -41,7 +42,7 @@ public final class AggregateVersionJacksonDeserializer extends StdDeserializer<A
     }
 
     @Override
-    public AggregateVersion deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
+    public @Nullable AggregateVersion deserialize(JsonParser parser, DeserializationContext context) throws IOException, JacksonException {
         final JsonToken currentToken = parser.getCurrentToken();
         if (currentToken.equals(JsonToken.VALUE_NUMBER_INT)) {
             final int value = parser.getIntValue();

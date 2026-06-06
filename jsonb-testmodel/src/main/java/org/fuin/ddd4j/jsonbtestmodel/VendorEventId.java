@@ -26,6 +26,7 @@ import java.io.Serializable;
 /**
  * Identifies a stream event based on a string and a number.
  */
+@SuppressWarnings("NullAway.Init")
 public final class VendorEventId implements Serializable {
 
     @Serial
@@ -50,7 +51,7 @@ public final class VendorEventId implements Serializable {
      * @param eventNumber
      *            Number of the event within the stream.
      */
-    public VendorEventId(@NotNull final VendorId vendorId, @NotNull final Integer eventNumber) {
+    public VendorEventId(final VendorId vendorId, final Integer eventNumber) {
         super();
         Contract.requireArgNotNull("vendorId", vendorId);
         Contract.requireArgNotNull("nueventNumbermber", eventNumber);

@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
@@ -63,7 +63,7 @@ public final class VendorId extends AbstractUuidValueObject implements Aggregate
      * @param uuid
      *            UUID.
      */
-    public VendorId(@NotNull final UUID uuid) {
+    public VendorId(final UUID uuid) {
         super();
         Contract.requireArgNotNull("uuid", uuid);
         this.uuid = uuid;
@@ -102,7 +102,8 @@ public final class VendorId extends AbstractUuidValueObject implements Aggregate
      *
      * @return Converted value.
      */
-    public static VendorId valueOf(final String value) {
+    @Nullable
+    public static VendorId valueOf(@Nullable final String value) {
         if (value == null) {
             return null;
         }
@@ -117,7 +118,8 @@ public final class VendorId extends AbstractUuidValueObject implements Aggregate
      *
      * @return Converted value.
      */
-    public static VendorId valueOf(final UUID value) {
+    @Nullable
+    public static VendorId valueOf(@Nullable final UUID value) {
         if (value == null) {
             return null;
         }

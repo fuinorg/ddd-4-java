@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
@@ -48,7 +47,7 @@ public final class AggregateDeletedException extends AbstractAggregateException 
      * @param type Type of the aggregate.
      * @param id   Unique identifier of the aggregate.
      */
-    public AggregateDeletedException(@NotNull final EntityType type, @NotNull final AggregateRootId id) {
+    public AggregateDeletedException(final EntityType type, final AggregateRootId id) {
         super(type.asString() + " with id " + id.asString() + " already deleted", type, id);
     }
 
@@ -58,7 +57,7 @@ public final class AggregateDeletedException extends AbstractAggregateException 
      * @param type Type of the aggregate.
      * @param id   Unique identifier of the aggregate.
      */
-    public AggregateDeletedException(@NotNull final String type, @NotNull final String id) {
+    public AggregateDeletedException(final String type, final String id) {
         super(type + " with id " + id + " already deleted", type, id);
     }
 

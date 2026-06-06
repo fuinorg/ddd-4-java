@@ -34,6 +34,7 @@ public class ArchitectureTest {
             .onlyDependOnClassesThat()
             .resideInAnyPackage(THIS_PACKAGE,
                     "java..",
+                    "org.jspecify.annotations..",
                     "javax.annotation.concurrent..",
                     "jakarta.validation..",
                     "jakarta.annotation..",

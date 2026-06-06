@@ -29,6 +29,7 @@ import java.io.Serializable;
 /**
  * References a vendor.
  */
+@SuppressWarnings("NullAway.Init")
 public final class VendorRef implements ValueObject, Serializable {
 
     @Serial
@@ -60,7 +61,7 @@ public final class VendorRef implements ValueObject, Serializable {
      * @param vendorKey  Vendor business key.
      * @param vendorName Vendor name.
      */
-    public VendorRef(@NotNull final VendorId vendorId, @NotNull final VendorKey vendorKey, @NotNull final VendorName vendorName) {
+    public VendorRef(final VendorId vendorId, final VendorKey vendorKey, final VendorName vendorName) {
         super();
 
         Contract.requireArgNotNull("vendorId", vendorId);

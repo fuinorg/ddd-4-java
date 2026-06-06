@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
@@ -49,7 +48,7 @@ public final class AggregateAlreadyExistsException extends AbstractVersionedAggr
      * @param id      Unique identifier of the aggregate.
      * @param version Actual version.
      */
-    public AggregateAlreadyExistsException(@NotNull final EntityType type, @NotNull final AggregateRootId id, final int version) {
+    public AggregateAlreadyExistsException(final EntityType type, final AggregateRootId id, final int version) {
         this(type.asString(), id.asString(), version);
     }
 
@@ -60,7 +59,7 @@ public final class AggregateAlreadyExistsException extends AbstractVersionedAggr
      * @param id      Unique identifier of the aggregate.
      * @param version Actual version.
      */
-    public AggregateAlreadyExistsException(@NotNull final String type, @NotNull final String id, final int version) {
+    public AggregateAlreadyExistsException(final String type, final String id, final int version) {
         super(type + " " + id + " already exists (version=" + version + ")", type, id, version);
     }
 

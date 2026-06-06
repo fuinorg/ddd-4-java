@@ -1,7 +1,7 @@
 package org.fuin.ddd4j.jsonb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.DuplicateEntityException;
 import org.fuin.ddd4j.core.ExceptionData;
 
@@ -11,12 +11,13 @@ import static org.fuin.ddd4j.core.DuplicateEntityException.ELEMENT_NAME;
  * Stores the data from a {@link DuplicateEntityException} for marshalling and allows recreating it after unmarshalling.
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
+@SuppressWarnings("NullAway.Init")
 public class DuplicateEntityExceptionData implements ExceptionData<DuplicateEntityException> {
 
     private static final long serialVersionUID = 1000L;
 
     @JsonbProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonbProperty("sid")
     private String sid;
@@ -39,7 +40,7 @@ public class DuplicateEntityExceptionData implements ExceptionData<DuplicateEnti
      *
      * @param ex Exception to copy data from.
      */
-    public DuplicateEntityExceptionData(@NotNull final DuplicateEntityException ex) {
+    public DuplicateEntityExceptionData(final DuplicateEntityException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -57,7 +58,7 @@ public class DuplicateEntityExceptionData implements ExceptionData<DuplicateEnti
      *
      * @return Message.
      */
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

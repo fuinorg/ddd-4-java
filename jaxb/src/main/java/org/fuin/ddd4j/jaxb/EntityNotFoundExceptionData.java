@@ -1,6 +1,6 @@
 package org.fuin.ddd4j.jaxb;
 
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -16,18 +16,19 @@ import static org.fuin.ddd4j.core.EntityNotFoundException.ELEMENT_NAME;
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFoundException> {
 
     private static final long serialVersionUID = 1000L;
 
     @XmlElement(name = "msg")
-    private String message;
+    private @Nullable String message;
 
     @XmlElement(name = "sid")
     private String sid;
 
     @XmlElement(name = "parent-id-path")
-    private String parentIdPath;
+    private @Nullable String parentIdPath;
 
     @XmlElement(name = "entity-id")
     private String entityId;
@@ -44,7 +45,7 @@ public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFound
      *
      * @param ex Exception to copy data from.
      */
-    public EntityNotFoundExceptionData(@NotNull final EntityNotFoundException ex) {
+    public EntityNotFoundExceptionData(final EntityNotFoundException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -62,7 +63,7 @@ public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFound
      *
      * @return Message.
      */
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 
@@ -80,7 +81,7 @@ public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFound
      *
      * @return Path.
      */
-    public String getParentIdPath() {
+    public @Nullable String getParentIdPath() {
         return parentIdPath;
     }
 

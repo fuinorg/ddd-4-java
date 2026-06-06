@@ -1,5 +1,6 @@
 package org.fuin.ddd4j.jackson;
 
+import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.fuin.ddd4j.core.AbstractAggregateException;
@@ -14,13 +15,14 @@ import java.util.Objects;
  *
  * @param <EX> Concrete type of wrapped exception.
  */
+@SuppressWarnings("NullAway.Init")
 public abstract class AbstractAggregateExceptionData<EX extends AbstractAggregateException> implements ExceptionData<EX> {
 
     @Serial
     private static final long serialVersionUID = 1000L;
 
     @JsonProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonProperty("aggregate-type")
     private String aggregateType;
@@ -54,7 +56,7 @@ public abstract class AbstractAggregateExceptionData<EX extends AbstractAggregat
      * @return Message.
      */
     @JsonIgnore
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

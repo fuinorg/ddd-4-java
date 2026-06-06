@@ -1,6 +1,6 @@
 package org.fuin.ddd4j.jaxb;
 
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -16,12 +16,13 @@ import static org.fuin.ddd4j.core.EncryptionKeyIdUnknownException.ELEMENT_NAME;
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public class EncryptionKeyIdUnknownExceptionData implements ExceptionData<EncryptionKeyIdUnknownException> {
 
     private static final long serialVersionUID = 1000L;
 
     @XmlElement(name = "msg")
-    private String message;
+    private @Nullable String message;
 
     @XmlElement(name = "sid")
     private String sid;
@@ -41,7 +42,7 @@ public class EncryptionKeyIdUnknownExceptionData implements ExceptionData<Encryp
      *
      * @param ex Exception to copy data from.
      */
-    public EncryptionKeyIdUnknownExceptionData(@NotNull final EncryptionKeyIdUnknownException ex) {
+    public EncryptionKeyIdUnknownExceptionData(final EncryptionKeyIdUnknownException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -58,7 +59,7 @@ public class EncryptionKeyIdUnknownExceptionData implements ExceptionData<Encryp
      *
      * @return Message.
      */
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

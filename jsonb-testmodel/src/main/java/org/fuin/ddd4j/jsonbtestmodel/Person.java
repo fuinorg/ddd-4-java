@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.AbstractEntity;
 import org.fuin.ddd4j.core.ApplyEvent;
 import org.fuin.ddd4j.core.EntityType;
@@ -42,7 +41,7 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
      * @param name
      *            Name.
      */
-    public Person(@NotNull final Vendor vendor, final PersonId id, @NotNull final PersonName name) {
+    public Person(final Vendor vendor, final PersonId id, final PersonName name) {
         super(vendor);
 
         // CHECK PRECONDITIONS
@@ -63,7 +62,7 @@ public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
      * @param newName
      *            New name.
      */
-    public final void changeName(@NotNull final PersonName newName) {
+    public final void changeName(final PersonName newName) {
 
         // CHECK PRECONDITIONS
         Contract.requireArgNotNull("newName", newName);

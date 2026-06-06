@@ -17,8 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
+import org.jspecify.annotations.Nullable;
 
 import javax.annotation.concurrent.ThreadSafe;
 import java.lang.annotation.Annotation;
@@ -51,7 +51,7 @@ public final class MethodExecutor {
      * @param <T>
      *            Type of the return value.
      */
-    public final <T> T invokeDeclaredAnnotatedMethod(@NotNull final Object obj, @NotNull final Class<? extends Annotation> annotationType,
+    public final <T> T invokeDeclaredAnnotatedMethod(final Object obj, final Class<? extends Annotation> annotationType,
                                                      final Class<?>[] argumentTypes, final Object[] arguments) {
 
         Contract.requireArgNotNull("obj", obj);
@@ -79,7 +79,8 @@ public final class MethodExecutor {
      *
      * @return Method or <code>null</code> if any of the expected parameters does not match.
      */
-    public final Method findDeclaredAnnotatedMethod(@NotNull final Object obj, @NotNull final Class<? extends Annotation> annotationType,
+    @Nullable
+    public final Method findDeclaredAnnotatedMethod(final Object obj, final Class<? extends Annotation> annotationType,
                                                     final Class<?>... expectedArgumentTypes) {
 
         Contract.requireArgNotNull("obj", obj);
@@ -108,8 +109,8 @@ public final class MethodExecutor {
      *
      * @return List of methods.
      */
-    public final List<Method> getDeclaredMethodsIncludingSuperClasses(@NotNull final Class<?> clasz,
-                                                                      @NotNull final Class<?>... stopParents) {
+    public final List<Method> getDeclaredMethodsIncludingSuperClasses(final Class<?> clasz,
+                                                                      final Class<?>... stopParents) {
         Contract.requireArgNotNull("clasz", clasz);
         Contract.requireArgNotNull("stopParents", stopParents);
 
@@ -144,7 +145,7 @@ public final class MethodExecutor {
      *            Type of the return value.
      */
     @SuppressWarnings("unchecked")
-    public final <T> T invoke(@NotNull final Method method, @NotNull final Object target, final Object... args) {
+    public final <T> T invoke(final Method method, final Object target, final Object... args) {
 
         Contract.requireArgNotNull("method", method);
         Contract.requireArgNotNull("target", target);

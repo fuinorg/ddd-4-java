@@ -41,6 +41,7 @@ public class ArchitectureTest {
             .onlyDependOnClassesThat()
             .resideInAnyPackage(THIS_PACKAGE, CORE_PACKAGE,
                     "java..",
+                    "org.jspecify.annotations..",
                     "jakarta.annotation..",
                     "com.fasterxml.jackson..",
                     "jakarta.validation.constraints..",

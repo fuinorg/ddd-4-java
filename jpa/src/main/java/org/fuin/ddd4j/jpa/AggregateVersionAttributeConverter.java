@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jpa;
 
 import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.AggregateVersion;
 
 import javax.annotation.concurrent.ThreadSafe;
@@ -31,7 +32,7 @@ import javax.annotation.concurrent.ThreadSafe;
 public final class AggregateVersionAttributeConverter implements AttributeConverter<AggregateVersion, Integer> {
 
     @Override
-    public Integer convertToDatabaseColumn(AggregateVersion value) {
+    public @Nullable Integer convertToDatabaseColumn(@Nullable AggregateVersion value) {
         if (value == null) {
             return null;
         }
@@ -39,7 +40,7 @@ public final class AggregateVersionAttributeConverter implements AttributeConver
     }
 
     @Override
-    public AggregateVersion convertToEntityAttribute(Integer dbData) {
+    public @Nullable AggregateVersion convertToEntityAttribute(@Nullable Integer dbData) {
         if (dbData == null) {
             return null;
         }

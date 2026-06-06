@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
@@ -54,8 +53,8 @@ public final class AggregateVersionConflictException extends AbstractAggregateEx
      * @param expected Expected version.
      * @param actual   Actual version.
      */
-    public AggregateVersionConflictException(@NotNull final EntityType type,
-                                             @NotNull final AggregateRootId id,
+    public AggregateVersionConflictException(final EntityType type,
+                                             final AggregateRootId id,
                                              final int expected,
                                              final int actual) {
         this(type.asString(), id.asString(), expected, actual);
@@ -69,8 +68,8 @@ public final class AggregateVersionConflictException extends AbstractAggregateEx
      * @param expected Expected version.
      * @param actual   Actual version.
      */
-    public AggregateVersionConflictException(@NotNull final String type,
-                                             @NotNull final String id,
+    public AggregateVersionConflictException(final String type,
+                                             final String id,
                                              final int expected,
                                              final int actual) {
         super("Expected version " + expected + " for " + type + " (" + id + "), but was " + actual, type, id);

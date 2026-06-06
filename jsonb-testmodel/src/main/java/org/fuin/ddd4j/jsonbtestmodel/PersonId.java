@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.HasEntityTypeConstant;
@@ -37,6 +37,7 @@ import java.io.Serial;
 @HasPublicStaticIsValidMethod
 @HasPublicStaticValueOfMethod
 @HasEntityTypeConstant
+@SuppressWarnings("NullAway.Init")
 public final class PersonId extends AbstractIntegerValueObject implements EntityId {
 
     @Serial
@@ -60,7 +61,7 @@ public final class PersonId extends AbstractIntegerValueObject implements Entity
      * @param id
      *            ID.
      */
-    public PersonId(@NotNull final Integer id) {
+    public PersonId(final Integer id) {
         super();
         Contract.requireArgNotNull("id", id);
         this.value = id;
@@ -120,7 +121,8 @@ public final class PersonId extends AbstractIntegerValueObject implements Entity
      *
      * @return Converted value.
      */
-    public static PersonId valueOf(final Integer value) {
+    @Nullable
+    public static PersonId valueOf(@Nullable final Integer value) {
         if (value == null) {
             return null;
         }
@@ -135,7 +137,8 @@ public final class PersonId extends AbstractIntegerValueObject implements Entity
      *
      * @return Converted value.
      */
-    public static PersonId valueOf(final String value) {
+    @Nullable
+    public static PersonId valueOf(@Nullable final String value) {
         if (value == null) {
             return null;
         }

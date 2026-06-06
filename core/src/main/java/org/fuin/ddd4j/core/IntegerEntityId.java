@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
 
@@ -43,7 +42,7 @@ public abstract class IntegerEntityId implements EntityId, Comparable<IntegerEnt
      * @param id
      *            Integer.
      */
-    public IntegerEntityId(@NotNull final EntityType entityType, @NotNull final Integer id) {
+    public IntegerEntityId(final EntityType entityType, final Integer id) {
         super();
         Contract.requireArgNotNull("entityType", entityType);
         Contract.requireArgNotNull("id", id);

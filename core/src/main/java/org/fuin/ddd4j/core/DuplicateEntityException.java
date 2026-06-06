@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
@@ -53,7 +52,7 @@ public final class DuplicateEntityException extends Exception implements Excepti
      * @param parentIdPath Path from root to parent.
      * @param entityId     Unique identifier of the entity that already existed.
      */
-    public DuplicateEntityException(@NotNull final EntityIdPath parentIdPath, @NotNull final EntityId entityId) {
+    public DuplicateEntityException(final EntityIdPath parentIdPath, final EntityId entityId) {
         this(parentIdPath.asString(), entityId.asTypedString());
     }
 
@@ -62,7 +61,7 @@ public final class DuplicateEntityException extends Exception implements Excepti
      *
      * @param entityIdPath Entity identifier path (from root to entity). Required to contain at least two elements.
      */
-    public DuplicateEntityException(@NotNull final EntityIdPath entityIdPath) {
+    public DuplicateEntityException(final EntityIdPath entityIdPath) {
         this(Objects.requireNonNull(entityIdPath.parent(), "entityIdPath has not parent"), entityIdPath.last());
     }
 
@@ -72,7 +71,7 @@ public final class DuplicateEntityException extends Exception implements Excepti
      * @param parentIdPath Path from root to parent.
      * @param entityId     Unique identifier of the entity that already existed.
      */
-    public DuplicateEntityException(@NotNull final String parentIdPath, @NotNull final String entityId) {
+    public DuplicateEntityException(final String parentIdPath, final String entityId) {
         super(entityId + " already exists in " + parentIdPath);
         this.parentIdPath = parentIdPath;
         this.entityId = entityId;

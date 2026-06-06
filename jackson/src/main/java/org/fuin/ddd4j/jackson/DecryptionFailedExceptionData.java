@@ -1,9 +1,10 @@
 package org.fuin.ddd4j.jackson;
 
+import java.util.Objects;
+import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.DecryptionFailedException;
 import org.fuin.ddd4j.core.ExceptionData;
 
@@ -16,13 +17,14 @@ import static org.fuin.ddd4j.core.DecryptionFailedException.ELEMENT_NAME;
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SuppressWarnings("NullAway.Init")
 public class DecryptionFailedExceptionData implements ExceptionData<DecryptionFailedException> {
 
     @Serial
     private static final long serialVersionUID = 1000L;
 
     @JsonProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonProperty("sid")
     private String sid;
@@ -39,7 +41,7 @@ public class DecryptionFailedExceptionData implements ExceptionData<DecryptionFa
      *
      * @param ex Exception to copy data from.
      */
-    public DecryptionFailedExceptionData(@NotNull final DecryptionFailedException ex) {
+    public DecryptionFailedExceptionData(final DecryptionFailedException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -57,7 +59,7 @@ public class DecryptionFailedExceptionData implements ExceptionData<DecryptionFa
      * @return Message.
      */
     @JsonIgnore
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 
@@ -109,7 +111,7 @@ public class DecryptionFailedExceptionData implements ExceptionData<DecryptionFa
 
     @Override
     public DecryptionFailedException toException() {
-        return new DecryptionFailedException(message);
+        return new DecryptionFailedException(Objects.requireNonNull(message));
     }
 
 }

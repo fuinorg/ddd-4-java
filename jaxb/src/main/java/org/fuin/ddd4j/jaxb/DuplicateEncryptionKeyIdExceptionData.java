@@ -1,6 +1,6 @@
 package org.fuin.ddd4j.jaxb;
 
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -16,12 +16,13 @@ import static org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException.ELEMENT_NAME
  */
 @XmlRootElement(name = ELEMENT_NAME)
 @XmlAccessorType(XmlAccessType.NONE)
+@SuppressWarnings("NullAway.Init")
 public final class DuplicateEncryptionKeyIdExceptionData implements ExceptionData<DuplicateEncryptionKeyIdException> {
 
     private static final long serialVersionUID = 1000L;
 
     @XmlElement(name = "msg")
-    private String message;
+    private @Nullable String message;
 
     @XmlElement(name = "sid")
     private String sid;
@@ -41,7 +42,7 @@ public final class DuplicateEncryptionKeyIdExceptionData implements ExceptionDat
      *
      * @param ex Exception to copy data from.
      */
-    public DuplicateEncryptionKeyIdExceptionData(@NotNull final DuplicateEncryptionKeyIdException ex) {
+    public DuplicateEncryptionKeyIdExceptionData(final DuplicateEncryptionKeyIdException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -58,7 +59,7 @@ public final class DuplicateEncryptionKeyIdExceptionData implements ExceptionDat
      *
      * @return Message.
      */
-    public String getMessage() {
+    public @Nullable String getMessage() {
         return message;
     }
 

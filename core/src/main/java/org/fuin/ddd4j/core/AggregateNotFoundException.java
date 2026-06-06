@@ -17,7 +17,6 @@
  */
 package org.fuin.ddd4j.core;
 
-import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
 
 import java.io.Serial;
@@ -48,7 +47,7 @@ public final class AggregateNotFoundException extends AbstractAggregateException
      * @param type Type of the aggregate.
      * @param id   Unique identifier of the aggregate.
      */
-    public AggregateNotFoundException(@NotNull final EntityType type, @NotNull final AggregateRootId id) {
+    public AggregateNotFoundException(final EntityType type, final AggregateRootId id) {
         this(type.asString(), id.asString());
     }
 
@@ -58,7 +57,7 @@ public final class AggregateNotFoundException extends AbstractAggregateException
      * @param type Type of the aggregate.
      * @param id   Unique identifier of the aggregate.
      */
-    public AggregateNotFoundException(@NotNull final String type, @NotNull final String id) {
+    public AggregateNotFoundException(final String type, final String id) {
         super(type + " with id " + id + " not found", type, id);
     }
 

@@ -1,9 +1,9 @@
 package org.fuin.ddd4j.jackson;
 
+import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.EntityNotFoundException;
 import org.fuin.ddd4j.core.ExceptionData;
 
@@ -16,19 +16,20 @@ import static org.fuin.ddd4j.core.EntityNotFoundException.ELEMENT_NAME;
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
+@SuppressWarnings("NullAway.Init")
 public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFoundException> {
 
     @Serial
     private static final long serialVersionUID = 1000L;
 
     @JsonProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonProperty("sid")
     private String sid;
 
     @JsonProperty("parent-id-path")
-    private String parentIdPath;
+    private @Nullable String parentIdPath;
 
     @JsonProperty("entity-id")
     private String entityId;
@@ -45,7 +46,7 @@ public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFound
      *
      * @param ex Exception to copy data from.
      */
-    public EntityNotFoundExceptionData(@NotNull final EntityNotFoundException ex) {
+    public EntityNotFoundExceptionData(final EntityNotFoundException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -59,7 +60,7 @@ public class EntityNotFoundExceptionData implements ExceptionData<EntityNotFound
      * @return Message.
      */
     @JsonIgnore
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

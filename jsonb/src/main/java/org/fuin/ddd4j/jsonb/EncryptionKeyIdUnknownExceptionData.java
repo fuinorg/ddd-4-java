@@ -1,7 +1,7 @@
 package org.fuin.ddd4j.jsonb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.annotation.JsonbProperty;
-import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.EncryptionKeyIdUnknownException;
 import org.fuin.ddd4j.core.ExceptionData;
 
@@ -11,12 +11,13 @@ import static org.fuin.ddd4j.core.EncryptionKeyIdUnknownException.ELEMENT_NAME;
  * Stores the data from a {@link EncryptionKeyIdUnknownException} for marshalling and allows recreating it after unmarshalling.
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
+@SuppressWarnings("NullAway.Init")
 public class EncryptionKeyIdUnknownExceptionData implements ExceptionData<EncryptionKeyIdUnknownException> {
 
     private static final long serialVersionUID = 1000L;
 
     @JsonbProperty("msg")
-    private String message;
+    private @Nullable String message;
 
     @JsonbProperty("sid")
     private String sid;
@@ -36,7 +37,7 @@ public class EncryptionKeyIdUnknownExceptionData implements ExceptionData<Encryp
      *
      * @param ex Exception to copy data from.
      */
-    public EncryptionKeyIdUnknownExceptionData(@NotNull final EncryptionKeyIdUnknownException ex) {
+    public EncryptionKeyIdUnknownExceptionData(final EncryptionKeyIdUnknownException ex) {
         super();
         this.message = ex.getMessage();
         this.sid = ex.getShortId();
@@ -53,7 +54,7 @@ public class EncryptionKeyIdUnknownExceptionData implements ExceptionData<Encryp
      *
      * @return Message.
      */
-    public final String getMessage() {
+    public final @Nullable String getMessage() {
         return message;
     }
 

@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
-import jakarta.validation.constraints.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.AbstractAggregateRoot;
 import org.fuin.ddd4j.core.ApplyEvent;
 import org.fuin.ddd4j.core.ChildEntityLocator;
@@ -31,6 +31,7 @@ import java.util.List;
 /**
  * Vendor aggregate.
  */
+@SuppressWarnings("NullAway.Init")
 public class Vendor extends AbstractAggregateRoot<VendorId> {
 
     private VendorRef ref;
@@ -61,8 +62,8 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      * @throws DuplicateVendorKeyException
      *             The given key already exists.
      */
-    public Vendor(@NotNull final VendorId id, @NotNull final VendorKey key, @NotNull final VendorName name,
-                  @NotNull final ConstructorService service) throws DuplicateVendorKeyException {
+    public Vendor(final VendorId id, final VendorKey key, final VendorName name,
+                  final ConstructorService service) throws DuplicateVendorKeyException {
         super();
 
         // CHECK PRECONDITIONS
@@ -89,7 +90,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      * @param name
      *            Name of the person to add.
      */
-    public final void addPerson(@NotNull final PersonName name) {
+    public final void addPerson(final PersonName name) {
 
         // CHECK PRECONDITIONS
         Contract.requireArgNotNull("name", name);
@@ -134,7 +135,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
      * @throws PersonNotFoundException
      *             No person with teh given ID was found.
      */
-    public final void changePersonName(@NotNull final PersonId personId, @NotNull final PersonName newName) throws PersonNotFoundException {
+    public final void changePersonName(final PersonId personId, final PersonName newName) throws PersonNotFoundException {
 
         // CHECK PRECONDITIONS
         Contract.requireArgNotNull("personId", personId);
@@ -152,6 +153,7 @@ public class Vendor extends AbstractAggregateRoot<VendorId> {
     }
 
     @ChildEntityLocator
+    @Nullable
     private Person findPerson(final PersonId personId) {
         for (final Person child : persons) {
             if (child.getId().equals(personId)) {

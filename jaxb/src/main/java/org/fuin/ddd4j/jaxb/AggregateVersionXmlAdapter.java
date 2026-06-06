@@ -17,6 +17,7 @@
  */
 package org.fuin.ddd4j.jaxb;
 
+import org.jspecify.annotations.Nullable;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
 
@@ -29,7 +30,7 @@ import javax.annotation.concurrent.ThreadSafe;
 public final class AggregateVersionXmlAdapter extends XmlAdapter<Integer, AggregateVersion> {
 
     @Override
-    public AggregateVersion unmarshal(Integer value) throws Exception {
+    public @Nullable AggregateVersion unmarshal(@Nullable Integer value) throws Exception {
         if (value == null) {
             return null;
         }
@@ -37,7 +38,7 @@ public final class AggregateVersionXmlAdapter extends XmlAdapter<Integer, Aggreg
     }
 
     @Override
-    public Integer marshal(AggregateVersion version) throws Exception {
+    public @Nullable Integer marshal(@Nullable AggregateVersion version) throws Exception {
         if (version == null) {
             return null;
         }

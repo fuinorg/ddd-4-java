@@ -17,7 +17,7 @@
  */
 package org.fuin.ddd4j.coretest;
 
-import jakarta.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;

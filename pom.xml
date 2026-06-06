@@ -194,6 +194,10 @@
                     </executions>
                 </plugin>
 
+                <!-- Pinned to the Jandex version bundled with Quarkus (3.21.0 → Jandex 3.2.7). Newer
+                     jandex-maven-plugin releases (3.3.0+) write index format v13, which the Jandex reader
+                     inside Quarkus 3.21.0 cannot parse (it only supports up to v12), breaking the Quarkus
+                     build augmentation in objects4j-quarkus-test. Keep aligned with the Quarkus Jandex. -->
                 <plugin>
                     <groupId>io.smallrye</groupId>
                     <artifactId>jandex-maven-plugin</artifactId>

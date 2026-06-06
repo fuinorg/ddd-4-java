@@ -234,6 +234,7 @@
     </build>
 
     <modules>
+        <module>bom</module>
         <module>core</module>
         <module>jaxb</module>
         <module>jsonb</module>
@@ -241,9 +242,6 @@
         <module>jackson</module>
         <module>jpa</module>
         <module>esc</module>
-        <!-- Disabled until new cqrs snapshot is available
-        <module>codegen</module>
-        -->
         <module>junit</module>
         <module>jacoco</module>
     </modules>

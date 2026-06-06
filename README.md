@@ -18,6 +18,44 @@ Base classes for Domain Driven Design (DDD) with Java.
 - 0.3.x/0.4.x = **Java 11** before namespace change from 'javax' to 'jakarta'
 - 0.2.1 = **Java 8**
 
+## Maven BOM
+
+A [Bill of Materials (BOM)](https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#bill-of-materials-bom-poms)
+is provided to keep the versions of the ddd-4-java modules aligned. Import it in the `dependencyManagement` section of
+your project and then declare the modules you need without specifying a version:
+
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.fuin.ddd4j</groupId>
+            <artifactId>ddd-4-java-bom</artifactId>
+            <version>0.8.0</version>
+            <type>pom</type>
+            <scope>import</scope>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+
+<dependencies>
+    <dependency>
+        <groupId>org.fuin.ddd4j</groupId>
+        <artifactId>ddd-4-java-core</artifactId>
+    </dependency>
+    <!-- Other modules without a version tag -->
+</dependencies>
+```
+
+The BOM manages the following modules:
+
+- `ddd-4-java-core`
+- `ddd-4-java-esc`
+- `ddd-4-java-jaxb`
+- `ddd-4-java-jsonb`
+- `ddd-4-java-jackson`
+- `ddd-4-java-jpa`
+- `ddd-4-java-junit`
+
 ## Documentation
 
 You can find the [documentation](https://app.gitbook.com/@fuinorg/s/ddd-4-java/) of the project

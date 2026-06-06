@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.fuin.ddd4j</groupId>
+        <artifactId>ddd-4-java</artifactId>
+        <version>0.8.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <artifactId>ddd-4-java-bom</artifactId>
+    <packaging>pom</packaging>
+    <description>Bill of Materials (BOM) for the ddd-4-java modules</description>
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-esc</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-jaxb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-jsonb</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-jackson</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-jpa</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.fuin.ddd4j</groupId>
+                <artifactId>ddd-4-java-junit</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+        </dependencies>
+
+    </dependencyManagement>
+
+</project>

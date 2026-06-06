@@ -221,6 +221,17 @@
                     </configuration>
                 </plugin>
 
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <!-- Keep real Javadoc checks (broken references, bad HTML, syntax) but do not warn
+                         about missing comments on boilerplate members such as the mandatory Bean Validation
+                         message()/groups()/payload() elements, private fields and default constructors. -->
+                    <configuration>
+                        <doclint>all,-missing</doclint>
+                    </configuration>
+                </plugin>
+
             </plugins>
 
         </pluginManagement>

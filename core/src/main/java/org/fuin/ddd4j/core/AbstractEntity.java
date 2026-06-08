@@ -97,4 +97,109 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
         return root.getId();
     }
 
+    /**
+     * Base class for entity builders. As an entity always requires its aggregate root and identifier at construction
+     * time (the {@code root} field is final), the builder collects this mandatory data plus the entity specific
+     * attributes and creates the instance via the real constructor within the concrete {@code build()} method.
+     *
+     * @param <ROOT_ID> Type of the aggregate root identifier.
+     * @param <ROOT>    Type of the aggregate root.
+     * @param <ID>      Type of the entity identifier.
+     * @param <TYPE>    Type of the entity.
+     * @param <BUILDER> Type of the builder.
+     */
+    protected abstract static class Builder<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId, TYPE extends AbstractEntity<ROOT_ID, ROOT, ID>, BUILDER extends Builder<ROOT_ID, ROOT, ID, TYPE, BUILDER>> {
+
+        private ROOT rootAggregate;
+
+        private ID id;
+
+        /**
+         * Default constructor.
+         */
+        protected Builder() {
+            super();
+        }
+
+        /**
+         * Sets the root aggregate the entity belongs to.
+         *
+         * @param rootAggregate Root aggregate of this entity.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER rootAggregate(@NotNull final ROOT rootAggregate) {
+            Contract.requireArgNotNull("rootAggregate", rootAggregate);
+            this.rootAggregate = rootAggregate;
+            return (BUILDER) this;
+        }
+
+        /**
+         * Sets the unique entity identifier.
+         *
+         * @param id Unique entity identifier.
+         * @return This builder.
+         */
+        @SuppressWarnings("unchecked")
+        public final BUILDER id(@NotNull final ID id) {
+            Contract.requireArgNotNull("id", id);
+            this.id = id;
+            return (BUILDER) this;
+        }
+
+        /**
+         * Returns the root aggregate to use for constructing the entity.
+         *
+         * @return Root aggregate.
+         */
+        protected final ROOT getRootAggregate() {
+            return rootAggregate;
+        }
+
+        /**
+         * Returns the entity identifier to use for constructing the entity.
+         *
+         * @return Unique entity identifier.
+         */
+        protected final ID getEntityId() {
+            return id;
+        }
+
+        /**
+         * Ensures that the mandatory data is set up for building the object or throws a runtime exception otherwise.
+         */
+        protected final void ensureBuildableAbstractEntity() {
+            ensureNotNull("rootAggregate", rootAggregate);
+            ensureNotNull("id", id);
+        }
+
+        /**
+         * Clears the common entity data. This must be called within the build method.
+         */
+        protected final void resetAbstractEntity() {
+            this.rootAggregate = null;
+            this.id = null;
+        }
+
+        /**
+         * Ensures that a field is set or throws a runtime exception otherwise.
+         *
+         * @param name  Name of the field.
+         * @param value Value to test for {@literal null}.
+         */
+        protected final void ensureNotNull(final String name, final Object value) {
+            if (value == null) {
+                throw new RuntimeException("The value of '" + name + "' has not been set");
+            }
+        }
+
+        /**
+         * Creates a new entity instance from the builder's data.
+         *
+         * @return New instance.
+         */
+        public abstract TYPE build();
+
+    }
+
 }

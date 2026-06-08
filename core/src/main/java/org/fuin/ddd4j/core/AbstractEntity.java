@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.Contract;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Base class for entities.
@@ -65,7 +66,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
     }
 
     @Override
-    public final boolean equals(final Object obj) {
+    public final boolean equals(@Nullable final Object obj) {
         if (this == obj) {
             return true;
         }
@@ -110,8 +111,10 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      */
     protected abstract static class Builder<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId, TYPE extends AbstractEntity<ROOT_ID, ROOT, ID>, BUILDER extends Builder<ROOT_ID, ROOT, ID, TYPE, BUILDER>> {
 
+        @Nullable
         private ROOT rootAggregate;
 
+        @Nullable
         private ID id;
 
         /**
@@ -128,7 +131,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER rootAggregate(@NotNull final ROOT rootAggregate) {
+        public final BUILDER rootAggregate(final ROOT rootAggregate) {
             Contract.requireArgNotNull("rootAggregate", rootAggregate);
             this.rootAggregate = rootAggregate;
             return (BUILDER) this;
@@ -141,7 +144,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER id(@NotNull final ID id) {
+        public final BUILDER id(final ID id) {
             Contract.requireArgNotNull("id", id);
             this.id = id;
             return (BUILDER) this;
@@ -152,6 +155,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
          *
          * @return Root aggregate.
          */
+        @Nullable
         protected final ROOT getRootAggregate() {
             return rootAggregate;
         }
@@ -161,6 +165,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
          *
          * @return Unique entity identifier.
          */
+        @Nullable
         protected final ID getEntityId() {
             return id;
         }
@@ -187,7 +192,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
          * @param name  Name of the field.
          * @param value Value to test for {@literal null}.
          */
-        protected final void ensureNotNull(final String name, final Object value) {
+        protected final void ensureNotNull(final String name, @Nullable final Object value) {
             if (value == null) {
                 throw new RuntimeException("The value of '" + name + "' has not been set");
             }

@@ -23,9 +23,11 @@ import org.fuin.ddd4j.coretest.AId;
 import org.fuin.ddd4j.coretest.ARoot;
 import org.fuin.ddd4j.coretest.BEntity;
 import org.fuin.ddd4j.coretest.BId;
+import org.fuin.objects4j.common.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class AbstractEntityTest {
 
@@ -47,6 +49,93 @@ public class AbstractEntityTest {
         // TEST & VERIFY
         assertThat(testee.getRoot()).isEqualTo(a);
         assertThat(testee.getRootId()).isEqualTo(aid);
+
+    }
+
+    @Test
+    public void testBuilderBuild() {
+
+        // PREPARE
+        final ARoot root = new ARoot(new AId(1));
+        final BId id = new BId(2);
+
+        // TEST
+        final BEntity entity = new BEntityBuilder().rootAggregate(root).id(id).build();
+
+        // VERIFY
+        assertThat(entity).isNotNull();
+        assertThat(entity.getRoot()).isEqualTo(root);
+        assertThat(entity.getId()).isEqualTo(id);
+
+    }
+
+    @Test
+    public void testBuilderReturnsItself() {
+
+        // PREPARE
+        final BEntityBuilder builder = new BEntityBuilder();
+
+        // TEST & VERIFY
+        assertThat(builder.rootAggregate(new ARoot(new AId(1)))).isSameAs(builder);
+        assertThat(builder.id(new BId(2))).isSameAs(builder);
+
+    }
+
+    @Test
+    public void testBuilderRootAggregateNull() {
+        assertThatThrownBy(() -> new BEntityBuilder().rootAggregate(null))
+                .isInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining("rootAggregate");
+    }
+
+    @Test
+    public void testBuilderIdNull() {
+        assertThatThrownBy(() -> new BEntityBuilder().id(null))
+                .isInstanceOf(ConstraintViolationException.class)
+                .hasMessageContaining("id");
+    }
+
+    @Test
+    public void testBuilderEnsureBuildableFailsWhenRootAggregateMissing() {
+        assertThatThrownBy(() -> new BEntityBuilder().id(new BId(2)).build())
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("rootAggregate");
+    }
+
+    @Test
+    public void testBuilderEnsureBuildableFailsWhenIdMissing() {
+        assertThatThrownBy(() -> new BEntityBuilder().rootAggregate(new ARoot(new AId(1))).build())
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("id");
+    }
+
+    @Test
+    public void testBuilderResetsAfterBuild() {
+
+        // PREPARE
+        final BEntityBuilder builder = new BEntityBuilder();
+        builder.rootAggregate(new ARoot(new AId(1))).id(new BId(2)).build();
+
+        // TEST & VERIFY - the mandatory data was cleared, so a second build fails
+        assertThatThrownBy(builder::build)
+                .isInstanceOf(RuntimeException.class)
+                .hasMessageContaining("rootAggregate");
+
+    }
+
+    /**
+     * Concrete builder used to test the abstract {@link AbstractEntity.Builder}.
+     */
+    private static final class BEntityBuilder
+            extends AbstractEntity.Builder<AId, ARoot, BId, BEntity, BEntityBuilder> {
+
+        @Override
+        public BEntity build() {
+            ensureBuildableAbstractEntity();
+            final BEntity entity = new BEntity(getRootAggregate(), getEntityId());
+            resetAbstractEntity();
+            return entity;
+        }
 
     }
 

@@ -29,6 +29,7 @@
     </issueManagement>
 
     <properties>
+
         <jackson.version>2.18.2</jackson.version>
         <esc.version>0.10.0-SNAPSHOT</esc.version>
         <objects4j.version>0.11.1-SNAPSHOT</objects4j.version>
@@ -39,6 +40,7 @@
         <org-fuin-bom.version>1.0.2-SNAPSHOT</org-fuin-bom.version>
         <error-prone.version>2.49.0</error-prone.version>
         <nullaway.version>0.13.6</nullaway.version>
+
     </properties>
 
     <dependencyManagement>

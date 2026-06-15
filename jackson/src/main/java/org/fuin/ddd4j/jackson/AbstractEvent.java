@@ -203,7 +203,7 @@ public abstract class AbstractEvent implements Event {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER correlationId(final EventId correlationId) {
+        public final BUILDER correlationId(@Nullable final EventId correlationId) {
             delegate.correlationId = correlationId;
             return (BUILDER) this;
         }
@@ -215,7 +215,7 @@ public abstract class AbstractEvent implements Event {
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER causationId(final EventId causationId) {
+        public final BUILDER causationId(@Nullable final EventId causationId) {
             delegate.causationId = causationId;
             return (BUILDER) this;
         }

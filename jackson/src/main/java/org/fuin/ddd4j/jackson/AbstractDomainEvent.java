@@ -177,7 +177,7 @@ public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractE
          * @return This builder.
          */
         @SuppressWarnings("unchecked")
-        public final BUILDER aggregateVersion(final AggregateVersion aggregateVersion) {
+        public final BUILDER aggregateVersion(@Nullable final AggregateVersion aggregateVersion) {
             delegate.aggregateVersion = aggregateVersion;
             return (BUILDER) this;
         }

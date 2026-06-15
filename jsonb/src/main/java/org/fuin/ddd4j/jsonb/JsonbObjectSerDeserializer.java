@@ -58,6 +58,11 @@ public final class JsonbObjectSerDeserializer implements ObjectSerDeserializer {
     }
 
     @Override
+    public String getContentType() {
+        return "application/json; charset=" + charset.name();
+    }
+
+    @Override
     public byte[] serialize(final Object value) {
         Contract.requireArgNotNull("value", value);
         return jsonb.toJson(value).getBytes(charset);

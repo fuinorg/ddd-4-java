@@ -70,6 +70,11 @@ public final class JaxbObjectSerDeserializer implements ObjectSerDeserializer {
     }
 
     @Override
+    public String getContentType() {
+        return "application/xml; charset=" + charset.name();
+    }
+
+    @Override
     public byte[] serialize(final Object value) {
         Contract.requireArgNotNull("value", value);
         final String xml = Objects.requireNonNull(JaxbUtils.marshal(jaxbContext, value, adapters), "marshal result");

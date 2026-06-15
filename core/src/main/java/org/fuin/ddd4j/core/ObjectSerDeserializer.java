@@ -24,6 +24,13 @@ package org.fuin.ddd4j.core;
 public interface ObjectSerDeserializer {
 
     /**
+     * Returns the content type that is used to serialize/deserialize.
+     *
+     * @return Content type like "application/json; charset=utf-8".
+     */
+    String getContentType();
+
+    /**
      * Serializes a given object to a byte array.
      *
      * @param value Instance to serialize.

@@ -27,7 +27,7 @@ public class JacksonObjectSerDeserializerTest {
         final EncryptedDataJackson original = new EncryptedDataJackson(keyId, keyVersion, dataType, contentType, encryptedData);
 
         final ObjectMapper objectMapper = TestUtils.objectMapper();
-        final ObjectSerDeserializer testee = new JacksonObjectSerDeserializer(objectMapper);
+        final ObjectSerDeserializer testee = new JacksonObjectSerDeserializer(contentType + "; " + StandardCharsets.UTF_8.name(), objectMapper);
 
         // TEST
         final byte[] serialized = testee.serialize(original);

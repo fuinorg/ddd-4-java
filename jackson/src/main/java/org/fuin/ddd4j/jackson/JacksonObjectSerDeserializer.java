@@ -31,16 +31,28 @@ import java.io.IOException;
 @ThreadSafe
 public final class JacksonObjectSerDeserializer implements ObjectSerDeserializer {
 
+    private final String contentType;
+
     private final ObjectMapper objectMapper;
 
     /**
      * Constructor with all mandatory data.
      *
+     * @param contentType Content type used like "application/json; charset=utf-8".
      * @param objectMapper Mapper to use for serializing/deserializing.
      */
-    public JacksonObjectSerDeserializer(final ObjectMapper objectMapper) {
+    public JacksonObjectSerDeserializer(
+            final String contentType,
+            final ObjectMapper objectMapper) {
+        Contract.requireArgNotNull("contentType", contentType);
         Contract.requireArgNotNull("objectMapper", objectMapper);
+        this.contentType = contentType;
         this.objectMapper = objectMapper;
+    }
+
+    @Override
+    public String getContentType() {
+        return contentType;
     }
 
     @Override

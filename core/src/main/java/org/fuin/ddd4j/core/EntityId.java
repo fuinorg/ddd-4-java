@@ -46,10 +46,21 @@ public interface EntityId extends TechnicalId, AsStringCapable, Serializable {
     /**
      * Returns the entity identifier as string with type and identifier.
      *
-     * @return Type and identifier.
+     * @return Type and identifier (as default separated with a space)
      */
-    String asTypedString();
+    default String asTypedString() {
+        return getType().asString() + " " + asString();
+    }
 
+    /**
+     * Returns the entity identifier as string with type and identifier.
+     * In contrast to {@link #asTypedString()} there is a "/" between type and ID.
+     *
+     * @return Type and Identifier (separated with "/").
+     */
+    default String asEncryptionKey() {
+        return getType().asString() + "/" + asString();
+    }
 
     /**
      * Verifies that the given value can be converted into a value object using the factory.

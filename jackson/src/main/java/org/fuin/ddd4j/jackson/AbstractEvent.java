@@ -266,7 +266,7 @@ public abstract class AbstractEvent implements Event {
          * @param name  Name of the field.
          * @param value Value to test for {@literal null}.
          */
-        protected final void ensureNotNull(final String name, final Object value) {
+        protected final void ensureNotNull(final String name, @Nullable final Object value) {
             if (value == null) {
                 throw new RuntimeException("The value of '" + name + "' has not been set");
             }

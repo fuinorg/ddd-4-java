@@ -5,10 +5,10 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.fuin.ddd4j.core.EncryptionKeyIdUnknownException;
+import org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException;
 import org.fuin.ddd4j.core.ExceptionData;
 
-import static org.fuin.ddd4j.core.EncryptionKeyIdUnknownException.ELEMENT_NAME;
+import static org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException.ELEMENT_NAME;
 
 /**
  * Stores the data from a {@link EncryptionKeyIdUnknownException} for marshalling and allows recreating it after unmarshalling.

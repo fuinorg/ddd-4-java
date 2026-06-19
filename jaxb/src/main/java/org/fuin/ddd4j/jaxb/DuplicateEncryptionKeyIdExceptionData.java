@@ -5,10 +5,10 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException;
+import org.fuin.objects4j.crypto.DuplicateEncryptionKeyIdException;
 import org.fuin.ddd4j.core.ExceptionData;
 
-import static org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException.ELEMENT_NAME;
+import static org.fuin.objects4j.crypto.DuplicateEncryptionKeyIdException.ELEMENT_NAME;
 
 /**
  * Stores the data from a {@link DuplicateEncryptionKeyIdException} for marshalling and allows recreating it after unmarshalling.

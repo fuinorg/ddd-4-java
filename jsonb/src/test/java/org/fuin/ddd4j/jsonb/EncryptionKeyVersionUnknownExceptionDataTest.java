@@ -2,7 +2,7 @@ package org.fuin.ddd4j.jsonb;
 
 import jakarta.json.bind.Jsonb;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.EncryptionKeyVersionUnknownException;
+import org.fuin.objects4j.crypto.EncryptionKeyVersionUnknownException;
 import org.junit.jupiter.api.Test;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
@@ -77,7 +77,7 @@ class EncryptionKeyVersionUnknownExceptionDataTest {
             final String json = """
                     {
                         "msg" : "Unknown keyVersion: 1",
-                        "sid" : "DDD4J-ENCRYPTION_KEY_VERSION_UNKNOWN",
+                        "sid" : "OBJECTS4J-CRYPTO-ENCRYPTION_KEY_VERSION_UNKNOWN",
                         "key-version" : "1"
                     }
                     """;

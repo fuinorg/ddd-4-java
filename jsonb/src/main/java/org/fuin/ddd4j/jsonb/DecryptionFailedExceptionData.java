@@ -3,12 +3,12 @@ package org.fuin.ddd4j.jsonb;
 import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.annotation.JsonbProperty;
-import org.fuin.ddd4j.core.DecryptionFailedException;
+import org.fuin.objects4j.crypto.DecryptionFailedException;
 import org.fuin.ddd4j.core.ExceptionData;
 
 import java.io.Serial;
 
-import static org.fuin.ddd4j.core.DecryptionFailedException.ELEMENT_NAME;
+import static org.fuin.objects4j.crypto.DecryptionFailedException.ELEMENT_NAME;
 
 /**
  * Stores the data from a {@link DecryptionFailedException} for marshalling and allows recreating it after unmarshalling.

@@ -3,7 +3,7 @@ package org.fuin.ddd4j.jaxb;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.DecryptionFailedException;
+import org.fuin.objects4j.crypto.DecryptionFailedException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
@@ -78,7 +78,7 @@ class DecryptionFailedExceptionDataTest {
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <decryption-failed-exception>
                     <msg>Decryption failed: Foo Bar</msg>
-                    <sid>DDD4J-DECRYPTION_FAILED</sid>
+                    <sid>OBJECTS4J-CRYPTO-DECRYPTION_FAILED</sid>
                 </decryption-failed-exception>
                 """;
 

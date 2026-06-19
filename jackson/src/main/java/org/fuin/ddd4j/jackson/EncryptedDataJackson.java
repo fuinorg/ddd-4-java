@@ -20,7 +20,7 @@ package org.fuin.ddd4j.jackson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
-import org.fuin.ddd4j.core.EncryptedData;
+import org.fuin.objects4j.crypto.EncryptedData;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serial;

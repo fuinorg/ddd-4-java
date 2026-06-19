@@ -3,7 +3,7 @@ package org.fuin.ddd4j.jaxb;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.EncryptionKeyIdUnknownException;
+import org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
@@ -77,7 +77,7 @@ class EncryptionKeyIdUnknownExceptionDataTest {
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <encryption-key-id-unknown-exception>
                     <msg>Unknown keyId: xyz</msg>
-                    <sid>DDD4J-ENCRYPTION_KEY_ID_UNKNOWN</sid>
+                    <sid>OBJECTS4J-CRYPTO-ENCRYPTION_KEY_ID_UNKNOWN</sid>
                     <key-id>xyz</key-id>
                 </encryption-key-id-unknown-exception>
                 """;

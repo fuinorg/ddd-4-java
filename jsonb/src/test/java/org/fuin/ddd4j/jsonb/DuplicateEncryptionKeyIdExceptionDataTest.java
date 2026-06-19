@@ -2,7 +2,7 @@ package org.fuin.ddd4j.jsonb;
 
 import jakarta.json.bind.Jsonb;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException;
+import org.fuin.objects4j.crypto.DuplicateEncryptionKeyIdException;
 import org.junit.jupiter.api.Test;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
@@ -77,7 +77,7 @@ class DuplicateEncryptionKeyIdExceptionDataTest {
             final String json = """
                     {
                         "msg" : "Duplicate keyId: xyz",
-                        "sid" : "DDD4J-DUPLICATE-ENCRYPTION_KEY_ID",
+                        "sid" : "OBJECTS4J-CRYPTO-DUPLICATE-ENCRYPTION_KEY_ID",
                         "key-id" : "xyz"
                     }
                     """;

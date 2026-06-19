@@ -10,6 +10,7 @@
 - Added new BOM
 - Removed "codegen" module that was an experimental annotation based code generator
 - Added [JSpecify](https://jspecify.dev/) and [NullAway](https://github.com/uber/nullaway)
+- Use encryption functionality from [event-store-commons](https://github.com/fuinorg/event-store-commons)
 
 ## 0.7.0
 - Added [Jackson](jackson) module

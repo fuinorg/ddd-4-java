@@ -2,7 +2,7 @@ package org.fuin.ddd4j.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.EncryptionKeyIdUnknownException;
+import org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException;
 import org.junit.jupiter.api.Test;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
@@ -74,7 +74,7 @@ class EncryptionKeyIdUnknownExceptionDataTest {
         final String json = """
                 {
                     "msg" : "Unknown keyId: xyz",
-                    "sid" : "DDD4J-ENCRYPTION_KEY_ID_UNKNOWN",
+                    "sid" : "OBJECTS4J-CRYPTO-ENCRYPTION_KEY_ID_UNKNOWN",
                     "key-id" : "xyz"
                 }
                 """;

@@ -3,7 +3,7 @@ package org.fuin.ddd4j.jaxb;
 import jakarta.xml.bind.Marshaller;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException;
+import org.fuin.objects4j.crypto.DuplicateEncryptionKeyIdException;
 import org.fuin.ddd4j.jaxbtest.JaxbTestEntityIdFactory;
 import org.fuin.utils4j.jaxb.MarshallerBuilder;
 import org.junit.jupiter.api.Test;
@@ -77,7 +77,7 @@ class DuplicateEncryptionKeyIdExceptionDataTest {
                 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
                 <duplicate-encryption-key-id-exception>
                     <msg>Duplicate keyId: xyz</msg>
-                    <sid>DDD4J-DUPLICATE-ENCRYPTION_KEY_ID</sid>
+                    <sid>OBJECTS4J-CRYPTO-DUPLICATE-ENCRYPTION_KEY_ID</sid>
                     <key-id>xyz</key-id>
                 </duplicate-encryption-key-id-exception>
                 """;

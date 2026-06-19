@@ -20,7 +20,7 @@ package org.fuin.ddd4j.jaxb;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.fuin.ddd4j.core.EncryptedData;
+import org.fuin.objects4j.crypto.EncryptedData;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serial;

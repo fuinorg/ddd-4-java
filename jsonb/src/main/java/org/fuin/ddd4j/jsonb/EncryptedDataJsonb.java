@@ -19,7 +19,7 @@ package org.fuin.ddd4j.jsonb;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.validation.constraints.NotEmpty;
-import org.fuin.ddd4j.core.EncryptedData;
+import org.fuin.objects4j.crypto.EncryptedData;
 
 import javax.annotation.concurrent.Immutable;
 import java.io.Serial;

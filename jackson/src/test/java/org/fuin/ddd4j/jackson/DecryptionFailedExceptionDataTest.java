@@ -2,7 +2,7 @@ package org.fuin.ddd4j.jackson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.fuin.ddd4j.core.DecryptionFailedException;
+import org.fuin.objects4j.crypto.DecryptionFailedException;
 import org.junit.jupiter.api.Test;
 
 import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
@@ -74,7 +74,7 @@ class DecryptionFailedExceptionDataTest {
         final String json = """
                 {
                     "msg" : "Decryption failed: Foo Bar",
-                    "sid" : "DDD4J-DECRYPTION_FAILED"
+                    "sid" : "OBJECTS4J-CRYPTO-DECRYPTION_FAILED"
                 }
                 """;
 

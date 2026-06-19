@@ -5,12 +5,12 @@ import org.jspecify.annotations.Nullable;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.fuin.ddd4j.core.DecryptionFailedException;
+import org.fuin.objects4j.crypto.DecryptionFailedException;
 import org.fuin.ddd4j.core.ExceptionData;
 
 import java.io.Serial;
 
-import static org.fuin.ddd4j.core.DecryptionFailedException.ELEMENT_NAME;
+import static org.fuin.objects4j.crypto.DecryptionFailedException.ELEMENT_NAME;
 
 /**
  * Stores the data from a {@link DecryptionFailedException} for marshalling and allows recreating it after unmarshalling.

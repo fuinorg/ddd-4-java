@@ -2,10 +2,10 @@ package org.fuin.ddd4j.jsonb;
 
 import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.annotation.JsonbProperty;
-import org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException;
+import org.fuin.objects4j.crypto.DuplicateEncryptionKeyIdException;
 import org.fuin.ddd4j.core.ExceptionData;
 
-import static org.fuin.ddd4j.core.DuplicateEncryptionKeyIdException.ELEMENT_NAME;
+import static org.fuin.objects4j.crypto.DuplicateEncryptionKeyIdException.ELEMENT_NAME;
 
 /**
  * Stores the data from a {@link DuplicateEncryptionKeyIdException} for marshalling and allows recreating it after unmarshalling.

@@ -40,6 +40,7 @@ public class ArchitectureTest {
                     "jakarta.annotation..",
                     "org.fuin.objects4j.common..",
                     "org.fuin.objects4j.core..",
+                    "org.fuin.objects4j.crypto..",
                     "org.fuin.objects4j.ui..",
                     "org.fuin.utils4j..",
                     "org.jboss.jandex..",

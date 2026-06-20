@@ -1,4 +1,4 @@
-# objects4j-jpa
+# ddd-4-java-jpa
 Jakarta Persistence API ([JPA](https://jakarta.ee/specifications/persistence/3.1/jakarta-persistence-spec-3.1)) attribute converters for the types defined in [Core](../core).
 
 ## Getting started

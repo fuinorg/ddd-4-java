@@ -31,6 +31,7 @@ public class ArchitectureTest {
                     "org.fuin.esc.api..",
                     "org.fuin.objects4j.common..",
                     "org.fuin.objects4j.core..",
+                    "org.fuin.objects4j.crypto..",
                     "jakarta.validation.constraints..",
                     "org.slf4j..",
                     "javax.annotation.concurrent.."

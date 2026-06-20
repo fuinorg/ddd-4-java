@@ -41,6 +41,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.fuin.objects4j</groupId>
+            <artifactId>objects4j-crypto</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.fuin.esc</groupId>
             <artifactId>esc-api</artifactId>
         </dependency>
@@ -66,6 +71,12 @@
         </dependency>
 
         <!-- Test -->
+
+        <dependency>
+            <groupId>org.fuin.ddd4j</groupId>
+            <artifactId>ddd-4-java-jsonb</artifactId>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>org.fuin.ddd4j</groupId>

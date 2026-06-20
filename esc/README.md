@@ -1,8 +1,10 @@
 # ddd-4-java-esc
-Event store based [Repository](src/main/java/org/fuin/ddd4j/esc/IEventStoreRepository.java) that persists the domain
-events of an aggregate to an [event-store-commons](https://github.com/fuinorg/event-store-commons) `EventStore`. The
-abstract [EventStoreRepository](src/main/java/org/fuin/ddd4j/esc/EventStoreRepository.java) loads an aggregate by
-replaying its events and appends new uncommitted events on `update`.
+Event store based [Repository](src/main/java/org/fuin/ddd4j/esc/IEventStoreRepository.java) that persists the domain events of an aggregate to an [event-store-commons](https://github.com/fuinorg/event-store-commons) `EventStore`.
+The abstract [EventStoreRepository](src/main/java/org/fuin/ddd4j/esc/EventStoreRepository.java) loads an aggregate by replaying its events and appends new uncommitted events on `update`.
+
+The implementation supports partial encryption, which means only some of the fields are encrypted.
+Encryption of the whole event is already supported by the [event-store-commons](https://github.com/fuinorg/event-store-commons/)
+"EncryptingEventStore". Make sure you configure either partial or full encryption for an event; configuring both makes no sense.
 
 ## Partial field encryption
 
@@ -16,7 +18,7 @@ When the repository is created with an `ObjectSerDeserializer` and an
 `EventStoreRepository` transparently:
 
 - **on append** – replaces every event implementing `RequiresPartialEncryption` with the encrypted variant
-  it returns, before* the event reaches the underlying event store, and
+  it returns, *before* the event reaches the underlying event store, and
 - **on read** – replaces every event implementing `RequiresPartialDecryption` with the decrypted variant
   it returns, *after* it was read from the event store and before it is applied to the aggregate.
 
@@ -70,7 +72,7 @@ The `key-id` is derived from the aggregate (one key per customer, so a single cu
 destroying the key), and the original `data-type` / `content-type` are kept alongside the ciphertext so the value can be
 deserialized again after it has been decrypted, even after the key has been rotated.
 
-Once the key has been destroyed the data can no longer be decrypted. Rather than failing the read, the
+Once the key has been destroyed, the data can no longer be decrypted. Rather than failing the read, the
 `MyCustomerCreatedEventEncrypted` then returns a redacted name (`"***"`) so a customer whose personal data was
 crypto-shredded can still be loaded.
 

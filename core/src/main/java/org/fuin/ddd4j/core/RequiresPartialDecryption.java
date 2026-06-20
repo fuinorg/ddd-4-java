@@ -1,8 +1,9 @@
 package org.fuin.ddd4j.core;
 
-import org.fuin.ddd4j.core.DecryptionFailedException;
-import org.fuin.ddd4j.core.EncryptedDataService;
-import org.fuin.ddd4j.core.EncryptionKeyVersionUnknownException;
+
+import org.fuin.objects4j.crypto.DecryptionFailedException;
+import org.fuin.objects4j.crypto.EncryptedDataService;
+import org.fuin.objects4j.crypto.EncryptionKeyVersionUnknownException;
 
 import java.io.IOException;
 
@@ -18,7 +19,7 @@ public interface RequiresPartialDecryption<E, T> {
      * Replaces the encrypted fields in the input structure with their decrypted version.
      *
      * @param serDeserializer Used to deserialize the decrypted data from bytes.
-     * @param service Service that supports decryption.
+     * @param service         Service that supports decryption.
      * @return Similar type of object, but with necessary fields decrypted.
      */
     T decrypt(ObjectSerDeserializer serDeserializer, EncryptedDataService service)

@@ -18,6 +18,10 @@
 package org.fuin.ddd4j.esc;
 
 import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.crypto.DecryptionFailedException;
+import org.fuin.objects4j.crypto.EncryptedDataService;
+import org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException;
+import org.fuin.objects4j.crypto.EncryptionKeyVersionUnknownException;
 import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.AggregateAlreadyExistsException;
 import org.fuin.ddd4j.core.AggregateCache;
@@ -29,6 +33,9 @@ import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.AggregateVersionConflictException;
 import org.fuin.ddd4j.core.AggregateVersionNotFoundException;
 import org.fuin.ddd4j.core.DomainEvent;
+import org.fuin.ddd4j.core.ObjectSerDeserializer;
+import org.fuin.ddd4j.core.RequiresPartialDecryption;
+import org.fuin.ddd4j.core.RequiresPartialEncryption;
 import org.fuin.ddd4j.core.TenantContext;
 import org.fuin.esc.api.CommonEvent;
 import org.fuin.esc.api.EventId;
@@ -46,6 +53,7 @@ import org.fuin.objects4j.common.Contract;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -71,18 +79,44 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
     private final AggregateCache<AGGREGATE> noCache;
 
+    @Nullable
+    private final ObjectSerDeserializer serDeserializer;
+
+    @Nullable
+    private final EncryptedDataService encryptedDataService;
+
     /**
-     * Constructor with all mandatory data.
+     * Constructor without encryption support. Events that implement {@link RequiresPartialEncryption} or
+     * {@link RequiresPartialDecryption} cannot be handled and will cause an {@link IllegalStateException}.
      *
      * @param eventStore
      *            Event store.
      */
     protected EventStoreRepository(final EventStore eventStore) {
+        this(eventStore, null, null);
+    }
+
+    /**
+     * Constructor with partial encryption support. Events that implement {@link RequiresPartialEncryption} are replaced by
+     * their encrypted variant before they are appended to the event store, and events that implement
+     * {@link RequiresPartialDecryption} are replaced by their decrypted variant after they are read from the event store.
+     *
+     * @param eventStore
+     *            Event store.
+     * @param serDeserializer
+     *            Serializes/deserializes the encrypted fields (may be {@code null} if no event requires partial (de)encryption).
+     * @param encryptedDataService
+     *            Performs the actual encryption/decryption (may be {@code null} if no event requires partial (de)encryption).
+     */
+    protected EventStoreRepository(final EventStore eventStore, @Nullable final ObjectSerDeserializer serDeserializer,
+                                   @Nullable final EncryptedDataService encryptedDataService) {
         super();
 
         Contract.requireArgNotNull("eventStore", eventStore);
 
         this.eventStore = eventStore;
+        this.serDeserializer = serDeserializer;
+        this.encryptedDataService = encryptedDataService;
         noCache = new AggregateNoCache<>();
     }
 
@@ -178,7 +212,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             }
 
             for (final CommonEvent commonEvent : currentSlice.getEvents()) {
-                final DomainEvent<?> event = (DomainEvent<?>) commonEvent.getData();
+                final DomainEvent<?> event = decryptIfRequired((DomainEvent<?>) commonEvent.getData());
                 aggregate.loadFromHistory(event);
             }
 
@@ -376,7 +410,7 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             }
 
             for (final CommonEvent commonEvent : currentSlice.getEvents()) {
-                final DomainEvent<?> event = (DomainEvent<?>) commonEvent.getData();
+                final DomainEvent<?> event = decryptIfRequired((DomainEvent<?>) commonEvent.getData());
                 list.add(event);
             }
 
@@ -396,7 +430,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 .map(tid -> new SimpleTenantId(tid.get().asString()))
                 .orElse(null);
         final List<CommonEvent> list = new ArrayList<>();
-        for (final DomainEvent<?> event : events) {
+        for (final DomainEvent<?> original : events) {
+            final DomainEvent<?> event = encryptIfRequired(original);
             final SimpleCommonEvent sce;
             if (metaData == null) {
                 sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
@@ -411,6 +446,60 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
             list.add(sce);
         }
         return list;
+    }
+
+    /**
+     * Replaces an event that requires partial encryption by its encrypted variant. All other events are returned unchanged.
+     *
+     * @param event
+     *            Original (plain) event.
+     *
+     * @return Encrypted variant or the original event.
+     */
+    private DomainEvent<?> encryptIfRequired(final DomainEvent<?> event) {
+        if (event instanceof RequiresPartialEncryption) {
+            try {
+                return (DomainEvent<?>) ((RequiresPartialEncryption<?, ?>) event).encrypt(requireSerDeserializer(), requireService());
+            } catch (final EncryptionKeyIdUnknownException ex) {
+                throw new RuntimeException("Failed to encrypt event " + event.getEventId(), ex);
+            }
+        }
+        return event;
+    }
+
+    /**
+     * Replaces an event that requires partial decryption by its decrypted variant. All other events are returned unchanged.
+     *
+     * @param event
+     *            Stored (possibly encrypted) event.
+     *
+     * @return Decrypted variant or the original event.
+     */
+    private DomainEvent<?> decryptIfRequired(final DomainEvent<?> event) {
+        if (event instanceof RequiresPartialDecryption) {
+            try {
+                return (DomainEvent<?>) ((RequiresPartialDecryption<?, ?>) event).decrypt(requireSerDeserializer(), requireService());
+            } catch (final EncryptionKeyVersionUnknownException | DecryptionFailedException | IOException ex) {
+                throw new RuntimeException("Failed to decrypt event " + event.getEventId(), ex);
+            }
+        }
+        return event;
+    }
+
+    private ObjectSerDeserializer requireSerDeserializer() {
+        if (serDeserializer == null) {
+            throw new IllegalStateException("An event requires partial (de)encryption, but this repository was created without an"
+                    + " ObjectSerDeserializer. Use the constructor that accepts an ObjectSerDeserializer and an EncryptedDataService.");
+        }
+        return serDeserializer;
+    }
+
+    private EncryptedDataService requireService() {
+        if (encryptedDataService == null) {
+            throw new IllegalStateException("An event requires partial (de)encryption, but this repository was created without an"
+                    + " EncryptedDataService. Use the constructor that accepts an ObjectSerDeserializer and an EncryptedDataService.");
+        }
+        return encryptedDataService;
     }
 
     private int intVersion(final long version) {

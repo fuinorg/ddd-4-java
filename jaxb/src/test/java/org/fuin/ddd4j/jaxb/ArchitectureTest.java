@@ -47,8 +47,10 @@ public class ArchitectureTest {
                     "jakarta.validation.constraints..",
                     "javax.annotation.concurrent..",
                     "org.fuin.objects4j.common..",
+                    "org.fuin.objects4j.crypto..",
                     "org.fuin.objects4j.jaxb..",
                     "org.fuin.objects4j.ui..",
+                    "org.fuin.utils4j.jaxb..",
                     "io.github.threetenjaxb.core..");
 
     @Test

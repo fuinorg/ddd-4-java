@@ -63,7 +63,6 @@
         <dependency>
             <groupId>io.github.threeten-jaxb</groupId>
             <artifactId>threeten-jaxb-core</artifactId>
-            <version>2.1.0</version>
         </dependency>
 
         <dependency>

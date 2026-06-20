@@ -30,7 +30,6 @@
 
     <properties>
 
-        <jackson.version>2.18.2</jackson.version>
         <esc.version>0.10.0-SNAPSHOT</esc.version>
         <objects4j.version>0.12.0-SNAPSHOT</objects4j.version>
         <utils4j.version>0.16.1-SNAPSHOT</utils4j.version>
@@ -40,6 +39,11 @@
         <org-fuin-bom.version>1.0.2-SNAPSHOT</org-fuin-bom.version>
         <error-prone.version>2.49.0</error-prone.version>
         <nullaway.version>0.13.6</nullaway.version>
+
+        <!-- plugin versions -->
+        <maven-dependency-plugin.version>3.8.1</maven-dependency-plugin.version>
+        <jandex-maven-plugin.version>3.2.7</jandex-maven-plugin.version>
+        <maven-deploy-plugin.version>3.1.1</maven-deploy-plugin.version>
 
     </properties>
 
@@ -66,7 +70,7 @@
             <dependency>
                 <groupId>org.fuin.esc</groupId>
                 <artifactId>esc-bom</artifactId>
-                <version>0.10.0-SNAPSHOT</version>
+                <version>${esc.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -135,14 +139,6 @@
                 <version>${units4j.version}</version>
             </dependency>
 
-            <!-- To be replaced/removed -->
-
-            <dependency>
-                <groupId>com.google.code.findbugs</groupId>
-                <artifactId>jsr305</artifactId>
-                <version>3.0.2</version>
-            </dependency>
-
         </dependencies>
 
     </dependencyManagement>
@@ -182,7 +178,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-dependency-plugin</artifactId>
-                    <version>3.8.1</version>
+                    <version>${maven-dependency-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>analyze</id>
@@ -203,7 +199,7 @@
                 <plugin>
                     <groupId>io.smallrye</groupId>
                     <artifactId>jandex-maven-plugin</artifactId>
-                    <version>3.2.7</version>
+                    <version>${jandex-maven-plugin.version}</version>
                     <executions>
                         <execution>
                             <id>make-index</id>
@@ -217,7 +213,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.5.3</version>
                     <configuration>
                         <argLine>-Duser.country=US -Duser.language=en --add-opens java.base/java.util=ALL-UNNAMED ${argLine}</argLine>
                     </configuration>

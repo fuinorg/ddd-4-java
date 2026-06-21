@@ -21,11 +21,31 @@ import java.util.Objects;
 
 /**
  * Defines a role related to an entity.
+ * <p>
+ * Example: A company (aggregate COMPANY) has departements (entity DEPARTEMENT) which
+ * can have sub-departements (same entity DEPARTEMENT).
+ * </p>
+ * <p>
+ * The company has a "managing director" and several "department heads".
+ * So the two {@link EntityRole} are: "MANAGING_DIRECTOR" and "DEPARTEMENT_HEAD".
+ * </p>
+ * <p>
+ * Now there is a company “Company Foo Bar Ltd” (ID 1) that has a "Sales" departement (ID 47)
+ * and a sub-department "Germany" (ID 2).
+ * </p>
+ * <p>
+ * Then the entity role instances are:
+ * <ul>
+ * <li><code>COMPANY 1/MANAGING_DIRECTOR</code> = The managing directory of "Foo Bar Ltd"</li>
+ * <li><code>COMPANY 1/SALES 2/DEPARTEMENT_HEAD</code> = The departement head of sales in company "Foo Bar Ltd"</li>
+ * <li><code>COMPANY 1/SALES 47/SALES 2/DEPARTEMENT_HEAD</code> = The departement head of sales Germany in company "Foo Bar Ltd"</li>
+ * </ul>
+ * </p>
  *
- * @param entityIdPath Entity identifier path.
- * @param type         Type of the role (like "manager").
+ * @param entityIdPath Entity identifier path like "COMPANY 1/SALES 47/SALES 2".
+ * @param type         Type of the role like "MANAGING_DIRECTOR".
  */
-public record EntityRoleInstance(EntityIdPath entityIdPath, String type) implements SecurityRole {
+public record EntityRoleInstance(EntityIdPath entityIdPath, EntityRole type) implements SecurityRole {
 
     /**
      * Returns the instance as a simple role.
@@ -33,7 +53,7 @@ public record EntityRoleInstance(EntityIdPath entityIdPath, String type) impleme
      * @return Representation of the role as stored for example in Keycloak.
      */
     public SimpleRole asSimpleRole() {
-        return new SimpleRole(entityIdPath.toString() + EntityIdPath.PATH_SEPARATOR + type);
+        return new SimpleRole(entityIdPath.asBaseType() + EntityIdPath.PATH_SEPARATOR + type);
     }
 
     /**
@@ -68,7 +88,7 @@ public record EntityRoleInstance(EntityIdPath entityIdPath, String type) impleme
         final String type = str.substring(p + 1);
         final EntityIdPath entityIdPath = Objects.requireNonNull(
                 EntityIdPath.valueOf(factory, entityIdPathStr), "entityIdPath");
-        return new EntityRoleInstance(entityIdPath, type);
+        return new EntityRoleInstance(entityIdPath, new EntityRole(type));
     }
 
 }

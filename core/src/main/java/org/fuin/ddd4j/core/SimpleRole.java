@@ -18,9 +18,17 @@
 package org.fuin.ddd4j.core;
 
 /**
- * Defines a simple role with a static name.
+ * Defines a simple role with a static name. This could be a real basic role like "admin"
+ * or is sometimes used to compare roles of different types by first converting them to
+ * an instance of this class. Naturally ordered by the name.
  *
  * @param name Role name.
  */
-public record SimpleRole(String name) implements SecurityRole {
+public record SimpleRole(String name) implements SecurityRole, Comparable<SimpleRole> {
+
+    @Override
+    public int compareTo(SimpleRole other) {
+        return name.compareTo(other.name);
+    }
+
 }

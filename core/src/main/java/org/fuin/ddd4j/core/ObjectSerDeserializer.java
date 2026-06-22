@@ -17,10 +17,14 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.ThreadSafe;
+
 /**
  * Allows serializing/deserializing an object. Basically
  * a wrapper for the different serialization frameworks.
+ * All implementations are expected to be thread safe.
  */
+@ThreadSafe
 public interface ObjectSerDeserializer {
 
     /**

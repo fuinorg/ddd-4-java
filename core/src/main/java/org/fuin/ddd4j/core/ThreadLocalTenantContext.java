@@ -1,5 +1,6 @@
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.utils4j.TestOmitted;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ import java.util.Optional;
 /**
  * Container for the tenant based on a {@link ThreadLocal}.
  */
+@ThreadSafe
 @TestOmitted("Trivial")
 public class ThreadLocalTenantContext implements WritableTenantContext {
 

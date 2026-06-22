@@ -17,11 +17,14 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.NotThreadSafe;
+
 import java.io.Serial;
 
 /**
  * The current user is not authorized to execute the requested command.
  */
+@NotThreadSafe
 public class UnauthorizedException extends RuntimeException {
 
     @Serial

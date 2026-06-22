@@ -18,15 +18,18 @@
 package org.fuin.ddd4j.core;
 
 import org.jspecify.annotations.Nullable;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import java.util.Optional;
 
 /**
  * Cache for aggregates of the same type.
+ * All implementations are expected to be thread safe.
  *
  * @param <AGGREGATE>
  *            Type of the aggregate.
  */
+@ThreadSafe
 public interface AggregateCache<AGGREGATE> {
 
     /**

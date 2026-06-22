@@ -17,9 +17,13 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.ThreadSafe;
+
 /**
  * Marker interface for the different kinds of security roles (for example {@link SimpleRole},
  * {@link EntityRole} or {@link EntityRoleInstance}).
+ * All implementations are expected to be thread safe.
  */
+@ThreadSafe
 public interface SecurityRole {
 }

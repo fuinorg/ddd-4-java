@@ -24,6 +24,7 @@ import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
@@ -35,6 +36,7 @@ import java.time.ZonedDateTime;
 /**
  * Base class for events. Equals and hash code are solely based on the event id.
  */
+@ImmutableAfterUnmarshal
 public abstract class AbstractEvent implements Event {
 
     @Serial

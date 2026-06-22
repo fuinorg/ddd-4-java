@@ -19,13 +19,16 @@ package org.fuin.ddd4j.core;
 
 import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
 /**
  * Something that happened in the system.
+ * All implementations are expected to be immutable.
  */
+@ThreadSafe
 public interface Event extends Serializable {
 
     /**

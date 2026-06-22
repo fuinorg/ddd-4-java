@@ -4,15 +4,18 @@ package org.fuin.ddd4j.core;
 import org.fuin.objects4j.crypto.DecryptionFailedException;
 import org.fuin.objects4j.crypto.EncryptedDataService;
 import org.fuin.objects4j.crypto.EncryptionKeyVersionUnknownException;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import java.io.IOException;
 
 /**
  * Tags an object that requires decryption for some of its fields.
+ * All implementations are expected to be thread safe.
  *
  * @param <E> Type of the encrypted data.
  * @param <T> Type of the unencrypted data.
  */
+@ThreadSafe
 public interface RequiresPartialDecryption<E, T> {
 
     /**

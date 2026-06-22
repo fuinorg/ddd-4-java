@@ -18,12 +18,14 @@
 package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotEmpty;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 
 /**
  * Base class for version related aggregate exceptions.
  */
+@NotThreadSafe
 public abstract class AbstractVersionedAggregateException extends AbstractAggregateException {
 
     @Serial

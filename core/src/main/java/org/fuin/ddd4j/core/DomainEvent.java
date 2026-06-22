@@ -19,13 +19,16 @@ package org.fuin.ddd4j.core;
 
 import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Domain event published by an entity.
+ * All implementations are expected to be thread safe.
  *
  * @param <ID>
  *            Type of the identifier.
  */
+@ThreadSafe
 public interface DomainEvent<ID extends EntityId> extends Event {
 
     /**

@@ -19,17 +19,20 @@ package org.fuin.ddd4j.core;
 
 import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.ThreadSafetyUndefined;
 
 import java.util.Optional;
 
 /**
  * Repository that supports CRUD operations for an aggregate.
+ * All implementations are expected to be thread safe.
  *
  * @param <ID>
  *            Type of the aggregate root identifier.
  * @param <T>
  *            Type of the aggregate.
  */
+@ThreadSafetyUndefined
 public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<ID>> {
 
     /**

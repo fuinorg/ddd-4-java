@@ -20,13 +20,16 @@ package org.fuin.ddd4j.core;
 import org.jspecify.annotations.Nullable;
 import org.fuin.objects4j.common.AsStringCapable;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.utils4j.TechnicalId;
 
 import java.io.Serializable;
 
 /**
  * Identifies an entity within all entities of the same type.
+ * All implementations are expected to be thread safe.
  */
+@ThreadSafe
 public interface EntityId extends TechnicalId, AsStringCapable, Serializable {
 
     /**

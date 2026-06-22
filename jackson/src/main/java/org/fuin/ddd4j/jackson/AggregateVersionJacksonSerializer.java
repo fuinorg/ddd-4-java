@@ -21,8 +21,8 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.fuin.ddd4j.core.AggregateVersion;
+import org.fuin.objects4j.common.ThreadSafe;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
 
 /**

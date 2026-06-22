@@ -2,6 +2,7 @@ package org.fuin.ddd4j.core;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.utils4j.Utils4J;
 
 import java.util.ArrayList;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 /**
  * Validates that the path has a defined order and type.
  */
+@ThreadSafe
 public final class ExpectedEntityIdPathValidator implements ConstraintValidator<ExpectedEntityIdPath, EntityIdPath> {
 
     private static final String KEY = ExpectedEntityIdPath.class.getName() + ".message";

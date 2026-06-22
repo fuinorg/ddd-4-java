@@ -26,12 +26,14 @@ import org.fuin.ddd4j.jsonb.AbstractDomainEvent;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.esc.api.SerializedDataType;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 
 /**
  * The name of a person entity was changed.
  */
+@ImmutableAfterUnmarshal
 @HasSerializedDataTypeConstant
 @SuppressWarnings("NullAway.Init")
 public final class PersonNameChangedEvent extends AbstractDomainEvent<PersonId> {

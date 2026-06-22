@@ -1,6 +1,6 @@
 package org.fuin.ddd4j.core;
 
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * A context where the current tenant can be set and reset.

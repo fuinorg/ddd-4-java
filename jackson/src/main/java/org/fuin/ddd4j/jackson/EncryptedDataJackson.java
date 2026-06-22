@@ -20,9 +20,9 @@ package org.fuin.ddd4j.jackson;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 import org.fuin.objects4j.crypto.EncryptedData;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
 import java.util.Arrays;
 
@@ -31,7 +31,7 @@ import java.util.Arrays;
  * the format of the data. The receiving system must have a notion of what the key identifier, versions and data type means. Equals and hash
  * code is based on all data (value object)
  */
-@Immutable
+@ImmutableAfterUnmarshal
 @SuppressWarnings("NullAway.Init")
 public final class EncryptedDataJackson implements EncryptedData {
 

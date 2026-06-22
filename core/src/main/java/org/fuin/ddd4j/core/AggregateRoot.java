@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
  * @param <ID>
  *            Type of the aggregate root identifier.
  */
+@NotThreadSafe
 public interface AggregateRoot<ID extends AggregateRootId> extends Entity<ID> {
 
     /**

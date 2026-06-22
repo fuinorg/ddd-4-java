@@ -24,9 +24,9 @@ import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import org.fuin.ddd4j.core.EntityIdFactory;
 import org.fuin.ddd4j.core.EntityIdPath;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.common.ValueOfCapable;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
 
 /**

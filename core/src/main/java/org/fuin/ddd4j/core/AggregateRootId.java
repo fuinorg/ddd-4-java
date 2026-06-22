@@ -17,9 +17,14 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.Immutable;
+import org.fuin.objects4j.common.ThreadSafe;
+
 /**
  * Identifies an aggregate within all aggregates of the same type.
+ * All implementations are expected to be immutable.
  */
+@Immutable
 public interface AggregateRootId extends EntityId {
 
 }

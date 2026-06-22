@@ -20,6 +20,7 @@ package org.fuin.ddd4j.core;
 import org.jspecify.annotations.Nullable;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.core.AbstractStringValueObject;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
@@ -37,6 +38,7 @@ import java.util.StringTokenizer;
 /**
  * An ordered list of entity identifiers. An aggregate root will be the first entry if it's contained in the list.
  */
+@Immutable
 @Label("Entity identifier path")
 @ShortLabel("EntityIdPath")
 @Tooltip("An ordered list of entity identifiers that is separated by '/'. "

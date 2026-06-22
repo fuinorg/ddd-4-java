@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.Immutable;
+
 /**
  * Defines a simple role with a static name. This could be a real basic role like "admin"
  * or is sometimes used to compare roles of different types by first converting them to
@@ -24,6 +26,7 @@ package org.fuin.ddd4j.core;
  *
  * @param name Role name.
  */
+@Immutable
 public record SimpleRole(String name) implements SecurityRole, Comparable<SimpleRole> {
 
     @Override

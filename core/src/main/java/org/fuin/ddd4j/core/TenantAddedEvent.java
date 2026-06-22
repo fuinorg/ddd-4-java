@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.Immutable;
+
 /**
  * A tenant was added to the system.
  * <p>
@@ -26,5 +28,6 @@ package org.fuin.ddd4j.core;
  *
  * @param tenant Tenant that was added.
  */
+@Immutable
 public record TenantAddedEvent(Tenant tenant) {
 }

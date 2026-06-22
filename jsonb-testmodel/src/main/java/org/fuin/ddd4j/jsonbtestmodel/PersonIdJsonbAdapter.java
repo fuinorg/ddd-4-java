@@ -2,8 +2,7 @@ package org.fuin.ddd4j.jsonbtestmodel;
 
 import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.adapter.JsonbAdapter;
-
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Converts a person identifier into an integer and back (JSON-B).

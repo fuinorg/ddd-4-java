@@ -6,6 +6,7 @@ import org.fuin.objects4j.common.HasPublicStaticIsValidMethods;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethodValidator;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethods;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.utils4j.jandex.JandexIndexFileReader.Builder;
 import org.fuin.utils4j.jandex.JandexUtils;
 import org.jboss.jandex.ClassInfo;
@@ -38,6 +39,7 @@ import java.util.function.Function;
  * </ul>
  * and implementing {@link EntityId}.
  */
+@ThreadSafe
 public final class JandexEntityIdFactory implements EntityIdFactory {
 
     private static final Logger LOG = LoggerFactory.getLogger(JandexEntityIdFactory.class);

@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.ThreadSafe;
+
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.zip.Adler32;
@@ -24,6 +26,7 @@ import java.util.zip.Adler32;
 /**
  * Utility methods and constants.
  */
+@ThreadSafe
 public final class Ddd4JUtils {
 
     /**

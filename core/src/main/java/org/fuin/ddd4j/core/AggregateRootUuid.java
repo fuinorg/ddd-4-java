@@ -20,6 +20,7 @@ package org.fuin.ddd4j.core;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
+import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
 
 import java.io.Serial;
@@ -29,6 +30,7 @@ import java.util.regex.Pattern;
 /**
  * UUID based aggregate root identifier.
  */
+@Immutable
 @HasPublicStaticIsValidMethod
 public abstract class AggregateRootUuid implements AggregateRootId, Comparable<AggregateRootUuid>, ValueObjectWithBaseType<UUID> {
 

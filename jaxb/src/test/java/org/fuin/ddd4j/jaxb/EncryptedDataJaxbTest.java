@@ -18,7 +18,7 @@ public class EncryptedDataJaxbTest {
 
     @Test
     void testEqualsHashCode() {
-        EqualsVerifier.forClass(EncryptedDataJaxb.class).verify();
+        EqualsVerifier.simple().forClass(EncryptedDataJaxb.class).verify();
     }
 
     @Test

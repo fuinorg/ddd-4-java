@@ -17,11 +17,14 @@
  */
 package org.fuin.ddd4j.jsonbtestmodel;
 
+import org.fuin.objects4j.common.NotThreadSafe;
+
 import java.io.Serial;
 
 /**
  * It was tried to add a vendor key that already exists.
  */
+@NotThreadSafe
 public final class DuplicateVendorKeyException extends Exception {
 
     @Serial

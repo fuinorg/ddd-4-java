@@ -21,8 +21,8 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.fuin.objects4j.crypto.EncryptedData;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
 import java.util.Arrays;
 
@@ -31,7 +31,7 @@ import java.util.Arrays;
  * the format of the data. The receiving system must have a notion of what the key identifier, versions and data type means. Equals and hash
  * code is based on all data (value object)
  */
-@Immutable
+@ImmutableAfterUnmarshal
 @XmlRootElement(name = "eyncrypted-data")
 @SuppressWarnings("NullAway.Init")
 public final class EncryptedDataJaxb implements EncryptedData {

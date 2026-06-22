@@ -2,6 +2,7 @@ package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.AsStringCapable;
+import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
 
 import java.io.Serial;
@@ -23,6 +24,7 @@ import java.util.regex.Pattern;
  *
  * @param name Unique tenant name.
  */
+@Immutable
 public record TenantId(
         String name) implements AsStringCapable, Serializable, Comparable<TenantId>, ValueObjectWithBaseType<String> {
 

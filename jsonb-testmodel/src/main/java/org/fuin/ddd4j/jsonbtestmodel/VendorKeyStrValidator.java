@@ -20,12 +20,14 @@ package org.fuin.ddd4j.jsonbtestmodel;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import java.util.regex.Pattern;
 
 /**
  * Check that a given string is a well-formed user id.
  */
+@ThreadSafe
 public final class VendorKeyStrValidator implements ConstraintValidator<VendorKeyStr, String> {
 
     private static final Pattern PATTERN = Pattern.compile("V[0-9][0-9][0-9][0-9][0-9]");

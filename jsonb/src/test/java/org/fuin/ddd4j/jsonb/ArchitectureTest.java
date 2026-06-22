@@ -19,6 +19,7 @@ import org.junit.jupiter.api.Test;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.library.DependencyRules.NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
+import static org.fuin.units4j.archunit.Units4JConditions.ALL_CLASSES_SHOULD_HAVE_A_THREAD_SAFETY_ANNOTATION;
 
 /**
  * Tests architectural aspects.
@@ -34,6 +35,9 @@ public class ArchitectureTest {
     static final ArchRule no_accesses_to_upper_package = NO_CLASSES_SHOULD_DEPEND_UPPER_PACKAGES;
 
     @ArchTest
+    static final ArchRule all_classes_have_a_thread_safety_annotation = ALL_CLASSES_SHOULD_HAVE_A_THREAD_SAFETY_ANNOTATION;
+
+    @ArchTest
     static final ArchRule core_access_only_to_defined_packages = classes()
             .that()
             .resideInAPackage(THIS_PACKAGE)
@@ -45,7 +49,6 @@ public class ArchitectureTest {
                     "jakarta.annotation..",
                     "jakarta.json.bind..",
                     "jakarta.validation.constraints..",
-                    "javax.annotation.concurrent..",
                     "org.fuin.objects4j.common..",
                     "org.fuin.objects4j.crypto..",
                     "org.fuin.objects4j.jsonb..",

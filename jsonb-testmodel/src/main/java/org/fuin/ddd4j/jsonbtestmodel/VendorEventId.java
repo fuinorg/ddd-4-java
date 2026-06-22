@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jsonbtestmodel;
 
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -26,6 +27,7 @@ import java.io.Serializable;
 /**
  * Identifies a stream event based on a string and a number.
  */
+@ImmutableAfterUnmarshal
 @SuppressWarnings("NullAway.Init")
 public final class VendorEventId implements Serializable {
 

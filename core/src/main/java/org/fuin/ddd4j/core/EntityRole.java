@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.Immutable;
+
 import java.util.Objects;
 
 /**
@@ -32,6 +34,7 @@ import java.util.Objects;
  *
  * @param name Role name that follows pattern {@link #PATTERN}.
  */
+@Immutable
 public record EntityRole(String name) implements SecurityRole {
 
     public static final String PATTERN = "[A-Z][A-Z0-9_]{0,19}";

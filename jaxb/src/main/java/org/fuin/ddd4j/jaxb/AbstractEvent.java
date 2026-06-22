@@ -29,6 +29,7 @@ import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 import java.time.ZonedDateTime;
@@ -36,6 +37,7 @@ import java.time.ZonedDateTime;
 /**
  * Base class for events. Equals and hash code are solely based on the event id.
  */
+@ImmutableAfterUnmarshal
 public abstract class AbstractEvent implements Event {
 
     @Serial

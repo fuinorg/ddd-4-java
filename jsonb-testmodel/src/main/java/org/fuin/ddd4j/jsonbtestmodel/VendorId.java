@@ -27,8 +27,8 @@ import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
 import org.fuin.objects4j.core.AbstractUuidValueObject;
+import org.fuin.objects4j.common.Immutable;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
 import java.util.UUID;
 

@@ -21,6 +21,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 import org.fuin.objects4j.common.ValueObject;
 
 import java.io.Serial;
@@ -29,6 +30,7 @@ import java.io.Serializable;
 /**
  * References a vendor.
  */
+@ImmutableAfterUnmarshal
 @SuppressWarnings("NullAway.Init")
 public final class VendorRef implements ValueObject, Serializable {
 

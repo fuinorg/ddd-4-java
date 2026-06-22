@@ -22,8 +22,8 @@ import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
 import org.fuin.objects4j.core.AbstractStringValueObject;
+import org.fuin.objects4j.common.Immutable;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
 
 /**

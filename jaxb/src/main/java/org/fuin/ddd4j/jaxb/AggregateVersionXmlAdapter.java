@@ -20,8 +20,7 @@ package org.fuin.ddd4j.jaxb;
 import org.jspecify.annotations.Nullable;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
-
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Converts an aggregate version into an integer and back.

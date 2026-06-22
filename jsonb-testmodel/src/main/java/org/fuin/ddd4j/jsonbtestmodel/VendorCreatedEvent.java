@@ -24,12 +24,14 @@ import org.fuin.ddd4j.core.EventType;
 import org.fuin.ddd4j.jsonb.AbstractDomainEvent;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.esc.api.SerializedDataType;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 
 /**
  * A vendor entity was created.
  */
+@ImmutableAfterUnmarshal
 @HasSerializedDataTypeConstant
 @SuppressWarnings("NullAway.Init")
 public final class VendorCreatedEvent extends AbstractDomainEvent<VendorId> {

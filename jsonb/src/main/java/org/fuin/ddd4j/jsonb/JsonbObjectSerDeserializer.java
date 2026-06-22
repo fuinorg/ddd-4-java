@@ -20,8 +20,8 @@ package org.fuin.ddd4j.jsonb;
 import jakarta.json.bind.Jsonb;
 import org.fuin.ddd4j.core.ObjectSerDeserializer;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ThreadSafe;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 

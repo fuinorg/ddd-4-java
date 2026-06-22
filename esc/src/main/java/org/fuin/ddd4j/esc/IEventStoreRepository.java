@@ -6,12 +6,14 @@ import org.fuin.ddd4j.core.AggregateRoot;
 import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.DomainEvent;
 import org.fuin.ddd4j.core.Repository;
+import org.fuin.objects4j.common.ThreadSafetyUndefined;
 
 import java.util.List;
 
 /**
  * Additional methods related to event store based repositories.
  */
+@ThreadSafetyUndefined
 public interface IEventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>> extends Repository<ID, AGGREGATE> {
 
     /**

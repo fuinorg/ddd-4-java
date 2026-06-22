@@ -21,8 +21,8 @@ import jakarta.persistence.AttributeConverter;
 import jakarta.persistence.Converter;
 import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.EventId;
+import org.fuin.objects4j.common.ThreadSafe;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.util.UUID;
 
 /**

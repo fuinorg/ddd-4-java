@@ -19,6 +19,7 @@ package org.fuin.ddd4j.jsonb;
 
 import jakarta.json.bind.annotation.JsonbProperty;
 import org.fuin.ddd4j.core.AggregateDeletedException;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 
@@ -28,6 +29,7 @@ import static org.fuin.ddd4j.core.AggregateDeletedException.ELEMENT_NAME;
  * Stores the data from a {@link AggregateDeletedException} for marshalling and allows recreating it after unmarshalling.
  * The idea is to transport an exception from the server to the client (without stack trace) and recreate it to be thrown on the client.
  */
+@ImmutableAfterUnmarshal
 @SuppressWarnings("NullAway.Init")
 public final class AggregateDeletedExceptionData extends AbstractAggregateExceptionData<AggregateDeletedException> {
 

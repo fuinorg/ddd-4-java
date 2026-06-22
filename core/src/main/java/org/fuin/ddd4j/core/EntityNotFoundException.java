@@ -21,6 +21,7 @@ import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 import java.util.Objects;
@@ -30,6 +31,7 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 /**
  * Signals that an entity was not found.
  */
+@NotThreadSafe
 public final class EntityNotFoundException extends Exception implements ExceptionShortIdentifable {
 
     /**

@@ -24,6 +24,7 @@ import org.fuin.ddd4j.core.ChildEntityLocator;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ import java.util.List;
 /**
  * Vendor aggregate.
  */
+@NotThreadSafe
 @SuppressWarnings("NullAway.Init")
 public class Vendor extends AbstractAggregateRoot<VendorId> {
 

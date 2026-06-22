@@ -22,8 +22,7 @@ import jakarta.json.bind.adapter.JsonbAdapter;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityIdFactory;
 import org.fuin.objects4j.common.ValueOfCapable;
-
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * JAXB and JSON converter for an entity identifier.

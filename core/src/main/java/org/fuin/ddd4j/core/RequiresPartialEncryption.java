@@ -2,13 +2,16 @@ package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.crypto.EncryptedDataService;
 import org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Tags an object that requires encryption for some of its fields.
+ * All implementations are expected to be thread safe.
  *
  * @param <T> Type of the unencrypted data.
  * @param <E> Type of the encrypted data.
  */
+@ThreadSafe
 public interface RequiresPartialEncryption<T, E> {
 
     /**

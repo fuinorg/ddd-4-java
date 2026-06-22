@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -33,6 +34,7 @@ import java.util.Objects;
  * @param <ID>
  *            Aggregate identifier.
  */
+@NotThreadSafe
 public abstract class AbstractAggregateRoot<ID extends AggregateRootId> implements AggregateRoot<ID> {
 
     private static final MethodExecutor METHOD_EXECUTOR = new MethodExecutor();

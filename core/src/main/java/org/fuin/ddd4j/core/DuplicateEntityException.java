@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 import java.util.Objects;
@@ -27,6 +28,7 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 /**
  * Signals that an entity already existed in its parent.
  */
+@NotThreadSafe
 public final class DuplicateEntityException extends Exception implements ExceptionShortIdentifable {
 
     /**

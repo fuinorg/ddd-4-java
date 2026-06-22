@@ -18,12 +18,14 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 
 /**
  * The person identifier is unknown for the vendor.
  */
+@NotThreadSafe
 public final class PersonNotFoundException extends Exception {
 
     @Serial

@@ -20,10 +20,12 @@ package org.fuin.ddd4j.jsonbtestmodel;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import org.fuin.objects4j.common.ConstraintViolationException;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Check that a given string is a valid vendor name.
  */
+@ThreadSafe
 public final class VendorNameStrValidator implements ConstraintValidator<VendorNameStr, String> {
 
     @Override

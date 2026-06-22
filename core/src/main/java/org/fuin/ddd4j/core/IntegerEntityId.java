@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.Immutable;
 import org.fuin.objects4j.common.ValueObjectWithBaseType;
 
 import java.io.Serial;
@@ -25,6 +26,7 @@ import java.io.Serial;
 /**
  * Integer based entity identifier.
  */
+@Immutable
 public abstract class IntegerEntityId implements EntityId, Comparable<IntegerEntityId>, ValueObjectWithBaseType<Integer> {
 
     @Serial

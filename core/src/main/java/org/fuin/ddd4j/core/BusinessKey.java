@@ -17,11 +17,15 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.ThreadSafe;
+
 import java.io.Serializable;
 
 /**
  * Human-readable business (natural) key often used in documents or shown in the user interface.
+ * All implementations are expected to be thread safe.
  */
+@ThreadSafe
 public interface BusinessKey extends Serializable {
 
 }

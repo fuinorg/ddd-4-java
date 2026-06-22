@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.fuin.ddd4j.core.AbstractAggregateException;
 import org.fuin.ddd4j.core.ExceptionData;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 import java.util.Objects;
@@ -15,6 +16,7 @@ import java.util.Objects;
  *
  * @param <EX> Concrete type of wrapped exception.
  */
+@ImmutableAfterUnmarshal
 @SuppressWarnings("NullAway.Init")
 public abstract class AbstractAggregateExceptionData<EX extends AbstractAggregateException> implements ExceptionData<EX> {
 

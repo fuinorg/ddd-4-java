@@ -17,6 +17,8 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.Immutable;
+
 import java.util.Objects;
 
 /**
@@ -35,16 +37,17 @@ import java.util.Objects;
  * </p>
  * <p>
  * Then the entity role instances are:
+ * </p>
  * <ul>
  * <li><code>COMPANY 1/MANAGING_DIRECTOR</code> = The managing directory of "Foo Bar Ltd"</li>
  * <li><code>COMPANY 1/SALES 2/DEPARTEMENT_HEAD</code> = The departement head of sales in company "Foo Bar Ltd"</li>
  * <li><code>COMPANY 1/SALES 47/SALES 2/DEPARTEMENT_HEAD</code> = The departement head of sales Germany in company "Foo Bar Ltd"</li>
  * </ul>
- * </p>
  *
  * @param entityIdPath Entity identifier path like "COMPANY 1/SALES 47/SALES 2".
  * @param type         Type of the role like "MANAGING_DIRECTOR".
  */
+@Immutable
 public record EntityRoleInstance(EntityIdPath entityIdPath, EntityRole type) implements SecurityRole {
 
     /**

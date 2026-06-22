@@ -10,6 +10,7 @@ import org.fuin.ddd4j.core.EntityIdFactory;
 import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.objects4j.jackson.ValueObjectStringJacksonDeserializer;
 import org.fuin.objects4j.jackson.ValueObjectStringJacksonSerializer;
 import org.fuin.utils4j.TestOmitted;
@@ -20,6 +21,7 @@ import java.util.Objects;
 /**
  * Module that registers the adapters for the package.
  */
+@ThreadSafe
 @TestOmitted("Already tested with other tests")
 public class Ddd4JacksonModule extends Module {
 

@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -30,6 +31,7 @@ import org.jspecify.annotations.Nullable;
  * @param <ID>
  *            Type of the entity identifier.
  */
+@NotThreadSafe
 public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId>
         implements Entity<ID> {
 
@@ -109,6 +111,7 @@ public abstract class AbstractEntity<ROOT_ID extends AggregateRootId, ROOT exten
      * @param <TYPE>    Type of the entity.
      * @param <BUILDER> Type of the builder.
      */
+    @NotThreadSafe
     protected abstract static class Builder<ROOT_ID extends AggregateRootId, ROOT extends AbstractAggregateRoot<ROOT_ID>, ID extends EntityId, TYPE extends AbstractEntity<ROOT_ID, ROOT, ID>, BUILDER extends Builder<ROOT_ID, ROOT, ID, TYPE, BUILDER>> {
 
         @Nullable

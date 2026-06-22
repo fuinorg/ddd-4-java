@@ -18,12 +18,16 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.AsStringCapable;
+import org.fuin.objects4j.common.Immutable;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import java.io.Serializable;
 
 /**
  * Identifies a type of entity within all entity types of the context. As the simple name of an entity class should be defined by the
  * Ubiquitous Language, the simple class name is a good choice for the type.
+ * All implementations are expected to be Immutable.
  */
+@Immutable
 public interface EntityType extends Serializable, AsStringCapable {
 }

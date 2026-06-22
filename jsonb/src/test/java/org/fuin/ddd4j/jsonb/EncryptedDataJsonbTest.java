@@ -16,7 +16,7 @@ public class EncryptedDataJsonbTest {
 
     @Test
     void testEqualsHashCode() {
-        EqualsVerifier.forClass(EncryptedDataJsonb.class).verify();
+        EqualsVerifier.simple().forClass(EncryptedDataJsonb.class).verify();
     }
 
     @Test

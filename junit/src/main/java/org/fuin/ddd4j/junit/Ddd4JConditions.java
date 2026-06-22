@@ -9,6 +9,7 @@ import org.fuin.ddd4j.core.HasEntityTypeConstant;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
 import org.fuin.objects4j.common.HasPublicStaticIsValidMethod;
 import org.fuin.objects4j.common.HasPublicStaticValueOfMethod;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import static com.tngtech.archunit.PublicAPI.Usage.ACCESS;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
@@ -16,6 +17,7 @@ import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 /**
  * Defines ArchUnit conditions for classes depending on this library.
  */
+@ThreadSafe
 public final class Ddd4JConditions {
 
     private Ddd4JConditions() {

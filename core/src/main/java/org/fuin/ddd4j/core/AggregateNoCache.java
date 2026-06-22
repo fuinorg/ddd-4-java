@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.jspecify.annotations.Nullable;
+import org.fuin.objects4j.common.ThreadSafe;
 import org.fuin.utils4j.TestOmitted;
 
 /**
@@ -25,6 +26,7 @@ import org.fuin.utils4j.TestOmitted;
  *
  * @param <AGGREGATE> Type of the aggregate.
  */
+@ThreadSafe
 @TestOmitted("Nothing useful to test")
 public final class AggregateNoCache<AGGREGATE> implements AggregateCache<AGGREGATE> {
 

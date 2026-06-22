@@ -1,13 +1,16 @@
 package org.fuin.ddd4j.core;
 
 import jakarta.validation.constraints.NotNull;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * An event that wants to be stored fully encrypted.
+ * All implementations are expected to be thread safe.
  *
  * @param <ID>
  *            Type of the aggregate root identifier.
  */
+@ThreadSafe
 public interface RequiresEncryptionAtRest<ID extends AggregateRootId> {
 
     /**

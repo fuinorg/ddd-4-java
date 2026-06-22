@@ -17,12 +17,15 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.NotThreadSafe;
+
 /**
  * An object that is not defined by its attributes, but rather by a thread of continuity and its identity.
  *
  * @param <ID>
  *            Entity ID type.
  */
+@NotThreadSafe
 public interface Entity<ID extends EntityId> {
 
     /**

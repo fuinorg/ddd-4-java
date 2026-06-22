@@ -17,9 +17,13 @@
  */
 package org.fuin.ddd4j.core;
 
+import org.fuin.objects4j.common.ThreadSafe;
+
 /**
  * Returns information about a user.
+ * All implementations are expected to be thread safe.
  */
+@ThreadSafe
 public interface User {
 
     /**

@@ -23,8 +23,8 @@ import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.esc.api.StreamId;
 import org.fuin.objects4j.core.KeyValue;
+import org.fuin.objects4j.common.Immutable;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
 import java.util.List;
 import java.util.Objects;

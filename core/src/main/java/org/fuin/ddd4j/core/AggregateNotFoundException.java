@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 
@@ -26,6 +27,7 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 /**
  * Signals that an aggregate of a given type and identifier was not found in the repository.
  */
+@NotThreadSafe
 public final class AggregateNotFoundException extends AbstractAggregateException implements ExceptionShortIdentifable {
 
     /**

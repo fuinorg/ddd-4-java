@@ -20,8 +20,7 @@ package org.fuin.ddd4j.jsonb;
 import org.jspecify.annotations.Nullable;
 import jakarta.json.bind.adapter.JsonbAdapter;
 import org.fuin.ddd4j.core.AggregateVersion;
-
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Converts an aggregate version into an integer and back (JSON-B).

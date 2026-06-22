@@ -29,6 +29,7 @@ import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 
 import java.io.Serial;
 
@@ -37,6 +38,7 @@ import java.io.Serial;
  *
  * @param <ID> Type of the entity identifier.
  */
+@ImmutableAfterUnmarshal
 @SuppressWarnings("NullAway.Init")
 public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractEvent implements DomainEvent<ID> {
 

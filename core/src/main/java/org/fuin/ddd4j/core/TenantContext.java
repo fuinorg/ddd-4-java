@@ -1,6 +1,7 @@
 package org.fuin.ddd4j.core;
 
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
+
 import java.util.Optional;
 
 /**

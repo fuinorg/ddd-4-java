@@ -21,8 +21,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.fuin.ddd4j.core.ObjectSerDeserializer;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.ThreadSafe;
 
-import javax.annotation.concurrent.ThreadSafe;
 import java.io.IOException;
 
 /**

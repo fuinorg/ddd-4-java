@@ -20,12 +20,14 @@ package org.fuin.ddd4j.core;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 
 /**
  * Base class for aggregate related exceptions.
  */
+@NotThreadSafe
 public abstract class AbstractAggregateException extends Exception {
 
     @Serial

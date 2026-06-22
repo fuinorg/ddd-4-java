@@ -15,7 +15,7 @@ public class EncryptedDataJacksonTest {
 
     @Test
     void testEqualsHashCode() {
-        EqualsVerifier.forClass(EncryptedDataJackson.class).verify();
+        EqualsVerifier.simple().forClass(EncryptedDataJackson.class).verify();
     }
 
     @Test

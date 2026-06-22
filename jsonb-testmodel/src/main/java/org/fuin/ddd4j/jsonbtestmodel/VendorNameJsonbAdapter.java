@@ -18,8 +18,7 @@
 package org.fuin.ddd4j.jsonbtestmodel;
 
 import org.fuin.objects4j.jsonb.ValueObjectStringJsonbAdapter;
-
-import javax.annotation.concurrent.ThreadSafe;
+import org.fuin.objects4j.common.ThreadSafe;
 
 /**
  * Converts a vendor name into a string and back (JSON-B).

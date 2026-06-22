@@ -21,10 +21,12 @@ import org.fuin.ddd4j.core.AbstractEntity;
 import org.fuin.ddd4j.core.ApplyEvent;
 import org.fuin.ddd4j.core.EntityType;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 /**
  * Person entity.
  */
+@NotThreadSafe
 public class Person extends AbstractEntity<VendorId, Vendor, PersonId> {
 
     private PersonId id;

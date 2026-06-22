@@ -4,12 +4,14 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 import org.fuin.ddd4j.core.EntityId;
+import org.fuin.objects4j.common.ThreadSafe;
 
 import java.io.IOException;
 
 /**
  * Converts an entity identifier into a string (Jackson).
  */
+@ThreadSafe
 public final class EntityIdJacksonSerializer<T extends EntityId> extends StdSerializer<T> {
 
     /**

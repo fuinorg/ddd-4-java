@@ -50,6 +50,7 @@ import org.fuin.esc.api.StreamNotFoundException;
 import org.fuin.esc.api.TypeName;
 import org.fuin.esc.api.WrongExpectedVersionException;
 import org.fuin.objects4j.common.Contract;
+import org.fuin.objects4j.common.NotThreadSafe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,6 +68,7 @@ import java.util.Optional;
  * @param <AGGREGATE>
  *            Type of the aggregate root.
  */
+@NotThreadSafe
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
         implements IEventStoreRepository<ID, AGGREGATE> {
 

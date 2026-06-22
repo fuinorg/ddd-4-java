@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.ExceptionShortIdentifable;
+import org.fuin.objects4j.common.NotThreadSafe;
 
 import java.io.Serial;
 
@@ -26,6 +27,7 @@ import static org.fuin.ddd4j.core.Ddd4JUtils.SHORT_ID_PREFIX;
 /**
  * Signals a conflict between an expected and an actual version for an aggregate.
  */
+@NotThreadSafe
 public final class AggregateVersionConflictException extends AbstractAggregateException implements ExceptionShortIdentifable {
 
     /**

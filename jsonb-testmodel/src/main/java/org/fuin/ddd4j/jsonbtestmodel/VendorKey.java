@@ -25,8 +25,8 @@ import org.fuin.objects4j.core.AbstractStringValueObject;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.ShortLabel;
 import org.fuin.objects4j.ui.Tooltip;
+import org.fuin.objects4j.common.Immutable;
 
-import javax.annotation.concurrent.Immutable;
 import java.io.Serial;
 
 /**

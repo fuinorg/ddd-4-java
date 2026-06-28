@@ -59,7 +59,6 @@ public record EntityRoleInstance(EntityIdPath entityIdPath, EntityRole type) imp
         return new SimpleRole(entityIdPath.asBaseType() + EntityIdPath.PATH_SEPARATOR + type);
     }
 
-
     @Override
     public String toString() {
         return entityIdPath.asBaseType() + EntityIdPath.PATH_SEPARATOR + type;

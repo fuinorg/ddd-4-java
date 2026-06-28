@@ -40,11 +40,11 @@ import java.util.Objects;
  * </p>
  * <ul>
  * <li><code>COMPANY 1/MANAGING_DIRECTOR</code> = The managing directory of "Foo Bar Ltd"</li>
- * <li><code>COMPANY 1/SALES 2/DEPARTEMENT_HEAD</code> = The departement head of sales in company "Foo Bar Ltd"</li>
- * <li><code>COMPANY 1/SALES 47/SALES 2/DEPARTEMENT_HEAD</code> = The departement head of sales Germany in company "Foo Bar Ltd"</li>
+ * <li><code>COMPANY 1/DEPARTEMENT 47/DEPARTEMENT_HEAD</code> = The departement head of sales in company "Foo Bar Ltd"</li>
+ * <li><code>COMPANY 1/DEPARTEMENT 47/DEPARTEMENT 2/DEPARTEMENT_HEAD</code> = The departement head of sales Germany in company "Foo Bar Ltd"</li>
  * </ul>
  *
- * @param entityIdPath Entity identifier path like "COMPANY 1/SALES 47/SALES 2".
+ * @param entityIdPath Entity identifier path like "COMPANY 1/DEPARTEMENT 47/DEPARTEMENT 2".
  * @param type         Type of the role like "MANAGING_DIRECTOR".
  */
 @Immutable

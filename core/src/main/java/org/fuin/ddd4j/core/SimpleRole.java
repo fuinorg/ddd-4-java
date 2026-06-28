@@ -34,4 +34,9 @@ public record SimpleRole(String name) implements SecurityRole, Comparable<Simple
         return name.compareTo(other.name);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

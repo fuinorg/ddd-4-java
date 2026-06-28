@@ -47,4 +47,9 @@ public record EntityRole(String name) implements SecurityRole {
         }
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }

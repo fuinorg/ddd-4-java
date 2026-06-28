@@ -26,4 +26,5 @@ import org.fuin.objects4j.common.ThreadSafe;
  */
 @ThreadSafe
 public interface SecurityRole {
+
 }

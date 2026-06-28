@@ -37,7 +37,7 @@ import java.util.Objects;
 @Immutable
 public record EntityRole(String name) implements SecurityRole {
 
-    public static final String PATTERN = "[A-Z][A-Z0-9_]{0,19}";
+    public static final String PATTERN = "[A-Za-z][A-Za-z0-9_]{0,19}";
 
     public EntityRole {
         Objects.requireNonNull(name);

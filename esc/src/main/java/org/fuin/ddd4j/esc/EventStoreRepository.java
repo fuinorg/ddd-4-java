@@ -18,11 +18,6 @@
 package org.fuin.ddd4j.esc;
 
 import jakarta.validation.constraints.NotNull;
-import org.fuin.objects4j.crypto.DecryptionFailedException;
-import org.fuin.objects4j.crypto.EncryptedDataService;
-import org.fuin.objects4j.crypto.EncryptionKeyIdUnknownException;
-import org.fuin.objects4j.crypto.EncryptionKeyVersionUnknownException;
-import org.jspecify.annotations.Nullable;
 import org.fuin.ddd4j.core.AggregateAlreadyExistsException;
 import org.fuin.ddd4j.core.AggregateCache;
 import org.fuin.ddd4j.core.AggregateDeletedException;
@@ -33,66 +28,48 @@ import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.AggregateVersionConflictException;
 import org.fuin.ddd4j.core.AggregateVersionNotFoundException;
 import org.fuin.ddd4j.core.DomainEvent;
+import org.fuin.ddd4j.core.EntityType;
 import org.fuin.ddd4j.core.ObjectSerDeserializer;
 import org.fuin.ddd4j.core.RequiresPartialDecryption;
 import org.fuin.ddd4j.core.RequiresPartialEncryption;
 import org.fuin.ddd4j.core.TenantContext;
-import org.fuin.esc.api.CommonEvent;
-import org.fuin.esc.api.EventId;
+import org.fuin.esc.api.DelegatingAsyncEventStore;
 import org.fuin.esc.api.EventStore;
-import org.fuin.esc.api.ExpectedVersion;
-import org.fuin.esc.api.SimpleCommonEvent;
-import org.fuin.esc.api.SimpleTenantId;
-import org.fuin.esc.api.StreamDeletedException;
-import org.fuin.esc.api.StreamEventsSlice;
-import org.fuin.esc.api.StreamId;
-import org.fuin.esc.api.StreamNotFoundException;
-import org.fuin.esc.api.TypeName;
-import org.fuin.esc.api.WrongExpectedVersionException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.NotThreadSafe;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.fuin.objects4j.crypto.EncryptedDataService;
+import org.jspecify.annotations.Nullable;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 
 /**
- * Event store based repository.
+ * Event store based repository. This synchronous class is a thin adapter that delegates to an
+ * {@link EventStoreRepositoryAsync} (which holds the actual logic) and blocks on the returned futures. The
+ * supplied synchronous {@link EventStore} is exposed to the async core through a
+ * {@link DelegatingAsyncEventStore} with a same-thread executor, so calls run synchronously on the caller
+ * thread - behaviour and exceptions are identical to a direct synchronous implementation.
  *
- * @param <ID>
- *            Type of the aggregate root identifier.
- * @param <AGGREGATE>
- *            Type of the aggregate root.
+ * @param <ID>        Type of the aggregate root identifier.
+ * @param <AGGREGATE> Type of the aggregate root.
  */
 @NotThreadSafe
 public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE extends AggregateRoot<ID>>
         implements IEventStoreRepository<ID, AGGREGATE> {
 
-    private static final String MAX_AGGREGATE_VERSION_EXCEEDED = "Exceeded maximum number of aggregate versions."
-            + " The Event Store operates with 'long' versions but aggregates only can handle 'int' versions.";
-
-    private static final Logger LOG = LoggerFactory.getLogger(EventStoreRepository.class);
-
     private final EventStore eventStore;
 
     private final AggregateCache<AGGREGATE> noCache;
 
-    @Nullable
-    private final ObjectSerDeserializer serDeserializer;
-
-    @Nullable
-    private final EncryptedDataService encryptedDataService;
+    private final EventStoreRepositoryAsync<ID, AGGREGATE> delegate;
 
     /**
      * Constructor without encryption support. Events that implement {@link RequiresPartialEncryption} or
      * {@link RequiresPartialDecryption} cannot be handled and will cause an {@link IllegalStateException}.
      *
-     * @param eventStore
-     *            Event store.
+     * @param eventStore Event store.
      */
     protected EventStoreRepository(final EventStore eventStore) {
         this(eventStore, null, null);
@@ -103,138 +80,101 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      * their encrypted variant before they are appended to the event store, and events that implement
      * {@link RequiresPartialDecryption} are replaced by their decrypted variant after they are read from the event store.
      *
-     * @param eventStore
-     *            Event store.
-     * @param serDeserializer
-     *            Serializes/deserializes the encrypted fields (may be {@code null} if no event requires partial (de)encryption).
-     * @param encryptedDataService
-     *            Performs the actual encryption/decryption (may be {@code null} if no event requires partial (de)encryption).
+     * @param eventStore           Event store.
+     * @param serDeserializer      Serializes/deserializes the encrypted fields (may be {@code null} if no event requires
+     *                             partial (de)encryption).
+     * @param encryptedDataService Performs the actual encryption/decryption (may be {@code null} if no event requires
+     *                             partial (de)encryption).
      */
     protected EventStoreRepository(final EventStore eventStore, @Nullable final ObjectSerDeserializer serDeserializer,
                                    @Nullable final EncryptedDataService encryptedDataService) {
         super();
-
         Contract.requireArgNotNull("eventStore", eventStore);
-
         this.eventStore = eventStore;
-        this.serDeserializer = serDeserializer;
-        this.encryptedDataService = encryptedDataService;
-        noCache = new AggregateNoCache<>();
+        this.noCache = new AggregateNoCache<>();
+        this.delegate = new EventStoreRepositoryAsync<ID, AGGREGATE>(
+                new DelegatingAsyncEventStore(Runnable::run, eventStore), serDeserializer, encryptedDataService) {
+            @Override
+            protected String getIdParamName() {
+                return EventStoreRepository.this.getIdParamName();
+            }
+
+            @Override
+            public Class<AGGREGATE> getAggregateClass() {
+                return EventStoreRepository.this.getAggregateClass();
+            }
+
+            @Override
+            public EntityType getAggregateType() {
+                return EventStoreRepository.this.getAggregateType();
+            }
+
+            @Override
+            public AGGREGATE create() {
+                return EventStoreRepository.this.create();
+            }
+
+            @Override
+            public Optional<TenantContext> getTenantContext() {
+                return EventStoreRepository.this.getTenantContext();
+            }
+
+            @Override
+            protected boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges,
+                                                final List<DomainEvent<?>> unseenEvents) {
+                return EventStoreRepository.this.conflictsResolved(uncommittedChanges, unseenEvents);
+            }
+
+            @Override
+            protected int getMaxTryCount() {
+                return EventStoreRepository.this.getMaxTryCount();
+            }
+
+            @Override
+            public int getReadPageSize() {
+                return EventStoreRepository.this.getReadPageSize();
+            }
+
+            @Override
+            protected AggregateCache<AGGREGATE> getAggregateCache() {
+                return EventStoreRepository.this.getAggregateCache();
+            }
+        };
     }
 
     @Override
     public final AGGREGATE read(final ID aggregateId) throws AggregateNotFoundException, AggregateDeletedException {
-
-        Contract.requireArgNotNull("aggregateId", aggregateId);
         try {
-            AGGREGATE aggregate = getAggregateCache().get(aggregateId, null);
-            if (aggregate == null) {
-                LOG.debug("Aggregate {} not found in cache", aggregateId.asTypedString());
-                aggregate = create();
+            return delegate.read(aggregateId).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateNotFoundException e) {
+                throw e;
             }
-            return read(aggregate, aggregateId, Integer.MAX_VALUE);
-        } catch (final AggregateVersionNotFoundException ex) {
-            // Cannot happen because we requested the latest version
-            throw new RuntimeException(ex);
+            if (cause instanceof AggregateDeletedException e) {
+                throw e;
+            }
+            throw asUnchecked(cause);
         }
     }
 
     @Override
     public final AGGREGATE read(final ID aggregateId, @Nullable final Integer version)
             throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException {
-
-        Contract.requireArgNotNull("aggregateId", aggregateId);
-
-        if (version == null) {
-            return read(aggregateId);
-        }
-
-        AGGREGATE aggregate = getAggregateCache().get(aggregateId, version);
-        if (aggregate == null) {
-            LOG.debug("Aggregate {} not found in cache", aggregateId.asTypedString());
-            aggregate = create();
-        } else if (aggregate.getVersion() > version) {
-            LOG.debug("Aggregate {} found in cache - Requested version {}, but found: {}", aggregateId.asTypedString(), version,
-                    aggregate.getVersion());
-            aggregate = create();
-        } else if (aggregate.getVersion() == version) {
-            LOG.debug("Aggregate {} found in cache with requested version: {}", aggregateId.asTypedString(), version);
-            return aggregate;
-        }
-        return read(aggregate, aggregateId, version);
-    }
-
-    /**
-     * Reads an aggregate.
-     *
-     * @param aggregate
-     *            Aggregate to load.
-     * @param aggregateId
-     *            Unique identifier of the aggregate.
-     * @param targetAggregateVersion
-     *            Version of the aggregate to load or {@link Integer#MAX_VALUE} to read the latest version.
-     *
-     * @return Aggregate in target version.
-     *
-     * @throws AggregateNotFoundException
-     *             The given aggregate was not found.
-     * @throws AggregateDeletedException
-     *             The given aggregate was already deleted.
-     * @throws AggregateVersionNotFoundException
-     *             An aggregate with the requested version does not exist.
-     */
-    private AGGREGATE read(final AGGREGATE aggregate, final ID aggregateId, final int targetAggregateVersion)
-            throws AggregateNotFoundException, AggregateDeletedException, AggregateVersionNotFoundException {
-
-        requireNoUncommittedChanges(aggregate);
-
-        final StreamId streamId = streamId(aggregateId);
-        LOG.info("Read aggregate: stream={}, targetVersion={}", streamId, targetAggregateVersion);
-
-        final int readPageSize = getReadPageSize();
-
-        int sliceStart = aggregate.getVersion() + 1;
-        StreamEventsSlice currentSlice;
-        do {
-            final int sliceCount;
-            if (readPageSize <= targetAggregateVersion) {
-                sliceCount = readPageSize;
-            } else {
-                sliceCount = targetAggregateVersion - sliceStart + 1;
+        try {
+            return delegate.read(aggregateId, version).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateNotFoundException e) {
+                throw e;
             }
-
-            try {
-                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readEventsForward(streamId, sliceStart, sliceCount);
-                LOG.debug("Result slice: {}", currentSlice);
-            } catch (final StreamNotFoundException ex) {
-                throw new AggregateNotFoundException(getAggregateType(), aggregateId);
-            } catch (final StreamDeletedException ex) {
-                throw new AggregateDeletedException(getAggregateType(), aggregateId);
+            if (cause instanceof AggregateDeletedException e) {
+                throw e;
             }
-
-            for (final CommonEvent commonEvent : currentSlice.getEvents()) {
-                final DomainEvent<?> event = decryptIfRequired((DomainEvent<?>) commonEvent.getData());
-                aggregate.loadFromHistory(event);
+            if (cause instanceof AggregateVersionNotFoundException e) {
+                throw e;
             }
-
-            sliceStart = intVersion(currentSlice.getNextEventNumber());
-
-        } while ((aggregate.getVersion() != targetAggregateVersion) && !currentSlice.isEndOfStream());
-
-        if ((aggregate.getVersion() != targetAggregateVersion) && (targetAggregateVersion < Integer.MAX_VALUE)) {
-            throw new AggregateVersionNotFoundException(getAggregateType(), aggregateId, targetAggregateVersion);
-        }
-
-        getAggregateCache().put(aggregate.getId(), aggregate);
-
-        return aggregate;
-    }
-
-    private void requireNoUncommittedChanges(final AGGREGATE aggregate) {
-        if (aggregate.hasUncommitedChanges()) {
-            throw new IllegalArgumentException(
-                    "The aggregate '" + getAggregateType() + "' (" + aggregate.getId() + ") has uncommitted changes");
+            throw asUnchecked(cause);
         }
     }
 
@@ -247,37 +187,21 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     @Override
     public final void update(final AGGREGATE aggregate, @Nullable final String metaType, @Nullable final Object metaData)
             throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException {
-
-        Contract.requireArgNotNull("aggregate", aggregate);
-
-        final StreamId streamId = streamId(aggregate.getId());
-        LOG.info("Update aggregate: streamId={}, version={}, nextVersion={}", streamId, aggregate.getVersion(), aggregate.getNextVersion());
-
-        final List<DomainEvent<?>> events = aggregate.getUncommittedChanges();
-        final List<CommonEvent> eventDataList = asCommonEvents(events, metaType, metaData);
-
-        long expectedVersion = expectedVersion(aggregate);
-        int retryCount = 0;
-        boolean unsaved = true;
-        do {
-            try {
-                final int eventStoreNextVersion = intVersion(getEventStore().appendToStream(streamId, expectedVersion, eventDataList));
-                if ((expectedVersion + eventDataList.size()) != eventStoreNextVersion) {
-                    throw new IllegalStateException(
-                            "Aggregate next version is " + aggregate.getNextVersion() + " but event store's is " + eventStoreNextVersion);
-                }
-                aggregate.markChangesAsCommitted();
-                unsaved = false;
-            } catch (final WrongExpectedVersionException ex) {
-                LOG.debug("Version conflict: id={}, expected={}, actual={}, retryCount={}", aggregate.getId().asTypedString(),
-                        ex.getExpected(), ex.getActual(), retryCount);
-                expectedVersion = resolveConflicts(aggregate, integerVersion(ex.getActual()), retryCount++);
-            } catch (final StreamDeletedException | StreamNotFoundException ex) {
-                throw new AggregateNotFoundException(getAggregateType(), aggregate.getId());
+        try {
+            delegate.update(aggregate, metaType, metaData).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateVersionConflictException e) {
+                throw e;
             }
-
-        } while (unsaved);
-
+            if (cause instanceof AggregateNotFoundException e) {
+                throw e;
+            }
+            if (cause instanceof AggregateDeletedException e) {
+                throw e;
+            }
+            throw asUnchecked(cause);
+        }
     }
 
     @Override
@@ -288,252 +212,75 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     @Override
     public void add(final AGGREGATE aggregate, @Nullable final String metaType, @Nullable final Object metaData)
             throws AggregateAlreadyExistsException, AggregateDeletedException {
-
         try {
-            update(aggregate, metaType, metaData);
-        } catch (final AggregateVersionConflictException ex) {
-            throw new AggregateAlreadyExistsException(getAggregateType(), aggregate.getId(), ex.getActual());
-        } catch (final AggregateNotFoundException ex) {
-            throw new IllegalStateException(ex);
+            delegate.add(aggregate, metaType, metaData).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateAlreadyExistsException e) {
+                throw e;
+            }
+            if (cause instanceof AggregateDeletedException e) {
+                throw e;
+            }
+            throw asUnchecked(cause);
         }
-
-    }
-
-    private int expectedVersion(final AGGREGATE aggregate) {
-        if (aggregate.getVersion() == -1) {
-            return intVersion(ExpectedVersion.NO_OR_EMPTY_STREAM.getNo());
-        }
-        return aggregate.getVersion();
-    }
-
-    /**
-     * Verifies if the changes conflict and returns a new expected number if not.
-     *
-     * @param aggregate
-     *            Aggregate to failed to be saved.
-     * @param actualVersion
-     *            Latest version from the event store.
-     * @param retryCount
-     *            Retry counter.
-     *
-     * @return New expected version.
-     *
-     * @throws AggregateVersionConflictException
-     *             The expected version didn't match the actual version.
-     * @throws AggregateDeletedException
-     *             The aggregate with the given identifier was already deleted.
-     * @throws AggregateNotFoundException
-     *             An aggregate with the given identifier was not found.
-     */
-    private int resolveConflicts(final AGGREGATE aggregate, final Integer actualVersion, final int retryCount)
-            throws AggregateVersionConflictException, AggregateNotFoundException, AggregateDeletedException {
-
-        final int latestVersion;
-        if (actualVersion == null || actualVersion < 0) {
-            // TODO Remove workaround if event store returns latest version.
-            // See https://github.com/EventStore/EventStore/issues/1052
-            latestVersion = read(aggregate.getId()).getVersion();
-        } else {
-            latestVersion = actualVersion;
-        }
-
-        // Check how many times we should try
-        if (retryCount == getMaxTryCount()) {
-            throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(), aggregate.getVersion(), latestVersion);
-        }
-
-        // Load unseen events and try to resolve the conflict
-        final List<DomainEvent<?>> unseenEvents = readEvents(aggregate.getId(), aggregate.getVersion() + 1);
-        if (conflictsResolved(aggregate.getUncommittedChanges(), unseenEvents)) {
-            return latestVersion;
-        }
-        throw new AggregateVersionConflictException(getAggregateType(), aggregate.getId(), aggregate.getVersion(), latestVersion);
-
     }
 
     @Override
     public final void delete(final ID aggregateId, @Nullable final Integer expectedVersion) throws AggregateVersionConflictException {
-
-        Contract.requireArgNotNull("aggregateId", aggregateId);
-
-        final StreamId streamId = streamId(aggregateId);
-        LOG.info("Delete aggregate: streamId={}, expectedVersion={}", streamId, expectedVersion);
-
         try {
-            if (expectedVersion == null) {
-                getEventStore().deleteStream(streamId, false);
-            } else {
-                getEventStore().deleteStream(streamId, expectedVersion, false);
+            delegate.delete(aggregateId, expectedVersion).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateVersionConflictException e) {
+                throw e;
             }
-        } catch (final WrongExpectedVersionException ex) {
-            throw new AggregateVersionConflictException(getAggregateType(), aggregateId,
-                    integerVersion(ex.getExpected()), integerVersion(ex.getActual()));
-        } catch (final StreamDeletedException ex) {
-            LOG.debug("Aggregate {} was already deleted: {}", aggregateId, ex.getMessage());
+            throw asUnchecked(cause);
         }
     }
 
-    /**
-     * Reads all events for the given aggregate starting with a given number.
-     *
-     * @param aggregateId
-     *            Unique identifier of the aggregate to read the events for.
-     * @param startVersion
-     *            First event number to read.
-     *
-     * @return List of events.
-     *
-     * @throws AggregateNotFoundException
-     *             An aggregate with the given identifier was not found.
-     * @throws AggregateDeletedException
-     *             The aggregate with the given identifier was already deleted.
-     */
+    @Override
     public List<DomainEvent<?>> readEvents(final ID aggregateId, final int startVersion)
             throws AggregateNotFoundException, AggregateDeletedException {
-
-        final StreamId streamId = streamId(aggregateId);
-        LOG.info("Read events: streamId={}, startVersion={}", streamId, startVersion);
-
-        final List<DomainEvent<?>> list = new ArrayList<>();
-        final int sliceCount = getReadPageSize();
-
-        int sliceStart = startVersion;
-        StreamEventsSlice currentSlice;
-        do {
-
-            try {
-                LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart, sliceCount);
-                currentSlice = getEventStore().readEventsForward(streamId, sliceStart, sliceCount);
-                LOG.debug("Result slice: {}", currentSlice);
-            } catch (final StreamNotFoundException ex) {
-                throw new AggregateNotFoundException(getAggregateType(), aggregateId);
-            } catch (final StreamDeletedException ex) {
-                throw new AggregateDeletedException(getAggregateType(), aggregateId);
+        try {
+            return delegate.readEvents(aggregateId, startVersion).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateNotFoundException e) {
+                throw e;
             }
-
-            for (final CommonEvent commonEvent : currentSlice.getEvents()) {
-                final DomainEvent<?> event = decryptIfRequired((DomainEvent<?>) commonEvent.getData());
-                list.add(event);
+            if (cause instanceof AggregateDeletedException e) {
+                throw e;
             }
-
-            sliceStart = intVersion(currentSlice.getNextEventNumber());
-
-        } while (!currentSlice.isEndOfStream());
-
-        return list;
+            throw asUnchecked(cause);
+        }
     }
 
-    private List<CommonEvent> asCommonEvents(final List<DomainEvent<?>> events,
-                                             @Nullable final String metaType,
-                                             @Nullable final Object metaData) {
-        final SimpleTenantId tenantId = getTenantContext()
-                .map(TenantContext::getTenantId)
-                .filter(Optional::isPresent)
-                .map(tid -> new SimpleTenantId(tid.get().asString()))
-                .orElse(null);
-        final List<CommonEvent> list = new ArrayList<>();
-        for (final DomainEvent<?> original : events) {
-            final DomainEvent<?> event = encryptIfRequired(original);
-            final SimpleCommonEvent sce;
-            if (metaData == null) {
-                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
-                        event, tenantId);
-            } else {
-                if (metaType == null) {
-                    throw new IllegalArgumentException("Argument 'metaType' cannot be null if 'metaData' is provided (non-null)");
-                }
-                sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()), new TypeName(event.getEventType().asBaseType()),
-                        event, new TypeName(metaType), metaData, tenantId);
-            }
-            list.add(sce);
+    private static Throwable unwrap(final Throwable throwable) {
+        Throwable cause = throwable;
+        while (((cause instanceof CompletionException) || (cause instanceof ExecutionException))
+                && (cause.getCause() != null) && (cause.getCause() != cause)) {
+            cause = cause.getCause();
         }
-        return list;
+        return cause;
     }
 
-    /**
-     * Replaces an event that requires partial encryption by its encrypted variant. All other events are returned unchanged.
-     *
-     * @param event
-     *            Original (plain) event.
-     *
-     * @return Encrypted variant or the original event.
-     */
-    private DomainEvent<?> encryptIfRequired(final DomainEvent<?> event) {
-        if (event instanceof RequiresPartialEncryption) {
-            try {
-                return (DomainEvent<?>) ((RequiresPartialEncryption<?, ?>) event).encrypt(requireSerDeserializer(), requireService());
-            } catch (final EncryptionKeyIdUnknownException ex) {
-                throw new RuntimeException("Failed to encrypt event " + event.getEventId(), ex);
-            }
+    private static RuntimeException asUnchecked(final Throwable cause) {
+        if (cause instanceof RuntimeException re) {
+            return re;
         }
-        return event;
-    }
-
-    /**
-     * Replaces an event that requires partial decryption by its decrypted variant. All other events are returned unchanged.
-     *
-     * @param event
-     *            Stored (possibly encrypted) event.
-     *
-     * @return Decrypted variant or the original event.
-     */
-    private DomainEvent<?> decryptIfRequired(final DomainEvent<?> event) {
-        if (event instanceof RequiresPartialDecryption) {
-            try {
-                return (DomainEvent<?>) ((RequiresPartialDecryption<?, ?>) event).decrypt(requireSerDeserializer(), requireService());
-            } catch (final EncryptionKeyVersionUnknownException | DecryptionFailedException | IOException ex) {
-                throw new RuntimeException("Failed to decrypt event " + event.getEventId(), ex);
-            }
+        if (cause instanceof Error err) {
+            throw err;
         }
-        return event;
-    }
-
-    private ObjectSerDeserializer requireSerDeserializer() {
-        if (serDeserializer == null) {
-            throw new IllegalStateException("An event requires partial (de)encryption, but this repository was created without an"
-                    + " ObjectSerDeserializer. Use the constructor that accepts an ObjectSerDeserializer and an EncryptedDataService.");
-        }
-        return serDeserializer;
-    }
-
-    private EncryptedDataService requireService() {
-        if (encryptedDataService == null) {
-            throw new IllegalStateException("An event requires partial (de)encryption, but this repository was created without an"
-                    + " EncryptedDataService. Use the constructor that accepts an ObjectSerDeserializer and an EncryptedDataService.");
-        }
-        return encryptedDataService;
-    }
-
-    private int intVersion(final long version) {
-        if (version > Integer.MAX_VALUE) {
-            throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
-        }
-        return (int) version;
-    }
-
-    private int integerVersion(@Nullable final Long version) {
-        if (version == null) {
-            return Integer.MIN_VALUE;
-        }
-        if (version > Integer.MAX_VALUE) {
-            throw new IllegalStateException(MAX_AGGREGATE_VERSION_EXCEEDED);
-        }
-        return version.intValue();
-    }
-
-    private StreamId streamId(final ID aggregateId) {
-        return new AggregateStreamId(getAggregateType(), getIdParamName(), aggregateId);
+        return new RuntimeException(cause);
     }
 
     /**
      * Checks if the uncommitted changes conflicts with unseen changes from the event store and tries to solve the problem. This method may
      * be overwritten by concrete implementation. Returns FALSE as default if not overwritten in subclasses.
      *
-     * @param uncommittedChanges
-     *            Uncommitted changes.
-     * @param unseenEvents
-     *            Unseen changes from the event store.
-     *
+     * @param uncommittedChanges Uncommitted changes.
+     * @param unseenEvents       Unseen changes from the event store.
      * @return TRUE if there are no conflicting changes, else FALSE (conflict couldn't be resolved).
      */
     protected boolean conflictsResolved(final List<DomainEvent<?>> uncommittedChanges, final List<DomainEvent<?>> unseenEvents) {
@@ -546,7 +293,6 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      *
      * @return Number of tries.
      */
-    // integer).
     protected int getMaxTryCount() {
         return 3;
     }

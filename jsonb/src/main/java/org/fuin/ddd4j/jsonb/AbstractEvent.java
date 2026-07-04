@@ -23,6 +23,7 @@ import jakarta.json.bind.annotation.JsonbProperty;
 import jakarta.json.bind.annotation.JsonbTypeAdapter;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
+import org.fuin.ddd4j.core.ThreadLocalMessageContext;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.ui.Label;
 import org.fuin.objects4j.ui.Prompt;
@@ -169,6 +170,7 @@ public abstract class AbstractEvent implements Event {
         public Builder(final TYPE delegate) {
             super();
             this.delegate = delegate;
+            applyMessageContext();
         }
 
         /**
@@ -230,7 +232,7 @@ public abstract class AbstractEvent implements Event {
         @SuppressWarnings("unchecked")
         public final BUILDER causingEvent(final Event event) {
             delegate.causationId = event.getEventId();
-            delegate.correlationId = event.getCausationId();
+            delegate.correlationId = event.getCorrelationId();
             return (BUILDER) this;
         }
 
@@ -243,12 +245,29 @@ public abstract class AbstractEvent implements Event {
         }
 
         /**
+         * Copies the correlation and causation identifiers from the current {@link ThreadLocalMessageContext}
+         * onto the event being built when they have not been set explicitly. Called when the builder captures
+         * a fresh delegate (construction and {@code resetAbstractEvent}), which only happens
+         * while an event is being <em>produced</em> - never during deserialization (that uses the no-arg
+         * constructor and field injection) - so round-trips are unaffected.
+         */
+        private void applyMessageContext() {
+            if (delegate.correlationId == null) {
+                ThreadLocalMessageContext.currentCorrelationId().ifPresent(id -> delegate.correlationId = id);
+            }
+            if (delegate.causationId == null) {
+                ThreadLocalMessageContext.currentMessageId().ifPresent(id -> delegate.causationId = id);
+            }
+        }
+
+        /**
          * Sets the internal instance to a new one. This must be called within the build method.
          *
          * @param delegate Delegate to use.
          */
         protected final void resetAbstractEvent(final TYPE delegate) {
             this.delegate = delegate;
+            applyMessageContext();
         }
 
         /**

@@ -6,6 +6,8 @@ import org.fuin.ddd4j.core.EntityIdPath;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
 import org.fuin.ddd4j.core.EventType;
+import org.fuin.ddd4j.core.ThreadLocalMessageContext;
+import org.junit.jupiter.api.AfterEach;
 import org.fuin.ddd4j.jacksontest.AId;
 import org.fuin.ddd4j.jacksontest.VendorId;
 import org.fuin.esc.api.HasSerializedDataTypeConstant;
@@ -27,6 +29,79 @@ public class AbstractDomainEventTest {
     private static final EventType MY_EVENT_1_TYPE = new EventType("MyEvent1");
 
     private static final EventType MY_EVENT_2_TYPE = new EventType("MyEvent2");
+
+    @AfterEach
+    public void tearDown() {
+        // Avoid leaking the (inheritable) thread-local into other tests
+        new ThreadLocalMessageContext().clear();
+    }
+
+    @Test
+    public final void testBuilderInheritsCorrelationCausationFromMessageContext() {
+
+        // PREPARE: a message is being processed
+        final EventId messageId = new EventId();
+        final EventId correlationId = new EventId();
+        new ThreadLocalMessageContext().setCurrentMessage(messageId, correlationId);
+        final VendorId vendorId = new VendorId();
+
+        // TEST: build an event without setting correlation/causation explicitly
+        final MyEvent1 event = new MyEvent1.Builder()
+                .eventId(new EventId())
+                .timestamp(ZonedDateTime.now())
+                .entityIdPath(new EntityIdPath(vendorId))
+                .build();
+
+        // VERIFY: the event is stamped from the ambient message context
+        assertThat(event.getCorrelationId()).isEqualTo(correlationId);
+        assertThat(event.getCausationId()).isEqualTo(messageId);
+
+    }
+
+    @Test
+    public final void testBuilderExplicitIdsOverrideMessageContext() {
+
+        // PREPARE
+        new ThreadLocalMessageContext().setCurrentMessage(new EventId(), new EventId());
+        final EventId explicitCorrelationId = new EventId();
+        final EventId explicitCausationId = new EventId();
+
+        // TEST: explicit ids on the builder
+        final MyEvent1 event = new MyEvent1.Builder()
+                .eventId(new EventId())
+                .timestamp(ZonedDateTime.now())
+                .entityIdPath(new EntityIdPath(new VendorId()))
+                .correlationId(explicitCorrelationId)
+                .causationId(explicitCausationId)
+                .build();
+
+        // VERIFY: explicit values win over the context
+        assertThat(event.getCorrelationId()).isEqualTo(explicitCorrelationId);
+        assertThat(event.getCausationId()).isEqualTo(explicitCausationId);
+
+    }
+
+    @Test
+    public final void testDeserializationIgnoresMessageContext() throws Exception {
+
+        // PREPARE: an active context plus JSON that omits correlation/causation (a root event)
+        new ThreadLocalMessageContext().setCurrentMessage(new EventId(), new EventId());
+        final String json = """
+                {
+                  "entity-id-path" : "Vendor f6773571-f7a8-4b73-8734-e69991d58732",
+                  "event-id" : "f910c6d7-debc-46e1-ae02-9ca6f4658cf5",
+                  "event-timestamp" : "2016-09-18T10:38:08.0+02:00[Europe/Berlin]"
+                }""";
+
+        // TEST
+        final ObjectMapper objectMapper = TestUtils.objectMapper();
+        final MyEvent1 copy = objectMapper.readValue(json, MyEvent1.class);
+
+        // VERIFY: deserialization must NOT pick up the ambient context (builders are not used on the read path)
+        assertThat(copy.getCorrelationId()).isNull();
+        assertThat(copy.getCausationId()).isNull();
+
+    }
 
     @Test
     public final void testConstructorCorrelationCausationIds() {

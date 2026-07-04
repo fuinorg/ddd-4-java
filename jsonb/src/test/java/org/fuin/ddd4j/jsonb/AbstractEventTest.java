@@ -79,6 +79,28 @@ public class AbstractEventTest {
     }
 
     @Test
+    public final void testCausingEventCopiesCorrelationId() {
+
+        // PREPARE: a causing event that itself belongs to a conversation
+        final EventId correlationId = new EventId();
+        final EventId causationId = new EventId();
+        final MyEvent2 causing = new MyEvent2(correlationId, causationId);
+
+        // TEST
+        final MyEvent1 event = new MyEvent1.Builder()
+                .eventId(new EventId())
+                .timestamp(ZonedDateTime.now())
+                .causingEvent(causing)
+                .build();
+
+        // VERIFY: causation is the causing event's id, correlation is copied from the causing event's
+        // correlation id (previously this incorrectly copied the causing event's causation id)
+        assertThat(event.getCausationId()).isEqualTo(causing.getEventId());
+        assertThat(event.getCorrelationId()).isEqualTo(correlationId);
+
+    }
+
+    @Test
     public final void testSerializeDeserialize() {
 
         // PREPARE

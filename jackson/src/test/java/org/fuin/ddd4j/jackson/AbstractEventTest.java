@@ -79,6 +79,28 @@ public class AbstractEventTest {
     }
 
     @Test
+    public final void testCausingEventCopiesCorrelationId() {
+
+        // PREPARE: a causing event that itself belongs to a conversation
+        final EventId correlationId = new EventId();
+        final EventId causationId = new EventId();
+        final MyEvent2 causing = new MyEvent2(correlationId, causationId);
+
+        // TEST
+        final MyEvent1 event = new MyEvent1.Builder()
+                .eventId(new EventId())
+                .timestamp(ZonedDateTime.now())
+                .causingEvent(causing)
+                .build();
+
+        // VERIFY: causation is the causing event's id, correlation is copied from the causing event's
+        // correlation id (previously this incorrectly copied the causing event's causation id)
+        assertThat(event.getCausationId()).isEqualTo(causing.getEventId());
+        assertThat(event.getCorrelationId()).isEqualTo(correlationId);
+
+    }
+
+    @Test
     public final void testSerializeDeserialize() {
 
         // PREPARE
@@ -143,6 +165,33 @@ public class AbstractEventTest {
         assertThat(copy.getCorrelationId()).isEqualTo(new EventId(UUID.fromString("2a5893a9-00da-4003-b280-98324eccdef1")));
         assertThat(copy.getEventId()).isEqualTo(new EventId(UUID.fromString("f910c6d7-debc-46e1-ae02-9ca6f4658cf5")));
         assertThat(copy.getEventType()).isEqualTo(copy.getEventType());
+        assertThat(copy.getEventTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
+
+    }
+
+    @Test
+    public final void testUnmarshalIgnoresUnknownProperties() throws Exception {
+
+        // PREPARE: JSON written by a newer, additive schema version that added an extra field. The mapper
+        // uses Jackson's default (fail on unknown properties), so this only succeeds because of the
+        // @JsonIgnoreProperties(ignoreUnknown = true) on AbstractEvent (DDD-1c additive-safety).
+        final String json = """
+                {
+                  "event-id" : "f910c6d7-debc-46e1-ae02-9ca6f4658cf5",
+                  "event-timestamp" : "2016-09-18T10:38:08.0+02:00[Europe/Berlin]",
+                  "correlation-id" : "2a5893a9-00da-4003-b280-98324eccdef1",
+                  "causation-id" : "f13d3481-51b7-423f-8fe7-5c342f7d7c46",
+                  "new-field-added-in-v2" : "some value"
+                }""";
+
+        // TEST
+        final ObjectMapper objectMapper = TestUtils.objectMapper();
+        final MyEvent1 copy = objectMapper.readValue(json, MyEvent1.class);
+
+        // VERIFY: known fields are populated, the unknown field is silently ignored
+        assertThat(copy.getCausationId()).isEqualTo(new EventId(UUID.fromString("f13d3481-51b7-423f-8fe7-5c342f7d7c46")));
+        assertThat(copy.getCorrelationId()).isEqualTo(new EventId(UUID.fromString("2a5893a9-00da-4003-b280-98324eccdef1")));
+        assertThat(copy.getEventId()).isEqualTo(new EventId(UUID.fromString("f910c6d7-debc-46e1-ae02-9ca6f4658cf5")));
         assertThat(copy.getEventTimestamp()).isEqualTo(ZonedDateTime.of(2016, 9, 18, 10, 38, 8, 0, ZoneId.of("Europe/Berlin")));
 
     }

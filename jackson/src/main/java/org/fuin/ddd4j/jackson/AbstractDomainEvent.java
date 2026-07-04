@@ -18,6 +18,7 @@
 package org.fuin.ddd4j.jackson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +40,7 @@ import java.io.Serial;
  * @param <ID> Type of the entity identifier.
  */
 @ImmutableAfterUnmarshal
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SuppressWarnings("NullAway.Init")
 public abstract class AbstractDomainEvent<ID extends EntityId> extends AbstractEvent implements DomainEvent<ID> {
 

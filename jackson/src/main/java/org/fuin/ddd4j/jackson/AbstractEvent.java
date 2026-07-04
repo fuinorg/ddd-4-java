@@ -18,11 +18,13 @@
 package org.fuin.ddd4j.jackson;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jspecify.annotations.Nullable;
 import jakarta.validation.constraints.NotNull;
 import org.fuin.ddd4j.core.Event;
 import org.fuin.ddd4j.core.EventId;
+import org.fuin.ddd4j.core.ThreadLocalMessageContext;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ImmutableAfterUnmarshal;
 import org.fuin.objects4j.ui.Label;
@@ -35,8 +37,14 @@ import java.time.ZonedDateTime;
 
 /**
  * Base class for events. Equals and hash code are solely based on the event id.
+ * <p>
+ * Unknown JSON properties are ignored on deserialization ({@link JsonIgnoreProperties}) so that an event
+ * written by a newer, additive schema version can still be read by an older consumer. The rule for schema
+ * evolution is therefore: <em>a "new version" of an event must be convertible from the old one; if it is not
+ * (e.g. a field was removed or its meaning changed), it is a new event type, not a new version.</em>
  */
 @ImmutableAfterUnmarshal
+@JsonIgnoreProperties(ignoreUnknown = true)
 public abstract class AbstractEvent implements Event {
 
     @Serial
@@ -170,6 +178,7 @@ public abstract class AbstractEvent implements Event {
         public Builder(final TYPE delegate) {
             super();
             this.delegate = delegate;
+            applyMessageContext();
         }
 
         /**
@@ -231,7 +240,7 @@ public abstract class AbstractEvent implements Event {
         @SuppressWarnings("unchecked")
         public final BUILDER causingEvent(final Event event) {
             delegate.causationId = event.getEventId();
-            delegate.correlationId = event.getCausationId();
+            delegate.correlationId = event.getCorrelationId();
             return (BUILDER) this;
         }
 
@@ -244,12 +253,29 @@ public abstract class AbstractEvent implements Event {
         }
 
         /**
+         * Copies the correlation and causation identifiers from the current {@link ThreadLocalMessageContext}
+         * onto the event being built when they have not been set explicitly. Called when the builder captures
+         * a fresh delegate (construction and {@code resetAbstractEvent}), which only happens
+         * while an event is being <em>produced</em> - never during deserialization (that uses the no-arg
+         * constructor and field injection) - so round-trips are unaffected.
+         */
+        private void applyMessageContext() {
+            if (delegate.correlationId == null) {
+                ThreadLocalMessageContext.currentCorrelationId().ifPresent(id -> delegate.correlationId = id);
+            }
+            if (delegate.causationId == null) {
+                ThreadLocalMessageContext.currentMessageId().ifPresent(id -> delegate.causationId = id);
+            }
+        }
+
+        /**
          * Sets the internal instance to a new one. This must be called within the build method.
          *
          * @param delegate Delegate to use.
          */
         protected final void resetAbstractEvent(final TYPE delegate) {
             this.delegate = delegate;
+            applyMessageContext();
         }
 
         /**

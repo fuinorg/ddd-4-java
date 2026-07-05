@@ -13,6 +13,7 @@
 - Use encryption functionality from [event-store-commons](https://github.com/fuinorg/event-store-commons)
 - Use @JsonIgnoreProperties(ignoreUnknown = true) on Jackson to be aligned with JSON-B/JAXB which already tolerate unknowns
 - Added a correlation/causation auto-propagation mechanism via [MessageContext](core/src/main/java/org/fuin/ddd4j/core/MessageContext.java) / [WritableMessageContext](core/src/main/java/org/fuin/ddd4j/core/WritableMessageContext.java) / [ThreadLocalMessageContext](core/src/main/java/org/fuin/ddd4j/core/ThreadLocalMessageContext.java)
+- Documented the [crypto-shredding](README.md#crypto-shredding) pattern (encrypt personal data per subject via [RequiresPartialEncryption](core/src/main/java/org/fuin/ddd4j/core/RequiresPartialEncryption.java) / [RequiresPartialDecryption](core/src/main/java/org/fuin/ddd4j/core/RequiresPartialDecryption.java), forget the key, redact on read) and added a [RemovedPrivateData](core/src/main/java/org/fuin/ddd4j/core/RemovedPrivateData.java) marker that signals downstream consumers to purge a subject's derived data
 
 ## 0.7.0
 - Added [Jackson](jackson) module

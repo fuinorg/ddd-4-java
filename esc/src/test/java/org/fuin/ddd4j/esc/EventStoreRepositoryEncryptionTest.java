@@ -18,7 +18,9 @@
 package org.fuin.ddd4j.esc;
 
 import com.google.gson.JsonObject;
+import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.DomainEvent;
+import org.fuin.ddd4j.core.RemovedPrivateData;
 import org.fuin.esc.api.CommonEvent;
 import org.fuin.esc.api.EventStore;
 import org.fuin.esc.api.StreamEventsSlice;
@@ -27,6 +29,7 @@ import org.fuin.objects4j.crypto.EncryptedData;
 import org.junit.jupiter.api.Test;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
 
@@ -110,6 +113,42 @@ public class EventStoreRepositoryEncryptionTest {
             // VERIFY the name is redacted instead of the read failing with a decryption exception
             final MyCustomer loaded = repo.read(customerId);
             assertThat(loaded.getName()).isEqualTo("***");
+        }
+
+    }
+
+    @Test
+    public void testRemovedPrivateDataSignalsDownstream() throws Exception {
+
+        // PREPARE
+        try (final EventStore eventStore = new InMemoryEventStore(Executors.newCachedThreadPool()).open()) {
+            final FakeEncryptedDataService service = new FakeEncryptedDataService();
+            final MyCustomerRepository repo = new MyCustomerRepository(eventStore, new GsonObjectSerDeserializer(), service);
+
+            final MyCustomerId customerId = new MyCustomerId();
+            final MyCustomer customer = new MyCustomer(customerId, "John Doe");
+            repo.update(customer);
+
+            // TEST - crypto-shred the subject, then append the marker that signals downstream purge
+            service.destroyKey(customerId.asString());
+            customer.removePrivateData();
+            repo.update(customer);
+
+            // VERIFY: the stream carries the (now redacted) creation event plus the RemovedPrivateData marker
+            final List<DomainEvent<?>> events = repo.readEvents(customerId, 0);
+            assertThat(events).hasSize(2);
+
+            // a downstream consumer detects the marker generically and purges by subject id
+            final List<AggregateRootId> purged = new ArrayList<>();
+            for (final DomainEvent<?> event : events) {
+                if (event instanceof RemovedPrivateData removed) {
+                    purged.add(removed.getSubjectId());
+                }
+            }
+            assertThat(purged).containsExactly(customerId);
+
+            // and the aggregate itself is anonymized on replay after the key loss
+            assertThat(repo.read(customerId).getName()).isEqualTo("***");
         }
 
     }

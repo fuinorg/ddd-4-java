@@ -61,6 +61,19 @@ public final class MyCustomer extends AbstractAggregateRoot<MyCustomerId> {
         this.name = event.getName();
     }
 
+    /**
+     * Records that the customer's private data was crypto-shredded (the key was already destroyed elsewhere),
+     * emitting a {@link MyCustomerPrivateDataRemoved} marker so downstream consumers purge derived data.
+     */
+    public void removePrivateData() {
+        apply(new MyCustomerPrivateDataRemoved(id));
+    }
+
+    @ApplyEvent
+    private void applyEvent(final MyCustomerPrivateDataRemoved event) {
+        this.name = "***";
+    }
+
     @Override
     public EntityType getType() {
         return MyCustomerId.TYPE;

@@ -76,11 +76,11 @@ For example the [GDPR](https://gdpr.eu/) data protection rules requires to "dele
 be done by encrypting the personal data in the event with a secret key. When the user is deleted, you can simply throw
 away that key, and it is no longer possible to access the personal data in the stored events.
 
-The [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) class provides a basic structure with the
-relevant information to encrypt/decrypt such personal data in events.
+The `EncryptedData` class (provided by the `org.fuin.objects4j:objects4j-crypto` dependency, package
+`org.fuin.objects4j.crypto`) provides a basic structure with the relevant information to encrypt/decrypt such personal
+data in events.
 
-Here is an example of an event with "personal-data" of
-type [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java):
+Here is an example of an event with "personal-data" of type `EncryptedData`:
 
 ```json
 {
@@ -99,16 +99,49 @@ type [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java):
 
 ### EncryptedDataService
 
-The [EncryptedDataService](src/main/java/org/fuin/ddd4j/ddd/EncryptedDataService.java) interface defines for
-encrypting/decrypting [EncryptedData](src/main/java/org/fuin/ddd4j/ddd/EncryptedData.java) and handling versioned secret
-keys.
+The `EncryptedDataService` interface (also in `org.fuin.objects4j:objects4j-crypto`) defines the operations for
+encrypting/decrypting `EncryptedData` and handling versioned secret keys. A production implementation over OpenBao /
+HashiCorp Vault [Transit Secrets Engine](https://openbao.org/docs/secrets/transit/) is available as
+`org.fuin.objects4j.openbao.BaoEncryptedDataService` (dependency `org.fuin.objects4j:objects4j-openbao`); an in-memory
+fake is used in this project's own tests.
 
-There are two implementations that can be used for tests:
+### Crypto-Shredding
 
-- [InMemoryCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/InMemoryCryptoService.java)
-  for simple in-memory unit tests
-- [VaultCryptoService](https://github.com/fuinorg/ddd-cqrs-unit/blob/master/src/main/java/org/fuin/dddcqrsunit/VaultCryptoService.java)
-  for unit tests with the HashiCorp Vault [Transit Secrets Engine](https://www.vaultproject.io/docs/secrets/transit)
+*Crypto-shredding* is how this library implements GDPR-style "erase a subject's personal data" while **keeping** the
+rest of the aggregate's (often legally required) history. The mechanism is already wired into the repository - you only
+author the events:
+
+1. **Encrypt per subject.** A domain event that carries personal data implements
+   [RequiresPartialEncryption](core/src/main/java/org/fuin/ddd4j/core/RequiresPartialEncryption.java) and produces a
+   separate encrypted variant implementing
+   [RequiresPartialDecryption](core/src/main/java/org/fuin/ddd4j/core/RequiresPartialDecryption.java). Use a key that
+   is unique per subject - by convention `keyId = aggregateId.asString()`. On `update(...)` the
+   [EventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/EventStoreRepository.java) encrypts the event before it
+   is appended (construct the repository with an `ObjectSerDeserializer` + `EncryptedDataService`).
+2. **Forget the key.** To erase a subject, destroy its key in the key store (e.g. delete it in OpenBao/Vault). The
+   stored events can no longer be decrypted.
+3. **Redact on read.** The encrypted variant's `decrypt(...)` should catch the key-loss exceptions and return a
+   redacted plain event (e.g. name = `"***"`) instead of failing, so replay of the shredded subject keeps working -
+   anonymized.
+4. **Signal downstream.** Crypto-shredding only makes the *source* events unreadable; read models, search indexes and
+   other consumers already persisted derived copies while the key existed. Deleting the aggregate stream does **not**
+   help - a stream delete is not delivered to catch-up subscribers as an ordered event. Append an event implementing
+   [RemovedPrivateData](core/src/main/java/org/fuin/ddd4j/core/RemovedPrivateData.java) (a payload-free tombstone
+   carrying only the subject id); every consumer sees it in stream order and purges the subject's derived data:
+   ```java
+   if (event instanceof RemovedPrivateData removed) {
+       purgeDerivedData(removed.getSubjectId());
+   }
+   ```
+
+A worked end-to-end example (encrypt → forget key → redact → `RemovedPrivateData` signal) is in
+[EventStoreRepositoryEncryptionTest](esc/src/test/java/org/fuin/ddd4j/esc/EventStoreRepositoryEncryptionTest.java).
+
+**Alternatives / when not to use it.** If you must remove the *whole* aggregate (not just the PII), use the coarser
+`Repository.delete(id, expectedVersion)` stream delete instead - but note it loses the non-personal history and does
+not by itself notify projections. A **public/private stream split** (keep private data in a separate `…-private`
+stream you can hard-delete, non-personal data in a `…-public` stream) is another option; ddd-4-java currently uses one
+stream per aggregate, so that split is an application-level pattern rather than a built-in helper.
 
 ## Snapshots
 

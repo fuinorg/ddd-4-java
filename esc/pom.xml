@@ -85,6 +85,57 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- DDD-1 keystone test: real serializing JpaEventStore over in-memory HSQLDB
+             proves a …v1 event stream folds into a …v2 aggregate on replay. -->
+
+        <dependency>
+            <groupId>org.fuin.esc</groupId>
+            <artifactId>esc-jpa</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.fuin.esc</groupId>
+            <artifactId>esc-jaxb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hsqldb</groupId>
+            <artifactId>hsqldb</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse</groupId>
+            <artifactId>yasson</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
@@ -209,6 +260,10 @@
                         <ignoredUnusedDeclaredDependency>org.hibernate.validator:hibernate-validator</ignoredUnusedDeclaredDependency>
                         <ignoredUnusedDeclaredDependency>com.tngtech.archunit:archunit-junit5</ignoredUnusedDeclaredDependency>
                         <ignoredUnusedDeclaredDependency>org.junit.jupiter:junit-jupiter</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.glassfish.jaxb:jaxb-runtime</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.hibernate.orm:hibernate-core</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.hsqldb:hsqldb</ignoredUnusedDeclaredDependency>
+                        <ignoredUnusedDeclaredDependency>org.eclipse:yasson</ignoredUnusedDeclaredDependency>
                     </ignoredUnusedDeclaredDependencies>
                     <ignoredUsedUndeclaredDependencies>
                         <ignoredUsedUndeclaredDependency>com.tngtech.archunit:archunit-junit5-api</ignoredUsedUndeclaredDependency>

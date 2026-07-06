@@ -27,6 +27,7 @@ import org.fuin.ddd4j.core.AggregateRoot;
 import org.fuin.ddd4j.core.AggregateRootId;
 import org.fuin.ddd4j.core.AggregateVersionConflictException;
 import org.fuin.ddd4j.core.AggregateVersionNotFoundException;
+import org.fuin.ddd4j.core.Ddd4JUtils;
 import org.fuin.ddd4j.core.DomainEvent;
 import org.fuin.ddd4j.core.ObjectSerDeserializer;
 import org.fuin.ddd4j.core.RequiresPartialDecryption;
@@ -354,16 +355,20 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
         final List<CommonEvent> list = new ArrayList<>();
         for (final DomainEvent<?> original : events) {
             final DomainEvent<?> event = encryptIfRequired(original);
+            // Categories are derived from the original (logical) event so an encrypted-variant replacement
+            // does not lose the category tags a projection selects on.
+            final List<String> categories = new ArrayList<>(Ddd4JUtils.eventCategories(original));
             final SimpleCommonEvent sce;
             if (metaData == null) {
                 sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()),
-                        new TypeName(event.getEventType().asBaseType()), event, tenantId);
+                        new TypeName(event.getEventType().asBaseType()), event, null, null, tenantId, categories);
             } else {
                 if (metaType == null) {
                     throw new IllegalArgumentException("Argument 'metaType' cannot be null if 'metaData' is provided (non-null)");
                 }
                 sce = new SimpleCommonEvent(new EventId(event.getEventId().asBaseType()),
-                        new TypeName(event.getEventType().asBaseType()), event, new TypeName(metaType), metaData, tenantId);
+                        new TypeName(event.getEventType().asBaseType()), event, new TypeName(metaType), metaData, tenantId,
+                        categories);
             }
             list.add(sce);
         }

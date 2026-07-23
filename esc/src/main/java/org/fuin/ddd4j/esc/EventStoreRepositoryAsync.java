@@ -33,7 +33,9 @@ import org.fuin.ddd4j.core.ObjectSerDeserializer;
 import org.fuin.ddd4j.core.RequiresPartialDecryption;
 import org.fuin.ddd4j.core.RequiresPartialEncryption;
 import org.fuin.ddd4j.core.TenantContext;
+import org.fuin.esc.api.Backoff;
 import org.fuin.esc.api.CommonEvent;
+import org.fuin.esc.api.EscConnectionException;
 import org.fuin.esc.api.EventId;
 import org.fuin.esc.api.EventStoreAsync;
 import org.fuin.esc.api.ExpectedVersion;
@@ -55,6 +57,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.util.function.Supplier;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -77,6 +83,10 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
             + " The Event Store operates with 'long' versions but aggregates only can handle 'int' versions.";
 
     private static final Logger LOG = LoggerFactory.getLogger(EventStoreRepositoryAsync.class);
+
+    /** 50 ms doubling to 1 s, with jitter - short, because a caller is waiting on the command path. */
+    private static final Backoff CONNECTION_RETRY_BACKOFF =
+            new Backoff(Duration.ofMillis(50), Duration.ofSeconds(1), 2.0, 0.5, Backoff.UNLIMITED_ATTEMPTS);
 
     private final EventStoreAsync eventStore;
 
@@ -167,7 +177,8 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
         final int readPageSize = getReadPageSize();
         final int sliceCount = (readPageSize <= targetAggregateVersion) ? readPageSize : (targetAggregateVersion - sliceStart + 1);
         LOG.debug("Read slice: streamId={}, sliceStart={}, sliceCount={}", streamId, sliceStart, sliceCount);
-        return eventStore.readEventsForward(streamId, sliceStart, sliceCount)
+        return withConnectionRetry(() -> eventStore.readEventsForward(streamId, sliceStart, sliceCount),
+                0, "read of stream " + streamId)
                 .thenCompose(currentSlice -> {
                     for (final CommonEvent commonEvent : currentSlice.getEvents()) {
                         aggregate.loadFromHistory(decryptIfRequired((DomainEvent<?>) commonEvent.getData()));
@@ -200,7 +211,10 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
     private CompletableFuture<Void> attempt(final AGGREGATE aggregate, final StreamId streamId,
                                             final List<CommonEvent> eventDataList, final long expectedVersion,
                                             final int retryCount) {
-        return eventStore.appendToStream(streamId, expectedVersion, eventDataList)
+        // The retry re-sends the *same* expectedVersion, so an append that did get through is rejected as
+        // a version conflict rather than applied twice - and then handled by the conflict path below.
+        return withConnectionRetry(() -> eventStore.appendToStream(streamId, expectedVersion, eventDataList),
+                0, "append to stream " + streamId)
                 .thenCompose(next -> {
                     final int eventStoreNextVersion = intVersion(next);
                     if ((expectedVersion + eventDataList.size()) != eventStoreNextVersion) {
@@ -305,7 +319,8 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
     private CompletableFuture<List<DomainEvent<?>>> readEventsInto(final ID aggregateId, final StreamId streamId,
                                                                   final List<DomainEvent<?>> list, final int sliceStart) {
         final int sliceCount = getReadPageSize();
-        return eventStore.readEventsForward(streamId, sliceStart, sliceCount)
+        return withConnectionRetry(() -> eventStore.readEventsForward(streamId, sliceStart, sliceCount),
+                0, "read of stream " + streamId)
                 .thenCompose(currentSlice -> {
                     for (final CommonEvent commonEvent : currentSlice.getEvents()) {
                         list.add(decryptIfRequired((DomainEvent<?>) commonEvent.getData()));
@@ -325,6 +340,47 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
                     }
                     return CompletableFuture.failedFuture(cause);
                 });
+    }
+
+    /**
+     * Repeats a call that failed because the event store could not be reached, on the connectivity budget.
+     * <p>
+     * Only {@link EscConnectionException} is repeated - a business answer is returned as it is, immediately.
+     * The call is produced fresh per attempt, because a {@link CompletableFuture} is spent once it completed.
+     *
+     * @param <T>     Type of the result.
+     * @param call    Produces the call to make.
+     * @param attempt Number of the attempt about to be made, starting at 0.
+     * @param what    Description used in the log.
+     * @return Result of the call, or the last failure once the budget is used up.
+     */
+    private <T> CompletableFuture<T> withConnectionRetry(final Supplier<CompletableFuture<T>> call,
+                                                         final int attempt, final String what) {
+        return call.get().exceptionallyCompose(ex -> {
+            final Throwable cause = unwrap(ex);
+            if (!(cause instanceof EscConnectionException) || attempt >= getMaxConnectionRetries()) {
+                return CompletableFuture.failedFuture(cause);
+            }
+            final long delayMillis = getConnectionRetryBackoff().delay(attempt + 1).toMillis();
+            LOG.debug("Could not reach the event store during {}, retry {} of {} in {} ms: {}",
+                    what, attempt + 1, getMaxConnectionRetries(), delayMillis, cause.toString());
+            return delayed(delayMillis).thenCompose(ignored -> withConnectionRetry(call, attempt + 1, what));
+        });
+    }
+
+    /**
+     * Returns a stage that completes after the given delay, without blocking a thread.
+     *
+     * @param millis Delay in milliseconds.
+     * @return Stage completing after the delay.
+     */
+    private static CompletableFuture<Void> delayed(final long millis) {
+        if (millis <= 0) {
+            return CompletableFuture.completedFuture(null);
+        }
+        final CompletableFuture<Void> future = new CompletableFuture<>();
+        CompletableFuture.delayedExecutor(millis, TimeUnit.MILLISECONDS).execute(() -> future.complete(null));
+        return future;
     }
 
     private <T> CompletableFuture<T> mapReadFailure(final Throwable ex, final ID aggregateId) {
@@ -380,7 +436,11 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
             try {
                 return (DomainEvent<?>) ((RequiresPartialEncryption<?, ?>) event).encrypt(requireSerDeserializer(), requireService());
             } catch (final EncryptionKeyIdUnknownException ex) {
+                // An answer from the key service: the key is not known. Permanent - retrying cannot help.
                 throw new RuntimeException("Failed to encrypt event " + event.getEventId(), ex);
+            } catch (final RuntimeException ex) {
+                // The service implementation reports an unreachable vault as an unchecked exception.
+                throw mapIfKeyServiceUnreachable(ex, "encrypt", event);
             }
         }
         return event;
@@ -390,11 +450,50 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
         if (event instanceof RequiresPartialDecryption) {
             try {
                 return (DomainEvent<?>) ((RequiresPartialDecryption<?, ?>) event).decrypt(requireSerDeserializer(), requireService());
-            } catch (final EncryptionKeyVersionUnknownException | DecryptionFailedException | IOException ex) {
+            } catch (final IOException ex) {
+                // The vault could not be reached. Transient: the same event decrypts fine once it is back.
+                throw new EncryptionServiceConnectionException(
+                        "Could not reach the key service decrypting event " + event.getEventId(), ex);
+            } catch (final EncryptionKeyVersionUnknownException | DecryptionFailedException ex) {
+                // Answers from the key service. A destroyed key lands here and must stay permanent - see
+                // EncryptionServiceConnectionException for why the two must never be merged.
                 throw new RuntimeException("Failed to decrypt event " + event.getEventId(), ex);
+            } catch (final RuntimeException ex) {
+                throw mapIfKeyServiceUnreachable(ex, "decrypt", event);
             }
         }
         return event;
+    }
+
+    /**
+     * Reports a key service that could not be reached as a typed transient failure, and leaves everything
+     * else unchanged.
+     * <p>
+     * Classification walks the cause chain for an {@link IOException} or a {@link TimeoutException}, which is
+     * what a vault client reports when the service is unreachable, refused the connection or timed out. A
+     * client that already classifies its own failures can throw an {@link EscConnectionException}; those pass
+     * through untouched.
+     *
+     * @param ex        Failure to inspect.
+     * @param operation Name of the operation, used in the message.
+     * @param event     Event being processed.
+     * @return Either an {@link EncryptionServiceConnectionException} or the original failure.
+     */
+    private RuntimeException mapIfKeyServiceUnreachable(final RuntimeException ex, final String operation,
+                                                        final DomainEvent<?> event) {
+        if (ex instanceof EscConnectionException) {
+            return ex;
+        }
+        for (Throwable t = ex; t != null; t = t.getCause()) {
+            if (t instanceof IOException || t instanceof TimeoutException) {
+                return new EncryptionServiceConnectionException("Could not reach the key service executing '"
+                        + operation + "' on event " + event.getEventId(), ex);
+            }
+            if (t.getCause() == t) {
+                break;
+            }
+        }
+        return ex;
     }
 
     private ObjectSerDeserializer requireSerDeserializer() {
@@ -469,6 +568,35 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
      */
     protected int getMaxTryCount() {
         return 3;
+    }
+
+    /**
+     * Returns how often a call that failed because the event store could not be reached is repeated. May be
+     * overridden. Returns {@code 3} as default.
+     * <p>
+     * This budget is deliberately <b>independent</b> of {@link #getMaxTryCount()}. The two failures are not
+     * the same thing: a version conflict means somebody else wrote first and the aggregate has to be rebuilt,
+     * while a connectivity failure means nobody could be asked at all. Sharing one counter would let a
+     * flapping connection exhaust the budget a genuine conflict storm needs, and would read as a conflict
+     * storm in the logs.
+     *
+     * @return Number of repeats, or {@code 0} to disable connectivity retries.
+     */
+    protected int getMaxConnectionRetries() {
+        return 3;
+    }
+
+    /**
+     * Returns the delay schedule between connectivity retries. May be overridden.
+     * <p>
+     * The default is short and jittered - this sits on the command path, where a caller is waiting, so it is
+     * meant to ride out a blip rather than to wait out an outage. The jitter keeps concurrent commands that
+     * hit the same outage from retrying in lockstep.
+     *
+     * @return Backoff schedule.
+     */
+    protected Backoff getConnectionRetryBackoff() {
+        return CONNECTION_RETRY_BACKOFF;
     }
 
     /**

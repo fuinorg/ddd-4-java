@@ -3,7 +3,14 @@ package org.fuin.ddd4j.jacksontest;
 import org.fuin.ddd4j.core.EntityId;
 import org.fuin.ddd4j.core.EntityIdFactory;
 
+import java.util.Set;
+
 public final class JacksonTestEntityIdFactory implements EntityIdFactory {
+
+    @Override
+    public Set<Class<? extends EntityId>> getIdClasses() {
+        return Set.of(AId.class, BId.class, CId.class, VendorId.class);
+    }
 
     @Override
     public EntityId createEntityId(final String type, final String id) {

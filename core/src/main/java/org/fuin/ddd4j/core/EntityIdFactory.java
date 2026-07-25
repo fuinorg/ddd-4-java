@@ -19,12 +19,26 @@ package org.fuin.ddd4j.core;
 
 import org.fuin.objects4j.common.ThreadSafe;
 
+import java.util.Set;
+
 /**
  * Factory to create entity identifier.
  * All implementations are expected to be thread safe.
  */
 @ThreadSafe
 public interface EntityIdFactory {
+
+    /**
+     * Returns the identifier classes this factory can create instances of.
+     * Knowing them allows a serialization framework to register a (de)serializer per class instead of
+     * requiring every application to list its identifiers by hand.
+     * An implementation that cannot enumerate its classes returns an empty set - the default.
+     *
+     * @return Known identifier classes, never {@literal null}.
+     */
+    default Set<Class<? extends EntityId>> getIdClasses() {
+        return Set.of();
+    }
 
     /**
      * Verifies if the given type string is a valid one.

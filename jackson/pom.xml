@@ -86,9 +86,24 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Not referenced by name any more, but required on the compile classpath: the ddd4j core types
+             this module handles implement org.fuin.utils4j.TechnicalId. -->
         <dependency>
             <groupId>org.fuin</groupId>
             <artifactId>utils4j</artifactId>
+        </dependency>
+
+        <!-- Only JandexJacksonModule needs it, so it stays optional like in ddd-4-java-core: an
+             application that registers the modules by hand should not have to carry the index reader. -->
+        <dependency>
+            <groupId>io.smallrye</groupId>
+            <artifactId>jandex</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
         <!-- Test -->
@@ -231,6 +246,9 @@
                     </ignoredUsedUndeclaredDependencies>
                     <ignoredNonTestScopedDependencies>
                         <ignoredNonTestScopedDependency>org.fuin.objects4j:objects4j-core</ignoredNonTestScopedDependency>
+                        <!-- Only the tests name a utils4j class, but the compiler needs TechnicalId to
+                             resolve the ddd4j core types, so it must stay on the compile classpath. -->
+                        <ignoredNonTestScopedDependency>org.fuin:utils4j</ignoredNonTestScopedDependency>
                     </ignoredNonTestScopedDependencies>
                 </configuration>
             </plugin>

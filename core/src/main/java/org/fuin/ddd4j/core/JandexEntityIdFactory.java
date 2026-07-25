@@ -25,6 +25,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,7 +51,7 @@ public final class JandexEntityIdFactory implements EntityIdFactory {
 
     private final Map<String, Function<String, Boolean>> isValidMap;
 
-    private final List<Class<?>> idClasses;
+    private final Set<Class<? extends EntityId>> idClasses;
 
     /**
      * Default constructor.
@@ -99,16 +100,12 @@ public final class JandexEntityIdFactory implements EntityIdFactory {
         return func.apply(id);
     }
 
-    /**
-     * Returns a list of known {@link EntityId} classes.
-     *
-     * @return Entity ID classes.
-     */
-    public List<Class<?>> getIdClasses() {
-        return Collections.unmodifiableList(idClasses);
+    @Override
+    public Set<Class<? extends EntityId>> getIdClasses() {
+        return Collections.unmodifiableSet(idClasses);
     }
 
-    private List<Class<?>> scanForEntityIdClasses() {
+    private Set<Class<? extends EntityId>> scanForEntityIdClasses() {
         final List<IndexView> indexes = new ArrayList<>();
         indexes.add(new Builder().addDefaultResource().build().loadR());
         indexes.add(indexClassesDirs());
@@ -125,8 +122,8 @@ public final class JandexEntityIdFactory implements EntityIdFactory {
     }
 
     @SuppressWarnings("java:S3776") // Complexity is OK here as refactoring also would not provide much benefit
-    private static List<Class<?>> findEntityIdClasses(final IndexView index) {
-        List<Class<?>> classes = new ArrayList<>();
+    private static Set<Class<? extends EntityId>> findEntityIdClasses(final IndexView index) {
+        final Set<Class<? extends EntityId>> classes = new LinkedHashSet<>();
         final Set<ClassInfo> classInfos = new HashSet<>();
         classInfos.addAll(index.getAllKnownImplementors(DotName.createSimple(EntityId.class)));
         classInfos.addAll(index.getAllKnownImplementors(DotName.createSimple(AggregateRootId.class)));
@@ -137,7 +134,7 @@ public final class JandexEntityIdFactory implements EntityIdFactory {
                         && hasAnnotation(clasz, HasPublicStaticValueOfMethod.class, HasPublicStaticValueOfMethods.class)
                         && hasAnnotation(clasz, HasEntityTypeConstant.class);
                 if (include) {
-                    classes.add(clasz);
+                    classes.add(clasz.asSubclass(EntityId.class));
                     LOG.info("Added {} class to {}: {}", EntityId.class.getSimpleName(), JandexEntityIdFactory.class.getSimpleName(), clasz.getName());
                 } else {
                     LOG.debug("Ignored {} class: {}", EntityId.class.getSimpleName(), clasz.getName());

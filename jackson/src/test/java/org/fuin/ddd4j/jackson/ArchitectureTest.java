@@ -53,7 +53,10 @@ public class ArchitectureTest {
                     "org.fuin.objects4j.crypto..",
                     "org.fuin.objects4j.jackson..",
                     "org.fuin.objects4j.ui..",
-                    "org.fuin.utils4j..");
+                    "org.fuin.utils4j..",
+                    // JandexJacksonModule scans the index and logs what it registered
+                    "org.jboss.jandex..",
+                    "org.slf4j..");
 
     @Test
     public void testDomainEventsAnnotations() {

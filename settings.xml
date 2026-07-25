@@ -3,6 +3,14 @@
     xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
                       http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
+    <!-- "sonar:sonar" is a plugin prefix, and prefixes only resolve against the configured plugin
+         groups. The scanner's group is not one of Maven's defaults, so without this entry the build
+         fails with "No plugin found for prefix 'sonar'" - the runner's own settings.xml is not
+         consulted, because the build passes "-s settings.xml". -->
+    <pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
+
     <servers>
     
         <server>

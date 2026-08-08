@@ -20,15 +20,18 @@ package org.fuin.ddd4j.core;
 import org.fuin.objects4j.common.ThreadSafe;
 
 /**
- * Category marker (see {@link EventCategory}) for a domain event that <b>soft-deletes</b> an entity: the
- * entity is cast out of the active system - hidden or made inactive - but still exists and can be recalled
- * from exile later by a {@link ReturnFromExileEvent} (contrast {@link ExodusEvent}, which removes it for
- * good, so nothing returns from one). A view can select {@code ExileEvent} as a category to react to
- * every such "hide / deactivate" event across aggregates.
+ * Category marker (see {@link EventCategory}) for a domain event that <b>recalls an entity from exile</b>:
+ * the entity that an {@link ExileEvent} hid or deactivated is active again (for example
+ * {@code TenantResumedEvent}). It is the counterpart of {@link ExileEvent}, and only that: an
+ * {@link ExodusEvent} removes an entity for good, so nothing ever returns from one.
+ * <p>
+ * A view can select {@code ReturnFromExileEvent} as a category to react to every such "unhide /
+ * reactivate" event across aggregates - which is what a read model dropping a row on exile needs in
+ * order to put it back.
  * <p>
  * All implementations are expected to be thread safe.
  */
 @ThreadSafe
-public interface ExileEvent extends EventCategory {
+public interface ReturnFromExileEvent extends EventCategory {
 
 }

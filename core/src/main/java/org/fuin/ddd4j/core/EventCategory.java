@@ -29,8 +29,9 @@ import org.fuin.objects4j.common.ThreadSafe;
  * event implements into the event's metadata (see {@link Ddd4JUtils#eventCategories(Object)});
  * the event store's projection engine then selects an event by category by matching those names.
  * The predefined lifecycle categories are {@link GenesisEvent} (creation), {@link ExileEvent}
- * (soft delete) and {@link ExodusEvent} (hard delete); applications may add their own by
- * declaring further interfaces that extend this marker.
+ * (soft delete), {@link ReturnFromExileEvent} (the recall that undoes a soft delete) and
+ * {@link ExodusEvent} (hard delete); applications may add their own by declaring further
+ * interfaces that extend this marker.
  * <p>
  * All implementations are expected to be thread safe.
  */

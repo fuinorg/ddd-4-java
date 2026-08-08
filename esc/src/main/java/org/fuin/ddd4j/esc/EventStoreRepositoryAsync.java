@@ -289,12 +289,32 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
 
     @Override
     public final CompletableFuture<Void> delete(final ID aggregateId, @Nullable final Integer expectedVersion) {
+        return remove(aggregateId, expectedVersion, false);
+    }
+
+    @Override
+    public final CompletableFuture<Void> purge(final ID aggregateId, @Nullable final Integer expectedVersion) {
+        return remove(aggregateId, expectedVersion, true);
+    }
+
+    /**
+     * Deletes the stream of an aggregate, either marking it as deleted or tombstoning it for good.
+     *
+     * @param aggregateId     Identifier of the aggregate to remove.
+     * @param expectedVersion Expected (current) version of the aggregate (or {@code null} for any version).
+     * @param hardDelete      {@literal true} to tombstone the stream, after which the identifier can never be used
+     *                        again; {@literal false} for the reversible soft delete.
+     * @return Future that completes when the aggregate was removed.
+     */
+    private CompletableFuture<Void> remove(final ID aggregateId, @Nullable final Integer expectedVersion,
+                                           final boolean hardDelete) {
         Contract.requireArgNotNull("aggregateId", aggregateId);
         final StreamId streamId = streamId(aggregateId);
-        LOG.info("Delete aggregate: streamId={}, expectedVersion={}", streamId, expectedVersion);
+        LOG.info("{} aggregate: streamId={}, expectedVersion={}", hardDelete ? "Purge" : "Delete", streamId,
+                expectedVersion);
         final CompletableFuture<Void> deletion = (expectedVersion == null)
-                ? eventStore.deleteStream(streamId, false)
-                : eventStore.deleteStream(streamId, expectedVersion.longValue(), false);
+                ? eventStore.deleteStream(streamId, hardDelete)
+                : eventStore.deleteStream(streamId, expectedVersion.longValue(), hardDelete);
         return deletion.exceptionallyCompose(ex -> {
             final Throwable cause = unwrap(ex);
             if (cause instanceof WrongExpectedVersionException wev) {
@@ -302,6 +322,8 @@ public abstract class EventStoreRepositoryAsync<ID extends AggregateRootId, AGGR
                         aggregateId, integerVersion(wev.getExpected()), integerVersion(wev.getActual())));
             }
             if (cause instanceof StreamDeletedException) {
+                // Already gone - the caller wanted it gone, so this is success either way. Note that a soft delete
+                // followed by a purge still reaches the store, so a previously deleted aggregate can be erased.
                 LOG.debug("Aggregate {} was already deleted: {}", aggregateId, cause.getMessage());
                 return CompletableFuture.completedFuture(null);
             }

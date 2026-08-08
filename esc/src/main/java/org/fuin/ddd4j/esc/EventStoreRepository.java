@@ -240,6 +240,19 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
     }
 
     @Override
+    public final void purge(final ID aggregateId, @Nullable final Integer expectedVersion) throws AggregateVersionConflictException {
+        try {
+            delegate.purge(aggregateId, expectedVersion).join();
+        } catch (final CompletionException ex) {
+            final Throwable cause = unwrap(ex);
+            if (cause instanceof AggregateVersionConflictException e) {
+                throw e;
+            }
+            throw asUnchecked(cause);
+        }
+    }
+
+    @Override
     public List<DomainEvent<?>> readEvents(final ID aggregateId, final int startVersion)
             throws AggregateNotFoundException, AggregateDeletedException {
         try {

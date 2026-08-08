@@ -188,4 +188,34 @@ public interface Repository<ID extends AggregateRootId, T extends AggregateRoot<
      */
     void delete(ID aggregateId, @Nullable Integer expectedVersion) throws AggregateVersionConflictException;
 
+    /**
+     * Removes an aggregate and its history irrevocably. In contrast to {@link #delete(AggregateRootId, Integer)}, which
+     * only marks the aggregate as deleted and leaves the identifier usable again, a purged aggregate is gone for good
+     * and <b>its identifier can never be used a second time</b>.
+     * <p>
+     * Meant for erasure - the case where the data must actually cease to exist, not merely stop being read. It is not
+     * an optimisation of {@code delete} and not something to reach for by default: an event store typically implements
+     * it by writing a tombstone, so a later {@code create} with the same identifier fails permanently rather than
+     * starting a fresh history. Where the identifier is derived from something meaningful - a name, a customer number -
+     * purging burns that value out of the namespace for good.
+     * <p>
+     * Not every store can do this. An implementation that cannot must throw {@link UnsupportedOperationException}
+     * rather than silently falling back to {@link #delete(AggregateRootId, Integer)}, because the caller asked for
+     * erasure and quietly getting a soft delete would leave data the caller believes is gone.
+     *
+     * @param aggregateId
+     *            Identifier of the aggregate to purge.
+     * @param expectedVersion
+     *            Expected (current) version of the aggregate.
+     *
+     * @throws AggregateVersionConflictException
+     *             The expected version didn't match the actual version.
+     * @throws UnsupportedOperationException
+     *             The underlying store cannot remove an aggregate irrevocably.
+     */
+    default void purge(ID aggregateId, @Nullable Integer expectedVersion) throws AggregateVersionConflictException {
+        throw new UnsupportedOperationException(
+                "Purging is not supported by " + getClass().getName() + " - use delete(..) if a soft delete is enough");
+    }
+
 }

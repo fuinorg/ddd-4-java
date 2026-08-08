@@ -149,6 +149,20 @@ public interface IEventStoreRepositoryAsync<ID extends AggregateRootId, AGGREGAT
     CompletableFuture<Void> delete(ID aggregateId, @Nullable Integer expectedVersion);
 
     /**
+     * Removes an aggregate and its history irrevocably by writing a tombstone for its stream. The future completes
+     * exceptionally with {@link AggregateVersionConflictException}.
+     * <p>
+     * Unlike {@link #delete(AggregateRootId, Integer)}, <b>the aggregate identifier can never be used again</b>: a
+     * tombstoned stream rejects every later append, so creating another aggregate with the same identifier fails
+     * permanently. Use it for erasure, not as a tidier delete.
+     *
+     * @param aggregateId     Identifier of the aggregate to purge.
+     * @param expectedVersion Expected (current) version of the aggregate (or {@code null} for any version).
+     * @return Future that completes when the aggregate was purged.
+     */
+    CompletableFuture<Void> purge(ID aggregateId, @Nullable Integer expectedVersion);
+
+    /**
      * Reads all events for the given aggregate starting with a given number. The future completes exceptionally
      * with {@link AggregateNotFoundException} or {@link AggregateDeletedException}.
      *

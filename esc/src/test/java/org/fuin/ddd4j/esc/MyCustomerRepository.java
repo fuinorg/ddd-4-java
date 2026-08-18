@@ -41,6 +41,20 @@ public final class MyCustomerRepository extends EventStoreRepository<MyCustomerI
         super(eventStore, serDeserializer, encryptedDataService);
     }
 
+    /**
+     * Constructor taking the tenant context explicitly.
+     *
+     * @param eventStore           Event store.
+     * @param serDeserializer      Serializes/deserializes the encrypted fields.
+     * @param encryptedDataService Performs the actual encryption/decryption.
+     * @param tenantContext        Context the tenant is read from.
+     */
+    public MyCustomerRepository(final EventStore eventStore, final ObjectSerDeserializer serDeserializer,
+                               final EncryptedDataService encryptedDataService,
+                               final org.fuin.ddd4j.core.TenantContext tenantContext) {
+        super(eventStore, serDeserializer, encryptedDataService, tenantContext);
+    }
+
     @Override
     public Class<MyCustomer> getAggregateClass() {
         return MyCustomer.class;

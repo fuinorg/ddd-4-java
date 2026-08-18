@@ -33,6 +33,7 @@ import org.fuin.ddd4j.core.ObjectSerDeserializer;
 import org.fuin.ddd4j.core.RequiresPartialDecryption;
 import org.fuin.ddd4j.core.RequiresPartialEncryption;
 import org.fuin.ddd4j.core.TenantContext;
+import org.fuin.ddd4j.core.ThreadLocalTenantContext;
 import org.fuin.esc.api.DelegatingAsyncEventStore;
 import org.fuin.esc.api.EventStore;
 import org.fuin.objects4j.common.Contract;
@@ -65,6 +66,8 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
 
     private final EventStoreRepositoryAsync<ID, AGGREGATE> delegate;
 
+    private final TenantContext tenantContext;
+
     /**
      * Constructor without encryption support. Events that implement {@link RequiresPartialEncryption} or
      * {@link RequiresPartialDecryption} cannot be handled and will cause an {@link IllegalStateException}.
@@ -88,7 +91,24 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
      */
     protected EventStoreRepository(final EventStore eventStore, @Nullable final ObjectSerDeserializer serDeserializer,
                                    @Nullable final EncryptedDataService encryptedDataService) {
+        this(eventStore, serDeserializer, encryptedDataService, new ThreadLocalTenantContext());
+    }
+
+    /**
+     * Constructor taking the tenant context explicitly, for an application that does not keep the current
+     * tenant on the thread.
+     *
+     * @param eventStore           Event store.
+     * @param serDeserializer      Serializes/deserializes the encrypted fields (may be {@code null}).
+     * @param encryptedDataService Performs the actual encryption/decryption (may be {@code null}).
+     * @param tenantContext        Context the tenant is read from when events are written.
+     */
+    protected EventStoreRepository(final EventStore eventStore, @Nullable final ObjectSerDeserializer serDeserializer,
+                                   @Nullable final EncryptedDataService encryptedDataService,
+                                   final TenantContext tenantContext) {
         super();
+        Contract.requireArgNotNull("tenantContext", tenantContext);
+        this.tenantContext = tenantContext;
         Contract.requireArgNotNull("eventStore", eventStore);
         this.eventStore = eventStore;
         this.noCache = new AggregateNoCache<>();
@@ -140,6 +160,26 @@ public abstract class EventStoreRepository<ID extends AggregateRootId, AGGREGATE
                 return EventStoreRepository.this.getAggregateCache();
             }
         };
+    }
+
+    /**
+     * Returns the context the tenant is read from.
+     * <p>
+     * Defaults to the ambient {@link ThreadLocalTenantContext}, which is what makes a generated repository
+     * tenant-aware without being told to be. That matters because the concrete repositories are written into
+     * an application's sources once and never regenerated, so anything they have to declare for themselves is
+     * a line that will be missing from the tenth one somebody adds - and a missing tenant here does not fail,
+     * it silently writes another tenant's stream.
+     * <p>
+     * Harmless when there is no multitenancy: with no tenant on the thread the context yields empty, and the
+     * caller treats "context with no tenant" exactly as it treats "no context". An application that resolves
+     * its tenant some other way passes its own through the constructor.
+     *
+     * @return Context holding the current tenant, never empty - the tenant inside it may be.
+     */
+    @Override
+    public Optional<TenantContext> getTenantContext() {
+        return Optional.of(tenantContext);
     }
 
     @Override

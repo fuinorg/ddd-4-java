@@ -32,6 +32,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.annotation.Annotation;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -153,11 +154,113 @@ public class ExpectedEntityIdPathValidatorTest {
 
     }
 
+    @Test
+    public void testIsValidUnboundedSegmentTakesOneOrMore() {
+        // An entity that may contain another of its own kind - a role inside a role. One or more, so the
+        // marked step still has to appear and the path always addresses the thing the shape names.
+        final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
+        testee.initialize(createAnnotation(segment(AId.class), segment(BId.class, 1, Integer.MAX_VALUE)));
+
+        final AId aid = new AId(1);
+        final BId bid = new BId(2);
+        final BId bid2 = new BId(3);
+        final CId cid = new CId(4);
+
+        assertThat(testee.isValid(new EntityIdPath(aid, bid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2, bid), context)).isTrue();
+
+        // The marked step is one-or-more, so the root on its own does not match.
+        assertThat(testee.isValid(new EntityIdPath(aid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, cid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), context)).isFalse();
+    }
+
+    @Test
+    public void testIsValidUnboundedSegmentInTheMiddle() {
+        // 'COMPANY/DEPARTEMENT*/GROUP' - the shape that made repetition worth having.
+        final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
+        testee.initialize(createAnnotation(segment(AId.class), segment(BId.class, 1, Integer.MAX_VALUE),
+                segment(CId.class)));
+
+        final AId aid = new AId(1);
+        final BId bid = new BId(2);
+        final BId bid2 = new BId(3);
+        final CId cid = new CId(4);
+
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2, cid), context)).isTrue();
+
+        // Without the repeating step there is nothing between the root and the leaf.
+        assertThat(testee.isValid(new EntityIdPath(aid, cid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2), context)).isFalse();
+    }
+
+    @Test
+    public void testIsValidSkippableSegment() {
+        // What the boolean could not say: '[0..N]' lets the step be absent altogether, so a group sits
+        // directly under a company. Choosing between that and one-or-more is per model, not per language.
+        final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
+        testee.initialize(createAnnotation(segment(AId.class), segment(BId.class, 0, Integer.MAX_VALUE),
+                segment(CId.class)));
+
+        final AId aid = new AId(1);
+        final BId bid = new BId(2);
+        final BId bid2 = new BId(3);
+        final CId cid = new CId(4);
+
+        assertThat(testee.isValid(new EntityIdPath(aid, cid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, cid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2, cid), context)).isTrue();
+
+        assertThat(testee.isValid(new EntityIdPath(aid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid), context)).isFalse();
+    }
+
+    @Test
+    public void testIsValidBoundedSegment() {
+        // '[1..2]' - a nesting depth the model puts a ceiling on.
+        final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
+        testee.initialize(createAnnotation(segment(AId.class), segment(BId.class, 1, 2)));
+
+        final AId aid = new AId(1);
+        final BId bid = new BId(2);
+        final BId bid2 = new BId(3);
+        final BId bid3 = new BId(4);
+
+        assertThat(testee.isValid(new EntityIdPath(aid, bid), context)).isTrue();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2), context)).isTrue();
+
+        assertThat(testee.isValid(new EntityIdPath(aid), context)).isFalse();
+        assertThat(testee.isValid(new EntityIdPath(aid, bid, bid2, bid3), context)).isFalse();
+    }
+
+    @Test
+    public void testARangeThatCannotMatchAnythingIsRefusedUpFront() {
+        // Rather than silently rejecting every path at validation time.
+        final ExpectedEntityIdPathValidator testee = new ExpectedEntityIdPathValidator();
+
+        assertThatThrownBy(() -> testee.initialize(createAnnotation(segment(AId.class, 2, 1))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[2..1]");
+        assertThatThrownBy(() -> testee.initialize(createAnnotation(segment(AId.class, 0, 0))))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("[0..0]");
+    }
+
     @SafeVarargs
     private static ExpectedEntityIdPath createAnnotation(final Class<? extends EntityId>... expectedValues) {
+        final Segment[] segments = new Segment[expectedValues.length];
+        for (int i = 0; i < expectedValues.length; i++) {
+            segments[i] = segment(expectedValues[i]);
+        }
+        return createAnnotation(segments);
+    }
+
+    private static ExpectedEntityIdPath createAnnotation(final Segment... expectedValues) {
         return new ExpectedEntityIdPath() {
             @Override
-            public Class<? extends EntityId>[] value() {
+            public Segment[] value() {
                 return expectedValues;
             }
 
@@ -184,9 +287,37 @@ public class ExpectedEntityIdPathValidatorTest {
         };
     }
 
+    private static Segment segment(final Class<? extends EntityId> type) {
+        return segment(type, 1, 1);
+    }
+
+    private static Segment segment(final Class<? extends EntityId> type, final int min, final int max) {
+        return new Segment() {
+            @Override
+            public Class<? extends EntityId> type() {
+                return type;
+            }
+
+            @Override
+            public int min() {
+                return min;
+            }
+
+            @Override
+            public int max() {
+                return max;
+            }
+
+            @Override
+            public Class<? extends Annotation> annotationType() {
+                return Segment.class;
+            }
+        };
+    }
+
     public class OneLevelPath {
 
-        @ExpectedEntityIdPath({AId.class})
+        @ExpectedEntityIdPath({@Segment(type = AId.class)})
         private EntityIdPath path;
 
         public OneLevelPath(EntityIdPath path) {
@@ -197,7 +328,7 @@ public class ExpectedEntityIdPathValidatorTest {
 
     public class TwoLevelPath {
 
-        @ExpectedEntityIdPath({AId.class, BId.class})
+        @ExpectedEntityIdPath({@Segment(type = AId.class), @Segment(type = BId.class)})
         private EntityIdPath path;
 
         public TwoLevelPath(EntityIdPath path) {
@@ -208,7 +339,8 @@ public class ExpectedEntityIdPathValidatorTest {
 
     public class ThreeLevelPath {
 
-        @ExpectedEntityIdPath({AId.class, BId.class, CId.class})
+        @ExpectedEntityIdPath({@Segment(type = AId.class), @Segment(type = BId.class),
+            @Segment(type = CId.class)})
         private EntityIdPath path;
 
         public ThreeLevelPath(EntityIdPath path) {

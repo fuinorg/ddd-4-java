@@ -88,10 +88,35 @@ public class DomainEventExpectedEntityIdPathValidatorTest {
 
     @SafeVarargs
     private static DomainEventExpectedEntityIdPath createAnnotation(final Class<? extends EntityId>... expectedValues) {
+        final Segment[] segments = new Segment[expectedValues.length];
+        for (int i = 0; i < expectedValues.length; i++) {
+            final Class<? extends EntityId> type = expectedValues[i];
+            segments[i] = new Segment() {
+                @Override
+                public Class<? extends EntityId> type() {
+                    return type;
+                }
+
+                @Override
+                public int min() {
+                    return 1;
+                }
+
+                @Override
+                public int max() {
+                    return 1;
+                }
+
+                @Override
+                public Class<? extends Annotation> annotationType() {
+                    return Segment.class;
+                }
+            };
+        }
         return new DomainEventExpectedEntityIdPath() {
             @Override
-            public Class<? extends EntityId>[] value() {
-                return expectedValues;
+            public Segment[] value() {
+                return segments;
             }
 
             @Override

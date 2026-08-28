@@ -42,7 +42,7 @@ public @interface DomainEventExpectedEntityIdPath {
      *
      * @return Ordered list of expected types.
      */
-    Class<? extends EntityId>[] value();
+    Segment[] value();
 
     Class<?>[] groups() default {};
 

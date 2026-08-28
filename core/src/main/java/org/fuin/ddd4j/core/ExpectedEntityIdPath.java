@@ -28,6 +28,15 @@ import java.lang.annotation.Target;
 
 /**
  * The entity identifier path should contain a defined order and type of entries.
+ * <p>
+ * A path begins at an aggregate root and names the chain of children down to the thing it addresses, so
+ * the shape is written the same way:
+ * <pre>
+ * &#64;ExpectedEntityIdPath({&#64;Segment(type = AnnualTransactionsId.class),
+ *                        &#64;Segment(type = AccountTransactionId.class)})
+ * </pre>
+ * A step takes exactly one identifier unless it states a range - {@link Segment#min()} and
+ * {@link Segment#max()} - which is what an entity containing another of its own kind needs.
  */
 @Target({ElementType.METHOD, ElementType.PARAMETER, ElementType.FIELD, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -38,11 +47,11 @@ public @interface ExpectedEntityIdPath {
     String message() default "ExpectedEntityIdPath validation failed: ${validatedValue}";
 
     /**
-     * Expected identifier types.
+     * Expected path shape, as an ordered list of steps.
      *
-     * @return Ordered list of expected types.
+     * @return Ordered list of expected segments.
      */
-    Class<? extends EntityId>[] value();
+    Segment[] value();
 
     Class<?>[] groups() default {};
 

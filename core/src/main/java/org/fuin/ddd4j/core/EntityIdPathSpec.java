@@ -20,6 +20,7 @@ package org.fuin.ddd4j.core;
 import org.fuin.objects4j.common.ConstraintViolationException;
 import org.fuin.objects4j.common.Contract;
 import org.fuin.objects4j.common.ThreadSafe;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -77,7 +78,7 @@ public final class EntityIdPathSpec {
      * @param path Path to check, or {@literal null} which is nothing to disagree with.
      * @return {@literal true} if it matches.
      */
-    public boolean matches(final EntityIdPath path) {
+    public boolean matches(@Nullable final EntityIdPath path) {
         if (path == null) {
             return true;
         }
@@ -90,10 +91,11 @@ public final class EntityIdPathSpec {
      * Checks a path has this shape and throws if it does not.
      *
      * @param name Name of the value for a possible error message.
-     * @param path Path to check.
+     * @param path Path to check, or {@literal null} which is nothing to disagree with.
      * @throws ConstraintViolationException The path did not have this shape.
      */
-    public void requireArgValid(final String name, final EntityIdPath path) throws ConstraintViolationException {
+    public void requireArgValid(final String name, @Nullable final EntityIdPath path)
+            throws ConstraintViolationException {
         Contract.requireArgNotNull("name", name);
         if (!matches(path)) {
             throw new ConstraintViolationException("The argument '" + name + "' is not valid: expected '"

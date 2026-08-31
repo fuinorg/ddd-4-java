@@ -1,6 +1,7 @@
 # Release Notes
 
 ## 0.8.0
+- Added [UuidEntityId](core/src/main/java/org/fuin/ddd4j/core/UuidEntityId.java), the counterpart of [IntegerEntityId](core/src/main/java/org/fuin/ddd4j/core/IntegerEntityId.java) for a child entity identified by a UUID instead of a number sequential within its aggregate
 - Fixed issue #10 JandexEntityIdfactory does not find "HasPublicStaticIsValidMethods" annotations
 - Added new interface [IEventStoreRepository](esc/src/main/java/org/fuin/ddd4j/esc/IEventStoreRepository.java)
 - Added new [JPA module](jpa)
